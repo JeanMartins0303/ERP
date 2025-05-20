@@ -1,6 +1,6 @@
 -- Criação do banco ERP
 CREATE DATABASE IF NOT EXISTS erp;
-USE erp;
+USE erp; 
 
 -- Tabela de usuários
 CREATE TABLE usuarios (

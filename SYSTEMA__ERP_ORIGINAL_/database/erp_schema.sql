@@ -8,7 +8,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(100),
     email VARCHAR(100) UNIQUE,
     senha VARCHAR(100)
-);
+); 
 
 -- Tabela de produtos
 CREATE TABLE produtos (

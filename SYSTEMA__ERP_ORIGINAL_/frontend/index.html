@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel - ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <!-- Sidebar fixa lateral -->
+  <aside class="sidebar">
+    <h2>ERP</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
+        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <header>
+      <h1>Dashboard</h1>
+    </header>
+
+    <!-- Cards informativos -->
+    <section class="cards">
+      <div class="card">
+        <h3>Total de Produtos</h3>
+        <p id="produtos-count">--</p>
+      </div>
+      <div class="card">
+        <h3>Receita Total</h3>
+        <p id="receita-total">R$ --</p>
+      </div>
+      <div class="card">
+        <h3>Despesas</h3>
+        <p id="despesas-total">R$ --</p>
+      </div>
+    </section>
+
+    <!-- Gráfico financeiro -->
+    <section class="grafico">
+      <h3>Desempenho Mensal</h3>
+      <canvas id="graficoFinanceiro" width="600" height="300"></canvas>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

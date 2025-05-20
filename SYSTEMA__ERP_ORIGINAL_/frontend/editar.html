@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Produto</title>
+</head>
+<body>
+  <h2>Editar Produto</h2>
+  <form id="form-editar">
+    <input type="hidden" id="id" />
+    <input type="text" id="nome" placeholder="Nome" required />
+    <input type="number" id="quantidade" placeholder="Quantidade" required />
+    <input type="number" id="preco" placeholder="Preço" required />
+    <button type="submit">Salvar</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    fetch(`http://localhost:8080/produto/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("id").value = data.id;
+        document.getElementById("nome").value = data.nome;
+        document.getElementById("quantidade").value = data.quantidade;
+        document.getElementById("preco").value = data.preco;
+      });
+
+    document.getElementById("form-editar").addEventListener("submit", e => {
+      e.preventDefault();
+      fetch("http://localhost:8080/produto", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: document.getElementById("id").value,
+          nome: document.getElementById("nome").value,
+          quantidade: document.getElementById("quantidade").value,
+          preco: document.getElementById("preco").value
+        })
+      }).then(() => window.location.href = "listar.html");
+    });
+  </script>
+</body>
+</html>

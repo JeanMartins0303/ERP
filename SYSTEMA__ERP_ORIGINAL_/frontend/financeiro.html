@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Módulo Financeiro - ERP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Lançamento Financeiro</h2>
+    <form id="form-financeiro">
+      <input type="text" id="descricao" placeholder="Descrição" required>
+      <input type="number" id="valor" placeholder="Valor" required>
+      <select id="tipo" required>
+        <option value="">Tipo</option>
+        <option value="Entrada">Entrada</option>
+        <option value="Saída">Saída</option>
+      </select>
+      <input type="date" id="data" required>
+      <button type="submit">Lançar</button>
+    </form>
+
+    <h3>Lançamentos Registrados</h3>
+    <h3>Resumo Gráfico</h3>
+<canvas id="grafico-barras" width="400" height="150"></canvas>
+<canvas id="grafico-pizza" width="400" height="150"></canvas>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Tipo</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-financeiro"></tbody>
+    </table>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="financeiro.js"></script>
+</body>
+</html>

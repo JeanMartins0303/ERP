@@ -47,4 +47,14 @@ public class UsuarioController {
     public void excluir(@PathVariable int id) throws SQLException {
         usuarioDAO.excluir(id);
     }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> cadastrar(@RequestBody Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        usuarioRepository.save(usuario);
+        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
+    }
+
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Relatórios - ERP</title>
+  <link rel="stylesheet" href="css/relatorios.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>ERP</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
+        <li><a href="relatorios.html" class="active"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <header>
+      <h1>Relatórios</h1>
+    </header>
+
+    <!-- Filtros -->
+    <section class="filtros">
+      <label for="periodo">Período:</label>
+      <select id="periodo">
+        <option value="mes">Este Mês</option>
+        <option value="ano">Este Ano</option>
+        <option value="personalizado">Personalizado</option>
+      </select>
+      <input type="date" id="dataInicio" disabled>
+      <input type="date" id="dataFim" disabled>
+      <button id="filtrar">Filtrar</button>
+      <button id="exportarPDF"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button id="exportarExcel"><i class="fas fa-file-excel"></i> Excel</button>
+    </section>
+
+    <!-- Gráficos -->
+    <section class="grafico-relatorio">
+      <canvas id="graficoRelatorio" width="600" height="300"></canvas>
+      <canvas id="graficoPizza" width="300" height="300"></canvas>
+    </section>
+
+    <!-- Resumo -->
+    <section class="resumo">
+      <h2>Resumo</h2>
+      <ul>
+        <li>Total de Receitas: <span id="resumoReceitas"></span></li>
+        <li>Total de Despesas: <span id="resumoDespesas"></span></li>
+        <li>Lucro Líquido: <span id="resumoLucro"></span></li>
+      </ul>
+    </section>
+
+    <!-- Tabela Detalhada -->
+    <section class="tabela-detalhada">
+      <h2>Detalhamento</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th>Receita</th>
+            <th>Despesa</th>
+            <th>Lucro</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaCorpo"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="js/relatorios.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+/* relatorios.css */
+
+@import url('style.css');
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: var(--cinza-claro);
+}
+
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: var(--preto);
+  color: white;
+  position: fixed;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 20px 0;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+  color: var(--dourado);
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 30px;
+}
+
+header h1 {
+  margin-bottom: 20px;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.filtros label,
+.filtros select,
+.filtros input,
+.filtros button {
+  font-size: 1rem;
+}
+
+.filtros select,
+.filtros input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.filtros button {
+  background-color: var(--azul);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filtros button:hover {
+  background-color: #1f6391;
+}
+
+.grafico-relatorio {
+  background: var(--branco);
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.resumo {
+  background-color: var(--branco);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+.resumo h2 {
+  margin-top: 0;
+}
+
+.resumo ul {
+  list-style: none;
+  padding: 0;
+}
+
+.resumo ul li {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.tabela-detalhada table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--branco);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tabela-detalhada th,
+.tabela-detalhada td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.tabela-detalhada th {
+  background-color: var(--dourado);
+  color: white;
+}
+
+.tabela-detalhada tbody tr:hover {
+  background-color: #f9f9f9;
+}

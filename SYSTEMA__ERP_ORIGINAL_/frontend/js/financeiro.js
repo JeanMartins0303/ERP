@@ -160,3 +160,49 @@ function carregarFinanceiro() {
       gerarGraficos(lista);
     });
 }
+
+
+const ctx = document.getElementById('graficoFinanceiro').getContext('2d');
+    const grafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+        datasets: [
+          {
+            label: 'Entradas',
+            data: [4000, 3500, 3800, 4200, 3900],
+            backgroundColor: 'rgba(46, 204, 113, 0.7)',
+            borderRadius: 6
+          },
+          {
+            label: 'Saídas',
+            data: [1200, 900, 1300, 1100, 1050],
+            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Fluxo de Caixa'
+          }
+        }
+      }
+    });
+
+    document.getElementById('form-movimentacao').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Movimentação adicionada (simulação).');
+    });
+
+    function filtrarPorData() {
+      const inicio = document.getElementById('data-inicio').value;
+      const fim = document.getElementById('data-fim').value;
+      alert(`Filtrando de ${inicio} até ${fim} (simulação).`);
+    }

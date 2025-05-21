@@ -1,46 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Módulo Financeiro - ERP</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Financeiro - ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>Lançamento Financeiro</h2>
-    <form id="form-financeiro">
-      <input type="text" id="descricao" placeholder="Descrição" required>
-      <input type="number" id="valor" placeholder="Valor" required>
-      <select id="tipo" required>
-        <option value="">Tipo</option>
-        <option value="Entrada">Entrada</option>
-        <option value="Saída">Saída</option>
-      </select>
-      <input type="date" id="data" required>
-      <button type="submit">Lançar</button>
-    </form>
+  <aside class="sidebar">
+    <h2>ERP</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="financeiro.html" class="active"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
+        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-    <h3>Lançamentos Registrados</h3>
-    <h3>Resumo Gráfico</h3>
-<canvas id="grafico-barras" width="400" height="150"></canvas>
-<canvas id="grafico-pizza" width="400" height="150"></canvas>
+  <main class="main-content">
+    <header>
+      <h1>Financeiro</h1>
+    </header>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Descrição</th>
-          <th>Valor</th>
-          <th>Tipo</th>
-          <th>Data</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody id="tabela-financeiro"></tbody>
-    </table>
-  </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Filtros por data -->
+    <section class="filtros">
+      <label>De: <input type="date" id="data-inicio" /></label>
+      <label>Até: <input type="date" id="data-fim" /></label>
+      <button onclick="filtrarPorData()">Filtrar</button>
+    </section>
 
-  <script src="financeiro.js"></script>
+    <!-- Gráfico -->
+    <section class="grafico">
+      <h3>Entradas e Saídas</h3>
+      <canvas id="graficoFinanceiro" width="600" height="300"></canvas>
+    </section>
+
+    <!-- Formulário de nova movimentação -->
+    <section class="formulario">
+      <h3>Nova Movimentação</h3>
+      <form id="form-movimentacao">
+        <input type="text" placeholder="Descrição" required />
+        <input type="number" placeholder="Valor (R$)" required />
+        <select required>
+          <option value="">Tipo</option>
+          <option value="entrada">Entrada</option>
+          <option value="saida">Saída</option>
+        </select>
+        <input type="date" required />
+        <button type="submit">Adicionar</button>
+      </form>
+    </section>
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/financeiro.js"></script>
 </body>
 </html>

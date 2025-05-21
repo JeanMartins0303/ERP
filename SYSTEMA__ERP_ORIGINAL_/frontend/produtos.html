@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Produtos - ERP</title>
+  
+<style>
+  /*produtos*/
+
+/* Estilos extras para produtos */
+
+   :root {
+  --azul: #2a6599;
+  --branco: #fff;
+  --cinza-escuro: #333;
+  --cinza-claro: #ddd;
+  --vermelho: #d9534f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f9fc;
+  color: var(--cinza-escuro);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: var(--azul);
+  color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  user-select: none;
+}
+
+.sidebar h2 {
+  margin: 0 0 30px 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 18px;
+}
+
+.sidebar nav ul li a {
+  color: var(--branco);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: #1f4d75;
+}
+
+/* Main content */
+.main-content {
+  margin-left: 220px;
+  padding: 40px 50px;
+  width: calc(100% - 220px);
+  overflow-x: auto;
+}
+
+.main-content header h1 {
+  margin: 0 0 25px 0;
+  font-weight: 700;
+  font-size: 2.3rem;
+}
+
+/* Top bar: busca e botão */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.top-bar input[type="search"] {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid var(--cinza-claro);
+  border-radius: 10px;
+  width: 280px;
+  transition: border-color 0.3s ease;
+}
+
+.top-bar input[type="search"]:focus {
+  border-color: var(--azul);
+  outline: none;
+}
+
+.btn-adicionar {
+  background-color: var(--azul);
+  color: var(--branco);
+  border: none;
+  padding: 14px 25px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-adicionar:hover {
+  background-color: #1f6391;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--branco);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  font-size: 1rem;
+  min-width: 600px;
+}
+
+thead {
+  background-color: var(--azul);
+  color: var(--branco);
+}
+
+th,
+td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--cinza-claro);
+}
+
+tbody tr:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+}
+
+td:last-child {
+  display: flex;
+  gap: 15px;
+}
+
+td .btn-acao {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--azul);
+  transition: color 0.3s ease;
+}
+
+td .btn-acao:hover {
+  color: var(--vermelho);
+}
+
+/* Modal */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-bg.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--branco);
+  border-radius: 12px;
+  padding: 30px 40px;
+  width: 420px;
+  max-width: 100%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modal h2 {
+  margin-bottom: 25px;
+  color: var(--cinza-escuro);
+  font-weight: 700;
+  font-size: 1.7rem;
+}
+
+.modal label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cinza-escuro);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.modal input[type="text"],
+.modal input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid var(--cinza-claro);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.modal input[type="text"]:focus,
+.modal input[type="number"]:focus {
+  border-color: var(--azul);
+  outline: none;
+}
+
+.modal button#btn-salvar {
+  background-color: var(--azul);
+  color: var(--branco);
+  border: none;
+  padding: 14px 25px;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.modal button#btn-salvar:hover {
+  background-color: #1f6391;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.6rem;
+  color: var(--cinza-escuro);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: var(--vermelho);
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+    padding: 30px 10px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .sidebar nav ul li a {
+    font-size: 0;
+    justify-content: center;
+  }
+
+  .sidebar nav ul li a i {
+    font-size: 1.5rem;
+  }
+
+  .main-content {
+    margin-left: 60px;
+    padding: 30px 20px;
+  }
+
+  table {
+    min-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .top-bar input[type="search"] {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+
+
+
+
+
+
+</style>
+
+</head>
+<body>
+  <!-- Sidebar fixa lateral -->
+  <aside class="sidebar">
+    <h2>ERP</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="produtos.html" class="active"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
+        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <header>
+      <h1>Produtos</h1>
+    </header>
+
+    <section class="top-bar">
+      <input
+        type="search"
+        id="busca-produtos"
+        placeholder="Buscar produto..."
+        autocomplete="off"
+      />
+      <button class="btn-adicionar" id="btn-add-produto">
+        <i class="fas fa-plus"></i> Adicionar Produto
+      </button>
+    </section>
+
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço (R$)</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="produtos-tbody">
+          <!-- Produtos serão listados aqui via JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Modal de cadastro/edição -->
+  <div class="modal-bg" id="modal-produto" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+    <div class="modal">
+      <button class="close-btn" id="close-modal" aria-label="Fechar">&times;</button>
+      <h2 id="modal-title">Adicionar Produto</h2>
+      <form id="form-produto" novalidate>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required minlength="2" />
+
+        <label for="categoria">Categoria</label>
+        <input type="text" id="categoria" name="categoria" required minlength="2" />
+
+        <label for="preco">Preço (R$)</label>
+        <input
+          type="number"
+          id="preco"
+          name="preco"
+          step="0.01"
+          min="0"
+          required
+        />
+
+        <label for="quantidade">Quantidade</label>
+        <input type="number" id="quantidade" name="quantidade" min="0" required />
+
+        <button type="submit" id="btn-salvar">Salvar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="produtos.js"></script>
+</body>
+</html>

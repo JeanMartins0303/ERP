@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Usuários - ERP</title>
+  <link rel="stylesheet" href="css/usuarios.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <!-- Sidebar fixa lateral -->
+  <aside class="sidebar">
+    <h2>ERP</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="usuarios.html" class="active"><i class="fas fa-user"></i> Usuários</a></li>
+        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <header>
+      <h1>Gestão de Usuários</h1>
+    </header>
+
+    <!-- Formulário de cadastro -->
+    <section class="formulario">
+      <h3>Cadastrar novo usuário</h3>
+      <form id="formUsuario">
+        <input type="text" placeholder="Nome completo" required />
+        <input type="email" placeholder="E-mail" required />
+        <input type="password" placeholder="Senha" required />
+        <button type="submit"><i class="fas fa-plus"></i> Adicionar</button>
+      </form>
+    </section>
+
+    <!-- Lista de usuários -->
+    <section class="lista">
+      <h3>Usuários cadastrados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tabelaUsuarios">
+          <!-- Usuários serão adicionados aqui via JS -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/usuarios.js"></script>
+</body>
+</html>

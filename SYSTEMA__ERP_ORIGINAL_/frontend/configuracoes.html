@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configurações — Sistema ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+
+</head>
+<body>
+  <main class="main-content">
+    <header class="header-page">
+      <h2>⚙️ Configurações</h2>
+      <p class="subtitle">Ajuste suas preferências e informações</p>
+    </header>
+
+    <form id="formConfiguracoes" class="form-config">
+      <label for="nomeUsuario" class="label">Nome do Usuário</label>
+      <input 
+        type="text" 
+        id="nomeUsuario" 
+        name="nomeUsuario" 
+        class="input" 
+        placeholder="Seu nome completo" 
+        required 
+      />
+
+      <label for="emailUsuario" class="label">Email</label>
+      <input 
+        type="email" 
+        id="emailUsuario" 
+        name="emailUsuario" 
+        class="input" 
+        placeholder="seu@email.com" 
+        required 
+      />
+
+      <label for="senhaUsuario" class="label">Nova Senha <span class="optional">(opcional)</span></label>
+      <input 
+        type="password" 
+        id="senhaUsuario" 
+        name="senhaUsuario" 
+        class="input" 
+        placeholder="Digite uma nova senha" 
+        minlength="6"
+      />
+
+      <label for="tema" class="label">Tema</label>
+      <select id="tema" name="tema" class="select">
+        <option value="claro">Claro</option>
+        <option value="escuro">Escuro</option>
+      </select>
+
+      <label for="notificacoes" class="label">Notificações</label>
+      <select id="notificacoes" name="notificacoes" class="select">
+        <option value="on">Ativadas</option>
+        <option value="off">Desativadas</option>
+      </select>
+
+      <button type="submit" class="btn-salvar">Salvar Configurações</button>
+    </form>
+  </main>
+
+  <script src="configuracoes.js"></script>
+</body>
+</html>

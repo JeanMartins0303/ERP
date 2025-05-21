@@ -1,94 +1,140 @@
-// Dados fictícios para simulação
-const dadosRelatorio = [
-  { data: '2025-05-01', tipo: 'Entrada', valor: 1200 },
-  { data: '2025-05-03', tipo: 'Saída', valor: 500 },
-  { data: '2025-05-07', tipo: 'Entrada', valor: 800 },
-  { data: '2025-05-10', tipo: 'Saída', valor: 300 },
-  { data: '2025-05-14', tipo: 'Entrada', valor: 1500 },
+// Dados simulados para exemplo
+const dadosMovimentacoes = [
+  { data: '2025-05-01', descricao: 'Venda Produto A', categoria: 'Vendas', tipo: 'Receita', valor: 1500 },
+  { data: '2025-05-03', descricao: 'Compra matéria-prima', categoria: 'Compras', tipo: 'Despesa', valor: 500 },
+  { data: '2025-05-07', descricao: 'Venda Produto B', categoria: 'Vendas', tipo: 'Receita', valor: 1200 },
+  { data: '2025-05-10', descricao: 'Pagamento aluguel', categoria: 'Aluguel', tipo: 'Despesa', valor: 800 },
+  { data: '2025-05-12', descricao: 'Serviço contratado', categoria: 'Serviços', tipo: 'Despesa', valor: 300 },
+  { data: '2025-05-15', descricao: 'Venda Produto C', categoria: 'Vendas', tipo: 'Receita', valor: 900 },
+  { data: '2025-05-20', descricao: 'Venda Produto D', categoria: 'Vendas', tipo: 'Receita', valor: 1100 },
+  { data: '2025-05-22', descricao: 'Manutenção equipamentos', categoria: 'Manutenção', tipo: 'Despesa', valor: 400 },
 ];
 
-// Elementos DOM
-const tabelaBody = document.querySelector("#tabela-detalhes tbody");
-const entradaSpan = document.getElementById("entrada-total");
-const saidaSpan = document.getElementById("saida-total");
-const saldoSpan = document.getElementById("saldo-total");
+// Referências DOM
+const periodoSelect = document.getElementById('periodo');
+const filtrosPersonalizados = document.getElementById('filtrosPersonalizados');
+const dataInicioInput = document.getElementById('dataInicio');
+const dataFimInput = document.getElementById('dataFim');
+const btnFiltrar = document.getElementById('btnFiltrar');
+const btnExportarPdf = document.getElementById('btnExportarPdf');
+const corpoTabela = document.getElementById('corpoTabela');
 
-// Carregar dados na tabela
-function carregarTabela(filtrados = dadosRelatorio) {
-  tabelaBody.innerHTML = '';
+// Gráficos
+let graficoBarra;
+let graficoPizza;
 
-  let totalEntrada = 0;
-  let totalSaida = 0;
+// Mostrar/ocultar filtros personalizados
+periodoSelect.addEventListener('change', () => {
+  filtrosPersonalizados.classList.toggle('hidden', periodoSelect.value !== 'personalizado');
+});
 
-  filtrados.forEach(item => {
-    const linha = document.createElement("tr");
-    linha.innerHTML = `
-      <td>${item.data}</td>
-      <td>${item.tipo}</td>
-      <td>R$ ${item.valor.toFixed(2)}</td>
-    `;
-    tabelaBody.appendChild(linha);
+// Função para filtrar dados baseado no período selecionado
+function filtrarDados() {
+  let dadosFiltrados = [...dadosMovimentacoes];
+  const hoje = new Date();
+  const periodo = periodoSelect.value;
 
-    if (item.tipo === 'Entrada') totalEntrada += item.valor;
-    else totalSaida += item.valor;
-  });
+  if (periodo === 'mes') {
+    const mes = hoje.getMonth();
+    const ano = hoje.getFullYear();
+    dadosFiltrados = dadosFiltrados.filter(dado => {
+      const data = new Date(dado.data);
+      return data.getMonth() === mes && data.getFullYear() === ano;
+    });
+  } else if (periodo === 'ano') {
+    const ano = hoje.getFullYear();
+    dadosFiltrados = dadosFiltrados.filter(dado => new Date(dado.data).getFullYear() === ano);
+  } else if (periodo === 'personalizado') {
+    const inicio = new Date(dataInicioInput.value);
+    const fim = new Date(dataFimInput.value);
+    dadosFiltrados = dadosFiltrados.filter(dado => {
+      const data = new Date(dado.data);
+      return data >= inicio && data <= fim;
+    });
+  }
 
-  entradaSpan.textContent = `R$ ${totalEntrada.toFixed(2)}`;
-  saidaSpan.textContent = `R$ ${totalSaida.toFixed(2)}`;
-  saldoSpan.textContent = `R$ ${(totalEntrada - totalSaida).toFixed(2)}`;
+  atualizarTabela(dadosFiltrados);
+  atualizarGraficos(dadosFiltrados);
 }
 
-// Filtrar por data
-document.getElementById("btn-filtrar").addEventListener("click", () => {
-  const dataInicio = document.getElementById("data-inicio").value;
-  const dataFim = document.getElementById("data-fim").value;
+// Atualiza a tabela de detalhamento
+function atualizarTabela(dados) {
+  corpoTabela.innerHTML = "";
+  dados.forEach(dado => {
+    const linha = document.createElement('tr');
+    linha.innerHTML = `
+      <td>${dado.data}</td>
+      <td>${dado.descricao}</td>
+      <td>${dado.categoria}</td>
+      <td>${dado.tipo}</td>
+      <td>R$ ${dado.valor.toFixed(2)}</td>
+    `;
+    corpoTabela.appendChild(linha);
+  });
+}
 
-  const filtrados = dadosRelatorio.filter(item => {
-    const data = new Date(item.data);
-    return (!dataInicio || data >= new Date(dataInicio)) &&
-           (!dataFim || data <= new Date(dataFim));
+// Atualiza os gráficos
+function atualizarGraficos(dados) {
+  const receitas = dados.filter(d => d.tipo === 'Receita').reduce((sum, d) => sum + d.valor, 0);
+  const despesas = dados.filter(d => d.tipo === 'Despesa').reduce((sum, d) => sum + d.valor, 0);
+
+  const categorias = {};
+  dados.forEach(d => {
+    if (!categorias[d.categoria]) categorias[d.categoria] = 0;
+    categorias[d.categoria] += d.valor;
   });
 
-  carregarTabela(filtrados);
-});
+  const labelsCat = Object.keys(categorias);
+  const valoresCat = Object.values(categorias);
 
-// Gráfico de barras
-const ctx = document.getElementById("grafico-relatorio").getContext("2d");
-const grafico = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: dadosRelatorio.map(d => d.data),
-    datasets: [
-      {
-        label: 'Entradas',
-        data: dadosRelatorio.map(d => d.tipo === 'Entrada' ? d.valor : 0),
-        backgroundColor: 'rgba(46, 204, 113, 0.7)',
-        borderRadius: 6
-      },
-      {
-        label: 'Saídas',
-        data: dadosRelatorio.map(d => d.tipo === 'Saída' ? d.valor : 0),
-        backgroundColor: 'rgba(231, 76, 60, 0.7)',
-        borderRadius: 6
-      }
-    ]
-  },
-  options: {
-    plugins: {
-      legend: { position: 'top' },
-      title: {
-        display: true,
-        text: 'Movimentações por Data',
-        font: { size: 16, weight: 'bold' }
-      }
-    },
-    scales: {
-      y: { beginAtZero: true }
+  // Gráfico de Barra
+  if (graficoBarra) graficoBarra.destroy();
+  const ctxBarra = document.getElementById('graficoBarra').getContext('2d');
+  graficoBarra = new Chart(ctxBarra, {
+    type: 'bar',
+    data: {
+      labels: ['Receitas', 'Despesas'],
+      datasets: [{
+        label: 'Valores',
+        data: [receitas, despesas],
+        backgroundColor: ['#4caf50', '#f44336']
+      }]
     }
-  }
+  });
+
+  // Gráfico de Pizza
+  if (graficoPizza) graficoPizza.destroy();
+  const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
+  graficoPizza = new Chart(ctxPizza, {
+    type: 'pie',
+    data: {
+      labels: labelsCat,
+      datasets: [{
+        label: 'Categorias',
+        data: valoresCat,
+        backgroundColor: ['#42a5f5', '#66bb6a', '#ffca28', '#ef5350', '#ab47bc', '#ffa726']
+      }]
+    }
+  });
+}
+
+// Exportar para PDF
+btnExportarPdf.addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("Relatório Financeiro", 14, 20);
+
+  let y = 30;
+  dadosMovimentacoes.forEach(dado => {
+    doc.text(`${dado.data} - ${dado.descricao} - ${dado.tipo} - R$ ${dado.valor.toFixed(2)}`, 14, y);
+    y += 8;
+  });
+
+  doc.save("relatorio-financeiro.pdf");
 });
 
-// Inicialização
-document.addEventListener("DOMContentLoaded", () => {
-  carregarTabela();
-});
+// Ao carregar, aplica filtro padrão
+btnFiltrar.addEventListener('click', filtrarDados);
+window.addEventListener('DOMContentLoaded', filtrarDados);

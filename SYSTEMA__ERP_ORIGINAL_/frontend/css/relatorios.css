@@ -1,145 +1,292 @@
-/* relatorios.css */
-
-@import url('style.css');
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  background-color: var(--cinza-claro);
+/* Variáveis do tema */
+:root {
+  --branco: #ffffff;
+  --azul: #2673d6;
+  --cinza-escuro: #333333;
+  --cinza-claro: #999999;
+  --fundo-sidebar: #1f2937;
+  --fundo-main: #f9fafb;
+  --sombra: rgba(0, 0, 0, 0.05);
+  --border-radius: 12px;
+  --transicao: 0.3s ease;
 }
 
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--fundo-main);
+  color: var(--cinza-escuro);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Sidebar */
 .sidebar {
-  width: 250px;
-  height: 100vh;
-  background-color: var(--preto);
-  color: white;
   position: fixed;
-  padding: 20px;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: var(--fundo-sidebar);
+  color: var(--branco);
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 999;
 }
 
 .sidebar h2 {
-  margin-top: 0;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  user-select: none;
 }
 
 .sidebar nav ul {
   list-style: none;
-  padding: 0;
-}
-
-.sidebar nav ul li {
-  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .sidebar nav ul li a {
-  text-decoration: none;
-  color: white;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-weight: bold;
+  gap: 12px;
+  font-size: 1rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: background-color var(--transicao);
 }
 
-.sidebar nav ul li a.active,
-.sidebar nav ul li a:hover {
-  color: var(--dourado);
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+  background-color: var(--azul);
 }
 
+.sidebar nav ul li a i {
+  font-size: 1.2rem;
+}
+
+/* Main Content */
 .main-content {
-  margin-left: 250px;
-  padding: 30px;
+  margin-left: 220px;
+  padding: 2rem 2.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: margin-left 0.3s ease;
 }
 
 header h1 {
-  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--cinza-escuro);
 }
 
+/* Filtros */
 .filtros {
   display: flex;
-  align-items: center;
-  gap: 15px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  gap: 1rem;
+  align-items: center;
+  background-color: var(--branco);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 18px var(--sombra);
 }
 
-.filtros label,
-.filtros select,
-.filtros input,
-.filtros button {
-  font-size: 1rem;
+.filtros label {
+  font-weight: 600;
+  min-width: 70px;
+  color: var(--cinza-escuro);
 }
 
 .filtros select,
-.filtros input {
-  padding: 8px;
-  border-radius: 6px;
+.filtros input[type="date"] {
+  padding: 8px 12px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 1rem;
+  color: var(--cinza-escuro);
+  transition: border-color var(--transicao);
+  flex: 1 1 120px;
+}
+
+.filtros select:focus,
+.filtros input[type="date"]:focus {
+  border-color: var(--azul);
+  outline: none;
+}
+
+#filtrosPersonalizados {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .filtros button {
   background-color: var(--azul);
-  color: white;
+  color: var(--branco);
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 0 0 auto;
+  transition: background-color var(--transicao);
 }
 
 .filtros button:hover {
-  background-color: #1f6391;
+  background-color: #1b59b6;
 }
 
-.grafico-relatorio {
-  background: var(--branco);
-  padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-  margin-bottom: 30px;
+/* Gráficos */
+.graficos {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.resumo {
+.card {
   background-color: var(--branco);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  margin-bottom: 30px;
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 18px var(--sombra);
+  flex: 1 1 45%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
-.resumo h2 {
-  margin-top: 0;
+.card h3 {
+  margin-bottom: 1rem;
+  color: var(--cinza-escuro);
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 
-.resumo ul {
-  list-style: none;
-  padding: 0;
+/* Tabela */
+.tabela-relatorios {
+  background-color: var(--branco);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 18px var(--sombra);
+  overflow-x: auto;
 }
 
-.resumo ul li {
-  margin-bottom: 10px;
-  font-weight: bold;
+.tabela-relatorios h3 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.3rem;
 }
 
-.tabela-detalhada table {
+table {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--branco);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  min-width: 600px;
 }
 
-.tabela-detalhada th,
-.tabela-detalhada td {
-  padding: 14px;
+thead th {
+  background-color: var(--cinza-escuro);
+  color: var(--branco);
+  padding: 12px 16px;
   text-align: left;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 12px 16px;
   border-bottom: 1px solid #eee;
+  white-space: nowrap;
 }
 
-.tabela-detalhada th {
-  background-color: var(--dourado);
-  color: white;
+tbody tr:hover {
+  background-color: #f5f5f5;
+  cursor: default;
 }
 
-.tabela-detalhada tbody tr:hover {
-  background-color: #f9f9f9;
+/* Media Queries - Responsividade */
+
+@media (max-width: 1024px) {
+  .graficos {
+    flex-direction: column;
+  }
+  .card {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    width: 60px;
+    padding: 1rem 0.5rem;
+    overflow: hidden;
+  }
+  .sidebar h2,
+  .sidebar nav ul li a span {
+    display: none;
+  }
+  .sidebar nav ul li a {
+    justify-content: center;
+    padding: 12px 0;
+  }
+  .main-content {
+    margin-left: 60px;
+    padding: 1.5rem 1rem;
+  }
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filtros label {
+    min-width: auto;
+  }
+  .filtros button {
+    width: 100%;
+    justify-content: center;
+  }
+  .tabela-relatorios table {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .filtros select,
+  .filtros input[type="date"] {
+    font-size: 0.9rem;
+  }
+  .filtros button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  .card h3 {
+    font-size: 1rem;
+  }
 }

@@ -210,3 +210,4 @@ tbody.addEventListener("click", (e) => {
 
 // Render inicial
 renderProdutos();
+

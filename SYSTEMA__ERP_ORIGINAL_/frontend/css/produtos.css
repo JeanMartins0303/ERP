@@ -1,0 +1,81 @@
+@import url('relatorios.css');
+
+/* Botões */
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.acoes button {
+  background-color: var(--azul);
+  color: var(--branco);
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color var(--transicao);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.acoes button:hover {
+  background-color: #1b59b6;
+}
+
+/* Tabela de Produtos */
+.tabela-produtos {
+  background-color: var(--branco);
+  padding: 1.5rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 18px var(--sombra);
+  overflow-x: auto;
+}
+
+.tabela-produtos h3 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+thead th {
+  background-color: var(--cinza-escuro);
+  color: var(--branco);
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+td .acoes-btns {
+  display: flex;
+  gap: 10px;
+}
+
+td .acoes-btns i {
+  cursor: pointer;
+  color: var(--azul);
+  transition: color 0.3s;
+}
+
+td .acoes-btns i:hover {
+  color: #1b59b6;
+}

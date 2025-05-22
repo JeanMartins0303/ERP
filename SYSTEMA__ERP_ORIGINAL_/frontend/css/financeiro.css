@@ -1,0 +1,152 @@
+/* Estilos principais da área financeira */
+
+.main-content {
+  margin-left: 240px;
+  padding: 2rem;
+  background-color: #f4f6f9;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Cabeçalho da página */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.saldo-display {
+  font-size: 1.1rem;
+  background-color: #b9f0ce;
+  color: #1d9645;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Cards */
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Filtros */
+.filtros-campos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.filtros-campos input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Formulário */
+.formulario .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Botões */
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* Tabela */
+.tabela-movimentacoes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.tabela-movimentacoes th,
+.tabela-movimentacoes td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabela-movimentacoes th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #333;
+}
+
+.tabela-movimentacoes tr:hover {
+  background-color: #f1f3f5;
+}
+
+.tabela-movimentacoes button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.tabela-movimentacoes button:hover {
+  background-color: #c82333;
+}
+
+/* Gráficos lado a lado */
+.graficos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.graficos .card {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .graficos {
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}

@@ -1,208 +1,266 @@
-// Enviar lançamento e atualizar saldo
-fetch("/financeiro/saldo").then(r => r.text()).then(s => {
-  document.getElementById("saldo").innerText = "Saldo atual: R$ " + s;
+// --- Variáveis globais ---
+const form = document.querySelector('#form-movimentacao');
+const tabelaBody = document.querySelector('#tabela-movimentacoes tbody');
+const saldoDisplay = document.querySelector('#saldo-total');
+const filtroDataInicio = document.querySelector('#filtro-inicio');
+const filtroDataFim = document.querySelector('#filtro-fim');
+const btnFiltrar = document.querySelector('#btn-filtrar');
+const btnLimparFiltro = document.querySelector('#btn-limpar-filtro');
+
+let movimentacoes = [];
+let chart = null;
+
+// --- Inicialização ---
+document.addEventListener('DOMContentLoaded', () => {
+  carregarMovimentacoes();
+  atualizarTabela();
+  atualizarSaldo();
+  inicializarGrafico();
 });
 
-// Função para carregar dados
-function carregarFinanceiro() {
-  fetch("http://localhost:8080/financeiro")
-    .then(resp => resp.json())
-    .then(lista => {
-      const tabela = document.getElementById("tabela-financeiro");
-      tabela.innerHTML = "";
-      lista.forEach(f => {
-        tabela.innerHTML += `
-          <tr>
-            <td>${f.descricao}</td>
-            <td>R$ ${f.valor.toFixed(2)}</td>
-            <td>${f.tipo}</td>
-            <td>${f.data}</td>
-            <td><button onclick="excluir(${f.id})">Excluir</button></td>
-          </tr>`;
-      });
-    });
+// --- Função para carregar movimentações do localStorage ---
+function carregarMovimentacoes() {
+  const dados = localStorage.getItem('movimentacoes');
+  movimentacoes = dados ? JSON.parse(dados) : [];
 }
 
-// Cadastrar novo lançamento
-document.getElementById("form-financeiro").addEventListener("submit", e => {
+// --- Função para salvar movimentações no localStorage ---
+function salvarMovimentacoes() {
+  localStorage.setItem('movimentacoes', JSON.stringify(movimentacoes));
+}
+
+// --- Função para validar dados do formulário ---
+function validarFormulario(dados) {
+  const { descricao, valor, tipo, data } = dados;
+  if (!descricao.trim()) {
+    alert('Descrição é obrigatória!');
+    return false;
+  }
+  if (isNaN(valor) || valor <= 0) {
+    alert('Valor deve ser um número positivo!');
+    return false;
+  }
+  if (tipo !== 'entrada' && tipo !== 'saida') {
+    alert('Tipo inválido!');
+    return false;
+  }
+  if (!data) {
+    alert('Data é obrigatória!');
+    return false;
+  }
+  return true;
+}
+
+// --- Evento de submissão do formulário ---
+form.addEventListener('submit', e => {
   e.preventDefault();
 
-  const novo = {
-    descricao: document.getElementById("descricao").value,
-    valor: parseFloat(document.getElementById("valor").value),
-    tipo: document.getElementById("tipo").value,
-    data: document.getElementById("data").value
+  const dados = {
+    id: Date.now(),
+    descricao: form.descricao.value,
+    valor: parseFloat(form.valor.value),
+    tipo: form.tipo.value,
+    data: form.data.value,
   };
 
-  fetch("http://localhost:8080/financeiro", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(novo)
-  }).then(() => {
-    document.getElementById("form-financeiro").reset();
-    carregarFinanceiro();
-  });
+  if (!validarFormulario(dados)) return;
+
+  movimentacoes.push(dados);
+  salvarMovimentacoes();
+  atualizarTabela();
+  atualizarSaldo();
+  atualizarGrafico();
+  form.reset();
 });
 
-// Excluir lançamento
-function excluir(id) {
-  if (confirm("Deseja excluir este lançamento?")) {
-    fetch(`http://localhost:8080/financeiro/${id}`, {
-      method: "DELETE"
-    }).then(() => carregarFinanceiro());
+// --- Função para atualizar a tabela ---
+function atualizarTabela(filtradas = null) {
+  const lista = filtradas || movimentacoes;
+
+  tabelaBody.innerHTML = '';
+  if (lista.length === 0) {
+    tabelaBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#666;">Nenhuma movimentação encontrada.</td></tr>`;
+    return;
   }
+
+  for (const mov of lista) {
+    const tr = document.createElement('tr');
+
+    tr.innerHTML = `
+      <td>${formatarData(mov.data)}</td>
+      <td>${mov.descricao}</td>
+      <td>${mov.tipo === 'entrada' ? 'Entrada' : 'Saída'}</td>
+      <td>${formatarValor(mov.valor, mov.tipo)}</td>
+      <td>
+        <button class="excluir-btn" data-id="${mov.id}" title="Excluir movimentação">&times;</button>
+      </td>
+    `;
+
+    tabelaBody.appendChild(tr);
+  }
+
+  // Vincula evento para excluir
+  document.querySelectorAll('.excluir-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = Number(btn.getAttribute('data-id'));
+      excluirMovimentacao(id);
+    });
+  });
 }
 
-// Inicializa
-carregarFinanceiro();
+// --- Função para excluir movimentação ---
+function excluirMovimentacao(id) {
+  if (!confirm('Deseja realmente excluir esta movimentação?')) return;
 
+  movimentacoes = movimentacoes.filter(mov => mov.id !== id);
+  salvarMovimentacoes();
+  atualizarTabela();
+  atualizarSaldo();
+  atualizarGrafico();
+}
 
+// --- Função para atualizar o saldo ---
+function atualizarSaldo(filtradas = null) {
+  const lista = filtradas || movimentacoes;
 
-let graficoBarras;
-let graficoPizza;
+  const saldo = lista.reduce((acc, mov) => {
+    return mov.tipo === 'entrada' ? acc + mov.valor : acc - mov.valor;
+  }, 0);
 
-// Função para gerar gráficos
-function gerarGraficos(dados) {
-  const meses = {};
-  let totalEntrada = 0;
-  let totalSaida = 0;
+  saldoDisplay.textContent = formatarValor(Math.abs(saldo), saldo >= 0 ? 'entrada' : 'saida');
+  saldoDisplay.style.color = saldo >= 0 ? 'green' : 'red';
+}
 
-  dados.forEach(l => {
-    const mes = l.data.substring(0, 7); // yyyy-mm
-    if (!meses[mes]) {
-      meses[mes] = { Entrada: 0, Saída: 0 };
+// --- Formatação de valores para moeda ---
+function formatarValor(valor, tipo) {
+  const valorFormatado = valor.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+  return tipo === 'saida' ? `- ${valorFormatado}` : valorFormatado;
+}
+
+// --- Formatação de data dd/mm/yyyy ---
+function formatarData(dataISO) {
+  const data = new Date(dataISO);
+  return data.toLocaleDateString('pt-BR');
+}
+
+// --- Filtrar movimentações por data ---
+btnFiltrar.addEventListener('click', () => {
+  const inicio = filtroDataInicio.value;
+  const fim = filtroDataFim.value;
+
+  if (!inicio && !fim) {
+    alert('Selecione ao menos uma data para filtrar.');
+    return;
+  }
+
+  const filtradas = movimentacoes.filter(mov => {
+    const dataMov = mov.data;
+    if (inicio && fim) {
+      return dataMov >= inicio && dataMov <= fim;
     }
-    meses[mes][l.tipo] += l.valor;
-
-    if (l.tipo === "Entrada") totalEntrada += l.valor;
-    else totalSaida += l.valor;
+    if (inicio) {
+      return dataMov >= inicio;
+    }
+    if (fim) {
+      return dataMov <= fim;
+    }
   });
 
-  const labels = Object.keys(meses);
-  const entradas = labels.map(m => meses[m].Entrada);
-  const saidas = labels.map(m => meses[m].Saída);
+  atualizarTabela(filtradas);
+  atualizarSaldo(filtradas);
+  atualizarGrafico(filtradas);
+});
 
-  // Remove gráficos antigos se existirem
-  if (graficoBarras) graficoBarras.destroy();
-  if (graficoPizza) graficoPizza.destroy();
+// --- Botão para limpar filtro ---
+btnLimparFiltro.addEventListener('click', () => {
+  filtroDataInicio.value = '';
+  filtroDataFim.value = '';
+  atualizarTabela();
+  atualizarSaldo();
+  atualizarGrafico();
+});
 
-  // Gráfico de Barras
-  const ctx1 = document.getElementById('grafico-barras').getContext('2d');
-  graficoBarras = new Chart(ctx1, {
+// --- Inicializa gráfico com Chart.js ---
+function inicializarGrafico() {
+  const ctx = document.getElementById('grafico-movimentacoes').getContext('2d');
+
+  chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels,
+      labels: [], // Datas
       datasets: [
         {
           label: 'Entradas',
-          backgroundColor: '#28a745',
-          data: entradas
+          backgroundColor: 'rgba(40, 167, 69, 0.7)', // Verde
+          data: [],
         },
         {
           label: 'Saídas',
-          backgroundColor: '#dc3545',
-          data: saidas
-        }
-      ]
+          backgroundColor: 'rgba(220, 53, 69, 0.7)', // Vermelho
+          data: [],
+        },
+      ],
     },
     options: {
       responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Entradas x Saídas por Mês'
-        }
-      }
-    }
-  });
-
-  // Gráfico de Pizza
-  const ctx2 = document.getElementById('grafico-pizza').getContext('2d');
-  graficoPizza = new Chart(ctx2, {
-    type: 'pie',
-    data: {
-      labels: ['Entradas', 'Saídas'],
-      datasets: [{
-        data: [totalEntrada, totalSaida],
-        backgroundColor: ['#28a745', '#dc3545']
-      }]
-    },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Distribuição Geral de Entradas e Saídas'
-        }
-      }
-    }
-  });
-}
-
-
-function carregarFinanceiro() {
-  fetch("http://localhost:8080/financeiro")
-    .then(resp => resp.json())
-    .then(lista => {
-      const tabela = document.getElementById("tabela-financeiro");
-      tabela.innerHTML = "";
-      lista.forEach(f => {
-        tabela.innerHTML += `
-          <tr>
-            <td>${f.descricao}</td>
-            <td>R$ ${f.valor.toFixed(2)}</td>
-            <td>${f.tipo}</td>
-            <td>${f.data}</td>
-            <td><button onclick="excluir(${f.id})">Excluir</button></td>
-          </tr>`;
-      });
-
-      // Gera os gráficos com os dados recebidos
-      gerarGraficos(lista);
-    });
-}
-
-
-const ctx = document.getElementById('graficoFinanceiro').getContext('2d');
-    const grafico = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
-        datasets: [
-          {
-            label: 'Entradas',
-            data: [4000, 3500, 3800, 4200, 3900],
-            backgroundColor: 'rgba(46, 204, 113, 0.7)',
-            borderRadius: 6
-          },
-          {
-            label: 'Saídas',
-            data: [1200, 900, 1300, 1100, 1050],
-            backgroundColor: 'rgba(231, 76, 60, 0.7)',
-            borderRadius: 6
-          }
-        ]
+      interaction: {
+        mode: 'index',
+        intersect: false,
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top'
-          },
+      stacked: false,
+      scales: {
+        x: {
           title: {
             display: true,
-            text: 'Fluxo de Caixa'
-          }
-        }
-      }
-    });
+            text: 'Data',
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Valor (R$)',
+          },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
 
-    document.getElementById('form-movimentacao').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Movimentação adicionada (simulação).');
-    });
+  atualizarGrafico();
+}
 
-    function filtrarPorData() {
-      const inicio = document.getElementById('data-inicio').value;
-      const fim = document.getElementById('data-fim').value;
-      alert(`Filtrando de ${inicio} até ${fim} (simulação).`);
+// --- Atualiza dados do gráfico ---
+function atualizarGrafico(filtradas = null) {
+  const lista = filtradas || movimentacoes;
+
+  // Agrupar por data, somando entradas e saídas
+  const mapData = {};
+
+  for (const mov of lista) {
+    if (!mapData[mov.data]) {
+      mapData[mov.data] = { entrada: 0, saida: 0 };
     }
+    if (mov.tipo === 'entrada') {
+      mapData[mov.data].entrada += mov.valor;
+    } else {
+      mapData[mov.data].saida += mov.valor;
+    }
+  }
+
+  // Ordenar as datas
+  const datasOrdenadas = Object.keys(mapData).sort();
+
+  // Preparar arrays para o gráfico
+  const entradas = datasOrdenadas.map(data => mapData[data].entrada);
+  const saidas = datasOrdenadas.map(data => mapData[data].saida);
+
+  // Atualizar o gráfico
+  chart.data.labels = datasOrdenadas.map(d => formatarData(d));
+  chart.data.datasets[0].data = entradas;
+  chart.data.datasets[1].data = saidas;
+
+  chart.update();
+}

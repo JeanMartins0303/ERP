@@ -1,14 +1,13 @@
+@import url('style.css');
+
 /* Variáveis do tema */
 :root {
+  --cinza-escuro: #2c3e50;
+  --cinza-claro: #ecf0f1;
+  --azul: #2980b9;
+  --verde: #2ecc71;
+  --vermelho: #e74c3c;
   --branco: #ffffff;
-  --azul: #2673d6;
-  --cinza-escuro: #333333;
-  --cinza-claro: #999999;
-  --fundo-sidebar: #1f2937;
-  --fundo-main: #f9fafb;
-  --sombra: rgba(0, 0, 0, 0.05);
-  --border-radius: 12px;
-  --transicao: 0.3s ease;
 }
 
 /* Reset básico */
@@ -37,13 +36,10 @@ a {
   left: 0;
   width: 220px;
   height: 100vh;
-  background-color: var(--fundo-sidebar);
+  background-color: var(--cinza-escuro);
   color: var(--branco);
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  z-index: 999;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .sidebar h2 {
@@ -61,22 +57,30 @@ a {
 }
 
 .sidebar nav ul li a {
+  color: var(--branco);
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 1rem;
-  padding: 10px 14px;
-  border-radius: 8px;
-  transition: background-color var(--transicao);
+  gap: 15px;
+  padding: 15px 20px;
+  transition: 0.3s ease;
+  border-radius: 6px;
+  font-size: 1.1rem;
 }
 
 .sidebar nav ul li a:hover,
 .sidebar nav ul li a.active {
-  background-color: var(--azul);
+  background-color: #34495e;
+  color: var(--verde);
 }
 
 .sidebar nav ul li a i {
   font-size: 1.2rem;
+}
+
+/* Esconder texto na sidebar pequena */
+.sidebar nav ul li a span {
+  display: inline-block;
 }
 
 /* Main Content */
@@ -278,15 +282,7 @@ tbody tr:hover {
   header h1 {
     font-size: 1.5rem;
   }
-  .filtros select,
-  .filtros input[type="date"] {
-    font-size: 0.9rem;
-  }
   .filtros button {
     font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-  }
-  .card h3 {
-    font-size: 1rem;
   }
 }

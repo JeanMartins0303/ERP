@@ -1,6 +1,6 @@
 @import url('style.css'); /* Importa o estilo base do sistema */
 
-/* Estilo da tabela de usuários */
+/* Tabela de usuários */
 .tabela-usuarios {
   width: 100%;
   border-collapse: collapse;
@@ -9,18 +9,23 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .tabela-usuarios th,
 .tabela-usuarios td {
   padding: 16px 20px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  color: var(--cinza-escuro);
 }
 
 .tabela-usuarios th {
   background-color: var(--cinza-escuro);
   color: var(--branco);
   font-weight: 600;
+  user-select: none;
 }
 
 .tabela-usuarios tbody tr:nth-child(even) {
@@ -29,28 +34,46 @@
 
 .tabela-usuarios tbody tr:hover {
   background-color: #dcdcdc;
+  transition: background-color 0.3s ease;
 }
 
-/* Estilo do formulário de cadastro */
+/* Botões na tabela */
+.tabela-usuarios button {
+  background-color: var(--azul);
+  color: var(--branco);
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-right: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.tabela-usuarios button:hover {
+  background-color: #1c6ca1;
+}
+
+/* Coluna de ações com largura fixa */
+.acoes-coluna {
+  width: 140px;
+}
+
+/* Formulário de cadastro */
 .form-usuario {
   background-color: var(--branco);
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   max-width: 500px;
+  margin-bottom: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-usuario h3 {
   margin-bottom: 20px;
   color: var(--cinza-escuro);
   font-size: 1.5rem;
-}
-
-.form-usuario label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: var(--cinza-escuro);
 }
 
 .form-usuario input {
@@ -60,6 +83,13 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  color: var(--cinza-escuro);
+  transition: border-color 0.3s ease;
+}
+
+.form-usuario input:focus {
+  outline: none;
+  border-color: var(--azul);
 }
 
 .form-usuario button {
@@ -71,6 +101,9 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .form-usuario button:hover {

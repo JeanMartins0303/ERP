@@ -1,10 +1,15 @@
-@import url('relatorios.css');
+@import url('style.css');
+
+/* Container da tabela para scroll horizontal em telas pequenas */
+.table-wrapper {
+  overflow-x: auto;
+}
 
 /* Botões */
 .acoes {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .acoes button {
@@ -22,17 +27,19 @@
   gap: 8px;
 }
 
-.acoes button:hover {
+.acoes button:hover,
+.acoes button:focus {
   background-color: #1b59b6;
+  outline: none;
 }
 
 /* Tabela de Produtos */
 .tabela-produtos {
   background-color: var(--branco);
   padding: 1.5rem 2rem;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: 0 6px 18px var(--sombra);
-  overflow-x: auto;
+  
 }
 
 .tabela-produtos h3 {
@@ -40,6 +47,8 @@
   font-weight: 700;
   font-size: 1.3rem;
 }
+
+
 
 table {
   width: 100%;
@@ -53,6 +62,7 @@ thead th {
   padding: 12px 16px;
   text-align: left;
   white-space: nowrap;
+  user-select: none;
 }
 
 tbody td {
@@ -74,8 +84,110 @@ td .acoes-btns i {
   cursor: pointer;
   color: var(--azul);
   transition: color 0.3s;
+  font-size: 1.1rem;
 }
 
-td .acoes-btns i:hover {
+td .acoes-btns i:hover,
+td .acoes-btns i:focus {
   color: #1b59b6;
+  outline: none;
+}
+
+/* Modal do formulário */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: var(--branco);
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--cinza-escuro);
+  transition: color 0.3s;
+}
+
+.modal-header button:hover,
+.modal-header button:focus {
+  color: var(--azul);
+  outline: none;
+}
+
+/* Formulário */
+form#formProduto {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form#formProduto label {
+  font-weight: 600;
+  color: var(--cinza-escuro);
+}
+
+form#formProduto input {
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--cinza-claro);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+form#formProduto input:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+
+.btnSalvar {
+  background-color: var(--azul);
+  color: var(--branco);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transicao);
+  margin-top: 0.5rem;
+}
+
+.btnSalvar:hover,
+.btnSalvar:focus {
+  background-color: #1b59b6;
+  outline: none;
 }

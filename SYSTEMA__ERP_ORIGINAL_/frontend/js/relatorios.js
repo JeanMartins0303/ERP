@@ -1,16 +1,4 @@
-// Dados simulados para exemplo
-const dadosMovimentacoes = [
-  { data: '2025-05-01', descricao: 'Venda Produto A', categoria: 'Vendas', tipo: 'Receita', valor: 1500 },
-  { data: '2025-05-03', descricao: 'Compra matéria-prima', categoria: 'Compras', tipo: 'Despesa', valor: 500 },
-  { data: '2025-05-07', descricao: 'Venda Produto B', categoria: 'Vendas', tipo: 'Receita', valor: 1200 },
-  { data: '2025-05-10', descricao: 'Pagamento aluguel', categoria: 'Aluguel', tipo: 'Despesa', valor: 800 },
-  { data: '2025-05-12', descricao: 'Serviço contratado', categoria: 'Serviços', tipo: 'Despesa', valor: 300 },
-  { data: '2025-05-15', descricao: 'Venda Produto C', categoria: 'Vendas', tipo: 'Receita', valor: 900 },
-  { data: '2025-05-20', descricao: 'Venda Produto D', categoria: 'Vendas', tipo: 'Receita', valor: 1100 },
-  { data: '2025-05-22', descricao: 'Manutenção equipamentos', categoria: 'Manutenção', tipo: 'Despesa', valor: 400 },
-];
-
-// Referências DOM
+// DOM Elements
 const periodoSelect = document.getElementById('periodo');
 const filtrosPersonalizados = document.getElementById('filtrosPersonalizados');
 const dataInicioInput = document.getElementById('dataInicio');
@@ -19,122 +7,251 @@ const btnFiltrar = document.getElementById('btnFiltrar');
 const btnExportarPdf = document.getElementById('btnExportarPdf');
 const corpoTabela = document.getElementById('corpoTabela');
 
-// Gráficos
-let graficoBarra;
-let graficoPizza;
+let graficoBarra = null;
+let graficoPizza = null;
 
-// Mostrar/ocultar filtros personalizados
-periodoSelect.addEventListener('change', () => {
-  filtrosPersonalizados.classList.toggle('hidden', periodoSelect.value !== 'personalizado');
-});
+// Dados simulados (pode substituir pela origem real)
+let movimentacoes = [
+  { data: '2025-05-01', descricao: 'Venda Produto A', categoria: 'Vendas', tipo: 'Receita', valor: 1500 },
+  { data: '2025-05-03', descricao: 'Compra Matéria Prima', categoria: 'Compras', tipo: 'Despesa', valor: 700 },
+  { data: '2025-05-05', descricao: 'Serviço Prestado', categoria: 'Serviços', tipo: 'Receita', valor: 1200 },
+  { data: '2025-05-08', descricao: 'Conta Luz', categoria: 'Despesas Fixas', tipo: 'Despesa', valor: 350 },
+  { data: '2025-05-10', descricao: 'Venda Produto B', categoria: 'Vendas', tipo: 'Receita', valor: 900 },
+  { data: '2025-05-15', descricao: 'Manutenção Equip.', categoria: 'Despesas Fixas', tipo: 'Despesa', valor: 500 },
+  { data: '2025-05-18', descricao: 'Compra Marketing', categoria: 'Marketing', tipo: 'Despesa', valor: 300 },
+];
 
-// Função para filtrar dados baseado no período selecionado
-function filtrarDados() {
-  let dadosFiltrados = [...dadosMovimentacoes];
-  const hoje = new Date();
+// Utilitário para formatar valor monetário
+function formatarValor(valor) {
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+// Utilitário para formatar data (DD/MM/YYYY)
+function formatarData(dataStr) {
+  const data = new Date(dataStr);
+  return data.toLocaleDateString('pt-BR');
+}
+
+// Filtra movimentações segundo o período
+function filtrarMovimentacoes() {
   const periodo = periodoSelect.value;
 
+  let dataInicio, dataFim;
+
+  const hoje = new Date();
+
   if (periodo === 'mes') {
-    const mes = hoje.getMonth();
-    const ano = hoje.getFullYear();
-    dadosFiltrados = dadosFiltrados.filter(dado => {
-      const data = new Date(dado.data);
-      return data.getMonth() === mes && data.getFullYear() === ano;
-    });
+    dataInicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+    dataFim = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
   } else if (periodo === 'ano') {
-    const ano = hoje.getFullYear();
-    dadosFiltrados = dadosFiltrados.filter(dado => new Date(dado.data).getFullYear() === ano);
+    dataInicio = new Date(hoje.getFullYear(), 0, 1);
+    dataFim = new Date(hoje.getFullYear(), 11, 31);
   } else if (periodo === 'personalizado') {
-    const inicio = new Date(dataInicioInput.value);
-    const fim = new Date(dataFimInput.value);
-    dadosFiltrados = dadosFiltrados.filter(dado => {
-      const data = new Date(dado.data);
-      return data >= inicio && data <= fim;
-    });
+    if (!dataInicioInput.value || !dataFimInput.value) {
+      alert('Por favor, selecione a data de início e fim.');
+      return null;
+    }
+    dataInicio = new Date(dataInicioInput.value);
+    dataFim = new Date(dataFimInput.value);
+    if (dataFim < dataInicio) {
+      alert('Data fim deve ser maior ou igual à data início.');
+      return null;
+    }
   }
 
-  atualizarTabela(dadosFiltrados);
-  atualizarGraficos(dadosFiltrados);
+  return movimentacoes.filter(mov => {
+    const dataMov = new Date(mov.data);
+    return dataMov >= dataInicio && dataMov <= dataFim;
+  });
 }
 
-// Atualiza a tabela de detalhamento
-function atualizarTabela(dados) {
-  corpoTabela.innerHTML = "";
-  dados.forEach(dado => {
-    const linha = document.createElement('tr');
-    linha.innerHTML = `
-      <td>${dado.data}</td>
-      <td>${dado.descricao}</td>
-      <td>${dado.categoria}</td>
-      <td>${dado.tipo}</td>
-      <td>R$ ${dado.valor.toFixed(2)}</td>
+// Renderiza tabela com dados filtrados
+function renderizarTabela(dados) {
+  corpoTabela.innerHTML = '';
+  if (dados.length === 0) {
+    corpoTabela.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px; color: #666;">Nenhum registro encontrado.</td></tr>`;
+    return;
+  }
+  dados.forEach(({ data, descricao, categoria, tipo, valor }) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${formatarData(data)}</td>
+      <td>${descricao}</td>
+      <td>${categoria}</td>
+      <td>${tipo}</td>
+      <td>${formatarValor(valor)}</td>
     `;
-    corpoTabela.appendChild(linha);
+    corpoTabela.appendChild(tr);
   });
 }
 
-// Atualiza os gráficos
-function atualizarGraficos(dados) {
-  const receitas = dados.filter(d => d.tipo === 'Receita').reduce((sum, d) => sum + d.valor, 0);
-  const despesas = dados.filter(d => d.tipo === 'Despesa').reduce((sum, d) => sum + d.valor, 0);
+// Cria/Atualiza gráfico de barras (Receitas vs Despesas)
+function criarGraficoBarra(dados) {
+  const ctx = document.getElementById('graficoBarra').getContext('2d');
 
-  const categorias = {};
-  dados.forEach(d => {
-    if (!categorias[d.categoria]) categorias[d.categoria] = 0;
-    categorias[d.categoria] += d.valor;
+  // Sumariza receitas e despesas por categoria
+  const resumo = { Receitas: 0, Despesas: 0 };
+  dados.forEach(({ tipo, valor }) => {
+    if (tipo.toLowerCase() === 'receita') resumo.Receitas += valor;
+    else resumo.Despesas += valor;
   });
 
-  const labelsCat = Object.keys(categorias);
-  const valoresCat = Object.values(categorias);
-
-  // Gráfico de Barra
   if (graficoBarra) graficoBarra.destroy();
-  const ctxBarra = document.getElementById('graficoBarra').getContext('2d');
-  graficoBarra = new Chart(ctxBarra, {
+
+  graficoBarra = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['Receitas', 'Despesas'],
       datasets: [{
-        label: 'Valores',
-        data: [receitas, despesas],
-        backgroundColor: ['#4caf50', '#f44336']
+        label: 'Valor (R$)',
+        data: [resumo.Receitas, resumo.Despesas],
+        backgroundColor: ['#2a6599', '#db3c3c'],
+        borderRadius: 6,
+        borderSkipped: false,
       }]
-    }
-  });
-
-  // Gráfico de Pizza
-  if (graficoPizza) graficoPizza.destroy();
-  const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
-  graficoPizza = new Chart(ctxPizza, {
-    type: 'pie',
-    data: {
-      labels: labelsCat,
-      datasets: [{
-        label: 'Categorias',
-        data: valoresCat,
-        backgroundColor: ['#42a5f5', '#66bb6a', '#ffca28', '#ef5350', '#ab47bc', '#ffa726']
-      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
     }
   });
 }
 
-// Exportar para PDF
-btnExportarPdf.addEventListener('click', () => {
+// Cria/Atualiza gráfico de pizza (Distribuição por categoria)
+function criarGraficoPizza(dados) {
+  const ctx = document.getElementById('graficoPizza').getContext('2d');
+
+  // Agrega valores por categoria
+  const categorias = {};
+  dados.forEach(({ categoria, valor }) => {
+    categorias[categoria] = (categorias[categoria] || 0) + valor;
+  });
+
+  if (graficoPizza) graficoPizza.destroy();
+
+  graficoPizza = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(categorias),
+      datasets: [{
+        data: Object.values(categorias),
+        backgroundColor: [
+          '#2a6599',
+          '#dbad67',
+          '#db3c3c',
+          '#6c757d',
+          '#17a2b8',
+          '#ffc107',
+          '#28a745'
+        ],
+        borderWidth: 1,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            boxWidth: 18,
+            padding: 10,
+          }
+        }
+      }
+    }
+  });
+}
+
+// Atualiza a tela com os dados filtrados
+function atualizarTela() {
+  const dadosFiltrados = filtrarMovimentacoes();
+  if (!dadosFiltrados) return;
+  renderizarTabela(dadosFiltrados);
+  criarGraficoBarra(dadosFiltrados);
+  criarGraficoPizza(dadosFiltrados);
+}
+
+// Exporta relatório para PDF
+async function exportarParaPdf() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  doc.setFontSize(16);
-  doc.text("Relatório Financeiro", 14, 20);
+  doc.setFontSize(18);
+  doc.text('Relatório Financeiro', 14, 22);
 
-  let y = 30;
-  dadosMovimentacoes.forEach(dado => {
-    doc.text(`${dado.data} - ${dado.descricao} - ${dado.tipo} - R$ ${dado.valor.toFixed(2)}`, 14, y);
-    y += 8;
+  // Filtros info
+  const periodo = periodoSelect.value;
+  let filtroTexto = '';
+  if (periodo === 'mes') filtroTexto = 'Mês Atual';
+  else if (periodo === 'ano') filtroTexto = 'Ano Atual';
+  else if (periodo === 'personalizado') {
+    filtroTexto = `Personalizado: ${dataInicioInput.value} até ${dataFimInput.value}`;
+  }
+  doc.setFontSize(12);
+  doc.text(`Período: ${filtroTexto}`, 14, 32);
+
+  // Tabela
+  let startY = 40;
+  const colWidths = [30, 60, 40, 30, 30];
+  const headers = ['Data', 'Descrição', 'Categoria', 'Tipo', 'Valor'];
+
+  doc.setFontSize(10);
+  doc.setFillColor(42, 101, 153);
+  doc.setTextColor(255, 255, 255);
+
+  // Cabeçalho tabela
+  let x = 14;
+  headers.forEach((header, i) => {
+    doc.rect(x, startY - 8, colWidths[i], 8, 'F');
+    doc.text(header, x + 2, startY - 4);
+    x += colWidths[i];
   });
 
-  doc.save("relatorio-financeiro.pdf");
+  // Dados da tabela
+  doc.setTextColor(0, 0, 0);
+  const dados = filtrarMovimentacoes();
+  if (!dados) return;
+
+  let y = startY;
+  dados.forEach(({ data, descricao, categoria, tipo, valor }) => {
+    x = 14;
+    const linha = [
+      formatarData(data),
+      descricao,
+      categoria,
+      tipo,
+      formatarValor(valor)
+    ];
+    linha.forEach((texto, i) => {
+      doc.text(texto, x + 2, y);
+      x += colWidths[i];
+    });
+    y += 8;
+    if (y > 270) {
+      doc.addPage();
+      y = 20;
+    }
+  });
+
+  doc.save('relatorio_financeiro.pdf');
+}
+
+// Eventos
+periodoSelect.addEventListener('change', () => {
+  filtrosPersonalizados.classList.toggle('hidden', periodoSelect.value !== 'personalizado');
 });
 
-// Ao carregar, aplica filtro padrão
-btnFiltrar.addEventListener('click', filtrarDados);
-window.addEventListener('DOMContentLoaded', filtrarDados);
+btnFiltrar.addEventListener('click', atualizarTela);
+btnExportarPdf.addEventListener('click', exportarParaPdf);
+
+// Inicialização
+window.onload = () => {
+  atualizarTela();
+};

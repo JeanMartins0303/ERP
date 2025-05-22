@@ -73,9 +73,6 @@ const grafico = new Chart(ctx, {
 
 
 
-
-
-
 // Produtos simulados (mock)
 let produtos = [
   { id: 1, nome: "Camiseta", categoria: "Vestuário", preco: 49.9, quantidade: 120 },
@@ -210,4 +207,5 @@ tbody.addEventListener("click", (e) => {
 
 // Render inicial
 renderProdutos();
+
 

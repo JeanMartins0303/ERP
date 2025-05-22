@@ -70,7 +70,7 @@
 
 /* Botões */
 .btn {
-  background-color: #007bff;
+  background-color: var(--azul);
   color: white;
   border: none;
   padding: 0.6rem 1rem;

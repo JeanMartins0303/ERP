@@ -8,9 +8,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+  <!-- Botão menu mobile -->
+  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+
   <!-- Sidebar fixa lateral -->
   <aside class="sidebar">
-    <h2>ERP</h2>
+      <div class="logo-container">
+        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
+      </div>
     <nav>
       <ul>
         <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -57,5 +62,14 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    // Toggle menu mobile
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>

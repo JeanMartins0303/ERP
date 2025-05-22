@@ -8,25 +8,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-card">
-      <h2>Login</h2>
-      <form id="formLogin">
+  <main class="login-container" role="main">
+    <section class="login-card" aria-label="Formulário de login">
+       <div class="logo-container">
+    <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
+  </div>
+      <h2>Entrar</h2>
+      <form id="formLogin" autocomplete="on" novalidate>
         <div class="input-group">
-          <label for="usuario"><i class="fas fa-user-circle"></i> Usuário</label>
-          <input type="text" id="usuario" name="usuario" placeholder="Digite seu usuário" required />
+          <label for="usuario"><i class="fas fa-user-circle" aria-hidden="true"></i> Usuário</label>
+          <input type="text" id="usuario" name="usuario" placeholder="Digite seu usuário" required autocomplete="username" aria-label="Usuário" />
         </div>
         <div class="input-group">
-          <label for="senha"><i class="fas fa-lock"></i> Senha</label>
-          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
+          <label for="senha"><i class="fas fa-lock" aria-hidden="true"></i> Senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password" aria-label="Senha" />
         </div>
-        <button type="submit" class="btn-login">Entrar</button>
+        <button type="submit" class="btn-login" aria-label="Entrar no sistema">Entrar</button>
       </form>
       <p class="link-login">
         <a href="cadastro.html">Criar uma conta</a> | <a href="recuperar-senha.html">Esqueci a senha</a>
       </p>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <script src="js/login.js"></script>
 </body>

@@ -1,88 +1,5 @@
 @import url('style.css');
 
-/* Variáveis do tema */
-:root {
-  --cinza-escuro: #2c3e50;
-  --cinza-claro: #ecf0f1;
-  --azul: #2980b9;
-  --verde: #2ecc71;
-  --vermelho: #e74c3c;
-  --branco: #ffffff;
-}
-
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--fundo-main);
-  color: var(--cinza-escuro);
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 100vh;
-  background-color: var(--cinza-escuro);
-  color: var(--branco);
-  padding-top: 20px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-}
-
-.sidebar h2 {
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  user-select: none;
-}
-
-.sidebar nav ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.sidebar nav ul li a {
-  color: var(--branco);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px 20px;
-  transition: 0.3s ease;
-  border-radius: 6px;
-  font-size: 1.1rem;
-}
-
-.sidebar nav ul li a:hover,
-.sidebar nav ul li a.active {
-  background-color: #34495e;
-  color: var(--verde);
-}
-
-.sidebar nav ul li a i {
-  font-size: 1.2rem;
-}
-
-/* Esconder texto na sidebar pequena */
-.sidebar nav ul li a span {
-  display: inline-block;
-}
-
 /* Main Content */
 .main-content {
   margin-left: 220px;
@@ -108,7 +25,7 @@ header h1 {
   align-items: center;
   background-color: var(--branco);
   padding: 1.5rem 2rem;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: 0 6px 18px var(--sombra);
 }
 
@@ -177,7 +94,7 @@ header h1 {
 .card {
   background-color: var(--branco);
   padding: 1.5rem 2rem;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: 0 6px 18px var(--sombra);
   flex: 1 1 45%;
   min-width: 320px;
@@ -196,7 +113,7 @@ header h1 {
 .tabela-relatorios {
   background-color: var(--branco);
   padding: 1.5rem 2rem;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: 0 6px 18px var(--sombra);
   overflow-x: auto;
 }
@@ -209,7 +126,7 @@ header h1 {
 
 table {
   width: 100%;
-  border-collapse: collapse;
+ 
   min-width: 600px;
 }
 
@@ -219,11 +136,25 @@ thead th {
   padding: 12px 16px;
   text-align: left;
   white-space: nowrap;
+  border-bottom-left-radius: 8px 8px  0 0 ;
 }
+
+thead th:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+thead th:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+
 
 tbody td {
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
+  border-radius: 8px;
   white-space: nowrap;
 }
 

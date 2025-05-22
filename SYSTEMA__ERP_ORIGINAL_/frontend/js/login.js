@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Se já está logado, redireciona para dashboard
+  const inputUsuario = document.getElementById('usuario');
+  inputUsuario.focus();
+
+  // Verifica se já está logado
   const usuarioLogado = localStorage.getItem('usuarioLogado');
   if (usuarioLogado) {
     window.location.href = 'index.html';
@@ -10,21 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const usuario = document.getElementById('usuario').value.trim();
+    const usuario = inputUsuario.value.trim();
     const senha = document.getElementById('senha').value;
+
+    if (!usuario || !senha) {
+      alert('Por favor, preencha usuário e senha.');
+      return;
+    }
 
     const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     const usuarioEncontrado = usuarios.find(u => u.usuario === usuario && u.senha === senha);
 
     if (!usuarioEncontrado) {
       alert('Usuário ou senha inválidos.');
+      inputUsuario.focus();
       return;
     }
 
-    // Salvar sessão no localStorage
     localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
-
-    // Redireciona para dashboard
     window.location.href = 'index.html';
   });
 });

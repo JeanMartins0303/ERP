@@ -46,6 +46,21 @@ function renderizarTabela() {
   });
 }
 
+const toggleButton = document.getElementById("menuToggle");
+  const sidebar = document.querySelector(".sidebar");
+
+  toggleButton.addEventListener("click", () => {
+    sidebar.classList.toggle("sidebar-ativo");
+  });
+
+
+
+
+
+
+
+  
+
 function removerProduto(index) {
   if (confirm("Tem certeza que deseja remover este produto?")) {
     produtos.splice(index, 1);
@@ -62,3 +77,5 @@ document.getElementById("btnAdicionar").addEventListener("click", () => {
 });
 
 renderizarTabela();
+
+

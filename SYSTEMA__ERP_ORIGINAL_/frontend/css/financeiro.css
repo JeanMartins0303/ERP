@@ -133,20 +133,85 @@
   min-width: 300px;
 }
 
-/* Responsividade */
+/* Responsividade ERP Dashboard */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  color: var(--cinza-escuro);
+  font-size: 1.5rem;
+  padding: 10px 15px;
+  border-radius: 6px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.menu-toggle i.close-icon {
+  color: var(--cinza-claro); 
+}
+
+
 @media (max-width: 768px) {
-  .page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+
+  
+  header {
+    text-align: center;
   }
 
-  .graficos {
-    flex-direction: column;
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
   }
 
+  /* Mostrar botão */
+  .menu-toggle {
+    display: block;
+  }
+
+
+  /* Sidebar colapsável */
+  .sidebar {
+    left: -240px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Conteúdo ocupa toda a tela */
   .main-content {
     margin-left: 0;
-    padding: 1rem;
+    padding: 20px;
+  }
+
+  /* Cards em coluna */
+  .cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Fontes menores no mobile */
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 1.5rem;
+  }
+
+  /* Gráfico responsivo */
+  .grafico canvas {
+    width: 100% !important;
+    height: auto !important;
   }
 }

@@ -255,3 +255,5 @@ btnExportarPdf.addEventListener('click', exportarParaPdf);
 window.onload = () => {
   atualizarTela();
 };
+
+

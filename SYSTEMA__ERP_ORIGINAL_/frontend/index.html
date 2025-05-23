@@ -6,10 +6,13 @@
   <title>Painel - ERP</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  
 </head>
 <body>
   <!-- Botão menu mobile -->
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+  
 
   <!-- Sidebar fixa lateral -->
   <aside class="sidebar">
@@ -63,13 +66,29 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/script.js"></script>
   <script>
-    // Toggle menu mobile
-    const menuToggle = document.querySelector('.menu-toggle');
-    const sidebar = document.querySelector('.sidebar');
+   // Seleciona o botão e a sidebar
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
 
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-    });
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
+});
+
+
   </script>
 </body>
 </html>

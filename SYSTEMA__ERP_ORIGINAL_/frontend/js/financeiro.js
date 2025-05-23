@@ -232,6 +232,10 @@ function inicializarGrafico() {
   atualizarGrafico();
 }
 
+
+
+
+
 // --- Atualiza dados do gráfico ---
 function atualizarGrafico(filtradas = null) {
   const lista = filtradas || movimentacoes;

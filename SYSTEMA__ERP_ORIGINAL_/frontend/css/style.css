@@ -164,6 +164,11 @@ header h1 {
   cursor: pointer;
 }
 
+.menu-toggle i.close-icon {
+  color: var(--cinza-claro); 
+}
+
+
 @media (max-width: 768px) {
 
   

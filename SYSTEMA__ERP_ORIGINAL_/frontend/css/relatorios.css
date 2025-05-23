@@ -97,7 +97,7 @@ header h1 {
   border-radius: 8px;
   box-shadow: 0 6px 18px var(--sombra);
   flex: 1 1 45%;
-  min-width: 320px;
+  min-width: 220px;
   display: flex;
   flex-direction: column;
 }
@@ -165,7 +165,7 @@ tbody tr:hover {
 
 /* Media Queries - Responsividade */
 
-@media (max-width: 1024px) {
+@media (max-width: 360px) {
   .graficos {
     flex-direction: column;
   }
@@ -209,7 +209,7 @@ tbody tr:hover {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 380px) {
   header h1 {
     font-size: 1.5rem;
   }
@@ -217,3 +217,97 @@ tbody tr:hover {
     font-size: 0.9rem;
   }
 }
+
+
+
+
+/* Responsividade ERP Dashboard */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  color: var(--cinza-escuro);
+  font-size: 1.5rem;
+  padding: 10px 15px;
+  border-radius: 6px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+.menu-toggle i.close-icon {
+  color: var(--cinza-claro); 
+}
+
+
+@media (max-width: 768px) {
+
+  
+  header {
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  /* Mostrar botão */
+  .menu-toggle {
+    display: block;
+  }
+
+
+  /* Sidebar colapsável */
+  .sidebar {
+    left: -240px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Conteúdo ocupa toda a tela */
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  /* Cards em coluna */
+  .cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Fontes menores no mobile */
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 1.5rem;
+  }
+
+  /* Gráfico responsivo */
+  .grafico canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+
+
+
+
+
+
+

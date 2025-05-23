@@ -261,55 +261,97 @@ form#formProduto input:focus {
     font-size: 1rem;
   }
 }
-/* Botão de menu hamburguer */
+
+
+
+
+
+/* Responsividade ERP Dashboard */
 .menu-toggle {
   display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
   background: none;
   border: none;
+  color: var(--cinza-escuro);
   font-size: 1.5rem;
+  padding: 10px 15px;
+  border-radius: 6px;
+  z-index: 1001;
   cursor: pointer;
-  color: var(--cinza-claro);
-  margin-right: 1rem;
 }
 
-.top-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
+.menu-toggle i.close-icon {
+  color: var(--cinza-claro); 
 }
+
 
 @media (max-width: 768px) {
+
+  
+  header {
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  /* Mostrar botão */
   .menu-toggle {
     display: block;
   }
 
+
+  /* Sidebar colapsável */
   .sidebar {
-    position: fixed;
-    top: 0;
-    left: -260px;
-    width: 250px;
-    height: 100%;
-    background-color: var(--cinza-escuro);
-    transition: left 0.3s ease-in-out;
+    left: -240px;
+    transition: left 0.3s ease;
     z-index: 1000;
-    padding-top: 1rem;
   }
 
-  .sidebar.sidebar-ativo {
+  .sidebar.open {
     left: 0;
   }
 
+  /* Conteúdo ocupa toda a tela */
   .main-content {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    margin-left: 0;
+    padding: 20px;
   }
 
-  .top-header h1 {
-    font-size: 1.4rem;
-    text-align: center;
-    width: 100%;
-    margin-left: -1.5rem;
+  /* Cards em coluna */
+  .cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* Fontes menores no mobile */
+  header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 1.5rem;
+  }
+
+  /* Gráfico responsivo */
+  .grafico canvas {
+    width: 100% !important;
+    height: auto !important;
   }
 }
+
+
+
+
+
+
 

@@ -46,17 +46,30 @@ function renderizarTabela() {
   });
 }
 
-const toggleButton = document.getElementById("menuToggle");
-  const sidebar = document.querySelector(".sidebar");
 
-  toggleButton.addEventListener("click", () => {
-    sidebar.classList.toggle("sidebar-ativo");
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
   });
-
-
-
-
-
+});
 
 
   

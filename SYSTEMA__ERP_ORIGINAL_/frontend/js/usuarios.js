@@ -208,3 +208,26 @@ function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
+
+   // Seleciona o botão e a sidebar
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
+});

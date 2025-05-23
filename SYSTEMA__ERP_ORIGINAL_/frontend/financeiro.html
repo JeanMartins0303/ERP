@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
+  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
   <!-- Sidebar -->
   <aside class="sidebar">
       <div class="logo-container">
@@ -91,6 +92,30 @@
       </table>
     </section>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
+});
+
+  </script>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

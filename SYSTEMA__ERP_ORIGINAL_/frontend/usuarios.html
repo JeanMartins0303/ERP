@@ -9,12 +9,12 @@
 </head>
 <body>
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  <!-- Sidebar fixa lateral -->
+
+  <!-- Sidebar -->
   <aside class="sidebar">
-      <div class="logo-container">
-        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-      </div>
-    <!--<h2>ERP</h2>-->
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
+    </div>
     <nav>
       <ul>
         <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -22,6 +22,8 @@
         <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
         <li><a href="usuarios.html" class="active"><i class="fas fa-user"></i> Usuários</a></li>
         <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
+        <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
         <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
       </ul>
     </nav>
@@ -36,11 +38,27 @@
     <!-- Formulário de cadastro -->
     <section class="form-usuario">
       <h3>Cadastrar novo usuário</h3>
-      <form id="formUsuario">
+      <form id="formUsuario" enctype="multipart/form-data">
         <input type="text" id="nome" name="nome" placeholder="Nome completo" required autocomplete="name" />
         <input type="email" id="email" name="email" placeholder="E-mail" required autocomplete="email" />
         <input type="password" id="senha" name="senha" placeholder="Senha" required autocomplete="new-password" />
-        <button type="submit"><i class="fas fa-plus"></i> Adicionar</button>
+        <input type="tel" id="telefone" name="telefone" placeholder="Telefone" autocomplete="tel" />
+        <input type="text" id="cargo" name="cargo" placeholder="Cargo" autocomplete="organization-title" />
+
+        <select id="perfil" name="perfil" required>
+          <option value="">Selecione o perfil</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Usuário">Usuário</option>
+          <option value="Convidado">Convidado</option>
+        </select>
+
+        <label for="fotoPerfil">Foto de Perfil:</label>
+        <input type="file" id="fotoPerfil" name="fotoPerfil" accept="image/*" />
+
+        <div class="botoes-form">
+          <button type="submit"><i class="fas fa-user-plus"></i> Adicionar</button>
+          <button type="reset" class="btn-reset"><i class="fas fa-undo"></i> Redefinir</button>
+        </div>
       </form>
     </section>
 
@@ -50,9 +68,12 @@
       <table class="tabela-usuarios" aria-describedby="listaUsuarios">
         <thead>
           <tr>
+            <th>Foto</th>
             <th>Nome</th>
             <th>Email</th>
-            <th class="acoes-coluna">Ações</th>
+            <th>Telefone</th>
+            <th>Cargo</th>
+            <th class="acoes-coluna">Editar</th>
           </tr>
         </thead>
         <tbody id="tabelaUsuarios" aria-live="polite">
@@ -61,6 +82,32 @@
       </table>
     </section>
   </main>
+
+  <script>
+       // Seleciona o botão e a sidebar
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
+});
+
+
+  </script>
 
   <script src="js/usuarios.js"></script>
 </body>

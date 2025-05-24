@@ -257,3 +257,56 @@
     font-size: 1.3rem;
   }
 }
+
+
+.form-usuario form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.form-usuario input,
+.form-usuario select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-usuario select {
+  background-color: #fff;
+}
+
+.form-usuario label {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #444;
+}
+
+.botoes-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-reset {
+  background-color: #ddd;
+  color: #333;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-reset:hover {
+  background-color: #ccc;
+}
+.foto-perfil {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+

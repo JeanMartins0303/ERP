@@ -6,90 +6,128 @@
   <title>Configurações — Sistema ERP</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/configuracoes.css" />
-
-  
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
-
 <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  
 
-  <!-- Sidebar fixa lateral -->
-  <aside class="sidebar">
-      <div class="logo-container">
-        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-      </div>
-    <nav>
-      <ul>
-        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
-        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
-        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-      </ul>
-    </nav>
-  </aside>
+<aside class="sidebar">
+  <div class="logo-container">
+    <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+      <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+      <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
+      <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
+      <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
+      <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
+      <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+    </ul>
+  </nav>
+</aside>
 
+<main class="main-content">
+  <header class="header-page">
+    <h2>⚙️ Configurações</h2>
+    <p class="subtitle">Ajuste suas preferências e informações pessoais</p>
+  </header>
 
+  <form id="formConfiguracoes" class="form-config" enctype="multipart/form-data">
+    
+    <h3 class="section-title">Informações Pessoais</h3>
 
+    <label class="label" for="fotoPerfil">Foto de Perfil</label>
+    <input type="file" id="fotoPerfil" name="fotoPerfil" class="input" accept="image/*">
 
-  <main class="main-content">
-    <header class="header-page">
-      <h2>⚙️ Configurações</h2>
-      <p class="subtitle">Ajuste suas preferências e informações</p>
-    </header>
+    <label for="nomeUsuario" class="label">Nome do Usuário</label>
+    <input type="text" id="nomeUsuario" name="nomeUsuario" class="input" placeholder="Seu nome completo" required />
 
-    <form id="formConfiguracoes" class="form-config">
-      <label for="nomeUsuario" class="label">Nome do Usuário</label>
-      <input 
-        type="text" 
-        id="nomeUsuario" 
-        name="nomeUsuario" 
-        class="input" 
-        placeholder="Seu nome completo" 
-        required 
-      />
+    <label for="emailUsuario" class="label">Email</label>
+    <input type="email" id="emailUsuario" name="emailUsuario" class="input" placeholder="seu@email.com" required />
 
-      <label for="emailUsuario" class="label">Email</label>
-      <input 
-        type="email" 
-        id="emailUsuario" 
-        name="emailUsuario" 
-        class="input" 
-        placeholder="seu@email.com" 
-        required 
-      />
+    <label for="telefone" class="label">Telefone</label>
+    <input type="tel" id="telefone" name="telefone" class="input" placeholder="(99) 99999-9999" />
 
-      <label for="senhaUsuario" class="label">Nova Senha <span class="optional">(opcional)</span></label>
-      <input 
-        type="password" 
-        id="senhaUsuario" 
-        name="senhaUsuario" 
-        class="input" 
-        placeholder="Digite uma nova senha" 
-        minlength="6"
-      />
+    
+    <h3 class="section-title">Preferências de Conta</h3>
 
-      <label for="tema" class="label">Tema</label>
-      <select id="tema" name="tema" class="select">
-        <option value="claro">Claro</option>
-        <option value="escuro">Escuro</option>
-      </select>
+    <label for="senhaUsuario" class="label">Nova Senha <span class="optional">(opcional)</span></label>
+    <input type="password" id="senhaUsuario" name="senhaUsuario" class="input" placeholder="Digite uma nova senha" minlength="6" />
 
-      <label for="notificacoes" class="label">Notificações</label>
-      <select id="notificacoes" name="notificacoes" class="select">
-        <option value="on">Ativadas</option>
-        <option value="off">Desativadas</option>
-      </select>
+    <label for="tema" class="label">Tema</label>
+    <select id="tema" name="tema" class="select">
+      <option value="claro">Claro</option>
+      <option value="escuro">Escuro</option>
+    </select>
 
-      <button type="submit" class="btn-salvar">Salvar Configurações</button>
-    </form>
-  </main>
+    <label for="idioma" class="label">Idioma</label>
+    <select id="idioma" name="idioma" class="select">
+      <option value="pt-BR">Português (Brasil)</option>
+      <option value="en-US">Inglês (EUA)</option>
+      <option value="es-ES">Espanhol</option>
+    </select>
 
-  <script src="configuracoes.js"></script>
+    <label for="privacidade" class="label">Privacidade da Conta</label>
+    <select id="privacidade" name="privacidade" class="select">
+      <option value="publica">Pública</option>
+      <option value="privada">Privada</option>
+    </select>
+
+    <label for="notificacoes" class="label">Notificações</label>
+    <select id="notificacoes" name="notificacoes" class="select">
+      <option value="on">Ativadas</option>
+      <option value="off">Desativadas</option>
+    </select>
+
+    <label for="acessibilidade" class="label">Acessibilidade</label>
+    <select id="acessibilidade" name="acessibilidade" class="select">
+      <option value="padrao">Padrão</option>
+      <option value="contraste">Alto Contraste</option>
+      <option value="fonte-grande">Fonte Grande</option>
+    </select>
+
+    <label for="exibicao" class="label">Exibição de Dados</label>
+    <select id="exibicao" name="exibicao" class="select">
+      <option value="resumo">Resumo</option>
+      <option value="detalhado">Detalhado</option>
+    </select>
+
+    <div class="button-group">
+      <button type="submit" class="btn-salvar"><i class="fas fa-save"></i> Salvar Configurações</button>
+      <button type="reset" class="btn-reset"><i class="fas fa-undo"></i> Redefinir</button>
+    </div>
+  </form>
+</main>
+
+<script>
+     // Seleciona o botão e a sidebar
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+  const icon = menuToggle.querySelector('i');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    sidebar.classList.toggle('open');
+
+    if (menuToggle.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
+      menuToggle.setAttribute('aria-label', 'Fechar menu');
+    } else {
+      icon.classList.remove('fa-xmark', 'close-icon');
+      icon.classList.add('fa-bars');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    }
+  });
+});
+
+</script>
+
+<script src="configuracoes.js"></script>
 </body>
 </html>

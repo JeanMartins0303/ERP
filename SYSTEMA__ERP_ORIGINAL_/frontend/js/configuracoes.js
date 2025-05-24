@@ -39,3 +39,59 @@ document.addEventListener('DOMContentLoaded', () => {
     form.senhaUsuario.value = '';
   });
 });
+
+
+document.getElementById('formConfiguracoes').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const nome = document.getElementById('nomeUsuario').value.trim();
+  const email = document.getElementById('emailUsuario').value.trim();
+  const senha = document.getElementById('senhaUsuario').value;
+  const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+  if (senha && senha !== confirmarSenha) {
+    alert('As senhas não coincidem.');
+    return;
+  }
+
+  const configuracoes = {
+    nome,
+    email,
+    tema: document.getElementById('tema').value,
+    idioma: document.getElementById('idioma').value,
+    notificacoes: document.getElementById('notificacoes').value,
+    verificacao2f: document.getElementById('verificacao2f').value
+  };
+
+  localStorage.setItem('configuracoesERP', JSON.stringify(configuracoes));
+
+  document.getElementById('mensagem').innerText = '✅ Configurações salvas com sucesso!';
+});
+
+
+const form = document.getElementById('formConfiguracoes');
+const mensagem = document.getElementById('mensagem');
+
+// Confirmação e reset do localStorage
+form.addEventListener('reset', function (e) {
+  e.preventDefault(); // evita o reset imediato
+
+  const confirmacao = confirm('Tem certeza que deseja redefinir as configurações para o padrão? Isso removerá suas preferências salvas.');
+
+  if (confirmacao) {
+    localStorage.removeItem('configuracoesUsuario'); // remove dados do localStorage
+    form.reset(); // reseta visualmente o formulário
+
+    mensagem.textContent = 'Configurações restauradas para o padrão.';
+    mensagem.className = 'mensagem sucesso';
+    mensagem.style.display = 'block';
+
+    setTimeout(() => {
+      mensagem.style.display = 'none';
+    }, 4000);
+  }
+});
+
+
+
+

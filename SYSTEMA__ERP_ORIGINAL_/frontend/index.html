@@ -6,19 +6,15 @@
   <title>Painel - ERP</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  
-  
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
-  <!-- Botão menu mobile -->
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  
-
-  <!-- Sidebar fixa lateral -->
   <aside class="sidebar">
-      <div class="logo-container">
-        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-      </div>
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
+    </div>
     <nav>
       <ul>
         <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -32,16 +28,11 @@
       </ul>
     </nav>
   </aside>
-
-  <!-- Conteúdo principal -->
   <main class="main-content">
     <header>
       <h1>Dashboard</h1>
     </header>
-
     <div id="usuarioLogadoNome"></div>
-
-    <!-- Cards informativos -->
     <section class="cards">
       <div class="card">
         <h3>Total de Produtos</h3>
@@ -56,41 +47,12 @@
         <p id="despesas-total">R$ --</p>
       </div>
     </section>
-
-    <!-- Gráfico financeiro -->
     <section class="grafico">
       <h3>Desempenho Mensal</h3>
       <canvas id="graficoFinanceiro" width="600" height="300"></canvas>
     </section>
   </main>
-
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/script.js"></script>
-  <script>
-   // Seleciona o botão e a sidebar
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const sidebar = document.querySelector('.sidebar');
-  const icon = menuToggle.querySelector('i');
-
-  menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    sidebar.classList.toggle('open');
-
-    if (menuToggle.classList.contains('active')) {
-      icon.classList.remove('fa-bars');
-      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
-      menuToggle.setAttribute('aria-label', 'Fechar menu');
-    } else {
-      icon.classList.remove('fa-xmark', 'close-icon');
-      icon.classList.add('fa-bars');
-      menuToggle.setAttribute('aria-label', 'Abrir menu');
-    }
-  });
-});
-
-
-  </script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>

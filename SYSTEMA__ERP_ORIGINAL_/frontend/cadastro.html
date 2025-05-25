@@ -4,45 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cadastro - ERP</title>
-  <link rel="stylesheet" href="css/login.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/cadastro.css" />
+  <style>
+    
+  </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-card">
-       <div class="logo-container">
-    <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-  </div>
-      <h2>Cadastro de Usuário</h2>
-      <form id="formCadastro">
-        <div class="input-group">
-          <label for="nome"><i class="fas fa-user"></i> Nome Completo</label>
-          <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required />
-        </div>
-        <div class="input-group">
-          <label for="usuario"><i class="fas fa-user-circle"></i> Usuário</label>
-          <input type="text" id="usuario" name="usuario" placeholder="Escolha um nome de usuário" required />
-        </div>
-        <div class="input-group">
-          <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
-          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-        </div>
-        <div class="input-group">
-          <label for="senha"><i class="fas fa-lock"></i> Senha</label>
-          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required minlength="6" />
-        </div>
-        <div class="input-group">
-          <label for="confirmaSenha"><i class="fas fa-lock"></i> Confirmar Senha</label>
-          <input type="password" id="confirmaSenha" name="confirmaSenha" placeholder="Confirme sua senha" required minlength="6" />
-        </div>
-        <button type="submit" class="btn-login">Cadastrar</button>
-      </form>
-      <p class="link-login">
-        Já tem uma conta? <a href="login.html">Entrar</a>
-      </p>
-    </div>
-  </div>
+  <main class="container" role="main" aria-label="Formulário de cadastro">
+    <button class="toggle-theme" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+      <i class="fas fa-moon"></i>
+    </button>
 
-  <script src="js/cadastro.js"></script>
+    <div class="logo-container">
+      <!-- Aqui pode colocar a logo igual a login -->
+      <img src="#" alt="Logo do Sistema" class="logo-sistema" draggable="false" />
+    </div>
+
+    <h2>Cadastro</h2>
+
+    <form id="formCadastro" novalidate>
+      <div class="input-group">
+        <label for="nome"><i class="fas fa-user"></i> Nome completo</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder="Digite seu nome completo"
+          required
+          autocomplete="name"
+          aria-label="Nome completo"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="email"><i class="fas fa-envelope"></i> E-mail</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          required
+          autocomplete="email"
+          aria-label="E-mail"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="usuario"><i class="fas fa-user-circle"></i> Usuário</label>
+        <input
+          type="text"
+          id="usuario"
+          name="usuario"
+          placeholder="Escolha um nome de usuário"
+          required
+          autocomplete="username"
+          aria-label="Usuário"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="senha"><i class="fas fa-lock"></i> Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Digite sua senha"
+          required
+          autocomplete="new-password"
+          aria-label="Senha"
+          minlength="6"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="confSenha"><i class="fas fa-lock"></i> Confirmar senha</label>
+        <input
+          type="password"
+          id="confSenha"
+          name="confSenha"
+          placeholder="Confirme sua senha"
+          required
+          autocomplete="new-password"
+          aria-label="Confirmar senha"
+          minlength="6"
+        />
+      </div>
+
+      <button type="submit" class="btn-primary">Cadastrar</button>
+    </form>
+
+    <div class="links-bottom" role="navigation" aria-label="Links de navegação do cadastro">
+      <a href="login.html" >Já tenho conta</a>
+      <a href="recuperar-senha.html" >Esqueci minha senha</a>
+    </div>
+  </main>
+<script src="js/login.js"></script>
+  <script src="js/theme.js"></script>
 </body>
 </html>

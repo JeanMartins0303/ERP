@@ -4,33 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - ERP</title>
-  <link rel="stylesheet" href="css/login.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/login.css" />
 </head>
 <body>
-  <main class="login-container" role="main">
-    <section class="login-card" aria-label="Formulário de login">
-       <div class="logo-container">
-    <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-  </div>
-      <h2>Entrar</h2>
-      <form id="formLogin" autocomplete="on" novalidate>
-        <div class="input-group">
-          <label for="usuario"><i class="fas fa-user-circle" aria-hidden="true"></i> Usuário</label>
-          <input type="text" id="usuario" name="usuario" placeholder="Digite seu usuário" required autocomplete="username" aria-label="Usuário" />
-        </div>
-        <div class="input-group">
-          <label for="senha"><i class="fas fa-lock" aria-hidden="true"></i> Senha</label>
-          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password" aria-label="Senha" />
-        </div>
-        <button type="submit" class="btn-login" aria-label="Entrar no sistema">Entrar</button>
-      </form>
-      <p class="link-login">
-        <a href="cadastro.html">Criar uma conta</a> | <a href="recuperar-senha.html">Esqueci a senha</a>
-      </p>
-    </section>
-  </main>
+  <main class="login-container" role="main" aria-label="Formulário de login">
+    <button class="toggle-theme" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+      <i class="fas fa-moon"></i>
+    </button>
 
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema" />
+    </div>
+
+    <h2>Entrar</h2>
+
+    <form id="formLogin" autocomplete="on" novalidate>
+      <div class="input-group">
+        <label for="usuario"><i class="fas fa-user-circle" aria-hidden="true"></i> Usuário</label>
+        <input
+          type="text"
+          id="usuario"
+          name="usuario"
+          placeholder="Digite seu usuário"
+          required
+          autocomplete="username"
+          aria-label="Usuário"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="senha"><i class="fas fa-lock" aria-hidden="true"></i> Senha</label>
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="Digite sua senha"
+          required
+          autocomplete="current-password"
+          aria-label="Senha"
+        />
+      </div>
+
+      <button type="submit" class="btn-login">Entrar</button>
+    </form>
+
+    <div class="link-login" role="navigation" aria-label="Links de navegação do login">
+      <a href="recuperar-senha.html" >Esqueci minha senha</a> |
+      <a href="cadastro.html" >Criar conta</a>
+    </div>
+  </main>
   <script src="js/login.js"></script>
+  <script src="js/theme.js"></script>
+
 </body>
 </html>

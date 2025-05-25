@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Usuário</title>
+  <link rel="stylesheet" href="estilo.css" />
+  <script src="https://kit.fontawesome.com/SEU-KIT.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #212529;
+      --card-bg: #ffffff;
+      --accent-color: #007bff;
+      --border-color: #e0e0e0;
+    }
+
+    body.dark {
+      --bg-color: #1e1e2f;
+      --text-color: #f1f1f1;
+      --card-bg: #2c2c3a;
+      --accent-color: #0d6efd;
+      --border-color: #444;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background-color: var(--bg-color);
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text-color);
+    }
+
+    .perfil-container {
+      max-width: 700px;
+      margin: auto;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 40px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .perfil-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .perfil-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent-color);
+    }
+
+    .perfil-header h2 {
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    .perfil-header p {
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    .perfil-dados {
+      display: grid;
+      row-gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .perfil-dado {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+    }
+
+    .perfil-dado strong {
+      color: var(--accent-color);
+    }
+
+    .botoes {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2.5rem;
+    }
+
+    .btn-voltar,
+    .btn-editar {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .btn-voltar:hover,
+    .btn-editar:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      .perfil-dado {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body class="">
+  <div class="perfil-container">
+    <div class="perfil-header">
+      <img src="https://i.pravatar.cc/100" alt="Foto do usuário">
+      <h2>João da Silva</h2>
+      <p>Administrador</p>
+    </div>
+
+    <div class="perfil-dados">
+      <div class="perfil-dado">
+        <strong>Nome completo:</strong> <span>João da Silva</span>
+      </div>
+      <div class="perfil-dado">
+        <strong>Email:</strong> <span>joao@email.com</span>
+      </div>
+      <div class="perfil-dado">
+        <strong>Departamento:</strong> <span>Financeiro</span>
+      </div>
+      <div class="perfil-dado">
+        <strong>Último acesso:</strong> <span>25/05/2025 às 15:42</span>
+      </div>
+    </div>
+
+    <div class="botoes">
+      <a href="index.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+      <a href="#" class="btn-editar"><i class="fas fa-edit"></i> Editar Perfil</a>
+    </div>
+  </div>
+
+  <script>
+    // Aplica o tema salvo (claro/escuro)
+    document.addEventListener("DOMContentLoaded", () => {
+      const tema = localStorage.getItem("tema");
+      if (tema === "dark") document.body.classList.add("dark");
+    });
+  </script>
+</body>
+</html>

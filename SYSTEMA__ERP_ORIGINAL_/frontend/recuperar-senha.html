@@ -4,29 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Recuperar Senha - ERP</title>
-  <link rel="stylesheet" href="css/login.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/recuperar-senha.css" />
+  <style>
+
+  </style>
 </head>
 <body>
-  <div class="login-container">
-     <div class="logo-container">
-    <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-  </div>
-    <div class="login-card">
-      <h2>Recuperar Senha</h2>
-      <form id="formRecuperarSenha">
-        <div class="input-group">
-          <label for="email"><i class="fas fa-envelope"></i> E-mail Cadastrado</label>
-          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required />
-        </div>
-        <button type="submit" class="btn-login">Enviar Instruções</button>
-      </form>
-      <p class="link-login">
-        Lembrou sua senha? <a href="login.html">Entrar</a>
-      </p>
+  <main class="container" role="main" aria-label="Formulário de recuperação de senha">
+    <button class="toggle-theme" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema" />
     </div>
-  </div>
+
+    <h2>Recuperar Senha</h2>
+
+    <form id="formRecuperarSenha" autocomplete="on" novalidate>
+      <div class="input-group">
+        <label for="email"><i class="fas fa-envelope" aria-hidden="true"></i> E-mail</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Digite seu e-mail"
+          required
+          autocomplete="email"
+          aria-label="E-mail para recuperação"
+        />
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar link de recuperação</button>
+    </form>
+
+    <div class="link-back" role="navigation" aria-label="Link para voltar ao login">
+      <a href="login.html" id="voltarLogin"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar para Login</a>
+    </div>
+  </main>
 
   <script src="js/recuperar-senha.js"></script>
+  <script src="js/theme.js"></script>
 </body>
 </html>

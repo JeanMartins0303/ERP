@@ -1,17 +1,42 @@
-document.getElementById('formRecuperarSenha').addEventListener('submit', function (e) {
-  e.preventDefault();
+(() => {
+      const body = document.body;
+      const toggleBtn = document.querySelector('.toggle-theme');
+      const icon = toggleBtn.querySelector('i');
 
-  const email = document.getElementById('email').value.trim();
+      // Inicializa tema salvo no localStorage ou padrão claro
+      const temaSalvo = localStorage.getItem('tema') || 'claro';
+      if (temaSalvo === 'escuro') {
+        body.classList.add('dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+      }
 
-  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-  const usuario = usuarios.find(u => u.email === email);
+      toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark');
+        const temaAtual = body.classList.contains('dark') ? 'escuro' : 'claro';
+        localStorage.setItem('tema', temaAtual);
 
-  if (!usuario) {
-    alert('E-mail não encontrado. Verifique e tente novamente.');
-    return;
-  }
+        // Alterna ícone
+        if (temaAtual === 'escuro') {
+          icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+          icon.classList.replace('fa-sun', 'fa-moon');
+        }
+      });
 
-  // Aqui você pode implementar envio real por backend ou email
-  alert(`Instruções de recuperação de senha foram enviadas para o e-mail: ${email}`);
-  window.location.href = 'login.html';
-});
+      // Validação simples do formulário
+      const form = document.getElementById('formRecuperarSenha');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const emailInput = form.email;
+        if (!emailInput.value || !emailInput.checkValidity()) {
+          alert('Por favor, insira um e-mail válido.');
+          emailInput.focus();
+          return;
+        }
+
+        // Aqui você pode disparar a lógica para envio do link, ex: fetch para API
+        alert('Se o e-mail existir em nosso sistema, um link de recuperação foi enviado.');
+        form.reset();
+      });
+    })();

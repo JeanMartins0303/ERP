@@ -1,36 +1,51 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const inputUsuario = document.getElementById('usuario');
-  inputUsuario.focus();
+const toggleThemeBtn = document.querySelector(".toggle-theme");
+    const body = document.body;
+    const icon = toggleThemeBtn.querySelector("i");
 
-  // Verifica se já está logado
-  const usuarioLogado = localStorage.getItem('usuarioLogado');
-  if (usuarioLogado) {
-    window.location.href = 'index.html';
-  }
-
-  const form = document.getElementById('formLogin');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const usuario = inputUsuario.value.trim();
-    const senha = document.getElementById('senha').value;
-
-    if (!usuario || !senha) {
-      alert('Por favor, preencha usuário e senha.');
-      return;
+    // Carregar tema salvo no localStorage (se existir)
+    const temaSalvo = localStorage.getItem("tema") || "light";
+    if (temaSalvo === "dark") {
+      body.classList.add("dark");
+      icon.classList.replace("fa-moon", "fa-sun");
     }
 
-    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-    const usuarioEncontrado = usuarios.find(u => u.usuario === usuario && u.senha === senha);
+    toggleThemeBtn.addEventListener("click", () => {
+      body.classList.toggle("dark");
 
-    if (!usuarioEncontrado) {
-      alert('Usuário ou senha inválidos.');
-      inputUsuario.focus();
-      return;
-    }
+      if (body.classList.contains("dark")) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        localStorage.setItem("tema", "dark");
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        localStorage.setItem("tema", "light");
+      }
+    });
 
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
-    window.location.href = 'index.html';
-  });
-});
+    // Form submit simulado
+    document.getElementById("formLogin").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const usuario = this.usuario.value.trim();
+      const senha = this.senha.value.trim();
+
+      if (!usuario || !senha) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      // Aqui você pode adicionar sua lógica real de autenticação
+
+      alert(`Bem-vindo(a), ${usuario}! Login realizado com sucesso.`);
+      this.reset();
+    });
+
+    // Links "Esqueci minha senha" e "Criar conta" - exemplos de mensagens personalizadas
+    document.getElementById("esqueciSenha").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Você será redirecionado para a página de recuperação de senha.");
+    });
+
+    document.getElementById("criarConta").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Você será redirecionado para a página de cadastro.");
+    });

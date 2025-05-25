@@ -43,7 +43,7 @@
       color: var(--dark-text);
     }
 
-    .login-container {
+    .container {
       background-color: var(--cinza-claro);
       padding: 40px 30px;
       border-radius: 12px;
@@ -55,7 +55,7 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    body.dark .login-container {
+    body.dark .container {
       background-color: var(--dark-bg-container);
       color: var(--dark-text);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
@@ -85,7 +85,7 @@
       user-select: none;
     }
 
-    .login-container h2 {
+    h2 {
       text-align: center;
       margin-bottom: 30px;
       font-size: 2rem;
@@ -152,7 +152,7 @@
       box-shadow: 0 0 8px var(--dark-blue);
     }
 
-    .btn-login {
+    .btn-submit {
       width: 100%;
       padding: 14px;
       background-color: var(--azul);
@@ -168,28 +168,28 @@
       margin-top: 6px;
     }
 
-    body.dark .btn-login {
+    body.dark .btn-submit {
       background-color: var(--dark-blue);
       box-shadow: 0 4px 12px rgba(41, 128, 185, 0.7);
       color: var(--dark-text);
     }
 
-    .btn-login:hover,
-    .btn-login:focus {
+    .btn-submit:hover,
+    .btn-submit:focus {
       background-color: var(--azul-escuro);
       box-shadow: 0 6px 18px rgba(36, 113, 163, 0.9);
       outline: none;
     }
 
-    body.dark .btn-login:hover,
-    body.dark .btn-login:focus {
+    body.dark .btn-submit:hover,
+    body.dark .btn-submit:focus {
       background-color: var(--dark-blue-hover);
       box-shadow: 0 6px 18px rgba(31, 89, 142, 1);
       outline: none;
       color: var(--branco);
     }
 
-    .link-login {
+    .link-back {
       margin-top: 24px;
       text-align: center;
       font-size: 1rem;
@@ -197,7 +197,7 @@
       user-select: none;
     }
 
-    .link-login a {
+    .link-back a {
       position: relative;
       color: var(--azul);
       text-decoration: none;
@@ -206,11 +206,11 @@
       transition: color 0.3s ease;
     }
 
-    body.dark .link-login a {
+    body.dark .link-back a {
       color: var(--dark-blue);
     }
 
-    .link-login a::after {
+    .link-back a::after {
       content: '';
       position: absolute;
       left: 0;
@@ -223,23 +223,23 @@
       transition: transform 0.3s ease;
     }
 
-    body.dark .link-login a::after {
+    body.dark .link-back a::after {
       background-color: var(--dark-blue);
     }
 
-    .link-login a:hover,
-    .link-login a:focus {
+    .link-back a:hover,
+    .link-back a:focus {
       color: var(--verde);
       outline: none;
     }
 
-    body.dark .link-login a:hover,
-    body.dark .link-login a:focus {
+    body.dark .link-back a:hover,
+    body.dark .link-back a:focus {
       color: var(--dark-green);
     }
 
-    .link-login a:hover::after,
-    .link-login a:focus::after {
+    .link-back a:hover::after,
+    .link-back a:focus::after {
       transform: scaleX(1);
       background-color: var(--verde);
     }
@@ -269,7 +269,7 @@
 
     /* Responsivo */
     @media (max-width: 420px) {
-      .login-container {
+      .container {
         padding: 30px 20px;
       }
     }

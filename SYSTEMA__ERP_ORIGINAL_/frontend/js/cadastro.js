@@ -1,34 +1,62 @@
-document.getElementById('formCadastro').addEventListener('submit', function (e) {
-  e.preventDefault();
+const toggleThemeBtn = document.querySelector(".toggle-theme");
+    const body = document.body;
+    const icon = toggleThemeBtn.querySelector("i");
 
-  const nome = document.getElementById('nome').value.trim();
-  const usuario = document.getElementById('usuario').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value;
-  const confirmaSenha = document.getElementById('confirmaSenha').value;
+    // Carregar tema salvo no localStorage (se existir)
+    const temaSalvo = localStorage.getItem("tema") || "light";
+    if (temaSalvo === "dark") {
+      body.classList.add("dark");
+      icon.classList.replace("fa-moon", "fa-sun");
+    }
 
-  if (senha !== confirmaSenha) {
-    alert('As senhas não coincidem.');
-    return;
-  }
+    toggleThemeBtn.addEventListener("click", () => {
+      body.classList.toggle("dark");
 
-  // Recupera usuários cadastrados do localStorage
-  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      if (body.classList.contains("dark")) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        localStorage.setItem("tema", "dark");
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        localStorage.setItem("tema", "light");
+      }
+    });
 
-  // Verifica se usuário ou email já existe
-  if (usuarios.some(u => u.usuario === usuario)) {
-    alert('Nome de usuário já está em uso.');
-    return;
-  }
-  if (usuarios.some(u => u.email === email)) {
-    alert('E-mail já cadastrado.');
-    return;
-  }
+    // Validação básica e simulação do submit
+    document.getElementById("formCadastro").addEventListener("submit", (e) => {
+      e.preventDefault();
 
-  // Adiciona novo usuário
-  usuarios.push({ nome, usuario, email, senha });
-  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      const nome = e.target.nome.value.trim();
+      const email = e.target.email.value.trim();
+      const usuario = e.target.usuario.value.trim();
+      const senha = e.target.senha.value.trim();
+      const confSenha = e.target.confSenha.value.trim();
 
-  alert('Cadastro realizado com sucesso! Você já pode fazer login.');
-  window.location.href = 'login.html';
-});
+      if (!nome || !email || !usuario || !senha || !confSenha) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      if (senha.length < 6) {
+        alert("A senha deve ter pelo menos 6 caracteres.");
+        return;
+      }
+
+      if (senha !== confSenha) {
+        alert("As senhas não coincidem.");
+        return;
+      }
+
+      alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${nome}.`);
+      e.target.reset();
+    });
+
+    // Links navegacionais com alertas personalizados
+    document.getElementById("linkLogin").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Você será redirecionado para a página de login.");
+    });
+
+    document.getElementById("linkEsqueciSenha").addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Você será redirecionado para a recuperação de senha.");
+    });

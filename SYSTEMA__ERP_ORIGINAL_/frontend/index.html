@@ -1,78 +1,61 @@
-<!DOCTYPE html> 
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Painel - ERP</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <title>Painel ERP - Design Moderno</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    
+  </style>
 </head>
-<body>
-  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  <aside class="sidebar">
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-      
-    </div>
-
- <div class="user-menu">
-   <a href="perfil.html" class="perfil-btn" title="Perfil do Usuário">
-     <i class="fas fa-user-circle"></i>
-     <span class="user-name">João</span>
-   </a>
-</div>
+<body class="light">
+  <aside class="sidebar" role="navigation" aria-label="Menu principal">
+    <header>ERP</header>
     <nav>
       <ul>
-        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
-        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
-        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
-        <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        <li><a href="dashboard.html" class="active" aria-current="page"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
+        <li><a href="fornecedores.html"><i class="fas fa-truck"></i><span class="link-text">Fornecedores</span></a></li>
+        <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
+        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
       </ul>
     </nav>
   </aside>
-  <main class="main-content">
+
+  <main class="main-content" role="main">
     <header>
-      <h1>Dashboard</h1>
-      
-      <button id="btnToggleTema" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
+      <h1>Painel - ERP</h1>
+      <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
         <i class="fas fa-moon"></i>
       </button>
     </header>
 
-    <section class="cards">
-      <div class="card">
-        <h3>Total de Produtos</h3>
-        <p id="produtos-count">--</p>
-      </div>
-      <div class="card">
-        <h3>Receita Total</h3>
-        <p id="receita-total">R$ --</p>
-      </div>
-      <div class="card">
-        <h3>Despesas</h3>
-        <p id="despesas-total">R$ --</p>
-      </div>
-      <!-- Novos cards adicionados -->
-      <div class="card">
-        <h3>Pedidos Pendentes</h3>
-        <p id="pedidos-pendentes">--</p>
-      </div>
-      <div class="card">
-        <h3>Clientes Ativos</h3>
-        <p id="clientes-ativos">--</p>
-      </div>
+    <section class="cards" aria-label="Resumo rápido">
+      <article class="card" aria-label="Total de vendas do mês">
+        <h3>Total de vendas</h3>
+        <p id="totalVendas">R$ 0,00</p>
+      </article>
+      <article class="card" aria-label="Total de produtos">
+        <h3>Total de produtos</h3>
+        <p id="totalProdutos">0</p>
+      </article>
+      <article class="card" aria-label="Estoque disponível">
+        <h3>Estoque disponível</h3>
+        <p id="estoqueDisponivel">0</p>
+      </article>
     </section>
-    <section class="grafico">
-      <h3>Desempenho Mensal</h3>
-      <canvas id="graficoFinanceiro" width="600" height="300"></canvas>
+
+    <section id="grafico-container" aria-label="Gráfico de vendas">
+      <canvas id="graficoVendas" role="img" aria-label="Gráfico de vendas do mês"></canvas>
     </section>
   </main>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/scripts.js"></script>
 </body>

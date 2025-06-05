@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Clientes - FlexBiz ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/clientes.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body class="light">
+  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+  <aside class="sidebar" role="navigation" aria-label="Menu principal">
+    <header>FlexBiz ERP</header>
+    <nav>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
+        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
+        <li><a href="clientes.html" class="active" aria-current="page"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
+        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header>
+      <h1>Gestão de Clientes</h1>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchClient" placeholder="Buscar clientes...">
+          <i class="fas fa-search"></i>
+        </div>
+        <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="btn" onclick="abrirModalNovoCliente()">
+          <i class="fas fa-plus"></i> Novo Cliente
+        </button>
+      </div>
+    </header>
+
+    <section class="cards">
+      <article class="card" aria-label="Total de clientes">
+        <h3>Total de Clientes</h3>
+        <p id="totalClientes">0</p>
+      </article>
+      <article class="card" aria-label="Clientes ativos">
+        <h3>Clientes Ativos</h3>
+        <p id="clientesAtivos">0</p>
+      </article>
+      <article class="card" aria-label="Clientes inativos">
+        <h3>Clientes Inativos</h3>
+        <p id="clientesInativos">0</p>
+      </article>
+      <article class="card" aria-label="Novos clientes este mês">
+        <h3>Novos Este Mês</h3>
+        <p id="novosClientes">0</p>
+      </article>
+    </section>
+
+    <section class="clientes-grid">
+      <div class="clientes-header">
+        <h2>Lista de Clientes</h2>
+        <div class="clientes-actions">
+          <button class="btn" onclick="exportarClientes()">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+          <button class="btn" onclick="imprimirLista()">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th>Status</th>
+              <th>Última Visita</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="clientesTableBody">
+            <!-- Preenchido via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Novo Cliente -->
+  <div class="modal" id="modalNovoCliente">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Novo Cliente</h2>
+        <button class="btn-close" onclick="fecharModalNovoCliente()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form id="formNovoCliente" onsubmit="criarNovoCliente(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nomeCliente">Nome Completo</label>
+            <input type="text" id="nomeCliente" required>
+          </div>
+          <div class="form-group">
+            <label for="cpfCliente">CPF</label>
+            <input type="text" id="cpfCliente" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="emailCliente">E-mail</label>
+            <input type="email" id="emailCliente" required>
+          </div>
+          <div class="form-group">
+            <label for="telefoneCliente">Telefone</label>
+            <input type="tel" id="telefoneCliente" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="enderecoCliente">Endereço</label>
+          <input type="text" id="enderecoCliente" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cidadeCliente">Cidade</label>
+            <input type="text" id="cidadeCliente" required>
+          </div>
+          <div class="form-group">
+            <label for="estadoCliente">Estado</label>
+            <select id="estadoCliente" required>
+              <option value="">Selecione...</option>
+              <option value="AC">Acre</option>
+              <option value="AL">Alagoas</option>
+              <option value="AP">Amapá</option>
+              <option value="AM">Amazonas</option>
+              <option value="BA">Bahia</option>
+              <option value="CE">Ceará</option>
+              <option value="DF">Distrito Federal</option>
+              <option value="ES">Espírito Santo</option>
+              <option value="GO">Goiás</option>
+              <option value="MA">Maranhão</option>
+              <option value="MT">Mato Grosso</option>
+              <option value="MS">Mato Grosso do Sul</option>
+              <option value="MG">Minas Gerais</option>
+              <option value="PA">Pará</option>
+              <option value="PB">Paraíba</option>
+              <option value="PR">Paraná</option>
+              <option value="PE">Pernambuco</option>
+              <option value="PI">Piauí</option>
+              <option value="RJ">Rio de Janeiro</option>
+              <option value="RN">Rio Grande do Norte</option>
+              <option value="RS">Rio Grande do Sul</option>
+              <option value="RO">Rondônia</option>
+              <option value="RR">Roraima</option>
+              <option value="SC">Santa Catarina</option>
+              <option value="SP">São Paulo</option>
+              <option value="SE">Sergipe</option>
+              <option value="TO">Tocantins</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="observacoesCliente">Observações</label>
+          <textarea id="observacoesCliente" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="fecharModalNovoCliente()">Cancelar</button>
+          <button type="submit" class="btn">Salvar Cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/clientes.js"></script>
+</body>
+</html> 

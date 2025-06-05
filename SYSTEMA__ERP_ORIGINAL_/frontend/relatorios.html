@@ -2,112 +2,147 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Relatórios - ERP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatórios - FlexBiz ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/relatorios.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  <aside class="sidebar">
-      <div class="logo-container">
-        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema">
-      </div>
-    <!--<h2>ERP</h2>-->
+  <aside class="sidebar" role="navigation" aria-label="Menu principal">
+    <header>FlexBiz ERP</header>
     <nav>
       <ul>
-        <li><a href="index.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
-        <li><a href="produtos.html"><i class="fas fa-box"></i> <span>Produtos</span></a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> <span>Financeiro</span></a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user"></i> <span>Usuários</span></a></li>
-        <li><a href="relatorios.html" class="active"><i class="fas fa-chart-line"></i> <span>Relatórios</span></a></li>
-        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
-        <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> <span>Sair</span></a></li>
+        <li><a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
+        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
+        <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
+        <li><a href="relatorios.html" class="active" aria-current="page"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
       </ul>
     </nav>
   </aside>
 
   <main class="main-content">
     <header>
-      <h1>Relatórios Financeiros</h1>
+      <h1>Relatórios</h1>
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchRelatorio" placeholder="Buscar relatórios...">
+          <i class="fas fa-search"></i>
+        </div>
+        <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="btn" onclick="abrirModalNovoRelatorio()">
+          <i class="fas fa-plus"></i> Novo Relatório
+        </button>
+      </div>
     </header>
 
-    <section class="filtros">
-      <label for="periodo">Período:</label>
-      <select id="periodo">
-        <option value="mes">Mês Atual</option>
-        <option value="ano">Ano Atual</option>
-        <option value="personalizado">Personalizado</option>
-      </select>
-
-      <div id="filtrosPersonalizados" class="hidden">
-        <input type="date" id="dataInicio" />
-        <input type="date" id="dataFim" />
-      </div>
-
-      <button id="btnFiltrar"><i class="fas fa-filter"></i> Filtrar</button>
-      <button id="btnExportarPdf"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+    <section class="cards">
+      <article class="card">
+        <h3>Relatório de Vendas</h3>
+        <canvas id="graficoVendas"></canvas>
+      </article>
+      <article class="card">
+        <h3>Relatório de Despesas</h3>
+        <canvas id="graficoDespesas"></canvas>
+      </article>
+      <article class="card">
+        <h3>Relatório de Estoque</h3>
+        <canvas id="graficoEstoque"></canvas>
+      </article>
+      <article class="card">
+        <h3>Relatório de Clientes</h3>
+        <canvas id="graficoClientes"></canvas>
+      </article>
     </section>
 
-    <section class="graficos">
-      <div class="card">
-        <h3>Receitas vs Despesas (Barra)</h3>
-        <canvas id="graficoBarra"></canvas>
+    <section class="relatorios-grid">
+      <div class="relatorios-header">
+        <h2>Relatórios Recentes</h2>
+        <div class="relatorios-actions">
+          <select id="filtroTipoRelatorio" onchange="filtrarRelatorios()">
+            <option value="todos">Todos os Tipos</option>
+            <option value="vendas">Vendas</option>
+            <option value="despesas">Despesas</option>
+            <option value="estoque">Estoque</option>
+            <option value="clientes">Clientes</option>
+          </select>
+          <button class="btn" onclick="exportarRelatorios()">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+          <button class="btn" onclick="imprimirRelatorio()">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+        </div>
       </div>
-      <div class="card">
-        <h3>Distribuição de Categorias (Pizza)</h3>
-        <canvas id="graficoPizza"></canvas>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Tipo</th>
+              <th>Título</th>
+              <th>Responsável</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="relatoriosTableBody">
+            <!-- Preenchido via JavaScript -->
+          </tbody>
+        </table>
       </div>
-    </section>
-
-    <section class="tabela-relatorios">
-      <h3>Detalhamento</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Descrição</th>
-            <th>Categoria</th>
-            <th>Tipo</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabela">
-          <!-- Dados via JS -->
-        </tbody>
-      </table>
     </section>
   </main>
 
-<script>
-   // Seleciona o botão e a sidebar
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const sidebar = document.querySelector('.sidebar');
-  const icon = menuToggle.querySelector('i');
+  <!-- Modal Novo Relatório (simulação de filtro avançado) -->
+  <div class="modal" id="modalNovoRelatorio">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Gerar Novo Relatório</h2>
+        <button class="btn-close" onclick="fecharModalNovoRelatorio()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <form id="formNovoRelatorio" onsubmit="gerarNovoRelatorio(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tipoRelatorio">Tipo</label>
+            <select id="tipoRelatorio" required>
+              <option value="vendas">Vendas</option>
+              <option value="despesas">Despesas</option>
+              <option value="estoque">Estoque</option>
+              <option value="clientes">Clientes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="periodoRelatorio">Período</label>
+            <input type="month" id="periodoRelatorio" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tituloRelatorio">Título</label>
+          <input type="text" id="tituloRelatorio" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="fecharModalNovoRelatorio()">Cancelar</button>
+          <button type="submit" class="btn">Gerar Relatório</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    sidebar.classList.toggle('open');
-
-    if (menuToggle.classList.contains('active')) {
-      icon.classList.remove('fa-bars');
-      icon.classList.add('fa-xmark', 'close-icon'); // adiciona cor diferente
-      menuToggle.setAttribute('aria-label', 'Fechar menu');
-    } else {
-      icon.classList.remove('fa-xmark', 'close-icon');
-      icon.classList.add('fa-bars');
-      menuToggle.setAttribute('aria-label', 'Abrir menu');
-    }
-  });
-});
-
-
-  </script>
-  
   <script src="js/relatorios.js"></script>
 </body>
-</html>
+</html> 

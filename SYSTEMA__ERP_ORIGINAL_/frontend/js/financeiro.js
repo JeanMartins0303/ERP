@@ -1,270 +1,231 @@
-// --- Variáveis globais ---
-const form = document.querySelector('#form-movimentacao');
-const tabelaBody = document.querySelector('#tabela-movimentacoes tbody');
-const saldoDisplay = document.querySelector('#saldo-total');
-const filtroDataInicio = document.querySelector('#filtro-inicio');
-const filtroDataFim = document.querySelector('#filtro-fim');
-const btnFiltrar = document.querySelector('#btn-filtrar');
-const btnLimparFiltro = document.querySelector('#btn-limpar-filtro');
+// --- Estado global ---
+let transacoes = [];
+let idEdicao = null;
 
-let movimentacoes = [];
-let chart = null;
+const categorias = {
+  receita: ['Vendas', 'Serviços', 'Investimentos', 'Outros'],
+  despesa: ['Aluguel', 'Funcionários', 'Fornecedores', 'Impostos', 'Manutenção', 'Outros']
+};
 
 // --- Inicialização ---
 document.addEventListener('DOMContentLoaded', () => {
-  carregarMovimentacoes();
-  atualizarTabela();
-  atualizarSaldo();
-  inicializarGrafico();
+  configurarTema();
+  carregarTransacoes();
+  configurarEventos();
+  atualizarCategorias();
+  inicializarGraficos();
 });
 
-// --- Função para carregar movimentações do localStorage ---
-function carregarMovimentacoes() {
-  const dados = localStorage.getItem('movimentacoes');
-  movimentacoes = dados ? JSON.parse(dados) : [];
-}
+// --- Tema ---
+function configurarTema() {
+  const temaSalvo = localStorage.getItem('tema') || 'light';
+  document.body.className = temaSalvo;
+  atualizarIconeTema(temaSalvo);
 
-// --- Função para salvar movimentações no localStorage ---
-function salvarMovimentacoes() {
-  localStorage.setItem('movimentacoes', JSON.stringify(movimentacoes));
-}
-
-// --- Função para validar dados do formulário ---
-function validarFormulario(dados) {
-  const { descricao, valor, tipo, data } = dados;
-  if (!descricao.trim()) {
-    alert('Descrição é obrigatória!');
-    return false;
-  }
-  if (isNaN(valor) || valor <= 0) {
-    alert('Valor deve ser um número positivo!');
-    return false;
-  }
-  if (tipo !== 'entrada' && tipo !== 'saida') {
-    alert('Tipo inválido!');
-    return false;
-  }
-  if (!data) {
-    alert('Data é obrigatória!');
-    return false;
-  }
-  return true;
-}
-
-// --- Evento de submissão do formulário ---
-form.addEventListener('submit', e => {
-  e.preventDefault();
-
-  const dados = {
-    id: Date.now(),
-    descricao: form.descricao.value,
-    valor: parseFloat(form.valor.value),
-    tipo: form.tipo.value,
-    data: form.data.value,
+  document.getElementById('btnToggleTema').onclick = () => {
+    const temaAtual = document.body.classList.contains('light') ? 'dark' : 'light';
+    document.body.className = temaAtual;
+    localStorage.setItem('tema', temaAtual);
+    atualizarIconeTema(temaAtual);
   };
+}
 
-  if (!validarFormulario(dados)) return;
+function atualizarIconeTema(tema) {
+  const btn = document.getElementById('btnToggleTema');
+  btn.innerHTML = tema === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+}
 
-  movimentacoes.push(dados);
-  salvarMovimentacoes();
-  atualizarTabela();
-  atualizarSaldo();
-  atualizarGrafico();
-  form.reset();
-});
+// --- Eventos ---
+function configurarEventos() {
+  document.getElementById('searchFinance').addEventListener('input', filtrarTransacoes);
+  document.getElementById('filtroTipo').addEventListener('change', filtrarTransacoes);
+  document.getElementById('filtroCategoria').addEventListener('change', filtrarTransacoes);
+  document.getElementById('tipoTransacao').addEventListener('change', atualizarCategorias);
+  document.getElementById('formNovaTransacao').addEventListener('submit', criarOuEditarTransacao);
+}
 
-// --- Função para atualizar a tabela ---
-function atualizarTabela(filtradas = null) {
-  const lista = filtradas || movimentacoes;
+// --- Dados Simulados ---
+function carregarTransacoes() {
+  transacoes = [
+    { id: 1, data: '2024-06-01', descricao: 'Venda de produtos', categoria: 'Vendas', tipo: 'receita', valor: 1500, status: 'pago', formaPagamento: 'cartao_credito' },
+    { id: 2, data: '2024-06-02', descricao: 'Pagamento aluguel', categoria: 'Aluguel', tipo: 'despesa', valor: 800, status: 'pendente', formaPagamento: 'boleto' }
+  ];
+  atualizarTabelaTransacoes();
+  atualizarResumo();
+}
 
-  tabelaBody.innerHTML = '';
-  if (lista.length === 0) {
-    tabelaBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#666;">Nenhuma movimentação encontrada.</td></tr>`;
-    return;
-  }
-
-  for (const mov of lista) {
+// --- Tabela e Filtros ---
+function atualizarTabelaTransacoes(filtradas = null) {
+  const tbody = document.getElementById('transacoesTableBody');
+  tbody.innerHTML = '';
+  const lista = filtradas || transacoes;
+  lista.forEach(t => {
     const tr = document.createElement('tr');
-
     tr.innerHTML = `
-      <td>${formatarData(mov.data)}</td>
-      <td>${mov.descricao}</td>
-      <td>${mov.tipo === 'entrada' ? 'Entrada' : 'Saída'}</td>
-      <td>${formatarValor(mov.valor, mov.tipo)}</td>
-      <td>
-        <button class="excluir-btn" data-id="${mov.id}" title="Excluir movimentação">&times;</button>
+      <td>${formatarData(t.data)}</td>
+      <td>${t.descricao}</td>
+      <td>${t.categoria}</td>
+      <td>${t.tipo === 'receita' ? 'Receita' : 'Despesa'}</td>
+      <td class="${t.tipo === 'receita' ? 'valor-positivo' : 'valor-negativo'}">${formatarValor(t.valor)}</td>
+      <td><span class="status ${t.status}">${formatarStatus(t.status)}</span></td>
+      <td class="acoes">
+        <button class="btn-icon" onclick="editarTransacao(${t.id})" title="Editar"><i class="fas fa-edit"></i></button>
+        <button class="btn-icon" onclick="excluirTransacao(${t.id})" title="Excluir"><i class="fas fa-trash"></i></button>
       </td>
     `;
-
-    tabelaBody.appendChild(tr);
-  }
-
-  // Vincula evento para excluir
-  document.querySelectorAll('.excluir-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = Number(btn.getAttribute('data-id'));
-      excluirMovimentacao(id);
-    });
+    tbody.appendChild(tr);
   });
 }
 
-// --- Função para excluir movimentação ---
-function excluirMovimentacao(id) {
-  if (!confirm('Deseja realmente excluir esta movimentação?')) return;
-
-  movimentacoes = movimentacoes.filter(mov => mov.id !== id);
-  salvarMovimentacoes();
-  atualizarTabela();
-  atualizarSaldo();
-  atualizarGrafico();
+function filtrarTransacoes() {
+  const tipo = document.getElementById('filtroTipo').value;
+  const categoria = document.getElementById('filtroCategoria').value;
+  const busca = document.getElementById('searchFinance').value.toLowerCase();
+  let filtradas = transacoes;
+  if (tipo !== 'todos') filtradas = filtradas.filter(t => t.tipo === tipo);
+  if (categoria !== 'todas') filtradas = filtradas.filter(t => t.categoria.toLowerCase() === categoria);
+  if (busca) filtradas = filtradas.filter(t => t.descricao.toLowerCase().includes(busca) || t.categoria.toLowerCase().includes(busca));
+  atualizarTabelaTransacoes(filtradas);
 }
 
-// --- Função para atualizar o saldo ---
-function atualizarSaldo(filtradas = null) {
-  const lista = filtradas || movimentacoes;
-
-  const saldo = lista.reduce((acc, mov) => {
-    return mov.tipo === 'entrada' ? acc + mov.valor : acc - mov.valor;
-  }, 0);
-
-  saldoDisplay.textContent = formatarValor(Math.abs(saldo), saldo >= 0 ? 'entrada' : 'saida');
-  saldoDisplay.style.color = saldo >= 0 ? 'green' : 'red';
+// --- Modal ---
+function abrirModalNovaTransacao() {
+  idEdicao = null;
+  document.getElementById('formNovaTransacao').reset();
+  atualizarCategorias();
+  document.getElementById('modalNovaTransacao').classList.add('active');
 }
+window.abrirModalNovaTransacao = abrirModalNovaTransacao;
 
-// --- Formatação de valores para moeda ---
-function formatarValor(valor, tipo) {
-  const valorFormatado = valor.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
+function fecharModalNovaTransacao() {
+  document.getElementById('modalNovaTransacao').classList.remove('active');
+  idEdicao = null;
+}
+window.fecharModalNovaTransacao = fecharModalNovaTransacao;
+
+function atualizarCategorias() {
+  const tipo = document.getElementById('tipoTransacao').value;
+  const select = document.getElementById('categoriaTransacao');
+  select.innerHTML = '';
+  categorias[tipo].forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.toLowerCase();
+    opt.textContent = cat;
+    select.appendChild(opt);
   });
-  return tipo === 'saida' ? `- ${valorFormatado}` : valorFormatado;
 }
 
-// --- Formatação de data dd/mm/yyyy ---
-function formatarData(dataISO) {
-  const data = new Date(dataISO);
-  return data.toLocaleDateString('pt-BR');
-}
-
-// --- Filtrar movimentações por data ---
-btnFiltrar.addEventListener('click', () => {
-  const inicio = filtroDataInicio.value;
-  const fim = filtroDataFim.value;
-
-  if (!inicio && !fim) {
-    alert('Selecione ao menos uma data para filtrar.');
-    return;
-  }
-
-  const filtradas = movimentacoes.filter(mov => {
-    const dataMov = mov.data;
-    if (inicio && fim) {
-      return dataMov >= inicio && dataMov <= fim;
-    }
-    if (inicio) {
-      return dataMov >= inicio;
-    }
-    if (fim) {
-      return dataMov <= fim;
-    }
-  });
-
-  atualizarTabela(filtradas);
-  atualizarSaldo(filtradas);
-  atualizarGrafico(filtradas);
-});
-
-// --- Botão para limpar filtro ---
-btnLimparFiltro.addEventListener('click', () => {
-  filtroDataInicio.value = '';
-  filtroDataFim.value = '';
-  atualizarTabela();
-  atualizarSaldo();
-  atualizarGrafico();
-});
-
-// --- Inicializa gráfico com Chart.js ---
-function inicializarGrafico() {
-  const ctx = document.getElementById('grafico-movimentacoes').getContext('2d');
-
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: [], // Datas
-      datasets: [
-        {
-          label: 'Entradas',
-          backgroundColor: 'rgba(40, 167, 69, 0.7)', // Verde
-          data: [],
-        },
-        {
-          label: 'Saídas',
-          backgroundColor: 'rgba(220, 53, 69, 0.7)', // Vermelho
-          data: [],
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      interaction: {
-        mode: 'index',
-        intersect: false,
-      },
-      stacked: false,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Data',
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'Valor (R$)',
-          },
-          beginAtZero: true,
-        },
-      },
-    },
-  });
-
-  atualizarGrafico();
-}
-
-
-
-
-
-// --- Atualiza dados do gráfico ---
-function atualizarGrafico(filtradas = null) {
-  const lista = filtradas || movimentacoes;
-
-  // Agrupar por data, somando entradas e saídas
-  const mapData = {};
-
-  for (const mov of lista) {
-    if (!mapData[mov.data]) {
-      mapData[mov.data] = { entrada: 0, saida: 0 };
-    }
-    if (mov.tipo === 'entrada') {
-      mapData[mov.data].entrada += mov.valor;
+// --- CRUD Transações ---
+function criarOuEditarTransacao(e) {
+  e.preventDefault();
+  const nova = {
+    id: idEdicao || (transacoes.length ? Math.max(...transacoes.map(t => t.id)) + 1 : 1),
+    data: document.getElementById('dataTransacao').value,
+    descricao: document.getElementById('descricaoTransacao').value,
+    categoria: document.getElementById('categoriaTransacao').selectedOptions[0].textContent,
+    tipo: document.getElementById('tipoTransacao').value,
+    valor: parseFloat(document.getElementById('valorTransacao').value),
+    status: 'pendente',
+    formaPagamento: document.getElementById('formaPagamento').value
+  };
+  if (idEdicao) {
+    const idx = transacoes.findIndex(t => t.id === idEdicao);
+    transacoes[idx] = nova;
     } else {
-      mapData[mov.data].saida += mov.valor;
+    transacoes.push(nova);
     }
+  atualizarTabelaTransacoes();
+  atualizarResumo();
+  fecharModalNovaTransacao();
   }
 
-  // Ordenar as datas
-  const datasOrdenadas = Object.keys(mapData).sort();
+window.editarTransacao = function(id) {
+  const t = transacoes.find(t => t.id === id);
+  if (!t) return;
+  idEdicao = id;
+  document.getElementById('tipoTransacao').value = t.tipo;
+  atualizarCategorias();
+  document.getElementById('categoriaTransacao').value = t.categoria.toLowerCase();
+  document.getElementById('descricaoTransacao').value = t.descricao;
+  document.getElementById('valorTransacao').value = t.valor;
+  document.getElementById('dataTransacao').value = t.data;
+  document.getElementById('formaPagamento').value = t.formaPagamento;
+  document.getElementById('modalNovaTransacao').classList.add('active');
+};
 
-  // Preparar arrays para o gráfico
-  const entradas = datasOrdenadas.map(data => mapData[data].entrada);
-  const saidas = datasOrdenadas.map(data => mapData[data].saida);
+window.excluirTransacao = function(id) {
+  if (confirm('Deseja realmente excluir esta transação?')) {
+    transacoes = transacoes.filter(t => t.id !== id);
+    atualizarTabelaTransacoes();
+    atualizarResumo();
+    }
+};
 
-  // Atualizar o gráfico
-  chart.data.labels = datasOrdenadas.map(d => formatarData(d));
-  chart.data.datasets[0].data = entradas;
-  chart.data.datasets[1].data = saidas;
-
-  chart.update();
+// --- Resumo ---
+function atualizarResumo() {
+  const saldo = transacoes.reduce((acc, t) => acc + (t.tipo === 'receita' ? t.valor : -t.valor), 0);
+  const receitas = transacoes.filter(t => t.tipo === 'receita').reduce((acc, t) => acc + t.valor, 0);
+  const despesas = transacoes.filter(t => t.tipo === 'despesa').reduce((acc, t) => acc + t.valor, 0);
+  const resultado = receitas - despesas;
+  document.getElementById('saldoAtual').textContent = formatarValor(saldo);
+  document.getElementById('receitasMes').textContent = formatarValor(receitas);
+  document.getElementById('despesasMes').textContent = formatarValor(despesas);
+  const resultadoEl = document.getElementById('resultadoMes');
+  resultadoEl.textContent = formatarValor(resultado);
+  resultadoEl.className = resultado >= 0 ? 'valor-positivo' : 'valor-negativo';
 }
+
+// --- Gráficos ---
+let graficoFluxoCaixa = null;
+let graficoDespesas = null;
+function inicializarGraficos() {
+  const ctxFluxo = document.getElementById('graficoFluxoCaixa').getContext('2d');
+  const ctxDesp = document.getElementById('graficoDespesas').getContext('2d');
+  graficoFluxoCaixa = new Chart(ctxFluxo, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+      datasets: [
+        { label: 'Receitas', data: [12000, 19000, 15000, 17000, 22000, 20000], borderColor: '#4CAF50', tension: 0.4 },
+        { label: 'Despesas', data: [10000, 15000, 13000, 14000, 18000, 16000], borderColor: '#F44336', tension: 0.4 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
+  });
+  graficoDespesas = new Chart(ctxDesp, {
+    type: 'doughnut',
+    data: {
+      labels: ['Aluguel', 'Funcionários', 'Fornecedores', 'Impostos', 'Outros'],
+      datasets: [{ data: [30, 25, 20, 15, 10], backgroundColor: ['#FFC107', '#2196F3', '#9C27B0', '#F44336', '#607D8B'] }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+  });
+}
+
+// --- Utilitários ---
+function formatarData(data) {
+  if (!data) return '';
+  return new Date(data).toLocaleDateString('pt-BR');
+}
+function formatarValor(valor) {
+  return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+function formatarStatus(status) {
+  const map = { pago: 'Pago', pendente: 'Pendente', atrasado: 'Atrasado', cancelado: 'Cancelado' };
+  return map[status] || status;
+}
+
+// --- Exportação e Impressão ---
+window.exportarTransacoes = function() {
+  const dados = JSON.stringify(transacoes, null, 2);
+  const blob = new Blob([dados], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'transacoes.json';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+window.imprimirRelatorio = function() {
+  window.print();
+};

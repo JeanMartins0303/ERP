@@ -2,141 +2,162 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ajuda — Sistema ERP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajuda - FlexBiz ERP</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="css/ajuda.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- Botão menu mobile -->
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  
-  <!-- Sidebar fixa lateral -->
-  <aside class="sidebar">
-      <div class="logo-container">
-        <img src="logo.png" alt="Logo do Sistema" class="logo-sistema" />
-      </div>
+  <aside class="sidebar" role="navigation" aria-label="Menu principal">
+    <header>FlexBiz ERP</header>
     <nav>
       <ul>
-        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
-        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
-        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
-        <li><a href="ajuda.html" class="active"><i class="fas fa-question-circle"></i> Ajuda</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        <li><a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
+        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
+        <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
+        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
+        <li><a href="ajuda.html" class="active" aria-current="page"><i class="fas fa-question-circle"></i><span class="link-text">Ajuda</span></a></li>
       </ul>
     </nav>
   </aside>
 
-  <!-- Conteúdo principal -->
   <main class="main-content">
-    <header class="header-page">
-      <h2><!----<i class="fas fa-question-circle">----></i>Ajuda & Suporte</h2>
-      <p class="subtitle">Caso esteja enfrentando dificuldades ou precise de assistência com o (NOME DO SISTEMA), entre em contato com a nossa equipe de desenvolvimento. <br> 💬 <strong>Estamos prontos para ajudar você com qualquer problema técnico, dúvida funcional ou sugestão de melhoria. <br> Preencha o formulário abaixo ou utilize os canais oficiais de atendimento para falar diretamente com nossa equipe de Desenvolvimento de Sistemas.</p>
+    <header>
+      <h1>Central de Ajuda</h1>
+      <div class="header-actions">
+        <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
     </header>
 
-    <form id="formAjuda" class="form-ajuda" novalidate>
-      <label for="nome" class="label">Nome Completo</label>
-      <input
-        type="text"
-        id="nome"
-        name="nome"
-        class="input"
-        placeholder="Seu nome completo"
-        required
-        autocomplete="name"
-      />
+    <div class="ajuda-grid">
+      <section class="ajuda-faq">
+        <h2><i class="fas fa-question-circle"></i> Perguntas Frequentes</h2>
+        <div class="faq-list" id="faqList">
+          <!-- Preenchido via JS -->
+        </div>
+      </section>
 
-      <label for="email" class="label">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="input"
-        placeholder="seu@email.com"
-        required
-        autocomplete="email"
-      />
+      <section class="ajuda-contato">
+        <h2><i class="fas fa-envelope"></i> Fale Conosco</h2>
+        <form id="formAjuda" class="ajuda-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nomeAjuda">Nome</label>
+              <input type="text" id="nomeAjuda" required>
+            </div>
+            <div class="form-group">
+              <label for="emailAjuda">Email</label>
+              <input type="email" id="emailAjuda" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="assuntoAjuda">Assunto</label>
+            <select id="assuntoAjuda" required>
+              <option value="">Selecione o assunto</option>
+              <option value="duvida">Dúvida Técnica</option>
+              <option value="sugestao">Sugestão</option>
+              <option value="problema">Reportar Problema</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensagemAjuda">Mensagem</label>
+            <textarea id="mensagemAjuda" rows="4" required></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Enviar</button>
+          </div>
+        </form>
+        <div id="mensagemEnvioAjuda"></div>
+      </section>
 
-      <label for="email" class="label">Celular (Opicional)</label>
-      <input 
-        type="tel" 
-        id="telefone" 
-        name="telefone" 
-        class="input" 
-        placeholder="(99) 99999-9999" 
-      />
+      <section class="ajuda-manuais">
+        <h2><i class="fas fa-book"></i> Manuais e Tutoriais</h2>
+        <div class="manuais-grid">
+          <a href="#" class="manual-card">
+            <i class="fas fa-file-pdf"></i>
+            <h3>Manual do Usuário</h3>
+            <p>Guia completo do sistema</p>
+          </a>
+          <a href="#" class="manual-card">
+            <i class="fas fa-video"></i>
+            <h3>Vídeos Tutoriais</h3>
+            <p>Aprenda com vídeos explicativos</p>
+          </a>
+          <a href="#" class="manual-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Treinamento</h3>
+            <p>Materiais de capacitação</p>
+          </a>
+        </div>
+      </section>
 
-      <label for="assunto" class="label">Assunto</label>
-      <input
-        type="text"
-        id="assunto"
-        name="assunto"
-        class="input"
-        placeholder="Resumo do problema ou dúvida"
-        required
-        maxlength="100"
-      />
+      <section class="ajuda-suporte">
+        <h2><i class="fas fa-headset"></i> Canais de Suporte</h2>
+        <div class="suporte-grid">
+          <div class="suporte-card">
+            <i class="fas fa-phone"></i>
+            <h3>Telefone</h3>
+            <p>(11) 9999-9999</p>
+            <p>Seg-Sex: 8h às 18h</p>
+          </div>
+          <div class="suporte-card">
+            <i class="fab fa-whatsapp"></i>
+            <h3>WhatsApp</h3>
+            <p>(11) 99999-9999</p>
+            <p>Suporte 24/7</p>
+          </div>
+          <div class="suporte-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Email</h3>
+            <p>suporte@flexbiz.com.br</p>
+            <p>Resposta em até 24h</p>
+          </div>
+        </div>
+      </section>
 
-      <label for="categoria" class="label">Categoria</label>
-      <select id="categoria" name="categoria" class="select" required>
-        <option value="" disabled selected>Selecione uma categoria</option>
-        <option value="bug">Bug / Erro</option>
-        <option value="duvida">Dúvida</option>
-        <option value="sugestao">Sugestão</option>
-        <option value="outro">Outro</option>
-      </select>
-
-      <label for="descricao" class="label">Descrição Detalhada</label>
-      <textarea
-        id="descricao"
-        name="descricao"
-        class="textarea"
-        placeholder="Descreva detalhadamente sua solicitação..."
-        rows="6"
-        required
-        minlength="20"
-        maxlength="1000"
-      ></textarea>
-
-      <label for="arquivo" class="label">Anexar arquivo (opcional)</label>
-      <input type="file" id="arquivo" name="arquivo" class="input-file" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" />
-
-      <div class="botoes-footer">
-        <button type="submit" class="btn-enviar"><i class="fas fa-paper-plane"></i> Enviar</button>
-        <button type="reset" class="btn-reset"><i class="fas fa-undo"></i> Limpar</button>
-      </div>
-
-      <div id="mensagem" class="mensagem"></div>
-    </form>
+      <section class="ajuda-status">
+        <h2><i class="fas fa-chart-line"></i> Status do Sistema</h2>
+        <div class="status-grid">
+          <div class="status-card">
+            <h3>Sistema Principal</h3>
+            <div class="status-indicator online">
+              <span class="status-dot"></span>
+              Online
+            </div>
+          </div>
+          <div class="status-card">
+            <h3>API de Integração</h3>
+            <div class="status-indicator online">
+              <span class="status-dot"></span>
+              Online
+            </div>
+          </div>
+          <div class="status-card">
+            <h3>Banco de Dados</h3>
+            <div class="status-indicator online">
+              <span class="status-dot"></span>
+              Online
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script src="js/ajuda.js"></script>
-  <script>
-    // Menu toggle igual nas outras páginas
-    document.addEventListener('DOMContentLoaded', () => {
-      const menuToggle = document.querySelector('.menu-toggle');
-      const sidebar = document.querySelector('.sidebar');
-      const icon = menuToggle.querySelector('i');
-    
-      menuToggle.addEventListener('click', () => {
-        menuToggle.classList.toggle('active');
-        sidebar.classList.toggle('open');
-    
-        if (menuToggle.classList.contains('active')) {
-          icon.classList.remove('fa-bars');
-          icon.classList.add('fa-xmark', 'close-icon');
-          menuToggle.setAttribute('aria-label', 'Fechar menu');
-        } else {
-          icon.classList.remove('fa-xmark', 'close-icon');
-          icon.classList.add('fa-bars');
-          menuToggle.setAttribute('aria-label', 'Abrir menu');
-        }
-      });
-    });
-  </script>
+  <script src="js/tema.js"></script>
 </body>
 </html>

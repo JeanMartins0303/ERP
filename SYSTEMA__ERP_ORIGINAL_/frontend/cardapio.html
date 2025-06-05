@@ -33,9 +33,11 @@
   <main class="main-content">
     <header>
       <h1>Cardápio</h1>
-      <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
-        <i class="fas fa-moon"></i>
-      </button>
+      <div class="header-actions">
+        <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
     </header>
 
     <section class="filtros card">
@@ -140,6 +142,7 @@
   </main>
 
   <script src="js/cardapio.js"></script>
+  <script src="js/tema.js"></script>
   <script>
     // Toggle tema claro/escuro
     document.getElementById('btnToggleTema').addEventListener('click', () => {

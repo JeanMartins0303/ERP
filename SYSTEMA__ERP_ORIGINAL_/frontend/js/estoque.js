@@ -1,175 +1,311 @@
-// Dados simulados
-let estoque = [
-    { codigo: 'P001', nome: 'Arroz 5kg', categoria: 'Alimentos', qtd: 12, minimo: 5, valor: 22.90 },
-    { codigo: 'P002', nome: 'Feijão 1kg', categoria: 'Alimentos', qtd: 3, minimo: 8, valor: 8.50 },
-    { codigo: 'P003', nome: 'Coca-Cola 2L', categoria: 'Bebidas', qtd: 0, minimo: 4, valor: 9.99 },
-    { codigo: 'P004', nome: 'Detergente', categoria: 'Limpeza', qtd: 7, minimo: 3, valor: 2.99 },
-    { codigo: 'P005', nome: 'Cerveja Lata', categoria: 'Bebidas', qtd: 15, minimo: 10, valor: 3.50 }
-  ];
-  let categorias = ['Alimentos', 'Bebidas', 'Limpeza'];
+// Configuração do tema
+document.addEventListener('DOMContentLoaded', () => {
+  const btnToggleTema = document.getElementById('btnToggleTema');
+  const body = document.body;
   
-  let editando = null;
-  
-  // Utilitários
-  function formatarValor(v) {
-    return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  // Verifica tema salvo
+  const temaSalvo = localStorage.getItem('tema');
+  if (temaSalvo === 'dark') {
+    body.classList.remove('light');
+    body.classList.add('dark');
+    btnToggleTema.innerHTML = '<i class="fas fa-sun"></i>';
   }
-  function gerarCodigo() {
-    let max = 0;
-    estoque.forEach(e => {
-      let num = parseInt(e.codigo.replace(/\D/g, ''));
-      if (num > max) max = num;
-    });
-    return 'P' + String(max + 1).padStart(3, '0');
-  }
-  function statusItem(item) {
-    if (item.qtd === 0) return 'zerado';
-    if (item.qtd <= item.minimo) return 'baixo';
-    return 'ok';
-  }
-  
-  // Cards de resumo
-  function atualizarCards() {
-    document.getElementById('totalItens').textContent = estoque.length;
-    document.getElementById('itensAbaixoMinimo').textContent = estoque.filter(e => statusItem(e) !== 'ok').length;
-    let total = estoque.reduce((acc, e) => acc + (e.qtd * e.valor), 0);
-    document.getElementById('valorTotalEstoque').textContent = formatarValor(total);
-  }
-  
-  // Preencher categorias nos filtros
-  function preencherCategorias() {
-    const select = document.getElementById('filtroCategoria');
-    select.innerHTML = '<option value="">Todas as categorias</option>';
-    categorias.forEach(cat => {
-      select.innerHTML += `<option value="${cat}">${cat}</option>`;
-    });
-  }
-  
-  // Renderizar tabela
-  function renderizarTabela() {
-    const tbody = document.getElementById('estoqueTableBody');
-    tbody.innerHTML = '';
-    let busca = document.getElementById('busca').value.toLowerCase();
-    let cat = document.getElementById('filtroCategoria').value;
-    let status = document.getElementById('filtroStatus').value;
-  
-    estoque.forEach(item => {
-      if (
-        (busca && !item.nome.toLowerCase().includes(busca) && !item.codigo.toLowerCase().includes(busca)) ||
-        (cat && item.categoria !== cat) ||
-        (status && statusItem(item) !== status)
-      ) return;
-  
-      tbody.innerHTML += `
-        <tr>
-          <td>${item.codigo}</td>
-          <td>${item.nome}</td>
-          <td>${item.categoria}</td>
-          <td>${item.qtd}</td>
-          <td>${item.minimo}</td>
-          <td>${formatarValor(item.valor)}</td>
-          <td><span class="status ${statusItem(item)}">${statusItem(item).toUpperCase()}</span></td>
-          <td>
-            <button class="acao-btn" title="Editar" onclick="abrirModal('${item.codigo}')"><i class="fas fa-edit"></i></button>
-            <button class="acao-btn" title="Excluir" onclick="excluirItem('${item.codigo}')"><i class="fas fa-trash"></i></button>
-          </td>
-        </tr>
-      `;
-    });
-  }
-  
-  // Modal
-  function abrirModal(codigo = null) {
-    document.getElementById('modalItemBg').classList.add('ativo');
-    document.getElementById('formItem').reset();
-    if (codigo) {
-      editando = estoque.find(e => e.codigo === codigo);
-      document.getElementById('modalTitulo').textContent = 'Editar Item';
-      document.getElementById('itemCodigo').value = editando.codigo;
-      document.getElementById('itemNome').value = editando.nome;
-      document.getElementById('itemCategoria').value = editando.categoria;
-      document.getElementById('itemQtd').value = editando.qtd;
-      document.getElementById('itemMinimo').value = editando.minimo;
-      document.getElementById('itemValor').value = editando.valor;
-    } else {
-      editando = null;
-      document.getElementById('modalTitulo').textContent = 'Novo Item';
-      document.getElementById('itemCodigo').value = gerarCodigo();
-    }
-    document.getElementById('itemNome').focus();
-  }
-  function fecharModal() {
-    document.getElementById('modalItemBg').classList.remove('ativo');
-  }
-  
-  // Salvar item
-  document.getElementById('formItem').onsubmit = function(e) {
-    e.preventDefault();
-    const codigo = document.getElementById('itemCodigo').value;
-    const nome = document.getElementById('itemNome').value.trim();
-    const categoria = document.getElementById('itemCategoria').value.trim();
-    const qtd = parseInt(document.getElementById('itemQtd').value);
-    const minimo = parseInt(document.getElementById('itemMinimo').value);
-    const valor = parseFloat(document.getElementById('itemValor').value);
-  
-    if (!nome || !categoria || isNaN(qtd) || isNaN(minimo) || isNaN(valor)) {
-      notificar('Preencha todos os campos corretamente!', true);
-      return;
-    }
-    if (editando) {
-      Object.assign(editando, { nome, categoria, qtd, minimo, valor });
-      notificar('Item atualizado com sucesso!');
-    } else {
-      estoque.push({ codigo, nome, categoria, qtd, minimo, valor });
-      if (!categorias.includes(categoria)) {
-        categorias.push(categoria);
-        preencherCategorias();
-      }
-      notificar('Item cadastrado com sucesso!');
-    }
-    fecharModal();
-    atualizarCards();
-    renderizarTabela();
-  };
-  
-  // Excluir item
-  function excluirItem(codigo) {
-    if (confirm('Deseja realmente excluir este item?')) {
-      estoque = estoque.filter(e => e.codigo !== codigo);
-      atualizarCards();
-      renderizarTabela();
-      notificar('Item excluído!');
-    }
-  }
-  
-  // Notificação
-  function notificar(msg, erro = false) {
-    const n = document.getElementById('notificacao');
-    n.textContent = msg;
-    n.style.background = erro ? '#ff5e5e' : 'var(--cor-gradiente)';
-    n.classList.add('ativo');
-    setTimeout(() => n.classList.remove('ativo'), 2500);
-  }
-  
-  // Eventos
-  document.getElementById('novoItemBtn').onclick = () => abrirModal();
-  document.getElementById('cancelarModal').onclick = fecharModal;
-  document.getElementById('modalItemBg').onclick = function(e) {
-    if (e.target === this) fecharModal();
-  };
-  ['busca', 'filtroCategoria', 'filtroStatus'].forEach(id => {
-    document.getElementById(id).oninput = renderizarTabela;
+
+  // Alterna tema
+  btnToggleTema.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    body.classList.toggle('light');
+    
+    const isDark = body.classList.contains('dark');
+    localStorage.setItem('tema', isDark ? 'dark' : 'light');
+    btnToggleTema.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
   });
+
+  // Inicializa gráficos
+  inicializarGraficos();
+  carregarDadosEstoque();
+  inicializarBusca();
+});
+
+// Função para inicializar os gráficos
+function inicializarGraficos() {
+  // Gráfico de Estoque por Categoria
+  const ctxCategoria = document.getElementById('graficoEstoqueCategoria').getContext('2d');
+  new Chart(ctxCategoria, {
+    type: 'doughnut',
+    data: {
+      labels: ['Bebidas', 'Alimentos', 'Limpeza', 'Outros'],
+      datasets: [{
+        data: [30, 40, 20, 10],
+        backgroundColor: [
+          '#4CAF50',
+          '#2196F3',
+          '#FFC107',
+          '#9C27B0'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            font: {
+              size: 12
+            }
+          }
+        }
+      },
+      cutout: '70%'
+    }
+  });
+
+  // Gráfico de Movimentação
+  const ctxMovimentacao = document.getElementById('graficoMovimentacao').getContext('2d');
+  new Chart(ctxMovimentacao, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+      datasets: [{
+        label: 'Entradas',
+        data: [65, 59, 80, 81, 56, 55],
+        borderColor: '#4CAF50',
+        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+        tension: 0.4,
+        fill: true
+      }, {
+        label: 'Saídas',
+        data: [28, 48, 40, 19, 86, 27],
+        borderColor: '#F44336',
+        backgroundColor: 'rgba(244, 67, 54, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            font: {
+              size: 12
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(0, 0, 0, 0.1)'
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          }
+        }
+      }
+    }
+  });
+}
+
+// Função para carregar dados do estoque
+function carregarDadosEstoque() {
+  // Simulação de dados - Substituir por chamada à API
+  const dadosEstoque = [
+    {
+      codigo: '001',
+      produto: 'Coca-Cola 2L',
+      categoria: 'Bebidas',
+      quantidade: 50,
+      minimo: 10,
+      ultimaAtualizacao: '2024-03-15'
+    },
+    {
+      codigo: '002',
+      produto: 'Arroz 5kg',
+      categoria: 'Alimentos',
+      quantidade: 30,
+      minimo: 15,
+      ultimaAtualizacao: '2024-03-14'
+    },
+    {
+      codigo: '003',
+      produto: 'Detergente',
+      categoria: 'Limpeza',
+      quantidade: 5,
+      minimo: 20,
+      ultimaAtualizacao: '2024-03-13'
+    }
+  ];
+
+  atualizarTabelaEstoque(dadosEstoque);
+  atualizarCards(dadosEstoque);
+}
+
+// Função para atualizar a tabela de estoque
+function atualizarTabelaEstoque(dados) {
+  const tbody = document.getElementById('corpoTabelaEstoque');
+  tbody.innerHTML = '';
+
+  dados.forEach(item => {
+    const status = getStatusEstoque(item.quantidade, item.minimo);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${item.codigo}</td>
+      <td>${item.produto}</td>
+      <td>${item.categoria}</td>
+      <td>${item.quantidade}</td>
+      <td>${item.minimo}</td>
+      <td><span class="status ${status.class}">${status.texto}</span></td>
+      <td>${item.ultimaAtualizacao}</td>
+      <td>
+        <button onclick="editarProduto('${item.codigo}')" class="estoque-btn-icon" aria-label="Editar produto">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button onclick="excluirProduto('${item.codigo}')" class="estoque-btn-icon" aria-label="Excluir produto">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Função para determinar o status do estoque
+function getStatusEstoque(quantidade, minimo) {
+  if (quantidade === 0) {
+    return { class: 'critico', texto: 'Sem Estoque' };
+  } else if (quantidade <= minimo) {
+    return { class: 'baixo', texto: 'Estoque Baixo' };
+  } else {
+    return { class: 'normal', texto: 'Normal' };
+  }
+}
+
+// Função para atualizar os cards com informações resumidas
+function atualizarCards(dados) {
+  document.getElementById('totalProdutos').textContent = dados.length;
   
-  // Tema claro/escuro
-  document.getElementById('themeToggle').onclick = function() {
-    const html = document.documentElement;
-    const dark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', dark ? 'light' : 'dark');
-    this.innerHTML = dark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+  const estoqueBaixo = dados.filter(item => item.quantidade <= item.minimo).length;
+  document.getElementById('produtosBaixoEstoque').textContent = estoqueBaixo;
+  
+  const semEstoque = dados.filter(item => item.quantidade === 0).length;
+  document.getElementById('produtosSemEstoque').textContent = semEstoque;
+  
+  // Simulação de valor total em estoque
+  document.getElementById('valorTotalEstoque').textContent = 'R$ 15.000,00';
+}
+
+// Função para inicializar a busca
+function inicializarBusca() {
+  const searchInput = document.getElementById('searchProduto');
+  searchInput.addEventListener('input', (e) => {
+    const termoBusca = e.target.value.toLowerCase();
+    const linhas = document.querySelectorAll('#corpoTabelaEstoque tr');
+    
+    linhas.forEach(linha => {
+      const texto = linha.textContent.toLowerCase();
+      linha.style.display = texto.includes(termoBusca) ? '' : 'none';
+    });
+  });
+}
+
+// Funções do Modal
+function abrirModal() {
+  const modal = document.getElementById('modalProduto');
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharModal() {
+  const modal = document.getElementById('modalProduto');
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  limparFormulario();
+}
+
+function limparFormulario() {
+  document.getElementById('formProduto').reset();
+}
+
+// Função para salvar o produto
+function salvarProduto(event) {
+  event.preventDefault();
+  
+  const formData = new FormData(event.target);
+  const produto = {
+    codigo: formData.get('codigo'),
+    produto: formData.get('nome'),
+    categoria: formData.get('categoria'),
+    quantidade: parseInt(formData.get('quantidade')),
+    minimo: parseInt(formData.get('minimo')),
+    precoCusto: parseFloat(formData.get('precoCusto')),
+    precoVenda: parseFloat(formData.get('precoVenda')),
+    fornecedor: formData.get('fornecedor'),
+    descricao: formData.get('descricao'),
+    ultimaAtualizacao: new Date().toISOString().split('T')[0]
   };
+
+  // Aqui você faria a chamada para a API
+  console.log('Produto a ser salvo:', produto);
   
-  // Inicialização
-  preencherCategorias();
-  atualizarCards();
-  renderizarTabela();
+  // Simulação de sucesso
+  alert('Produto cadastrado com sucesso!');
+  fecharModal();
+  
+  // Atualiza a tabela (simulação)
+  const dadosAtuais = JSON.parse(localStorage.getItem('produtos') || '[]');
+  dadosAtuais.push(produto);
+  localStorage.setItem('produtos', JSON.stringify(dadosAtuais));
+  carregarDadosEstoque();
+}
+
+// Atualiza a função adicionarProduto para abrir o modal
+function adicionarProduto() {
+  abrirModal();
+}
+
+// Fecha o modal ao clicar fora dele
+document.addEventListener('click', (event) => {
+  const modal = document.getElementById('modalProduto');
+  if (event.target === modal) {
+    fecharModal();
+  }
+});
+
+// Fecha o modal ao pressionar ESC
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    fecharModal();
+  }
+});
+
+// Funções de ação
+function editarProduto(codigo) {
+  // Implementar edição do produto
+  alert(`Editar produto ${codigo}`);
+}
+
+function excluirProduto(codigo) {
+  if (confirm('Tem certeza que deseja excluir este produto?')) {
+    // Implementar exclusão do produto
+    alert(`Produto ${codigo} excluído`);
+  }
+}
+
+function exportarRelatorio() {
+  // Implementar exportação do relatório
+  alert('Exportando relatório...');
+}
+
+function imprimirRelatorio() {
+  // Implementar impressão do relatório
+  window.print();
+} 

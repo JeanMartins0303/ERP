@@ -289,6 +289,77 @@ tr:hover {
   box-shadow: var(--shadow);
 }
 
+/* Estilos específicos para a tela de estoque */
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+  margin-right: 1rem;
+}
+
+.search-box input {
+  padding: 0.5rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  width: 250px;
+  transition: all var(--transition-speed);
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.search-box i {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  transition: all var(--transition-speed);
+}
+
+.btn-icon:hover {
+  color: var(--primary-color);
+  background-color: var(--primary-light);
+}
+
+.btn-icon i {
+  font-size: 1rem;
+}
+
+/* Ajustes para a tabela de estoque */
+.tabela-estoque .acoes {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tabela-estoque td:last-child {
+  white-space: nowrap;
+}
+
+.tabela-estoque td:last-child .btn-icon {
+  margin-left: 0.5rem;
+}
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .graficos {
@@ -343,6 +414,29 @@ tr:hover {
 
   .graficos canvas {
     max-height: 250px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .tabela-estoque .acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tabela-estoque .acoes button {
+    width: 100%;
   }
 }
 

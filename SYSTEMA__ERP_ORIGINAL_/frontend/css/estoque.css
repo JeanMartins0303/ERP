@@ -1,240 +1,499 @@
+/* Estilos específicos para a tela de Estoque */
+
+/* Variáveis específicas do estoque */
 :root {
-    --cor-bg: #f7f7fa;
-    --cor-card: #fff;
-    --cor-texto: #222;
-    --cor-primaria: #4f8cff;
-    --cor-secundaria: #00c9a7;
-    --cor-gradiente: linear-gradient(90deg, #4f8cff 0%, #00c9a7 100%);
-    --cor-borda: #e0e0e0;
-    --cor-baixo: #ffb347;
-    --cor-zerado: #ff5e5e;
-    --cor-ok: #00c9a7;
-    --sombra: 0 2px 8px rgba(0,0,0,0.07);
+  --estoque-success: #10B981;
+  --estoque-warning: #F59E0B;
+  --estoque-danger: #EF4444;
+  --estoque-info: #3B82F6;
+  --estoque-card-hover: #F3F4F6;
+  --estoque-border-light: #E5E7EB;
+  --estoque-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Header da página */
+.estoque-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.estoque-header h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.estoque-header .header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Cards de métricas */
+.estoque-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.estoque-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.estoque-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-color);
+}
+
+.estoque-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--estoque-shadow-hover);
+}
+
+.estoque-card h3 {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.estoque-card h3 i {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.estoque-card p {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.estoque-card .trend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.estoque-card .trend.up {
+  color: var(--estoque-success);
+}
+
+.estoque-card .trend.down {
+  color: var(--estoque-danger);
+}
+
+/* Campo de busca */
+.estoque-search {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.estoque-search input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  padding-left: 3rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--card-bg);
+  color: var(--text-color);
+}
+
+.estoque-search input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+  outline: none;
+}
+
+.estoque-search i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+/* Tabela de estoque */
+.estoque-table {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.estoque-table header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.estoque-table h3 {
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.estoque-table .table-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.estoque-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.estoque-table th {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.estoque-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.estoque-table tr:hover {
+  background: var(--estoque-card-hover);
+}
+
+.estoque-table .status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.estoque-table .status.baixo {
+  background: var(--estoque-warning);
+  color: white;
+}
+
+.estoque-table .status.critico {
+  background: var(--estoque-danger);
+  color: white;
+}
+
+.estoque-table .status.normal {
+  background: var(--estoque-success);
+  color: white;
+}
+
+/* Botões de ação */
+.estoque-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.estoque-btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.estoque-btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.estoque-btn-secondary {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+.estoque-btn-secondary:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.estoque-btn-icon {
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.estoque-btn-icon:hover {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* Gráficos */
+.estoque-graficos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.estoque-grafico-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.estoque-grafico-card h3 {
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.estoque-grafico-card h3 i {
+  color: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .estoque-graficos {
+    grid-template-columns: 1fr;
   }
-  
-  [data-theme="dark"] {
-    --cor-bg: #181a1b;
-    --cor-card: #23272b;
-    --cor-texto: #f7f7fa;
-    --cor-borda: #333;
-    --sombra: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 768px) {
+  .estoque-header {
+    padding: 1.5rem;
   }
-  
-  body {
-    background: var(--cor-bg);
-    color: var(--cor-texto);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-  }
-  
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem 2rem 1rem 2rem;
-  }
-  
-  header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-  }
-  
-  #themeToggle {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--cor-primaria);
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  #themeToggle:hover { color: var(--cor-secundaria); }
-  
-  .resumo-cards {
-    display: flex;
-    gap: 1.5rem;
-    padding: 0 2rem 1.5rem 2rem;
-    flex-wrap: wrap;
-  }
-  .card-resumo {
-    background: var(--cor-card);
-    box-shadow: var(--sombra);
-    border-radius: 1rem;
-    padding: 1.2rem 2rem;
-    min-width: 180px;
-    flex: 1;
-    display: flex;
+
+  .estoque-header .header-actions {
     flex-direction: column;
-    align-items: flex-start;
-    border-left: 6px solid var(--cor-primaria);
-    transition: border-color 0.2s;
   }
-  #cardAbaixoMinimo { border-color: var(--cor-baixo); }
-  #cardValorTotal { border-color: var(--cor-secundaria); }
-  .card-titulo { font-size: 1rem; color: #888; }
-  .card-valor { font-size: 2rem; font-weight: 700; margin-top: 0.2rem; }
-  
-  .filtros {
-    display: flex;
+
+  .estoque-table header {
+    flex-direction: column;
     gap: 1rem;
-    align-items: center;
-    padding: 0 2rem 1.5rem 2rem;
-    flex-wrap: wrap;
   }
-  .filtros input, .filtros select {
-    padding: 0.6rem 1rem;
-    border-radius: 0.7rem;
-    border: 1px solid var(--cor-borda);
-    background: var(--cor-card);
-    color: var(--cor-texto);
-    font-size: 1rem;
-    outline: none;
-    transition: border 0.2s;
+
+  .estoque-table .table-actions {
+    width: 100%;
+    justify-content: space-between;
   }
-  .filtros input:focus, .filtros select:focus { border: 1.5px solid var(--cor-primaria); }
-  
-  .btn-gradiente {
-    background: var(--cor-gradiente);
-    color: #fff;
-    border: none;
-    border-radius: 0.7rem;
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(79,140,255,0.08);
-    transition: transform 0.1s, box-shadow 0.1s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .btn-gradiente:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 16px rgba(0,201,167,0.10); }
-  
-  .btn-cinza {
-    background: #e0e0e0;
-    color: #333;
-    border: none;
-    border-radius: 0.7rem;
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-left: 0.7rem;
-    transition: background 0.2s;
-  }
-  [data-theme="dark"] .btn-cinza { background: #333; color: #eee; }
-  
-  .tabela-estoque {
-    padding: 0 2rem 2rem 2rem;
+
+  .estoque-table {
     overflow-x: auto;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--cor-card);
-    box-shadow: var(--sombra);
-    border-radius: 1rem;
-    overflow: hidden;
+
+  .estoque-table table {
+    min-width: 800px;
   }
-  th, td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--cor-borda);
-  }
-  th { background: var(--cor-bg); font-weight: 700; }
-  tr:last-child td { border-bottom: none; }
-  .status {
-    padding: 0.4rem 1rem;
-    border-radius: 1rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: inline-block;
-  }
-  .status.ok { background: #e6fff7; color: var(--cor-ok); }
-  .status.baixo { background: #fff7e6; color: var(--cor-baixo); }
-  .status.zerado { background: #ffe6e6; color: var(--cor-zerado); }
-  .acao-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-    color: var(--cor-primaria);
-    transition: color 0.2s;
-  }
-  .acao-btn:last-child { margin-right: 0; }
-  .acao-btn:hover { color: var(--cor-secundaria); }
-  
-  .modal-bg {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.25);
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-bg.ativo { display: flex; }
-  .modal {
-    background: var(--cor-card);
-    border-radius: 1.2rem;
-    box-shadow: var(--sombra);
-    padding: 2rem 2.5rem;
-    min-width: 320px;
-    max-width: 95vw;
-    width: 100%;
-    max-width: 400px;
-    position: relative;
-    animation: modalShow 0.2s;
-  }
-  @keyframes modalShow {
-    from { transform: translateY(40px) scale(0.95); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-  }
-  .modal h2 { margin-top: 0; }
-  .modal label {
-    display: block;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-  .modal input {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border-radius: 0.7rem;
-    border: 1px solid var(--cor-borda);
-    background: var(--cor-bg);
-    color: var(--cor-texto);
-    font-size: 1rem;
-    margin-top: 0.3rem;
-    outline: none;
-    transition: border 0.2s;
-  }
-  .modal input:focus { border: 1.5px solid var(--cor-primaria); }
-  .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1.5rem;
-  }
-  
-  #notificacao {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background: var(--cor-gradiente);
-    color: #fff;
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-    box-shadow: var(--sombra);
-    font-size: 1.1rem;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    z-index: 2000;
+    transform: translateY(10px);
   }
-  #notificacao.ativo { opacity: 1; pointer-events: auto; }
-  
-  @media (max-width: 900px) {
-    .resumo-cards { flex-direction: column; gap: 1rem; }
-    .filtros { flex-direction: column; gap: 0.7rem; }
-    .modal { padding: 1.2rem 1rem; }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.estoque-card,
+.estoque-grafico-card,
+.estoque-table {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: var(--estoque-danger);
+}
+
+/* Formulário */
+#formProduto {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Responsividade do Modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+/* Animações do Modal */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal.show .modal-content {
+  animation: modalFadeIn 0.3s ease-out;
+} 

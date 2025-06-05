@@ -43,32 +43,69 @@
     </header>
 
     <section class="cards">
-      <article class="card" aria-label="Vendas de hoje">
-        <h3>Vendas Hoje</h3>
+      <article class="card success" aria-label="Vendas de hoje">
+        <h3><i class="fas fa-chart-line"></i> Vendas Hoje</h3>
         <p id="vendasHoje">R$ 0,00</p>
+        <div class="trend positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>12% vs ontem</span>
+        </div>
       </article>
-      <article class="card" aria-label="Mesas ocupadas">
-        <h3>Mesas Ocupadas</h3>
-        <p id="mesasOcupadas">0</p>
+      <article class="card info" aria-label="Ticket médio">
+        <h3><i class="fas fa-receipt"></i> Ticket Médio</h3>
+        <p id="ticketMedio">R$ 0,00</p>
+        <div class="trend positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>5% vs semana anterior</span>
+        </div>
       </article>
-      <article class="card" aria-label="Produtos com estoque baixo">
-        <h3>Estoque Baixo</h3>
+      <article class="card warning" aria-label="Mesas ocupadas">
+        <h3><i class="fas fa-chair"></i> Taxa de Ocupação</h3>
+        <p id="taxaOcupacao">0%</p>
+        <div class="trend negative">
+          <i class="fas fa-arrow-down"></i>
+          <span>3% vs ontem</span>
+        </div>
+      </article>
+      <article class="card danger" aria-label="Produtos com estoque baixo">
+        <h3><i class="fas fa-exclamation-triangle"></i> Estoque Crítico</h3>
         <p id="produtosBaixoEstoque">0</p>
+        <div class="trend">
+          <span>Itens precisando de atenção</span>
+        </div>
       </article>
-      <article class="card" aria-label="Clientes atendidos hoje">
-        <h3>Clientes Hoje</h3>
-        <p id="clientesHoje">0</p>
-      </article>
+    </section>
+
+    <section class="filtros">
+      <div class="filtro-periodo">
+        <label for="periodo">Período:</label>
+        <select id="periodo" class="select-filtro">
+          <option value="hoje">Hoje</option>
+          <option value="semana">Última Semana</option>
+          <option value="mes">Último Mês</option>
+          <option value="personalizado">Personalizado</option>
+        </select>
+      </div>
+      <div class="filtro-data" style="display: none;">
+        <label for="dataInicio">De:</label>
+        <input type="date" id="dataInicio" class="input-filtro">
+        <label for="dataFim">Até:</label>
+        <input type="date" id="dataFim" class="input-filtro">
+      </div>
     </section>
 
     <section class="graficos">
       <article class="card">
         <h3>Vendas por Categoria</h3>
-        <canvas id="graficoVendasCategoria"></canvas>
+        <div class="grafico-container">
+          <canvas id="graficoVendasCategoria"></canvas>
+        </div>
       </article>
       <article class="card">
         <h3>Vendas por Período</h3>
-        <canvas id="graficoVendasPeriodo"></canvas>
+        <div class="grafico-container">
+          <canvas id="graficoVendasPeriodo"></canvas>
+        </div>
       </article>
     </section>
 
@@ -91,12 +128,22 @@
               <th>Produto</th>
               <th>Quantidade</th>
               <th>Valor Total</th>
+              <th>Variação</th>
             </tr>
           </thead>
           <tbody id="corpoTabelaProdutos">
             <!-- Preenchido via JS -->
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section class="alertas card">
+      <header>
+        <h3><i class="fas fa-bell"></i> Alertas e Notificações</h3>
+      </header>
+      <div class="alertas-container" id="alertasContainer">
+        <!-- Preenchido via JS -->
       </div>
     </section>
   </main>

@@ -40,6 +40,64 @@ const configGraficos = {
   }
 };
 
+// Configuração dos gráficos
+const configGraficoVendasCategoria = {
+  type: 'doughnut',
+  data: {
+    labels: ['Bebidas', 'Pratos', 'Sobremesas', 'Outros'],
+    datasets: [{
+      data: [30, 45, 15, 10],
+      backgroundColor: [
+        '#4f46e5',
+        '#10b981',
+        '#f59e0b',
+        '#6b7280'
+      ]
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }
+};
+
+const configGraficoVendasPeriodo = {
+  type: 'line',
+  data: {
+    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+    datasets: [{
+      label: 'Vendas',
+      data: [1200, 1900, 1500, 2100, 2800, 3200, 2500],
+      borderColor: '#4f46e5',
+      tension: 0.4,
+      fill: true,
+      backgroundColor: 'rgba(79, 70, 229, 0.1)'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: value => `R$ ${value.toLocaleString('pt-BR')}`
+        }
+      }
+    }
+  }
+};
+
 // Inicialização dos gráficos
 document.addEventListener('DOMContentLoaded', () => {
   inicializarGraficos();
@@ -52,156 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function inicializarGraficos() {
   // Gráfico de vendas por categoria
   const ctxCategoria = document.getElementById('graficoVendasCategoria').getContext('2d');
-  new Chart(ctxCategoria, {
-    type: 'doughnut',
-    data: {
-      labels: dadosExemplo.vendasPorCategoria.labels,
-      datasets: [{
-        data: dadosExemplo.vendasPorCategoria.valores,
-        backgroundColor: [
-          configGraficos.cores.primaria,
-          configGraficos.cores.secundaria,
-          configGraficos.cores.terciaria,
-          configGraficos.cores.quaternaria
-        ],
-        borderColor: '#ffffff',
-        borderWidth: 2,
-        hoverOffset: 4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 1.5,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            font: {
-              family: configGraficos.fontes.familia,
-              size: configGraficos.fontes.tamanho
-            },
-            padding: 20,
-            usePointStyle: true,
-            pointStyle: 'circle'
-          }
-        },
-        tooltip: {
-          backgroundColor: configGraficos.cores.texto,
-          titleFont: {
-            family: configGraficos.fontes.familia,
-            size: configGraficos.fontes.tamanho + 2
-          },
-          bodyFont: {
-            family: configGraficos.fontes.familia,
-            size: configGraficos.fontes.tamanho
-          },
-          padding: 12,
-          cornerRadius: 8,
-          callbacks: {
-            label: function(context) {
-              const valor = context.raw;
-              return `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            }
-          }
-        }
-      },
-      cutout: '60%',
-      animation: {
-        animateScale: true,
-        animateRotate: true
-      }
-    }
-  });
+  new Chart(ctxCategoria, configGraficoVendasCategoria);
 
   // Gráfico de vendas por período
   const ctxPeriodo = document.getElementById('graficoVendasPeriodo').getContext('2d');
-  new Chart(ctxPeriodo, {
-    type: 'line',
-    data: {
-      labels: dadosExemplo.vendasPorPeriodo.labels,
-      datasets: [{
-        label: 'Vendas (R$)',
-        data: dadosExemplo.vendasPorPeriodo.valores,
-        borderColor: configGraficos.cores.primaria,
-        backgroundColor: configGraficos.cores.primaria + '20',
-        borderWidth: 2,
-        tension: 0.4,
-        fill: true,
-        pointBackgroundColor: '#ffffff',
-        pointBorderColor: configGraficos.cores.primaria,
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 1.5,
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          backgroundColor: configGraficos.cores.texto,
-          titleFont: {
-            family: configGraficos.fontes.familia,
-            size: configGraficos.fontes.tamanho + 2
-          },
-          bodyFont: {
-            family: configGraficos.fontes.familia,
-            size: configGraficos.fontes.tamanho
-          },
-          padding: 12,
-          cornerRadius: 8,
-          callbacks: {
-            label: function(context) {
-              const valor = context.raw;
-              return `R$ ${valor.toLocaleString('pt-BR')}`;
-            }
-          }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          grid: {
-            color: configGraficos.cores.textoMuted + '20',
-            drawBorder: false
-          },
-          ticks: {
-            font: {
-              family: configGraficos.fontes.familia,
-              size: configGraficos.fontes.tamanho
-            },
-            color: configGraficos.cores.textoMuted,
-            callback: (value) => `R$ ${value.toLocaleString('pt-BR')}`
-          }
-        },
-        x: {
-          grid: {
-            display: false
-          },
-          ticks: {
-            font: {
-              family: configGraficos.fontes.familia,
-              size: configGraficos.fontes.tamanho
-            },
-            color: configGraficos.cores.textoMuted
-          }
-        }
-      },
-      interaction: {
-        intersect: false,
-        mode: 'index'
-      },
-      animation: {
-        duration: 1000,
-        easing: 'easeInOutQuart'
-      }
-    }
-  });
+  new Chart(ctxPeriodo, configGraficoVendasPeriodo);
 }
 
 // Atualizar cards com dados

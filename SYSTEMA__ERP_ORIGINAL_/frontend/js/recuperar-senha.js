@@ -1,42 +1,69 @@
-(() => {
-      const body = document.body;
-      const toggleBtn = document.querySelector('.toggle-theme');
-      const icon = toggleBtn.querySelector('i');
+document.addEventListener('DOMContentLoaded', () => {
+  const recuperarForm = document.getElementById('recuperarForm');
+  const mensagemElement = document.getElementById('mensagemRecuperacao');
 
-      // Inicializa tema salvo no localStorage ou padrão claro
-      const temaSalvo = localStorage.getItem('tema') || 'claro';
-      if (temaSalvo === 'escuro') {
-        body.classList.add('dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-      }
+  // Função para mostrar mensagens
+  function mostrarMensagem(texto, tipo) {
+    mensagemElement.textContent = texto;
+    mensagemElement.className = `mensagem ${tipo} visivel`;
+    
+    setTimeout(() => {
+      mensagemElement.className = 'mensagem';
+    }, 5000);
+  }
 
-      toggleBtn.addEventListener('click', () => {
-        body.classList.toggle('dark');
-        const temaAtual = body.classList.contains('dark') ? 'escuro' : 'claro';
-        localStorage.setItem('tema', temaAtual);
+  // Função para validar email
+  function validarEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
 
-        // Alterna ícone
-        if (temaAtual === 'escuro') {
-          icon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-          icon.classList.replace('fa-sun', 'fa-moon');
-        }
-      });
+  // Manipulador do formulário
+  recuperarForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      // Validação simples do formulário
-      const form = document.getElementById('formRecuperarSenha');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    const email = document.getElementById('email').value.trim();
 
-        const emailInput = form.email;
-        if (!emailInput.value || !emailInput.checkValidity()) {
-          alert('Por favor, insira um e-mail válido.');
-          emailInput.focus();
-          return;
-        }
+    // Validação do email
+    if (!validarEmail(email)) {
+      mostrarMensagem('Por favor, insira um email válido.', 'erro');
+      return;
+    }
 
-        // Aqui você pode disparar a lógica para envio do link, ex: fetch para API
-        alert('Se o e-mail existir em nosso sistema, um link de recuperação foi enviado.');
-        form.reset();
-      });
-    })();
+    try {
+      // Aqui você deve implementar a chamada para sua API
+      // const response = await fetch('/api/recuperar-senha', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ email }),
+      // });
+
+      // Simulação de resposta da API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Limpar o formulário
+      recuperarForm.reset();
+
+      // Mostrar mensagem de sucesso
+      mostrarMensagem('Link de recuperação enviado com sucesso! Verifique seu email.', 'sucesso');
+
+    } catch (erro) {
+      console.error('Erro ao processar a recuperação de senha:', erro);
+      mostrarMensagem('Ocorreu um erro ao processar sua solicitação. Tente novamente.', 'erro');
+    }
+  });
+
+  // Adicionar efeito de foco nos inputs
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      input.parentElement.classList.add('focado');
+    });
+
+    input.addEventListener('blur', () => {
+      input.parentElement.classList.remove('focado');
+    });
+  });
+}); 

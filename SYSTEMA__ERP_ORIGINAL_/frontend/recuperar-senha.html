@@ -2,49 +2,81 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recuperar Senha - ERP</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar Senha - FlexBiz ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/recuperar-senha.css" />
-  <style>
-
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <main class="container" role="main" aria-label="Formulário de recuperação de senha">
-    <button class="toggle-theme" aria-label="Alternar tema claro e escuro" title="Alternar tema">
-      <i class="fas fa-moon"></i>
-    </button>
-
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema" />
-    </div>
-
-    <h2>Recuperar Senha</h2>
-
-    <form id="formRecuperarSenha" autocomplete="on" novalidate>
-      <div class="input-group">
-        <label for="email"><i class="fas fa-envelope" aria-hidden="true"></i> E-mail</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Digite seu e-mail"
-          required
-          autocomplete="email"
-          aria-label="E-mail para recuperação"
-        />
+  <div class="recuperar-container">
+    <div class="recuperar-card">
+      <div class="recuperar-header">
+        <div class="logo-container">
+          <img src="assets/logo.png" alt="FlexBiz ERP" class="logo" />
+          <h1>FlexBiz ERP</h1>
+        </div>
+        <p class="subtitle">Recuperar Senha</p>
       </div>
 
-      <button type="submit" class="btn-submit">Enviar link de recuperação</button>
-    </form>
+      <form id="recuperarForm" class="recuperar-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="seu@email.com" 
+              required 
+              autocomplete="email"
+            />
+          </div>
+        </div>
 
-    <div class="link-back" role="navigation" aria-label="Link para voltar ao login">
-      <a href="login.html" id="voltarLogin"><i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar para Login</a>
+        <div class="form-info">
+          <p>Enviaremos um link de recuperação para seu email cadastrado.</p>
+        </div>
+
+        <button type="submit" class="btn-recuperar">
+          <i class="fas fa-paper-plane"></i>
+          Enviar Link de Recuperação
+        </button>
+      </form>
+
+      <div class="recuperar-footer">
+        <p>Lembrou sua senha? <a href="login.html">Voltar ao login</a></p>
+      </div>
     </div>
-  </main>
+
+    <div class="recuperar-features">
+      <div class="feature-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Segurança Garantida</h3>
+        <p>Processo de recuperação seguro e confiável</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-bolt"></i>
+        <h3>Recuperação Rápida</h3>
+        <p>Receba o link de recuperação em instantes</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h3>Suporte Disponível</h3>
+        <p>Precisa de ajuda? Nossa equipe está pronta</p>
+      </div>
+    </div>
+
+    <button id="btnToggleTema" class="theme-toggle" aria-label="Alternar tema">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+
+  <div id="mensagemRecuperacao" class="mensagem"></div>
 
   <script src="js/recuperar-senha.js"></script>
-  <script src="js/theme.js"></script>
+  <script src="js/tema.js"></script>
 </body>
-</html>
+</html> 

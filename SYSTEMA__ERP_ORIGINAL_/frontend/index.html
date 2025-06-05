@@ -1,62 +1,102 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Painel ERP - Design Moderno</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - FlexBiz ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="light">
+  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
   <aside class="sidebar" role="navigation" aria-label="Menu principal">
-    <header>ERP</header>
+    <header>FlexBiz ERP</header>
     <nav>
       <ul>
-        <li><a href="dashboard.html" class="active" aria-current="page"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="index.html" class="active" aria-current="page"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
         <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
         <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
-        <li><a href="fornecedores.html"><i class="fas fa-truck"></i><span class="link-text">Fornecedores</span></a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
         <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
         <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
         <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
         <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
       </ul>
     </nav>
   </aside>
 
-  <main class="main-content" role="main">
+  <main class="main-content">
     <header>
-      <h1>Painel - ERP</h1>
+      <h1>Dashboard</h1>
       <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
         <i class="fas fa-moon"></i>
       </button>
     </header>
 
-    <section class="cards" aria-label="Resumo rápido">
-      <article class="card" aria-label="Total de vendas do mês">
-        <h3>Total de vendas</h3>
-        <p id="totalVendas">R$ 0,00</p>
+    <section class="cards">
+      <article class="card" aria-label="Vendas de hoje">
+        <h3>Vendas Hoje</h3>
+        <p id="vendasHoje">R$ 0,00</p>
       </article>
-      <article class="card" aria-label="Total de produtos">
-        <h3>Total de produtos</h3>
-        <p id="totalProdutos">0</p>
+      <article class="card" aria-label="Mesas ocupadas">
+        <h3>Mesas Ocupadas</h3>
+        <p id="mesasOcupadas">0</p>
       </article>
-      <article class="card" aria-label="Estoque disponível">
-        <h3>Estoque disponível</h3>
-        <p id="estoqueDisponivel">0</p>
+      <article class="card" aria-label="Produtos com estoque baixo">
+        <h3>Estoque Baixo</h3>
+        <p id="produtosBaixoEstoque">0</p>
+      </article>
+      <article class="card" aria-label="Clientes atendidos hoje">
+        <h3>Clientes Hoje</h3>
+        <p id="clientesHoje">0</p>
       </article>
     </section>
 
-    <section id="grafico-container" aria-label="Gráfico de vendas">
-      <canvas id="graficoVendas" role="img" aria-label="Gráfico de vendas do mês"></canvas>
+    <section class="graficos">
+      <article class="card">
+        <h3>Vendas por Categoria</h3>
+        <canvas id="graficoVendasCategoria"></canvas>
+      </article>
+      <article class="card">
+        <h3>Vendas por Período</h3>
+        <canvas id="graficoVendasPeriodo"></canvas>
+      </article>
+    </section>
+
+    <section class="tabela-produtos card">
+      <header>
+        <h3>Produtos Mais Vendidos</h3>
+        <div class="acoes">
+          <button onclick="exportarRelatorio()" class="btn" aria-label="Exportar relatório">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+          <button onclick="imprimirRelatorio()" class="btn" aria-label="Imprimir relatório">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+        </div>
+      </header>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Valor Total</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaProdutos">
+            <!-- Preenchido via JS -->
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/scripts.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

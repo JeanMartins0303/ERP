@@ -1,0 +1,240 @@
+:root {
+    --cor-bg: #f7f7fa;
+    --cor-card: #fff;
+    --cor-texto: #222;
+    --cor-primaria: #4f8cff;
+    --cor-secundaria: #00c9a7;
+    --cor-gradiente: linear-gradient(90deg, #4f8cff 0%, #00c9a7 100%);
+    --cor-borda: #e0e0e0;
+    --cor-baixo: #ffb347;
+    --cor-zerado: #ff5e5e;
+    --cor-ok: #00c9a7;
+    --sombra: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  
+  [data-theme="dark"] {
+    --cor-bg: #181a1b;
+    --cor-card: #23272b;
+    --cor-texto: #f7f7fa;
+    --cor-borda: #333;
+    --sombra: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  
+  body {
+    background: var(--cor-bg);
+    color: var(--cor-texto);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+  }
+  
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 2rem 1rem 2rem;
+  }
+  
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  
+  #themeToggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--cor-primaria);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  #themeToggle:hover { color: var(--cor-secundaria); }
+  
+  .resumo-cards {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0 2rem 1.5rem 2rem;
+    flex-wrap: wrap;
+  }
+  .card-resumo {
+    background: var(--cor-card);
+    box-shadow: var(--sombra);
+    border-radius: 1rem;
+    padding: 1.2rem 2rem;
+    min-width: 180px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-left: 6px solid var(--cor-primaria);
+    transition: border-color 0.2s;
+  }
+  #cardAbaixoMinimo { border-color: var(--cor-baixo); }
+  #cardValorTotal { border-color: var(--cor-secundaria); }
+  .card-titulo { font-size: 1rem; color: #888; }
+  .card-valor { font-size: 2rem; font-weight: 700; margin-top: 0.2rem; }
+  
+  .filtros {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0 2rem 1.5rem 2rem;
+    flex-wrap: wrap;
+  }
+  .filtros input, .filtros select {
+    padding: 0.6rem 1rem;
+    border-radius: 0.7rem;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-card);
+    color: var(--cor-texto);
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .filtros input:focus, .filtros select:focus { border: 1.5px solid var(--cor-primaria); }
+  
+  .btn-gradiente {
+    background: var(--cor-gradiente);
+    color: #fff;
+    border: none;
+    border-radius: 0.7rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-gradiente:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 4px 16px rgba(0,201,167,0.10); }
+  
+  .btn-cinza {
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 0.7rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 0.7rem;
+    transition: background 0.2s;
+  }
+  [data-theme="dark"] .btn-cinza { background: #333; color: #eee; }
+  
+  .tabela-estoque {
+    padding: 0 2rem 2rem 2rem;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--cor-card);
+    box-shadow: var(--sombra);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+  th { background: var(--cor-bg); font-weight: 700; }
+  tr:last-child td { border-bottom: none; }
+  .status {
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-block;
+  }
+  .status.ok { background: #e6fff7; color: var(--cor-ok); }
+  .status.baixo { background: #fff7e6; color: var(--cor-baixo); }
+  .status.zerado { background: #ffe6e6; color: var(--cor-zerado); }
+  .acao-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: var(--cor-primaria);
+    transition: color 0.2s;
+  }
+  .acao-btn:last-child { margin-right: 0; }
+  .acao-btn:hover { color: var(--cor-secundaria); }
+  
+  .modal-bg {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.25);
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-bg.ativo { display: flex; }
+  .modal {
+    background: var(--cor-card);
+    border-radius: 1.2rem;
+    box-shadow: var(--sombra);
+    padding: 2rem 2.5rem;
+    min-width: 320px;
+    max-width: 95vw;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    animation: modalShow 0.2s;
+  }
+  @keyframes modalShow {
+    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .modal h2 { margin-top: 0; }
+  .modal label {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  .modal input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 0.7rem;
+    border: 1px solid var(--cor-borda);
+    background: var(--cor-bg);
+    color: var(--cor-texto);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .modal input:focus { border: 1.5px solid var(--cor-primaria); }
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+  
+  #notificacao {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--cor-gradiente);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--sombra);
+    font-size: 1.1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 2000;
+  }
+  #notificacao.ativo { opacity: 1; pointer-events: auto; }
+  
+  @media (max-width: 900px) {
+    .resumo-cards { flex-direction: column; gap: 1rem; }
+    .filtros { flex-direction: column; gap: 0.7rem; }
+    .modal { padding: 1.2rem 1rem; }
+  }

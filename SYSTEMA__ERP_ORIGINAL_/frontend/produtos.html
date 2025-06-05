@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Produtos - ERP</title>
+  <title>Produtos - FlexBiz ERP</title>
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/produtos.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body class="light">
   <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
   <aside class="sidebar" role="navigation" aria-label="Menu principal">
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo do Sistema" class="logo-sistema" />
-    </div>
+    <header>FlexBiz ERP</header>
     <nav>
       <ul>
-        <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="produtos.html" class="active"><i class="fas fa-box"></i> Produtos</a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user"></i> Usuários</a></li>
-        <li><a href="relatorios.html"><i class="fas fa-chart-line"></i> Relatórios</a></li>
-        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
-        <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        <li><a href="dashboard.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
+        <li><a href="produtos.html" class="active"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
+        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
+        <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
+        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
       </ul>
     </nav>
   </aside>
@@ -30,26 +33,82 @@
   <main class="main-content">
     <header>
       <h1>Gestão de Produtos</h1>
+      <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+        <i class="fas fa-moon"></i>
+      </button>
     </header>
 
-    <section class="acoes">
-      <button id="btnAdicionar" aria-label="Adicionar Produto">
-        <i class="fas fa-plus"></i> Cadastrar Produto
+    <section class="cards">
+      <article class="card" aria-label="Total de produtos">
+        <h3>Total de Produtos</h3>
+        <p id="totalProdutos">0</p>
+      </article>
+      <article class="card" aria-label="Produtos em estoque">
+        <h3>Em Estoque</h3>
+        <p id="produtosEstoque">0</p>
+      </article>
+      <article class="card" aria-label="Produtos com estoque baixo">
+        <h3>Estoque Baixo</h3>
+        <p id="estoqueBaixo">0</p>
+      </article>
+      <article class="card" aria-label="Valor total em estoque">
+        <h3>Valor em Estoque</h3>
+        <p id="valorEstoque">R$ 0,00</p>
+      </article>
+    </section>
+
+    <section class="filtros card">
+      <div class="filtro-grupo">
+        <label for="tipoProduto">Tipo:</label>
+        <select id="tipoProduto">
+          <option value="todos">Todos</option>
+          <option value="mercadoria">Mercadoria</option>
+          <option value="ingrediente">Ingrediente</option>
+          <option value="prato">Prato</option>
+        </select>
+      </div>
+      <div class="filtro-grupo">
+        <label for="categoriaProduto">Categoria:</label>
+        <select id="categoriaProduto">
+          <option value="todas">Todas</option>
+          <!-- Preenchido via JS -->
+        </select>
+      </div>
+      <div class="filtro-grupo">
+        <label for="buscaProduto">Buscar:</label>
+        <input type="text" id="buscaProduto" placeholder="Nome ou código...">
+      </div>
+      <button id="btnFiltrar" class="btn">
+        <i class="fas fa-filter"></i> Filtrar
       </button>
     </section>
 
-    <section class="tabela-produtos">
+    <section class="acoes">
+      <button id="btnAdicionar" class="btn" aria-label="Adicionar Produto">
+        <i class="fas fa-plus"></i> Novo Produto
+      </button>
+      <button id="btnImportar" class="btn" aria-label="Importar Produtos">
+        <i class="fas fa-file-import"></i> Importar
+      </button>
+      <button id="btnExportar" class="btn" aria-label="Exportar Produtos">
+        <i class="fas fa-file-export"></i> Exportar
+      </button>
+    </section>
+
+    <section class="tabela-produtos card">
       <h3>Lista de Produtos</h3>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Categoria</th>
               <th>Código</th>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Categoria</th>
               <th>Estoque</th>
               <th>Preço</th>
-              <th>Editar</th>
+              <th>Status</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody id="corpoTabelaProdutos">
@@ -63,31 +122,124 @@
     <div id="modalProduto" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-content">
         <header class="modal-header">
-          <h2 id="modalTitle">Adicionar Produto</h2>
-          <button id="btnFecharModal" aria-label="Fechar modal">&times;</button>
+          <h2 id="modalTitle">Novo Produto</h2>
+          <button id="btnFecharModal" aria-label="Fechar modal">
+            <i class="fas fa-times"></i>
+          </button>
         </header>
         <form id="formProduto">
-          <label for="nomeProduto">Nome:</label>
-          <input type="text" id="nomeProduto" name="nomeProduto" required />
+          <div class="form-grid">
+            <div class="form-grupo">
+              <label for="tipoProdutoForm">Tipo:</label>
+              <select id="tipoProdutoForm" name="tipoProduto" required>
+                <option value="mercadoria">Mercadoria</option>
+                <option value="ingrediente">Ingrediente</option>
+                <option value="prato">Prato</option>
+              </select>
+            </div>
 
-          <label for="categoriaProduto">Categoria:</label>
-          <input type="text" id="categoriaProduto" name="categoriaProduto" required />
+            <div class="form-grupo">
+              <label for="categoriaProdutoForm">Categoria:</label>
+              <select id="categoriaProdutoForm" name="categoriaProduto" required>
+                <!-- Preenchido via JS -->
+              </select>
+            </div>
 
-          <label for="codigoProduto">Código:</label>
-          <input type="text" id="codigoProduto" name="codigoProduto" required />
+            <div class="form-grupo">
+              <label for="codigoProduto">Código:</label>
+              <input type="text" id="codigoProduto" name="codigoProduto" required readonly />
+            </div>
 
-          <label for="estoqueProduto">Estoque:</label>
-          <input type="number" id="estoqueProduto" name="estoqueProduto" min="0" required />
+            <div class="form-grupo">
+              <label for="nomeProduto">Nome:</label>
+              <input type="text" id="nomeProduto" name="nomeProduto" required />
+            </div>
 
-          <label for="precoProduto">Preço (R$):</label>
-          <input type="number" id="precoProduto" name="precoProduto" step="0.01" min="0" required />
+            <div class="form-grupo">
+              <label for="descricaoProduto">Descrição:</label>
+              <textarea id="descricaoProduto" name="descricaoProduto" rows="3"></textarea>
+            </div>
 
-          <button type="submit" class="btnSalvar">Salvar</button>
+            <div class="form-grupo">
+              <label for="estoqueProduto">Estoque:</label>
+              <input type="number" id="estoqueProduto" name="estoqueProduto" min="0" required />
+            </div>
+
+            <div class="form-grupo">
+              <label for="estoqueMinimo">Estoque Mínimo:</label>
+              <input type="number" id="estoqueMinimo" name="estoqueMinimo" min="0" required />
+            </div>
+
+            <div class="form-grupo">
+              <label for="custoProduto">Custo (R$):</label>
+              <input type="number" id="custoProduto" name="custoProduto" step="0.01" min="0" required />
+            </div>
+
+            <div class="form-grupo">
+              <label for="precoProduto">Preço (R$):</label>
+              <input type="number" id="precoProduto" name="precoProduto" step="0.01" min="0" required />
+            </div>
+
+            <div class="form-grupo">
+              <label for="margemProduto">Margem (%):</label>
+              <input type="number" id="margemProduto" name="margemProduto" step="0.01" min="0" readonly />
+            </div>
+          </div>
+
+          <div id="ingredientesContainer" class="ingredientes-container hidden">
+            <h3>Ingredientes do Prato</h3>
+            <div id="listaIngredientes">
+              <!-- Preenchido via JS -->
+            </div>
+            <button type="button" id="btnAdicionarIngrediente" class="btn">
+              <i class="fas fa-plus"></i> Adicionar Ingrediente
+            </button>
+          </div>
+
+          <div class="form-acoes">
+            <button type="submit" class="btnSalvar">
+              <i class="fas fa-save"></i> Salvar
+            </button>
+            <button type="button" class="btnCancelar" id="btnCancelar">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </main>
 
   <script src="js/produtos.js"></script>
+  <script>
+    // Toggle tema claro/escuro
+    document.getElementById('btnToggleTema').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const icon = document.querySelector('#btnToggleTema i');
+      icon.classList.toggle('fa-moon');
+      icon.classList.toggle('fa-sun');
+    });
+
+    // Menu mobile
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.sidebar').classList.toggle('open');
+    });
+
+    // Mostrar/esconder ingredientes baseado no tipo
+    document.getElementById('tipoProdutoForm').addEventListener('change', (e) => {
+      const ingredientesContainer = document.getElementById('ingredientesContainer');
+      ingredientesContainer.classList.toggle('hidden', e.target.value !== 'prato');
+    });
+
+    // Calcular margem automaticamente
+    document.getElementById('custoProduto').addEventListener('input', calcularMargem);
+    document.getElementById('precoProduto').addEventListener('input', calcularMargem);
+
+    function calcularMargem() {
+      const custo = parseFloat(document.getElementById('custoProduto').value) || 0;
+      const preco = parseFloat(document.getElementById('precoProduto').value) || 0;
+      const margem = custo > 0 ? ((preco - custo) / custo) * 100 : 0;
+      document.getElementById('margemProduto').value = margem.toFixed(2);
+    }
+  </script>
 </body>
 </html>

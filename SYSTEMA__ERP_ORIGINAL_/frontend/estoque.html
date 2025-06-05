@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexBiz | Estoque</title>
+  <link rel="stylesheet" href="css/estoque.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Estoque</h1>
+    <button id="themeToggle" title="Alternar tema"><i class="fas fa-moon"></i></button>
+  </header>
+  <section class="resumo-cards">
+    <div class="card-resumo" id="cardTotalItens">
+      <span class="card-titulo">Total de Itens</span>
+      <span class="card-valor" id="totalItens">0</span>
+    </div>
+    <div class="card-resumo" id="cardAbaixoMinimo">
+      <span class="card-titulo">Abaixo do Mínimo</span>
+      <span class="card-valor" id="itensAbaixoMinimo">0</span>
+    </div>
+    <div class="card-resumo" id="cardValorTotal">
+      <span class="card-titulo">Valor em Estoque</span>
+      <span class="card-valor" id="valorTotalEstoque">R$ 0,00</span>
+    </div>
+  </section>
+  <section class="filtros">
+    <input type="text" id="busca" placeholder="Buscar por nome ou código...">
+    <select id="filtroCategoria">
+      <option value="">Todas as categorias</option>
+    </select>
+    <select id="filtroStatus">
+      <option value="">Todos os status</option>
+      <option value="ok">OK</option>
+      <option value="baixo">Baixo</option>
+      <option value="zerado">Zerado</option>
+    </select>
+    <button id="novoItemBtn" class="btn-gradiente"><i class="fas fa-plus"></i> Novo Item</button>
+  </section>
+  <section class="tabela-estoque">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Qtd.</th>
+          <th>Mínimo</th>
+          <th>Valor Unit.</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="estoqueTableBody">
+        <!-- Itens do estoque aqui -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Modal de Cadastro/Edição -->
+  <div class="modal-bg" id="modalItemBg">
+    <div class="modal" id="modalItem">
+      <h2 id="modalTitulo">Novo Item</h2>
+      <form id="formItem">
+        <label>Código
+          <input type="text" id="itemCodigo" required readonly>
+        </label>
+        <label>Nome
+          <input type="text" id="itemNome" required maxlength="60">
+        </label>
+        <label>Categoria
+          <input type="text" id="itemCategoria" required maxlength="30">
+        </label>
+        <label>Quantidade
+          <input type="number" id="itemQtd" required min="0">
+        </label>
+        <label>Estoque Mínimo
+          <input type="number" id="itemMinimo" required min="0">
+        </label>
+        <label>Valor Unitário (R$)
+          <input type="number" id="itemValor" required min="0" step="0.01">
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-gradiente">Salvar</button>
+          <button type="button" id="cancelarModal" class="btn-cinza">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notificação -->
+  <div id="notificacao"></div>
+
+  <script src="js/estoque.js"></script>
+</body>
+</html>

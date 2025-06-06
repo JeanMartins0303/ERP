@@ -493,6 +493,30 @@
   transform: translateY(-2px);
 }
 
+
+.btn-text {
+  background-color: #bd2e2e;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-text:hover {
+  background-color: #e74545;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+
+
+
 /* Responsividade */
 @media (max-width: 1024px) {
   .pdv-container {

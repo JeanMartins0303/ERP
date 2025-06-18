@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo - Componente de Select</title>
+    <link rel="stylesheet" href="../form-select.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .example {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+        }
+        .example h3 {
+            margin-top: 0;
+        }
+        .code {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exemplos do Componente de Select</h1>
+
+    <!-- Exemplo Básico -->
+    <div class="example">
+        <h3>Exemplo Básico</h3>
+        <div class="form-select">
+            <select>
+                <option value="">Selecione uma opção</option>
+                <option value="1">Opção 1</option>
+                <option value="2">Opção 2</option>
+                <option value="3">Opção 3</option>
+            </select>
+        </div>
+        <div class="code">
+            <pre><code>&lt;div class="form-select"&gt;
+    &lt;select&gt;
+        &lt;option value=""&gt;Selecione uma opção&lt;/option&gt;
+        &lt;option value="1"&gt;Opção 1&lt;/option&gt;
+        &lt;option value="2"&gt;Opção 2&lt;/option&gt;
+        &lt;option value="3"&gt;Opção 3&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+    </div>
+
+    <!-- Estados -->
+    <div class="example">
+        <h3>Estados</h3>
+        <div class="form-select is-success">
+            <select>
+                <option selected>Selecionado com sucesso</option>
+            </select>
+            <div class="feedback is-success">Opção válida!</div>
+        </div>
+        <div class="form-select is-error">
+            <select>
+                <option selected>Erro</option>
+            </select>
+            <div class="feedback is-error">Selecione uma opção válida!</div>
+        </div>
+        <div class="form-select is-warning">
+            <select>
+                <option selected>Atenção</option>
+            </select>
+            <div class="feedback is-warning">Atenção ao selecionar!</div>
+        </div>
+        <div class="form-select is-info">
+            <select>
+                <option selected>Informação</option>
+            </select>
+            <div class="feedback is-info">Dica: escolha com atenção.</div>
+        </div>
+        <div class="form-select is-loading">
+            <select disabled>
+                <option>Carregando...</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="example">
+        <h3>Tamanhos</h3>
+        <div class="form-select is-small">
+            <select>
+                <option>Pequeno</option>
+            </select>
+        </div>
+        <div class="form-select">
+            <select>
+                <option>Normal</option>
+            </select>
+        </div>
+        <div class="form-select is-large">
+            <select>
+                <option>Grande</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Select com Label -->
+    <div class="example">
+        <h3>Select com Label</h3>
+        <label class="form-label" for="cidade">Cidade</label>
+        <div class="form-select">
+            <select id="cidade">
+                <option value="">Selecione a cidade</option>
+                <option value="sp">São Paulo</option>
+                <option value="rj">Rio de Janeiro</option>
+                <option value="mg">Minas Gerais</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Select Desabilitado e Somente Leitura -->
+    <div class="example">
+        <h3>Desabilitado e Somente Leitura</h3>
+        <div class="form-select">
+            <select disabled>
+                <option>Desabilitado</option>
+            </select>
+        </div>
+        <div class="form-select">
+            <select readonly>
+                <option>Somente leitura</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Select Múltiplo -->
+    <div class="example">
+        <h3>Select Múltiplo</h3>
+        <div class="form-select">
+            <select multiple>
+                <option>Opção 1</option>
+                <option>Opção 2</option>
+                <option>Opção 3</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Tema Escuro -->
+    <div class="example">
+        <h3>Tema Escuro</h3>
+        <div data-theme="dark">
+            <div class="form-select">
+                <select>
+                    <option>Opção no tema escuro</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsividade -->
+    <div class="example">
+        <h3>Responsividade</h3>
+        <div class="form-select">
+            <select>
+                <option>Responsivo</option>
+            </select>
+        </div>
+    </div>
+</body>
+</html> 

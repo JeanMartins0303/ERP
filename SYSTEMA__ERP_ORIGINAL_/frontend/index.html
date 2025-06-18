@@ -23,209 +23,147 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="light">
-  <div class="container-fluid">
-    <div class="row flex-nowrap">
-      <!-- Sidebar -->
-      <nav id="sidebarMenu" class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white border-end min-vh-100 d-flex flex-column offcanvas-lg offcanvas-start" tabindex="-1">
-        <div class="offcanvas-header d-lg-none">
-          <img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" class="img-fluid">
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
+  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+  <aside class="sidebar" role="navigation" aria-label="Menu principal">
+    <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo"></header>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="pdv.html"><i class="fas fa-cash-register"></i> PDV</a></li>
+        <li><a href="produtos.html"><i class="fas fa-box"></i> Produtos</a></li>
+        <li><a href="cardapio.html"><i class="fas fa-utensils"></i> Cardápio</a></li>
+        <li><a href="estoque.html"><i class="fas fa-archive"></i> Estoque</a></li>
+        <li><a href="mesas.html"><i class="fas fa-chair"></i> Mesas</a></li>
+        <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a></li>
+        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i> Relatórios</a></li>
+        <li><a href="usuarios.html"><i class="fas fa-user-cog"></i> Usuários</a></li>
+        <li><a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a></li>
+        <li><a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a></li>
+        <li><a href="login.html" class="text-danger"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="h3 mb-0">Dashboard</h1>
+      <div class="header-actions">
+        <button id="btnToggleTema" class="btn btn-outline-secondary" aria-label="Alternar tema escuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Cards Section -->
+    <div class="cards">
+      <div class="card success">
+        <h3><i class="fas fa-chart-line"></i> Vendas Hoje</h3>
+        <p id="vendasHoje">R$ 0,00</p>
+        <div class="trend positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>12% vs ontem</span>
         </div>
-        <div class="offcanvas-body p-0 d-flex flex-column">
-          <div class="d-flex align-items-center justify-content-center py-3 d-none d-lg-flex">
-            <img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" class="img-fluid">
-          </div>
-          <nav class="nav flex-column mb-auto">
-            <a href="index.html" class="nav-link active" aria-current="page"><i class="bi bi-graph-up"></i> Dashboard</a>
-            <a href="pdv.html" class="nav-link"><i class="bi bi-cash-register"></i> PDV</a>
-            <a href="produtos.html" class="nav-link"><i class="bi bi-box"></i> Produtos</a>
-            <a href="cardapio.html" class="nav-link"><i class="bi bi-egg-fried"></i> Cardápio</a>
-            <a href="estoque.html" class="nav-link"><i class="bi bi-archive"></i> Estoque</a>
-            <a href="mesas.html" class="nav-link"><i class="bi bi-table"></i> Mesas</a>
-            <a href="clientes.html" class="nav-link"><i class="bi bi-people"></i> Clientes</a>
-            <a href="financeiro.html" class="nav-link"><i class="bi bi-currency-dollar"></i> Financeiro</a>
-            <a href="relatorios.html" class="nav-link"><i class="bi bi-file-earmark-text"></i> Relatórios</a>
-            <a href="usuarios.html" class="nav-link"><i class="bi bi-person-badge"></i> Usuários</a>
-            <a href="configuracoes.html" class="nav-link"><i class="bi bi-gear"></i> Configurações</a>
-            <a href="ajuda.html" class="nav-link"><i class="bi bi-question-circle"></i> Ajuda</a>
-            <a href="login.html" class="nav-link text-danger"><i class="bi bi-box-arrow-right"></i> Sair</a>
-          </nav>
+      </div>
+      <div class="card primary">
+        <h3><i class="fas fa-receipt"></i> Ticket Médio</h3>
+        <p id="ticketMedio">R$ 0,00</p>
+        <div class="trend positive">
+          <i class="fas fa-arrow-up"></i>
+          <span>5% vs semana anterior</span>
         </div>
-      </nav>
-      <!-- Botão de menu para mobile -->
-      <button class="btn btn-outline-primary d-lg-none position-fixed top-0 start-0 m-3 z-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" style="width:48px; height:48px;">
-        <i class="bi bi-list" style="font-size:1.5rem;"></i>
-      </button>
-      <!-- Conteúdo principal -->
-      <main class="col ps-md-4 pt-4">
-        <header class="d-flex justify-content-between align-items-center mb-4">
-          <h1 class="h3 mb-0">Dashboard</h1>
-          <div class="header-actions">
-            <button id="btnToggleTema" class="btn btn-outline-secondary" aria-label="Alternar tema escuro/claro">
-              <i class="fas fa-moon"></i>
-            </button>
-          </div>
-        </header>
-        <!-- Cards Section -->
-        <div class="row g-4 mb-4">
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                  <i class="fas fa-chart-line text-success me-2"></i>
-                  Vendas Hoje
-                </h5>
-                <p class="card-text display-6" id="vendasHoje">R$ 0,00</p>
-                <div class="d-flex align-items-center text-success">
-                  <i class="fas fa-arrow-up me-1"></i>
-                  <small>12% vs ontem</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                  <i class="fas fa-receipt text-primary me-2"></i>
-                  Ticket Médio
-                </h5>
-                <p class="card-text display-6" id="ticketMedio">R$ 0,00</p>
-                <div class="d-flex align-items-center text-success">
-                  <i class="fas fa-arrow-up me-1"></i>
-                  <small>5% vs semana anterior</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                  <i class="fas fa-chair text-warning me-2"></i>
-                  Taxa de Ocupação
-                </h5>
-                <p class="card-text display-6" id="taxaOcupacao">0%</p>
-                <div class="d-flex align-items-center text-danger">
-                  <i class="fas fa-arrow-down me-1"></i>
-                  <small>3% vs ontem</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title d-flex align-items-center">
-                  <i class="fas fa-exclamation-triangle text-danger me-2"></i>
-                  Estoque Crítico
-                </h5>
-                <p class="card-text display-6" id="produtosBaixoEstoque">0</p>
-                <div class="d-flex align-items-center text-muted">
-                  <small>Itens precisando de atenção</small>
-                </div>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div class="card warning">
+        <h3><i class="fas fa-chair"></i> Taxa de Ocupação</h3>
+        <p id="taxaOcupacao">0%</p>
+        <div class="trend negative">
+          <i class="fas fa-arrow-down"></i>
+          <span>3% vs ontem</span>
         </div>
-        <!-- Filtros Section -->
-        <div class="card border-0 shadow-sm mb-4">
-          <div class="card-body">
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label for="periodo" class="form-label">Período:</label>
-                <select id="periodo" class="form-select">
-                  <option value="hoje">Hoje</option>
-                  <option value="semana">Última Semana</option>
-                  <option value="mes">Último Mês</option>
-                  <option value="personalizado">Personalizado</option>
-                </select>
-              </div>
-              <div class="col-md-8 filtro-data" style="display: none;">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="dataInicio" class="form-label">De:</label>
-                    <input type="date" id="dataInicio" class="form-control">
-                  </div>
-                  <div class="col-md-6">
-                    <label for="dataFim" class="form-label">Até:</label>
-                    <input type="date" id="dataFim" class="form-control">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div class="card danger">
+        <h3><i class="fas fa-exclamation-triangle"></i> Estoque Crítico</h3>
+        <p id="produtosBaixoEstoque">0</p>
+        <div class="trend">
+          <span>Itens precisando de atenção</span>
         </div>
-        <!-- Gráficos Section -->
-        <div class="row g-4 mb-4">
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Vendas por Categoria</h5>
-                <div class="grafico-container">
-                  <canvas id="graficoVendasCategoria"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title">Vendas por Período</h5>
-                <div class="grafico-container">
-                  <canvas id="graficoVendasPeriodo"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Tabela Produtos -->
-        <div class="card border-0 shadow-sm mb-4">
-          <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">Produtos Mais Vendidos</h5>
-            <div class="btn-group">
-              <button onclick="exportarRelatorio()" class="btn btn-outline-secondary btn-sm">
-                <i class="fas fa-file-export"></i> Exportar
-              </button>
-              <button onclick="imprimirRelatorio()" class="btn btn-outline-secondary btn-sm">
-                <i class="fas fa-print"></i> Imprimir
-              </button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Produto</th>
-                    <th>Quantidade</th>
-                    <th>Valor Total</th>
-                    <th>Variação</th>
-                  </tr>
-                </thead>
-                <tbody id="corpoTabelaProdutos">
-                  <!-- Preenchido via JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- Alertas Section -->
-        <div class="card border-0 shadow-sm">
-          <div class="card-header bg-transparent">
-            <h5 class="card-title mb-0">
-              <i class="fas fa-bell me-2"></i>Alertas e Notificações
-            </h5>
-          </div>
-          <div class="card-body">
-            <div id="alertasContainer">
-              <!-- Preenchido via JS -->
-            </div>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
-  </div>
+
+    <!-- Filtros Section -->
+    <div class="filtros">
+      <div class="filtro-periodo">
+        <label for="periodo">Período:</label>
+        <select id="periodo" class="select-filtro">
+          <option value="hoje">Hoje</option>
+          <option value="semana">Última Semana</option>
+          <option value="mes">Último Mês</option>
+          <option value="personalizado">Personalizado</option>
+        </select>
+      </div>
+      <div class="filtro-data" style="display: none;">
+        <div class="input-group">
+          <input type="date" id="dataInicio" class="input-filtro" placeholder="De">
+          <input type="date" id="dataFim" class="input-filtro" placeholder="Até">
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos Section -->
+    <div class="graficos">
+      <div class="card">
+        <h3>Vendas por Categoria</h3>
+        <div class="grafico-container">
+          <canvas id="graficoVendasCategoria"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Vendas por Período</h3>
+        <div class="grafico-container">
+          <canvas id="graficoVendasPeriodo"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela Produtos -->
+    <div class="tabela-produtos">
+      <header>
+        <h3>Produtos Mais Vendidos</h3>
+        <div class="acoes">
+          <button onclick="exportarRelatorio()" class="btn">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+          <button onclick="imprimirRelatorio()" class="btn">
+            <i class="fas fa-print"></i> Imprimir
+          </button>
+        </div>
+      </header>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Valor Total</th>
+              <th>Variação</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaProdutos">
+            <!-- Preenchido via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Alertas Section -->
+    <div class="alertas">
+      <h3><i class="fas fa-bell"></i> Alertas e Notificações</h3>
+      <div id="alertasContainer">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </main>
+
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Custom Scripts -->

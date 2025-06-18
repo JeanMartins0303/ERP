@@ -1,0 +1,243 @@
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em 0.6em;
+  font-size: 75%;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-fast);
+}
+
+/* Variantes */
+.badge-primary {
+  color: var(--text-on-primary);
+  background-color: var(--primary-color);
+}
+
+.badge-secondary {
+  color: var(--text-on-secondary);
+  background-color: var(--secondary-color);
+}
+
+.badge-success {
+  color: var(--text-on-success);
+  background-color: var(--success-color);
+}
+
+.badge-danger {
+  color: var(--text-on-error);
+  background-color: var(--error-color);
+}
+
+.badge-warning {
+  color: var(--text-on-warning);
+  background-color: var(--warning-color);
+}
+
+.badge-info {
+  color: var(--text-on-info);
+  background-color: var(--info-color);
+}
+
+/* Badge outline */
+.badge-outline {
+  background-color: transparent;
+  border: 1px solid currentColor;
+}
+
+.badge-outline.badge-primary {
+  color: var(--primary-color);
+}
+
+.badge-outline.badge-secondary {
+  color: var(--secondary-color);
+}
+
+.badge-outline.badge-success {
+  color: var(--success-color);
+}
+
+.badge-outline.badge-danger {
+  color: var(--error-color);
+}
+
+.badge-outline.badge-warning {
+  color: var(--warning-color);
+}
+
+.badge-outline.badge-info {
+  color: var(--info-color);
+}
+
+/* Badge soft */
+.badge-soft {
+  background-color: var(--surface-hover);
+}
+
+.badge-soft.badge-primary {
+  color: var(--primary-color);
+}
+
+.badge-soft.badge-secondary {
+  color: var(--secondary-color);
+}
+
+.badge-soft.badge-success {
+  color: var(--success-color);
+}
+
+.badge-soft.badge-danger {
+  color: var(--error-color);
+}
+
+.badge-soft.badge-warning {
+  color: var(--warning-color);
+}
+
+.badge-soft.badge-info {
+  color: var(--info-color);
+}
+
+/* Tamanhos */
+.badge-sm {
+  padding: 0.2em 0.4em;
+  font-size: 70%;
+}
+
+.badge-lg {
+  padding: 0.35em 0.65em;
+  font-size: 85%;
+}
+
+/* Badge com ícone */
+.badge-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.badge-icon i {
+  font-size: 0.875em;
+}
+
+/* Badge com contador */
+.badge-counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  min-width: 1.5em;
+  height: 1.5em;
+  padding: 0 0.4em;
+  font-size: 75%;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5em;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--text-on-primary);
+  background-color: var(--primary-color);
+  border-radius: 1em;
+  border: 2px solid var(--surface-color);
+}
+
+/* Badge com status */
+.badge-status {
+  position: relative;
+  padding-left: 1.5em;
+}
+
+.badge-status::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.5em;
+  width: 0.5em;
+  height: 0.5em;
+  margin-top: -0.25em;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Badge com animação */
+.badge-pulse {
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 0.5em rgba(var(--primary-color-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
+  }
+}
+
+/* Badge com gradiente */
+.badge-gradient {
+  background-image: linear-gradient(45deg, var(--primary-color), var(--primary-color-dark));
+  color: var(--text-on-primary);
+}
+
+/* Badge com bordo */
+.badge-bordered {
+  border: 1px solid currentColor;
+}
+
+/* Badge com sombra */
+.badge-shadow {
+  box-shadow: var(--shadow-sm);
+}
+
+/* Badge com hover */
+.badge-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Badge com interatividade */
+.badge-interactive {
+  cursor: pointer;
+}
+
+.badge-interactive:hover {
+  opacity: 0.9;
+}
+
+/* Badge com grupo */
+.badge-group {
+  display: inline-flex;
+  margin: 0 -0.25em;
+}
+
+.badge-group .badge {
+  margin: 0 0.25em;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .badge {
+    font-size: 70%;
+  }
+
+  .badge-lg {
+    font-size: 75%;
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .badge-soft {
+  background-color: var(--surface-hover);
+}
+
+[data-theme="dark"] .badge-counter {
+  border-color: var(--surface-color);
+} 

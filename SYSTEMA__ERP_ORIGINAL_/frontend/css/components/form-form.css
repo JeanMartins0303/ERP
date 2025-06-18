@@ -1,0 +1,364 @@
+/* Seletor de Form */
+.form {
+  display: block;
+  width: 100%;
+}
+
+/* Form com layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-md);
+}
+
+.form-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.form-grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Form com estados */
+.form-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.form-readonly {
+  opacity: 0.7;
+}
+
+/* Form com validação */
+.form-valid {
+  border-color: var(--success-color);
+}
+
+.form-invalid {
+  border-color: var(--error-color);
+}
+
+/* Form com feedback */
+.form-feedback {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-feedback-error {
+  color: var(--error-color);
+}
+
+.form-feedback-success {
+  color: var(--success-color);
+}
+
+.form-feedback-warning {
+  color: var(--warning-color);
+}
+
+.form-feedback-info {
+  color: var(--info-color);
+}
+
+/* Form com ícones */
+.form-icon {
+  position: relative;
+  padding-left: calc(var(--spacing-md) * 2 + 1rem);
+}
+
+.form-icon i {
+  position: absolute;
+  top: 0;
+  left: var(--spacing-md);
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+/* Form com descrição */
+.form-description {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Form com grupos */
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Form com seções */
+.form-section {
+  padding: var(--spacing-md);
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Form com anexos */
+.form-attachments {
+  margin-top: var(--spacing-md);
+}
+
+.form-attachment {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm);
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-attachment:last-child {
+  margin-bottom: 0;
+}
+
+.form-attachment-icon {
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+.form-attachment-info {
+  flex: 1;
+}
+
+.form-attachment-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-attachment-size {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.form-attachment-remove {
+  margin-left: var(--spacing-sm);
+  color: var(--error-color);
+  cursor: pointer;
+}
+
+/* Form com progresso */
+.form-progress {
+  margin-top: var(--spacing-md);
+}
+
+.form-progress-bar {
+  height: 4px;
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.form-progress-value {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.form-progress-text {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Form com mensagens */
+.form-message {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-message:last-child {
+  margin-bottom: 0;
+}
+
+.form-message-success {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+.form-message-error {
+  background-color: var(--error-color-light);
+  color: var(--error-color);
+}
+
+.form-message-warning {
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+.form-message-info {
+  background-color: var(--info-color-light);
+  color: var(--info-color);
+}
+
+/* Form com ações */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.form-actions-left {
+  justify-content: flex-start;
+}
+
+.form-actions-center {
+  justify-content: center;
+}
+
+.form-actions-between {
+  justify-content: space-between;
+}
+
+.form-actions-around {
+  justify-content: space-around;
+}
+
+/* Form com loading */
+.form-loading {
+  position: relative;
+}
+
+.form-loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 1000;
+}
+
+.form-loading::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: -1rem 0 0 -1rem;
+  border: 2px solid var(--primary-color);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  z-index: 1001;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .form-section {
+    padding: var(--spacing-sm);
+  }
+
+  .form-attachment {
+    padding: var(--spacing-xs);
+  }
+
+  .form-attachment-name {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-attachment-size {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-message {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .form-actions > * {
+    width: 100%;
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .form-section {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-attachment {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-attachment-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-attachment-size {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-progress-bar {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-message-success {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+[data-theme="dark"] .form-message-error {
+  background-color: var(--error-color-light);
+  color: var(--error-color);
+}
+
+[data-theme="dark"] .form-message-warning {
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+[data-theme="dark"] .form-message-info {
+  background-color: var(--info-color-light);
+  color: var(--info-color);
+}
+
+[data-theme="dark"] .form-actions {
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-loading::after {
+  background-color: rgba(0, 0, 0, 0.7);
+} 

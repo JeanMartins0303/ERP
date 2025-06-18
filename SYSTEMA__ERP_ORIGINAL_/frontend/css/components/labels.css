@@ -1,0 +1,199 @@
+/* Label */
+.form-label {
+  display: inline-block;
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Label com asterisco */
+.form-label-required::after {
+  content: "*";
+  margin-left: var(--spacing-xs);
+  color: var(--error-color);
+}
+
+/* Label com ícone */
+.form-label-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-label-icon i {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Label com tooltip */
+.form-label-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-label-tooltip i {
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: help;
+}
+
+.form-label-tooltip .tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 1000;
+  display: none;
+  min-width: 200px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-primary);
+  text-align: center;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+  transform: translateX(-50%);
+}
+
+.form-label-tooltip:hover .tooltip {
+  display: block;
+}
+
+/* Label com badge */
+.form-label-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-label-badge .badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Label com descrição */
+.form-label-description {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Label com feedback */
+.form-label-feedback {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+}
+
+.form-label-feedback.is-valid {
+  color: var(--success-color);
+}
+
+.form-label-feedback.is-invalid {
+  color: var(--error-color);
+}
+
+/* Label com grupo */
+.form-label-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-label-group .form-label {
+  margin-bottom: 0;
+}
+
+/* Label com layout */
+.form-label-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-label-layout .form-label {
+  margin-bottom: 0;
+}
+
+/* Label com alinhamento */
+.form-label-left {
+  text-align: left;
+}
+
+.form-label-center {
+  text-align: center;
+}
+
+.form-label-right {
+  text-align: right;
+}
+
+/* Label com truncamento */
+.form-label-truncate {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Label com animação */
+.form-label-animate {
+  transition: all var(--transition-fast);
+}
+
+.form-label-animate:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .form-label-group {
+    flex-direction: column;
+  }
+
+  .form-label-group .form-label {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .form-label-layout {
+    gap: var(--spacing-xs);
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .form-label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-label-icon i {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-label-tooltip i {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-label-tooltip .tooltip {
+  background-color: var(--surface-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-label-description {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-label-feedback.is-valid {
+  color: var(--success-color);
+}
+
+[data-theme="dark"] .form-label-feedback.is-invalid {
+  color: var(--error-color);
+} 

@@ -1,0 +1,104 @@
+:root {
+  /* Cores principais */
+  --primary-color: #2196F3;
+  --primary-color-dark: #1976D2;
+  --primary-color-light: #BBDEFB;
+  --accent-color: #FF4081;
+  --accent-color-dark: #F50057;
+
+  /* Cores de texto */
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-tertiary: #9E9E9E;
+  --text-on-primary: #FFFFFF;
+
+  /* Cores de superfície */
+  --surface-color: #FFFFFF;
+  --surface-hover: #F5F5F5;
+  --surface-selected: #E3F2FD;
+  --surface-disabled: #EEEEEE;
+
+  /* Cores de status */
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --error-color: #F44336;
+  --info-color: #2196F3;
+
+  /* Cores de borda */
+  --border-color: #E0E0E0;
+  --border-color-dark: #BDBDBD;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+  /* Espaçamento */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Tamanhos de fonte */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-xxl: 1.5rem;
+
+  /* Pesos de fonte */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Bordas */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+
+  /* Transições */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Z-index */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --header-height: 60px;
+  --footer-height: 60px;
+}
+
+/* Tema Escuro */
+[data-theme="dark"] {
+  --primary-color: #90CAF9;
+  --primary-color-dark: #42A5F5;
+  --primary-color-light: #E3F2FD;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0BEC5;
+  --text-tertiary: #78909C;
+  
+  --surface-color: #121212;
+  --surface-hover: #1E1E1E;
+  --surface-selected: #1A237E;
+  --surface-disabled: #424242;
+  
+  --border-color: #424242;
+  --border-color-dark: #616161;
+  
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+} 

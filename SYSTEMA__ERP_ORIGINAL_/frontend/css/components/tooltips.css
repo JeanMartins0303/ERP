@@ -1,0 +1,195 @@
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  z-index: var(--z-index-tooltip);
+  display: block;
+  margin: 0;
+  font-size: var(--font-size-sm);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-fast), visibility var(--transition-fast);
+}
+
+.tooltip.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--surface-color);
+  transform: rotate(45deg);
+}
+
+.tooltip-inner {
+  max-width: 200px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  color: var(--text-primary);
+  text-align: center;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+/* Posicionamento */
+.tooltip[data-popper-placement^="top"] .tooltip-arrow {
+  bottom: -4px;
+}
+
+.tooltip[data-popper-placement^="bottom"] .tooltip-arrow {
+  top: -4px;
+}
+
+.tooltip[data-popper-placement^="left"] .tooltip-arrow {
+  right: -4px;
+}
+
+.tooltip[data-popper-placement^="right"] .tooltip-arrow {
+  left: -4px;
+}
+
+/* Variantes */
+.tooltip-primary .tooltip-inner {
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
+}
+
+.tooltip-primary .tooltip-arrow {
+  background-color: var(--primary-color);
+}
+
+.tooltip-success .tooltip-inner {
+  background-color: var(--success-color);
+  color: var(--text-on-primary);
+}
+
+.tooltip-success .tooltip-arrow {
+  background-color: var(--success-color);
+}
+
+.tooltip-error .tooltip-inner {
+  background-color: var(--error-color);
+  color: var(--text-on-primary);
+}
+
+.tooltip-error .tooltip-arrow {
+  background-color: var(--error-color);
+}
+
+.tooltip-warning .tooltip-inner {
+  background-color: var(--warning-color);
+  color: var(--text-on-primary);
+}
+
+.tooltip-warning .tooltip-arrow {
+  background-color: var(--warning-color);
+}
+
+.tooltip-info .tooltip-inner {
+  background-color: var(--info-color);
+  color: var(--text-on-primary);
+}
+
+.tooltip-info .tooltip-arrow {
+  background-color: var(--info-color);
+}
+
+/* Tamanhos */
+.tooltip-sm .tooltip-inner {
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs);
+}
+
+.tooltip-lg .tooltip-inner {
+  font-size: var(--font-size-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* Tooltip com HTML */
+.tooltip-html .tooltip-inner {
+  text-align: left;
+}
+
+/* Tooltip com ícone */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+/* Tooltip com animação */
+.tooltip.fade {
+  transition: opacity 0.15s linear;
+}
+
+.tooltip.fade.show {
+  opacity: 1;
+}
+
+/* Tooltip com delay */
+.tooltip-delay {
+  transition-delay: 0.2s;
+}
+
+/* Tooltip com interatividade */
+.tooltip-interactive {
+  pointer-events: auto;
+}
+
+.tooltip-interactive .tooltip-inner {
+  cursor: pointer;
+}
+
+/* Tooltip com customização */
+.tooltip-custom {
+  padding: 0;
+}
+
+.tooltip-custom .tooltip-inner {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* Tooltip com bordo */
+.tooltip-bordered .tooltip-inner {
+  border: 1px solid var(--border-color);
+}
+
+/* Tooltip com gradiente */
+.tooltip-gradient .tooltip-inner {
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-color-dark));
+  color: var(--text-on-primary);
+}
+
+.tooltip-gradient .tooltip-arrow {
+  background: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .tooltip {
+    display: none;
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .tooltip-inner {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .tooltip-arrow {
+  background-color: var(--surface-color);
+}
+
+[data-theme="dark"] .tooltip-bordered .tooltip-inner {
+  border-color: var(--border-color);
+} 

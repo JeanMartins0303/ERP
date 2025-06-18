@@ -1,0 +1,571 @@
+/* Seletor de Número */
+.form-number {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.form-number input[type="number"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-number input[type="number"]::-webkit-inner-spin-button,
+.form-number input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-number input[type="number"]:hover {
+  border-color: var(--primary-color);
+}
+
+.form-number input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+.form-number input[type="number"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-number-label {
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+}
+
+/* Número com estados */
+.form-number-success input[type="number"] {
+  border-color: var(--success-color);
+}
+
+.form-number-success input[type="number"]:hover {
+  border-color: var(--success-color);
+}
+
+.form-number-success input[type="number"]:focus {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 2px var(--success-color-light);
+}
+
+.form-number-error input[type="number"] {
+  border-color: var(--error-color);
+}
+
+.form-number-error input[type="number"]:hover {
+  border-color: var(--error-color);
+}
+
+.form-number-error input[type="number"]:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 2px var(--error-color-light);
+}
+
+.form-number-warning input[type="number"] {
+  border-color: var(--warning-color);
+}
+
+.form-number-warning input[type="number"]:hover {
+  border-color: var(--warning-color);
+}
+
+.form-number-warning input[type="number"]:focus {
+  border-color: var(--warning-color);
+  box-shadow: 0 0 0 2px var(--warning-color-light);
+}
+
+.form-number-info input[type="number"] {
+  border-color: var(--info-color);
+}
+
+.form-number-info input[type="number"]:hover {
+  border-color: var(--info-color);
+}
+
+.form-number-info input[type="number"]:focus {
+  border-color: var(--info-color);
+  box-shadow: 0 0 0 2px var(--info-color-light);
+}
+
+/* Número com tamanhos */
+.form-number-sm input[type="number"] {
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.form-number-sm .form-number-label {
+  font-size: var(--font-size-sm);
+}
+
+.form-number-lg input[type="number"] {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+
+.form-number-lg .form-number-label {
+  font-size: var(--font-size-lg);
+}
+
+/* Número com ícones */
+.form-number-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-muted);
+}
+
+.form-number-icon i {
+  font-size: var(--font-size-md);
+}
+
+/* Número com grupos */
+.form-number-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-number-group-horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Número com animações */
+.form-number-animated input[type="number"] {
+  transition: all 0.3s ease;
+}
+
+.form-number-animated input[type="number"]:hover {
+  transform: scale(1.02);
+}
+
+/* Número com feedback */
+.form-number-feedback {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-number-feedback-error {
+  color: var(--error-color);
+}
+
+.form-number-feedback-success {
+  color: var(--success-color);
+}
+
+.form-number-feedback-warning {
+  color: var(--warning-color);
+}
+
+.form-number-feedback-info {
+  color: var(--info-color);
+}
+
+/* Número com tooltip */
+.form-number-tooltip {
+  position: relative;
+}
+
+.form-number-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-white);
+  background-color: var(--text-primary);
+  border-radius: var(--border-radius-xs);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-fast);
+}
+
+.form-number-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Número com loading */
+.form-number-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.form-number-loading input[type="number"] {
+  border-color: var(--primary-color);
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Número com validação */
+.form-number-validation {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.form-number-validation-icon {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-number-validation-icon.valid {
+  color: var(--success-color);
+}
+
+.form-number-validation-icon.invalid {
+  color: var(--error-color);
+}
+
+.form-number-validation-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-number-validation-message.valid {
+  color: var(--success-color);
+}
+
+.form-number-validation-message.invalid {
+  color: var(--error-color);
+}
+
+/* Número com descrição */
+.form-number-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-number-description-label {
+  font-weight: var(--font-weight-medium);
+}
+
+.form-number-description-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Número com histórico */
+.form-number-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.form-number-history-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-number-history-item:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-number-history-item-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--border-radius-xs);
+  object-fit: cover;
+}
+
+.form-number-history-item-title {
+  font-weight: var(--font-weight-medium);
+}
+
+.form-number-history-item-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Número com seletor */
+.form-number-selector {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-index-dropdown);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: var(--transition-fast);
+}
+
+.form-number-selector.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.form-number-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-number-selector-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.form-number-selector-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-number-selector-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-number-selector-nav-button:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-number-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xs);
+}
+
+.form-number-selector-digit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-number-selector-digit:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-number-selector-digit.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+}
+
+.form-number-selector-digit.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-number-selector-digit.zero {
+  grid-column: 2;
+}
+
+.form-number-selector-digit.decimal {
+  grid-column: 3;
+}
+
+.form-number-selector-digit.negative {
+  grid-column: 1;
+}
+
+.form-number-selector-digit.clear {
+  grid-column: 1;
+}
+
+.form-number-selector-digit.backspace {
+  grid-column: 3;
+}
+
+.form-number-selector-digit.enter {
+  grid-column: 2;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .form-number {
+    gap: var(--spacing-xs);
+  }
+
+  .form-number input[type="number"] {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+  }
+
+  .form-number-label {
+    font-size: var(--font-size-sm);
+  }
+
+  .form-number-sm input[type="number"] {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+
+  .form-number-sm .form-number-label {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-number-lg input[type="number"] {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-md);
+  }
+
+  .form-number-lg .form-number-label {
+    font-size: var(--font-size-md);
+  }
+
+  .form-number-group-horizontal {
+    gap: var(--spacing-sm);
+  }
+
+  .form-number-validation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-number-history-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-number-selector-grid {
+    gap: var(--spacing-xs);
+  }
+
+  .form-number-selector-digit {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .form-number input[type="number"] {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number-label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number input[type="number"]:disabled {
+  opacity: 0.7;
+}
+
+[data-theme="dark"] .form-number-validation-icon {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-number-validation-message {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-number-description-text {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-number-history-item {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number-history-item:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-number-history-item-time {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-number-selector {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-number-selector-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number-selector-nav-button {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number-selector-nav-button:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-number-selector-digit {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-number-selector-digit:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-number-selector-digit.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+} 

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo - Componente de Imagem</title>
+    <link rel="stylesheet" href="../form-image.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .example {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+        }
+
+        .example h3 {
+            margin-top: 0;
+        }
+
+        .code {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exemplos do Componente de Imagem</h1>
+
+    <!-- Exemplo Básico -->
+    <div class="example">
+        <h3>Exemplo Básico</h3>
+        <div class="form-image">
+            <input type="file" id="image" accept="image/*">
+            <label for="image">
+                <span class="icon">🖼️</span>
+                <span class="text">Selecionar Imagem</span>
+            </label>
+            <div class="preview">
+                <img src="exemplo.jpg" alt="Preview">
+                <div class="overlay">
+                    <button class="control-button">✏️</button>
+                    <button class="control-button">🗑️</button>
+                </div>
+            </div>
+        </div>
+        <div class="code">
+            <pre><code>&lt;div class="form-image"&gt;
+    &lt;input type="file" id="image" accept="image/*"&gt;
+    &lt;label for="image"&gt;
+        &lt;span class="icon"&gt;🖼️&lt;/span&gt;
+        &lt;span class="text"&gt;Selecionar Imagem&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;div class="preview"&gt;
+        &lt;img src="exemplo.jpg" alt="Preview"&gt;
+        &lt;div class="overlay"&gt;
+            &lt;button class="control-button"&gt;✏️&lt;/button&gt;
+            &lt;button class="control-button"&gt;🗑️&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+    </div>
+
+    <!-- Estados -->
+    <div class="example">
+        <h3>Estados</h3>
+        
+        <!-- Sucesso -->
+        <div class="form-image is-success">
+            <input type="file" id="image-success" accept="image/*">
+            <label for="image-success">
+                <span class="icon">🖼️</span>
+                <span class="text">Imagem Carregada</span>
+            </label>
+            <div class="feedback is-success">Imagem carregada com sucesso!</div>
+        </div>
+
+        <!-- Erro -->
+        <div class="form-image is-error">
+            <input type="file" id="image-error" accept="image/*">
+            <label for="image-error">
+                <span class="icon">🖼️</span>
+                <span class="text">Erro no Upload</span>
+            </label>
+            <div class="feedback is-error">Formato de imagem não suportado!</div>
+        </div>
+
+        <!-- Loading -->
+        <div class="form-image is-loading">
+            <input type="file" id="image-loading" accept="image/*" disabled>
+            <label for="image-loading">
+                <span class="icon">🖼️</span>
+                <span class="text">Carregando...</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="example">
+        <h3>Tamanhos</h3>
+        
+        <!-- Pequeno -->
+        <div class="form-image is-small">
+            <input type="file" id="image-small" accept="image/*">
+            <label for="image-small">
+                <span class="icon">🖼️</span>
+                <span class="text">Imagem Pequena</span>
+            </label>
+        </div>
+
+        <!-- Normal -->
+        <div class="form-image">
+            <input type="file" id="image-normal" accept="image/*">
+            <label for="image-normal">
+                <span class="icon">🖼️</span>
+                <span class="text">Imagem Normal</span>
+            </label>
+        </div>
+
+        <!-- Grande -->
+        <div class="form-image is-large">
+            <input type="file" id="image-large" accept="image/*">
+            <label for="image-large">
+                <span class="icon">🖼️</span>
+                <span class="text">Imagem Grande</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Histórico -->
+    <div class="example">
+        <h3>Histórico</h3>
+        <div class="form-image">
+            <div class="history">
+                <div class="history-item">
+                    <span class="icon">🖼️</span>
+                    <span class="text">imagem1.jpg</span>
+                    <div class="history-actions">
+                        <button class="control-button">👁️</button>
+                        <button class="control-button">🗑️</button>
+                    </div>
+                </div>
+                <div class="history-item">
+                    <span class="icon">🖼️</span>
+                    <span class="text">imagem2.png</span>
+                    <div class="history-actions">
+                        <button class="control-button">👁️</button>
+                        <button class="control-button">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tema Escuro -->
+    <div class="example">
+        <h3>Tema Escuro</h3>
+        <div data-theme="dark">
+            <div class="form-image">
+                <input type="file" id="image-dark" accept="image/*">
+                <label for="image-dark">
+                    <span class="icon">🖼️</span>
+                    <span class="text">Imagem (Tema Escuro)</span>
+                </label>
+                <div class="preview">
+                    <img src="exemplo.jpg" alt="Preview">
+                    <div class="overlay">
+                        <button class="control-button">✏️</button>
+                        <button class="control-button">🗑️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formatos Suportados -->
+    <div class="example">
+        <h3>Formatos Suportados</h3>
+        <div class="form-image">
+            <div class="supported-formats">
+                <span class="format-tag">JPG</span>
+                <span class="format-tag">PNG</span>
+                <span class="format-tag">GIF</span>
+                <span class="format-tag">WebP</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsividade -->
+    <div class="example">
+        <h3>Responsividade</h3>
+        <div class="form-image">
+            <input type="file" id="image-responsive" accept="image/*">
+            <label for="image-responsive">
+                <span class="icon">🖼️</span>
+                <span class="text">Imagem Responsiva</span>
+            </label>
+            <div class="preview">
+                <img src="exemplo.jpg" alt="Preview">
+                <div class="overlay">
+                    <button class="control-button">✏️</button>
+                    <button class="control-button">🗑️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,308 @@
+/* Seletor de Fieldset */
+.form-fieldset {
+  display: block;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.form-fieldset-legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Fieldset com layout */
+.form-fieldset-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-md);
+}
+
+.form-fieldset-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-fieldset-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-fieldset-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.form-fieldset-grid-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Fieldset com estados */
+.form-fieldset-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.form-fieldset-readonly {
+  opacity: 0.7;
+}
+
+/* Fieldset com validação */
+.form-fieldset-valid {
+  border-color: var(--success-color);
+}
+
+.form-fieldset-invalid {
+  border-color: var(--error-color);
+}
+
+/* Fieldset com feedback */
+.form-fieldset-feedback {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-fieldset-feedback-error {
+  color: var(--error-color);
+}
+
+.form-fieldset-feedback-success {
+  color: var(--success-color);
+}
+
+.form-fieldset-feedback-warning {
+  color: var(--warning-color);
+}
+
+.form-fieldset-feedback-info {
+  color: var(--info-color);
+}
+
+/* Fieldset com ícones */
+.form-fieldset-icon {
+  position: relative;
+  padding-left: calc(var(--spacing-md) * 2 + 1rem);
+}
+
+.form-fieldset-icon i {
+  position: absolute;
+  top: 0;
+  left: var(--spacing-md);
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+/* Fieldset com descrição */
+.form-fieldset-description {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Fieldset com grupos */
+.form-fieldset-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.form-fieldset-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Fieldset com seções */
+.form-fieldset-section {
+  padding: var(--spacing-md);
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.form-fieldset-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Fieldset com anexos */
+.form-fieldset-attachments {
+  margin-top: var(--spacing-md);
+}
+
+.form-fieldset-attachment {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm);
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-fieldset-attachment:last-child {
+  margin-bottom: 0;
+}
+
+.form-fieldset-attachment-icon {
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+.form-fieldset-attachment-info {
+  flex: 1;
+}
+
+.form-fieldset-attachment-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-fieldset-attachment-size {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.form-fieldset-attachment-remove {
+  margin-left: var(--spacing-sm);
+  color: var(--error-color);
+  cursor: pointer;
+}
+
+/* Fieldset com progresso */
+.form-fieldset-progress {
+  margin-top: var(--spacing-md);
+}
+
+.form-fieldset-progress-bar {
+  height: 4px;
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.form-fieldset-progress-value {
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.form-fieldset-progress-text {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Fieldset com mensagens */
+.form-fieldset-message {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.form-fieldset-message:last-child {
+  margin-bottom: 0;
+}
+
+.form-fieldset-message-success {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+.form-fieldset-message-error {
+  background-color: var(--error-color-light);
+  color: var(--error-color);
+}
+
+.form-fieldset-message-warning {
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+.form-fieldset-message-info {
+  background-color: var(--info-color-light);
+  color: var(--info-color);
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .form-fieldset-legend {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .form-fieldset-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .form-fieldset-section {
+    padding: var(--spacing-sm);
+  }
+
+  .form-fieldset-attachment {
+    padding: var(--spacing-xs);
+  }
+
+  .form-fieldset-attachment-name {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-fieldset-attachment-size {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-fieldset-message {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .form-fieldset-legend {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-fieldset-section {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-fieldset-attachment {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-fieldset-attachment-name {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-fieldset-attachment-size {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-fieldset-progress-bar {
+  background-color: var(--background-color-light);
+}
+
+[data-theme="dark"] .form-fieldset-message-success {
+  background-color: var(--success-color-light);
+  color: var(--success-color);
+}
+
+[data-theme="dark"] .form-fieldset-message-error {
+  background-color: var(--error-color-light);
+  color: var(--error-color);
+}
+
+[data-theme="dark"] .form-fieldset-message-warning {
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+[data-theme="dark"] .form-fieldset-message-info {
+  background-color: var(--info-color-light);
+  color: var(--info-color);
+} 

@@ -1,0 +1,622 @@
+/* Seletor de Time */
+.form-time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+.form-time input[type="time"] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time input[type="time"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+.form-time input[type="time"]:hover {
+  border-color: var(--primary-color);
+}
+
+.form-time input[type="time"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+.form-time input[type="time"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-time-label {
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+}
+
+/* Time com estados */
+.form-time-success input[type="time"] {
+  border-color: var(--success-color);
+}
+
+.form-time-success input[type="time"]:hover {
+  border-color: var(--success-color);
+}
+
+.form-time-success input[type="time"]:focus {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 2px var(--success-color-light);
+}
+
+.form-time-error input[type="time"] {
+  border-color: var(--error-color);
+}
+
+.form-time-error input[type="time"]:hover {
+  border-color: var(--error-color);
+}
+
+.form-time-error input[type="time"]:focus {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 2px var(--error-color-light);
+}
+
+.form-time-warning input[type="time"] {
+  border-color: var(--warning-color);
+}
+
+.form-time-warning input[type="time"]:hover {
+  border-color: var(--warning-color);
+}
+
+.form-time-warning input[type="time"]:focus {
+  border-color: var(--warning-color);
+  box-shadow: 0 0 0 2px var(--warning-color-light);
+}
+
+.form-time-info input[type="time"] {
+  border-color: var(--info-color);
+}
+
+.form-time-info input[type="time"]:hover {
+  border-color: var(--info-color);
+}
+
+.form-time-info input[type="time"]:focus {
+  border-color: var(--info-color);
+  box-shadow: 0 0 0 2px var(--info-color-light);
+}
+
+/* Time com tamanhos */
+.form-time-sm input[type="time"] {
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+}
+
+.form-time-sm .form-time-label {
+  font-size: var(--font-size-sm);
+}
+
+.form-time-lg input[type="time"] {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+
+.form-time-lg .form-time-label {
+  font-size: var(--font-size-lg);
+}
+
+/* Time com ícones */
+.form-time-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-muted);
+}
+
+.form-time-icon i {
+  font-size: var(--font-size-md);
+}
+
+/* Time com grupos */
+.form-time-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-time-group-horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Time com animações */
+.form-time-animated input[type="time"] {
+  transition: all 0.3s ease;
+}
+
+.form-time-animated input[type="time"]:hover {
+  transform: scale(1.02);
+}
+
+/* Time com feedback */
+.form-time-feedback {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-time-feedback-error {
+  color: var(--error-color);
+}
+
+.form-time-feedback-success {
+  color: var(--success-color);
+}
+
+.form-time-feedback-warning {
+  color: var(--warning-color);
+}
+
+.form-time-feedback-info {
+  color: var(--info-color);
+}
+
+/* Time com tooltip */
+.form-time-tooltip {
+  position: relative;
+}
+
+.form-time-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-white);
+  background-color: var(--text-primary);
+  border-radius: var(--border-radius-xs);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-fast);
+}
+
+.form-time-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Time com loading */
+.form-time-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.form-time-loading input[type="time"] {
+  border-color: var(--primary-color);
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Time com validação */
+.form-time-validation {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.form-time-validation-icon {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-time-validation-icon.valid {
+  color: var(--success-color);
+}
+
+.form-time-validation-icon.invalid {
+  color: var(--error-color);
+}
+
+.form-time-validation-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.form-time-validation-message.valid {
+  color: var(--success-color);
+}
+
+.form-time-validation-message.invalid {
+  color: var(--error-color);
+}
+
+/* Time com descrição */
+.form-time-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.form-time-description-label {
+  font-weight: var(--font-weight-medium);
+}
+
+.form-time-description-text {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Time com histórico */
+.form-time-history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+}
+
+.form-time-history-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time-history-item:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-time-history-item-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--border-radius-xs);
+  object-fit: cover;
+}
+
+.form-time-history-item-title {
+  font-weight: var(--font-weight-medium);
+}
+
+.form-time-history-item-time {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+/* Time com seletor */
+.form-time-selector {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-index-dropdown);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: var(--transition-fast);
+}
+
+.form-time-selector.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.form-time-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.form-time-selector-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.form-time-selector-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.form-time-selector-nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time-selector-nav-button:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-time-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xs);
+}
+
+.form-time-selector-hour {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time-selector-hour:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-time-selector-hour.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+}
+
+.form-time-selector-hour.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-time-selector-minute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time-selector-minute:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-time-selector-minute.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+}
+
+.form-time-selector-minute.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-time-selector-period {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius-xs);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.form-time-selector-period:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+.form-time-selector-period.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+}
+
+.form-time-selector-period.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+  .form-time {
+    gap: var(--spacing-xs);
+  }
+
+  .form-time input[type="time"] {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+  }
+
+  .form-time-label {
+    font-size: var(--font-size-sm);
+  }
+
+  .form-time-sm input[type="time"] {
+    padding: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+  }
+
+  .form-time-sm .form-time-label {
+    font-size: var(--font-size-xs);
+  }
+
+  .form-time-lg input[type="time"] {
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-md);
+  }
+
+  .form-time-lg .form-time-label {
+    font-size: var(--font-size-md);
+  }
+
+  .form-time-group-horizontal {
+    gap: var(--spacing-sm);
+  }
+
+  .form-time-validation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-time-history-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-time-selector-grid {
+    gap: var(--spacing-xs);
+  }
+
+  .form-time-selector-hour,
+  .form-time-selector-minute,
+  .form-time-selector-period {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* Temas */
+[data-theme="dark"] .form-time input[type="time"] {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time-label {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time input[type="time"]:disabled {
+  opacity: 0.7;
+}
+
+[data-theme="dark"] .form-time-validation-icon {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-time-validation-message {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-time-description-text {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-time-history-item {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time-history-item:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-time-history-item-time {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-time-selector {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-time-selector-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time-selector-nav-button {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time-selector-nav-button:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-time-selector-hour,
+[data-theme="dark"] .form-time-selector-minute,
+[data-theme="dark"] .form-time-selector-period {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-time-selector-hour:hover,
+[data-theme="dark"] .form-time-selector-minute:hover,
+[data-theme="dark"] .form-time-selector-period:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .form-time-selector-hour.selected,
+[data-theme="dark"] .form-time-selector-minute.selected,
+[data-theme="dark"] .form-time-selector-period.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+} 

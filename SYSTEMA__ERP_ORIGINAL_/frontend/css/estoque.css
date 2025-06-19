@@ -2,12 +2,12 @@
 
 /* Variáveis específicas do estoque */
 :root {
-  --estoque-success: #10B981;
-  --estoque-warning: #F59E0B;
-  --estoque-danger: #EF4444;
-  --estoque-info: #3B82F6;
-  --estoque-card-hover: #F3F4F6;
-  --estoque-border-light: #E5E7EB;
+  --estoque-success: #10b981;
+  --estoque-warning: #f59e0b;
+  --estoque-danger: #ef4444;
+  --estoque-info: #3b82f6;
+  --estoque-card-hover: #f3f4f6;
+  --estoque-border-light: #e5e7eb;
   --estoque-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
@@ -496,4 +496,4 @@ textarea {
 
 .modal.show .modal-content {
   animation: modalFadeIn 0.3s ease-out;
-} 
+}

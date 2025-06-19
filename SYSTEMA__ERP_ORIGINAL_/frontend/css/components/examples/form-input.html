@@ -1,133 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exemplo - Componente de Input</title>
-    <link rel="stylesheet" href="../form-input.css">
+    <link rel="stylesheet" href="../form-input.css" />
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .example {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 0.5rem;
-        }
-        .example h3 {
-            margin-top: 0;
-        }
-        .code {
-            background: #f5f5f5;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-        }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .example {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+      }
+      .example h3 {
+        margin-top: 0;
+      }
+      .code {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Exemplos do Componente de Input</h1>
 
     <!-- Exemplo Básico -->
     <div class="example">
-        <h3>Exemplo Básico</h3>
-        <div class="form-input">
-            <input type="text" placeholder="Digite seu nome">
-        </div>
-        <div class="code">
-            <pre><code>&lt;div class="form-input"&gt;
+      <h3>Exemplo Básico</h3>
+      <div class="form-input">
+        <input type="text" placeholder="Digite seu nome" />
+      </div>
+      <div class="code">
+        <pre><code>&lt;div class="form-input"&gt;
     &lt;input type="text" placeholder="Digite seu nome"&gt;
 &lt;/div&gt;</code></pre>
-        </div>
+      </div>
     </div>
 
     <!-- Estados -->
     <div class="example">
-        <h3>Estados</h3>
-        <div class="form-input is-success">
-            <input type="text" value="Válido">
-            <div class="feedback is-success">Campo válido!</div>
-        </div>
-        <div class="form-input is-error">
-            <input type="text" value="Erro">
-            <div class="feedback is-error">Campo obrigatório!</div>
-        </div>
-        <div class="form-input is-warning">
-            <input type="text" value="Atenção">
-            <div class="feedback is-warning">Atenção ao preenchimento!</div>
-        </div>
-        <div class="form-input is-info">
-            <input type="text" value="Info">
-            <div class="feedback is-info">Dica: use letras maiúsculas.</div>
-        </div>
-        <div class="form-input is-loading">
-            <input type="text" value="Carregando..." disabled>
-        </div>
+      <h3>Estados</h3>
+      <div class="form-input is-success">
+        <input type="text" value="Válido" />
+        <div class="feedback is-success">Campo válido!</div>
+      </div>
+      <div class="form-input is-error">
+        <input type="text" value="Erro" />
+        <div class="feedback is-error">Campo obrigatório!</div>
+      </div>
+      <div class="form-input is-warning">
+        <input type="text" value="Atenção" />
+        <div class="feedback is-warning">Atenção ao preenchimento!</div>
+      </div>
+      <div class="form-input is-info">
+        <input type="text" value="Info" />
+        <div class="feedback is-info">Dica: use letras maiúsculas.</div>
+      </div>
+      <div class="form-input is-loading">
+        <input type="text" value="Carregando..." disabled />
+      </div>
     </div>
 
     <!-- Tamanhos -->
     <div class="example">
-        <h3>Tamanhos</h3>
-        <div class="form-input is-small">
-            <input type="text" placeholder="Pequeno">
-        </div>
-        <div class="form-input">
-            <input type="text" placeholder="Normal">
-        </div>
-        <div class="form-input is-large">
-            <input type="text" placeholder="Grande">
-        </div>
+      <h3>Tamanhos</h3>
+      <div class="form-input is-small">
+        <input type="text" placeholder="Pequeno" />
+      </div>
+      <div class="form-input">
+        <input type="text" placeholder="Normal" />
+      </div>
+      <div class="form-input is-large">
+        <input type="text" placeholder="Grande" />
+      </div>
     </div>
 
     <!-- Input com Ícone -->
     <div class="example">
-        <h3>Input com Ícone</h3>
-        <div class="form-input">
-            <span class="icon">🔍</span>
-            <input type="search" placeholder="Buscar...">
-        </div>
+      <h3>Input com Ícone</h3>
+      <div class="form-input">
+        <span class="icon">🔍</span>
+        <input type="search" placeholder="Buscar..." />
+      </div>
     </div>
 
     <!-- Input com Label -->
     <div class="example">
-        <h3>Input com Label</h3>
-        <label class="form-label" for="email">E-mail</label>
-        <div class="form-input">
-            <input type="email" id="email" placeholder="seu@email.com">
-        </div>
+      <h3>Input com Label</h3>
+      <label class="form-label" for="email">E-mail</label>
+      <div class="form-input">
+        <input type="email" id="email" placeholder="seu@email.com" />
+      </div>
     </div>
 
     <!-- Input Desabilitado e Somente Leitura -->
     <div class="example">
-        <h3>Desabilitado e Somente Leitura</h3>
-        <div class="form-input">
-            <input type="text" value="Desabilitado" disabled>
-        </div>
-        <div class="form-input">
-            <input type="text" value="Somente leitura" readonly>
-        </div>
+      <h3>Desabilitado e Somente Leitura</h3>
+      <div class="form-input">
+        <input type="text" value="Desabilitado" disabled />
+      </div>
+      <div class="form-input">
+        <input type="text" value="Somente leitura" readonly />
+      </div>
     </div>
 
     <!-- Tema Escuro -->
     <div class="example">
-        <h3>Tema Escuro</h3>
-        <div data-theme="dark">
-            <div class="form-input">
-                <input type="text" placeholder="Input no tema escuro">
-            </div>
+      <h3>Tema Escuro</h3>
+      <div data-theme="dark">
+        <div class="form-input">
+          <input type="text" placeholder="Input no tema escuro" />
         </div>
+      </div>
     </div>
 
     <!-- Responsividade -->
     <div class="example">
-        <h3>Responsividade</h3>
-        <div class="form-input">
-            <input type="text" placeholder="Input responsivo">
-        </div>
+      <h3>Responsividade</h3>
+      <div class="form-input">
+        <input type="text" placeholder="Input responsivo" />
+      </div>
     </div>
-</body>
-</html> 
+  </body>
+</html>

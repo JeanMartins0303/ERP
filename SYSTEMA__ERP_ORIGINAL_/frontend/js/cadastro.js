@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function mostrarMensagem(texto, tipo) {
     mensagemElement.textContent = texto;
     mensagemElement.className = `mensagem ${tipo} visivel`;
-    
+
     setTimeout(() => {
       mensagemElement.className = 'mensagem';
     }, 5000);
@@ -33,20 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Função para formatar telefone
   function formatarTelefone(input) {
     let value = input.value.replace(/\D/g, '');
-    if (value.length > 11) value = value.slice(0, 11);
-    
+    if (value.length > 11) {
+      value = value.slice(0, 11);
+    }
+
     if (value.length > 2) {
       value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
     }
     if (value.length > 9) {
       value = `${value.slice(0, 9)}-${value.slice(9)}`;
     }
-    
+
     input.value = value;
   }
 
   // Manipulador do formulário
-  cadastroForm.addEventListener('submit', async (e) => {
+  cadastroForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const nome = document.getElementById('nome').value.trim();
@@ -122,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         window.location.href = 'login.html';
       }, 2000);
-
     } catch (erro) {
       console.error('Erro ao realizar cadastro:', erro);
       mostrarMensagem('Erro ao realizar cadastro. Tente novamente.', 'erro');
@@ -164,4 +165,4 @@ document.addEventListener('DOMContentLoaded', () => {
       input.parentElement.classList.remove('focado');
     });
   });
-}); 
+});

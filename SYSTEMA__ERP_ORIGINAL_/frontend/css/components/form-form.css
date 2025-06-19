@@ -245,7 +245,7 @@
 }
 
 .form-loading::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -256,7 +256,7 @@
 }
 
 .form-loading::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -315,50 +315,50 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-section {
+[data-theme='dark'] .form-section {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-attachment {
+[data-theme='dark'] .form-attachment {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-attachment-name {
+[data-theme='dark'] .form-attachment-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-attachment-size {
+[data-theme='dark'] .form-attachment-size {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-progress-bar {
+[data-theme='dark'] .form-progress-bar {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-message-success {
+[data-theme='dark'] .form-message-success {
   background-color: var(--success-color-light);
   color: var(--success-color);
 }
 
-[data-theme="dark"] .form-message-error {
+[data-theme='dark'] .form-message-error {
   background-color: var(--error-color-light);
   color: var(--error-color);
 }
 
-[data-theme="dark"] .form-message-warning {
+[data-theme='dark'] .form-message-warning {
   background-color: var(--warning-color-light);
   color: var(--warning-color);
 }
 
-[data-theme="dark"] .form-message-info {
+[data-theme='dark'] .form-message-info {
   background-color: var(--info-color-light);
   color: var(--info-color);
 }
 
-[data-theme="dark"] .form-actions {
+[data-theme='dark'] .form-actions {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-loading::after {
+[data-theme='dark'] .form-loading::after {
   background-color: rgba(0, 0, 0, 0.7);
-} 
+}

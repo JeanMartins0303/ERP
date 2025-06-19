@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mensagemElement) {
       mensagemElement.textContent = texto;
       mensagemElement.className = `mensagem ${tipo} visivel`;
-      
+
       setTimeout(() => {
         mensagemElement.className = 'mensagem';
       }, 3000);
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Função para confirmar logout
   function confirmarLogout() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const confirmacao = confirm('Tem certeza que deseja sair do sistema?');
       resolve(confirmacao);
     });
@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         window.location.href = 'login.html';
       }, 1000);
-
     } catch (erro) {
       console.error('Erro ao realizar logout:', erro);
       mostrarMensagem('Erro ao realizar logout. Tente novamente.', 'erro');
@@ -56,13 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Adicionar evento de clique em todos os botões de logout
   logoutButtons.forEach(button => {
-    button.addEventListener('click', async (e) => {
+    button.addEventListener('click', async e => {
       e.preventDefault();
-      
+
       const confirmado = await confirmarLogout();
       if (confirmado) {
         await realizarLogout();
       }
     });
   });
-}); 
+});

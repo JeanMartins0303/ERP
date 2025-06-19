@@ -67,23 +67,47 @@ function salvarConfiguracoes(e) {
 
 function carregarConfiguracoesSalvas() {
   const config = JSON.parse(localStorage.getItem('configuracoesERP') || '{}');
-  if (config.nome) document.getElementById('nomeEmpresa').value = config.nome;
-  if (config.email) document.getElementById('emailEmpresa').value = config.email;
-  if (config.telefone) document.getElementById('telefoneEmpresa').value = config.telefone;
-  if (config.endereco) document.getElementById('enderecoEmpresa').value = config.endereco;
+  if (config.nome) {
+    document.getElementById('nomeEmpresa').value = config.nome;
+  }
+  if (config.email) {
+    document.getElementById('emailEmpresa').value = config.email;
+  }
+  if (config.telefone) {
+    document.getElementById('telefoneEmpresa').value = config.telefone;
+  }
+  if (config.endereco) {
+    document.getElementById('enderecoEmpresa').value = config.endereco;
+  }
   if (config.tema) {
     document.getElementById('temaPadrao').value = config.tema;
     document.body.className = config.tema;
     atualizarIconeTema(config.tema);
   }
-  if (config.idioma) document.getElementById('idiomaSistema').value = config.idioma;
-  if (config.moeda) document.getElementById('moedaSistema').value = config.moeda;
-  if (config.horario) document.getElementById('horarioPadrao').value = config.horario;
-  if (config.notificacoes) document.getElementById('notificacoesSistema').value = config.notificacoes;
-  if (config.backup) document.getElementById('backupAutomatico').value = config.backup;
-  if (config.permissoes) document.getElementById('permissoesRapidas').value = config.permissoes;
-  if (typeof config.exibirDicas !== 'undefined') document.getElementById('exibirDicas').checked = config.exibirDicas;
-  if (config.logo) mostrarLogoPreview(config.logo);
+  if (config.idioma) {
+    document.getElementById('idiomaSistema').value = config.idioma;
+  }
+  if (config.moeda) {
+    document.getElementById('moedaSistema').value = config.moeda;
+  }
+  if (config.horario) {
+    document.getElementById('horarioPadrao').value = config.horario;
+  }
+  if (config.notificacoes) {
+    document.getElementById('notificacoesSistema').value = config.notificacoes;
+  }
+  if (config.backup) {
+    document.getElementById('backupAutomatico').value = config.backup;
+  }
+  if (config.permissoes) {
+    document.getElementById('permissoesRapidas').value = config.permissoes;
+  }
+  if (typeof config.exibirDicas !== 'undefined') {
+    document.getElementById('exibirDicas').checked = config.exibirDicas;
+  }
+  if (config.logo) {
+    mostrarLogoPreview(config.logo);
+  }
 }
 
 function mostrarLogoPreview(logoBase64) {
@@ -132,6 +156,8 @@ function mostrarMensagem(msg, sucesso) {
   el.style.background = sucesso ? '#d1fae5' : '#fee2e2';
   el.style.color = sucesso ? '#065f46' : '#991b1b';
   el.style.border = sucesso ? '1px solid #22c55e' : '1px solid #ef4444';
-  setTimeout(() => { el.style.display = 'none'; }, 3000);
+  setTimeout(() => {
+    el.style.display = 'none';
+  }, 3000);
   el.style.display = 'block';
-} 
+}

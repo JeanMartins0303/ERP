@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function mostrarMensagem(texto, tipo) {
     mensagemElement.textContent = texto;
     mensagemElement.className = `mensagem ${tipo} visivel`;
-    
+
     setTimeout(() => {
       mensagemElement.className = 'mensagem';
     }, 5000);
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Manipulador do formulário
-  recuperarForm.addEventListener('submit', async (e) => {
+  recuperarForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const email = document.getElementById('email').value.trim();
@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Mostrar mensagem de sucesso
       mostrarMensagem('Link de recuperação enviado com sucesso! Verifique seu email.', 'sucesso');
-
     } catch (erro) {
       console.error('Erro ao processar a recuperação de senha:', erro);
       mostrarMensagem('Ocorreu um erro ao processar sua solicitação. Tente novamente.', 'erro');
@@ -66,4 +65,4 @@ document.addEventListener('DOMContentLoaded', () => {
       input.parentElement.classList.remove('focado');
     });
   });
-}); 
+});

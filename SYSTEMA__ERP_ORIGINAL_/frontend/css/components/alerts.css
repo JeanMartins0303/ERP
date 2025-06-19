@@ -301,26 +301,26 @@
 }
 
 /* Temas */
-[data-theme="dark"] .alert-soft.alert-primary {
+[data-theme='dark'] .alert-soft.alert-primary {
   background-color: var(--primary-color-dark);
 }
 
-[data-theme="dark"] .alert-soft.alert-secondary {
+[data-theme='dark'] .alert-soft.alert-secondary {
   background-color: var(--secondary-color-dark);
 }
 
-[data-theme="dark"] .alert-soft.alert-success {
+[data-theme='dark'] .alert-soft.alert-success {
   background-color: var(--success-color-dark);
 }
 
-[data-theme="dark"] .alert-soft.alert-danger {
+[data-theme='dark'] .alert-soft.alert-danger {
   background-color: var(--error-color-dark);
 }
 
-[data-theme="dark"] .alert-soft.alert-warning {
+[data-theme='dark'] .alert-soft.alert-warning {
   background-color: var(--warning-color-dark);
 }
 
-[data-theme="dark"] .alert-soft.alert-info {
+[data-theme='dark'] .alert-soft.alert-info {
   background-color: var(--info-color-dark);
-} 
+}

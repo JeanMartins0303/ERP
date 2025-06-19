@@ -10,7 +10,7 @@
 
 /* Label com obrigatório */
 .form-label-required::after {
-  content: "*";
+  content: '*';
   margin-left: var(--spacing-xs);
   color: var(--error-color);
 }
@@ -149,7 +149,7 @@
 }
 
 .form-label-tooltip-content::before {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 100%;
   left: 50%;
@@ -225,31 +225,31 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-label {
+[data-theme='dark'] .form-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-label-description {
+[data-theme='dark'] .form-label-description {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-icon i {
+[data-theme='dark'] .form-label-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-feedback {
+[data-theme='dark'] .form-label-feedback {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-tooltip i {
+[data-theme='dark'] .form-label-tooltip i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-tooltip-content {
+[data-theme='dark'] .form-label-tooltip-content {
   color: var(--text-on-primary);
   background-color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-label-tooltip-content::before {
+[data-theme='dark'] .form-label-tooltip-content::before {
   border-bottom-color: var(--primary-color);
-} 
+}

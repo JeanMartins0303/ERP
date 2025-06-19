@@ -1,151 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configurações - FlexBiz ERP</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/configuracoes.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-  <aside class="sidebar" role="navigation" aria-label="Menu principal">
-    <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo"></header>
-    <nav>
-      <ul>
-        <li><a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a></li>
-        <li><a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a></li>
-        <li><a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a></li>
-        <li><a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a></li>
-        <li><a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a></li>
-        <li><a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a></li>
-        <li><a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a></li>
-        <li><a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a></li>
-        <li><a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a></li>
-        <li><a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a></li>
-        <li><a href="configuracoes.html" class="active" aria-current="page"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a></li>
-      </ul>
-    </nav>
-  </aside>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configurações - FlexBiz ERP</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/configuracoes.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+    <aside class="sidebar" role="navigation" aria-label="Menu principal">
+      <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" /></header>
+      <nav>
+        <ul>
+          <li>
+            <a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a>
+          </li>
+          <li>
+            <a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a>
+          </li>
+          <li>
+            <a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a>
+          </li>
+          <li>
+            <a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a>
+          </li>
+          <li>
+            <a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a>
+          </li>
+          <li>
+            <a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a>
+          </li>
+          <li>
+            <a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a>
+          </li>
+          <li>
+            <a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a>
+          </li>
+          <li>
+            <a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a>
+          </li>
+          <li>
+            <a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a>
+          </li>
+          <li>
+            <a href="configuracoes.html" class="active" aria-current="page"
+              ><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+    </aside>
 
-  <main class="main-content">
-    <header>
-      <h1>Configurações</h1>
-      <div class="header-actions">
-        <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
-          <i class="fas fa-moon"></i>
-        </button>
-      </div>
-    </header>
+    <main class="main-content">
+      <header>
+        <h1>Configurações</h1>
+        <div class="header-actions">
+          <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </header>
 
-    <section class="configuracoes-grid">
-      <form id="formConfiguracoes" class="configuracoes-form">
-        <h2>Preferências do Sistema</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nomeEmpresa">Nome da Empresa</label>
-            <input type="text" id="nomeEmpresa" placeholder="Digite o nome da empresa" required>
+      <section class="configuracoes-grid">
+        <form id="formConfiguracoes" class="configuracoes-form">
+          <h2>Preferências do Sistema</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nomeEmpresa">Nome da Empresa</label>
+              <input type="text" id="nomeEmpresa" placeholder="Digite o nome da empresa" required />
+            </div>
+            <div class="form-group">
+              <label for="emailEmpresa">Email de Contato</label>
+              <input type="email" id="emailEmpresa" placeholder="contato@empresa.com" required />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="emailEmpresa">Email de Contato</label>
-            <input type="email" id="emailEmpresa" placeholder="contato@empresa.com" required>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefoneEmpresa">Telefone</label>
+              <input type="tel" id="telefoneEmpresa" placeholder="(99) 99999-9999" required />
+            </div>
+            <div class="form-group">
+              <label for="enderecoEmpresa">Endereço</label>
+              <input type="text" id="enderecoEmpresa" placeholder="Rua, número, bairro, cidade" required />
+            </div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="telefoneEmpresa">Telefone</label>
-            <input type="tel" id="telefoneEmpresa" placeholder="(99) 99999-9999" required>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="logoEmpresa">Logo da Empresa</label>
+              <input type="file" id="logoEmpresa" accept="image/*" />
+            </div>
+            <div class="form-group">
+              <label for="temaPadrao">Tema Padrão</label>
+              <select id="temaPadrao">
+                <option value="light">Claro</option>
+                <option value="dark">Escuro</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="enderecoEmpresa">Endereço</label>
-            <input type="text" id="enderecoEmpresa" placeholder="Rua, número, bairro, cidade" required>
+          <h2>Configurações Avançadas</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="idiomaSistema">Idioma</label>
+              <select id="idiomaSistema">
+                <option value="pt-BR">Português (Brasil)</option>
+                <option value="en-US">Inglês (EUA)</option>
+                <option value="es-ES">Espanhol</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="moedaSistema">Moeda</label>
+              <select id="moedaSistema">
+                <option value="BRL">Real (R$)</option>
+                <option value="USD">Dólar (US$)</option>
+                <option value="EUR">Euro (€)</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="logoEmpresa">Logo da Empresa</label>
-            <input type="file" id="logoEmpresa" accept="image/*">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="horarioPadrao">Horário Padrão</label>
+              <select id="horarioPadrao">
+                <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
+                <option value="America/New_York">Nova York (GMT-4)</option>
+                <option value="Europe/Lisbon">Lisboa (GMT+1)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="notificacoesSistema">Notificações</label>
+              <select id="notificacoesSistema">
+                <option value="todas">Todas</option>
+                <option value="importantes">Apenas Importantes</option>
+                <option value="nenhuma">Nenhuma</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="temaPadrao">Tema Padrão</label>
-            <select id="temaPadrao">
-              <option value="light">Claro</option>
-              <option value="dark">Escuro</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="backupAutomatico">Backup Automático</label>
+              <select id="backupAutomatico">
+                <option value="diario">Diário</option>
+                <option value="semanal">Semanal</option>
+                <option value="mensal">Mensal</option>
+                <option value="nenhum">Nenhum</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="permissoesRapidas">Permissões Rápidas</label>
+              <select id="permissoesRapidas">
+                <option value="todas">Todas</option>
+                <option value="restritas">Restritas</option>
+                <option value="personalizadas">Personalizadas</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <h2>Configurações Avançadas</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="idiomaSistema">Idioma</label>
-            <select id="idiomaSistema">
-              <option value="pt-BR">Português (Brasil)</option>
-              <option value="en-US">Inglês (EUA)</option>
-              <option value="es-ES">Espanhol</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="exibirDicas"> <input type="checkbox" id="exibirDicas" /> Exibir dicas e tutoriais </label>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="moedaSistema">Moeda</label>
-            <select id="moedaSistema">
-              <option value="BRL">Real (R$)</option>
-              <option value="USD">Dólar (US$)</option>
-              <option value="EUR">Euro (€)</option>
-            </select>
+          <div class="form-actions">
+            <button type="submit" class="btn">Salvar Configurações</button>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="horarioPadrao">Horário Padrão</label>
-            <select id="horarioPadrao">
-              <option value="America/Sao_Paulo">Brasília (GMT-3)</option>
-              <option value="America/New_York">Nova York (GMT-4)</option>
-              <option value="Europe/Lisbon">Lisboa (GMT+1)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="notificacoesSistema">Notificações</label>
-            <select id="notificacoesSistema">
-              <option value="todas">Todas</option>
-              <option value="importantes">Apenas Importantes</option>
-              <option value="nenhuma">Nenhuma</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="backupAutomatico">Backup Automático</label>
-            <select id="backupAutomatico">
-              <option value="diario">Diário</option>
-              <option value="semanal">Semanal</option>
-              <option value="mensal">Mensal</option>
-              <option value="nenhum">Nenhum</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="permissoesRapidas">Permissões Rápidas</label>
-            <select id="permissoesRapidas">
-              <option value="todas">Todas</option>
-              <option value="restritas">Restritas</option>
-              <option value="personalizadas">Personalizadas</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="exibirDicas">
-              <input type="checkbox" id="exibirDicas"> Exibir dicas e tutoriais
-            </label>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button type="submit" class="btn">Salvar Configurações</button>
-        </div>
-      </form>
-    </section>
-  </main>
+        </form>
+      </section>
+    </main>
 
-  <script src="js/configuracoes.js"></script>
-</body>
-</html> 
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Scripts -->
+    <script type="module" src="js/configuracoes.js"></script>
+  </body>
+</html>

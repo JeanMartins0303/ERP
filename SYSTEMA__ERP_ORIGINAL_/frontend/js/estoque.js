@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const btnToggleTema = document.getElementById('btnToggleTema');
   const body = document.body;
-  
+
   // Verifica tema salvo
   const temaSalvo = localStorage.getItem('tema');
   if (temaSalvo === 'dark') {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnToggleTema.addEventListener('click', () => {
     body.classList.toggle('dark');
     body.classList.toggle('light');
-    
+
     const isDark = body.classList.contains('dark');
     localStorage.setItem('tema', isDark ? 'dark' : 'light');
     btnToggleTema.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
@@ -35,16 +35,13 @@ function inicializarGraficos() {
     type: 'doughnut',
     data: {
       labels: ['Bebidas', 'Alimentos', 'Limpeza', 'Outros'],
-      datasets: [{
-        data: [30, 40, 20, 10],
-        backgroundColor: [
-          '#4CAF50',
-          '#2196F3',
-          '#FFC107',
-          '#9C27B0'
-        ],
-        borderWidth: 0
-      }]
+      datasets: [
+        {
+          data: [30, 40, 20, 10],
+          backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#9C27B0'],
+          borderWidth: 0
+        }
+      ]
     },
     options: {
       responsive: true,
@@ -69,21 +66,24 @@ function inicializarGraficos() {
     type: 'line',
     data: {
       labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-      datasets: [{
-        label: 'Entradas',
-        data: [65, 59, 80, 81, 56, 55],
-        borderColor: '#4CAF50',
-        backgroundColor: 'rgba(76, 175, 80, 0.1)',
-        tension: 0.4,
-        fill: true
-      }, {
-        label: 'Saídas',
-        data: [28, 48, 40, 19, 86, 27],
-        borderColor: '#F44336',
-        backgroundColor: 'rgba(244, 67, 54, 0.1)',
-        tension: 0.4,
-        fill: true
-      }]
+      datasets: [
+        {
+          label: 'Entradas',
+          data: [65, 59, 80, 81, 56, 55],
+          borderColor: '#4CAF50',
+          backgroundColor: 'rgba(76, 175, 80, 0.1)',
+          tension: 0.4,
+          fill: true
+        },
+        {
+          label: 'Saídas',
+          data: [28, 48, 40, 19, 86, 27],
+          borderColor: '#F44336',
+          backgroundColor: 'rgba(244, 67, 54, 0.1)',
+          tension: 0.4,
+          fill: true
+        }
+      ]
     },
     options: {
       responsive: true,
@@ -192,13 +192,13 @@ function getStatusEstoque(quantidade, minimo) {
 // Função para atualizar os cards com informações resumidas
 function atualizarCards(dados) {
   document.getElementById('totalProdutos').textContent = dados.length;
-  
+
   const estoqueBaixo = dados.filter(item => item.quantidade <= item.minimo).length;
   document.getElementById('produtosBaixoEstoque').textContent = estoqueBaixo;
-  
+
   const semEstoque = dados.filter(item => item.quantidade === 0).length;
   document.getElementById('produtosSemEstoque').textContent = semEstoque;
-  
+
   // Simulação de valor total em estoque
   document.getElementById('valorTotalEstoque').textContent = 'R$ 15.000,00';
 }
@@ -206,10 +206,10 @@ function atualizarCards(dados) {
 // Função para inicializar a busca
 function inicializarBusca() {
   const searchInput = document.getElementById('searchProduto');
-  searchInput.addEventListener('input', (e) => {
+  searchInput.addEventListener('input', e => {
     const termoBusca = e.target.value.toLowerCase();
     const linhas = document.querySelectorAll('#corpoTabelaEstoque tr');
-    
+
     linhas.forEach(linha => {
       const texto = linha.textContent.toLowerCase();
       linha.style.display = texto.includes(termoBusca) ? '' : 'none';
@@ -238,7 +238,7 @@ function limparFormulario() {
 // Função para salvar o produto
 function salvarProduto(event) {
   event.preventDefault();
-  
+
   const formData = new FormData(event.target);
   const produto = {
     codigo: formData.get('codigo'),
@@ -255,11 +255,11 @@ function salvarProduto(event) {
 
   // Aqui você faria a chamada para a API
   console.log('Produto a ser salvo:', produto);
-  
+
   // Simulação de sucesso
   alert('Produto cadastrado com sucesso!');
   fecharModal();
-  
+
   // Atualiza a tabela (simulação)
   const dadosAtuais = JSON.parse(localStorage.getItem('produtos') || '[]');
   dadosAtuais.push(produto);
@@ -273,7 +273,7 @@ function adicionarProduto() {
 }
 
 // Fecha o modal ao clicar fora dele
-document.addEventListener('click', (event) => {
+document.addEventListener('click', event => {
   const modal = document.getElementById('modalProduto');
   if (event.target === modal) {
     fecharModal();
@@ -281,7 +281,7 @@ document.addEventListener('click', (event) => {
 });
 
 // Fecha o modal ao pressionar ESC
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     fecharModal();
   }
@@ -308,4 +308,4 @@ function exportarRelatorio() {
 function imprimirRelatorio() {
   // Implementar impressão do relatório
   window.print();
-} 
+}

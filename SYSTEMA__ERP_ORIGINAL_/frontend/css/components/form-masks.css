@@ -23,7 +23,7 @@
 }
 
 .mask-currency::before {
-  content: "R$";
+  content: 'R$';
   position: absolute;
   top: 50%;
   left: var(--spacing-sm);
@@ -41,7 +41,7 @@
 }
 
 .mask-percentage::after {
-  content: "%";
+  content: '%';
   position: absolute;
   top: 50%;
   right: var(--spacing-sm);
@@ -89,7 +89,7 @@
 }
 
 .mask-credit-card::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   right: var(--spacing-sm);
@@ -275,36 +275,36 @@
 }
 
 /* Temas */
-[data-theme="dark"] .mask-currency::before {
+[data-theme='dark'] .mask-currency::before {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .mask-percentage::after {
+[data-theme='dark'] .mask-percentage::after {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .mask-icon i {
+[data-theme='dark'] .mask-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .mask-tooltip .tooltip {
+[data-theme='dark'] .mask-tooltip .tooltip {
   background-color: var(--surface-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .mask-progress {
+[data-theme='dark'] .mask-progress {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .mask-counter .counter {
+[data-theme='dark'] .mask-counter .counter {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .mask-counter .counter.warning {
+[data-theme='dark'] .mask-counter .counter.warning {
   color: var(--warning-color);
 }
 
-[data-theme="dark"] .mask-counter .counter.error {
+[data-theme='dark'] .mask-counter .counter.error {
   color: var(--error-color);
-} 
+}

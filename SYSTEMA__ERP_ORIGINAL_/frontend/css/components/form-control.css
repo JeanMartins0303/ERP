@@ -260,7 +260,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -325,59 +326,59 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-control {
+[data-theme='dark'] .form-control {
   color: var(--text-primary);
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-control:hover {
+[data-theme='dark'] .form-control:hover {
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-control:focus {
+[data-theme='dark'] .form-control:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-[data-theme="dark"] .form-control::placeholder {
+[data-theme='dark'] .form-control::placeholder {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-control-icon i {
+[data-theme='dark'] .form-control-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-control-autocomplete-suggestions {
+[data-theme='dark'] .form-control-autocomplete-suggestions {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-control-autocomplete-suggestion {
+[data-theme='dark'] .form-control-autocomplete-suggestion {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-control-autocomplete-suggestion:hover {
+[data-theme='dark'] .form-control-autocomplete-suggestion:hover {
   background-color: var(--primary-color-light);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-control-autocomplete-suggestion.selected {
+[data-theme='dark'] .form-control-autocomplete-suggestion.selected {
   background-color: var(--primary-color);
   color: var(--text-on-primary);
 }
 
-[data-theme="dark"] .form-control-mask::after {
+[data-theme='dark'] .form-control-mask::after {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-control-counter::after {
+[data-theme='dark'] .form-control-counter::after {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-control-group-prepend,
-[data-theme="dark"] .form-control-group-append {
+[data-theme='dark'] .form-control-group-prepend,
+[data-theme='dark'] .form-control-group-append {
   color: var(--text-muted);
   background-color: var(--background-color-light);
   border-color: var(--border-color);
-} 
+}

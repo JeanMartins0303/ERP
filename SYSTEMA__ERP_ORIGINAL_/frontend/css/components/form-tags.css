@@ -286,89 +286,89 @@
 }
 
 /* Temas */
-[data-theme="dark"] .tags-container {
+[data-theme='dark'] .tags-container {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .tags-container:focus-within {
+[data-theme='dark'] .tags-container:focus-within {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-[data-theme="dark"] .tag {
+[data-theme='dark'] .tag {
   color: var(--text-on-primary);
   background-color: var(--primary-color);
 }
 
-[data-theme="dark"] .tag:hover {
+[data-theme='dark'] .tag:hover {
   background-color: var(--primary-color-dark);
 }
 
-[data-theme="dark"] .tag-icon {
+[data-theme='dark'] .tag-icon {
   color: var(--text-on-primary);
 }
 
-[data-theme="dark"] .tag-remove {
+[data-theme='dark'] .tag-remove {
   color: var(--text-on-primary);
 }
 
-[data-theme="dark"] .tag-remove:hover {
+[data-theme='dark'] .tag-remove:hover {
   background-color: var(--text-on-primary);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .tag-input {
+[data-theme='dark'] .tag-input {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .tag-input::placeholder {
+[data-theme='dark'] .tag-input::placeholder {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .tag-suggestions {
+[data-theme='dark'] .tag-suggestions {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .tag-suggestion {
+[data-theme='dark'] .tag-suggestion {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .tag-suggestion:hover {
+[data-theme='dark'] .tag-suggestion:hover {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .tag-suggestion.selected {
+[data-theme='dark'] .tag-suggestion.selected {
   color: var(--text-on-primary);
   background-color: var(--primary-color);
 }
 
-[data-theme="dark"] .tag-suggestion-icon {
+[data-theme='dark'] .tag-suggestion-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .tag-suggestion:hover .tag-suggestion-icon {
+[data-theme='dark'] .tag-suggestion:hover .tag-suggestion-icon {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .tag-suggestion.selected .tag-suggestion-icon {
+[data-theme='dark'] .tag-suggestion.selected .tag-suggestion-icon {
   color: var(--text-on-primary);
 }
 
-[data-theme="dark"] .tag-suggestion-name {
+[data-theme='dark'] .tag-suggestion-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .tag-suggestion-description {
+[data-theme='dark'] .tag-suggestion-description {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .tag-suggestion-message {
+[data-theme='dark'] .tag-suggestion-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .tag-badge {
+[data-theme='dark'] .tag-badge {
   color: var(--text-on-primary);
   background-color: var(--primary-color-dark);
-} 
+}

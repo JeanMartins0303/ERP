@@ -2,15 +2,18 @@
 const faqs = [
   {
     pergunta: 'Como redefinir minha senha?',
-    resposta: 'Acesse Configurações > Usuários, selecione seu usuário e clique em "Redefinir Senha". Siga as instruções enviadas para seu e-mail cadastrado.'
+    resposta:
+      'Acesse Configurações > Usuários, selecione seu usuário e clique em "Redefinir Senha". Siga as instruções enviadas para seu e-mail cadastrado.'
   },
   {
     pergunta: 'Como exportar relatórios?',
-    resposta: 'Vá até a tela de Relatórios, utilize os filtros desejados e clique em "Exportar" para gerar um arquivo em PDF ou Excel.'
+    resposta:
+      'Vá até a tela de Relatórios, utilize os filtros desejados e clique em "Exportar" para gerar um arquivo em PDF ou Excel.'
   },
   {
     pergunta: 'Como cadastrar um novo usuário?',
-    resposta: 'Acesse a tela de Usuários, clique em "Novo Usuário", preencha os dados e salve. O novo usuário receberá um e-mail de boas-vindas.'
+    resposta:
+      'Acesse a tela de Usuários, clique em "Novo Usuário", preencha os dados e salve. O novo usuário receberá um e-mail de boas-vindas.'
   },
   {
     pergunta: 'Como alterar o tema do sistema?',
@@ -18,15 +21,18 @@ const faqs = [
   },
   {
     pergunta: 'Como realizar backup dos dados?',
-    resposta: 'Em Configurações > Avançado, ative o backup automático ou clique em "Fazer Backup Agora" para salvar uma cópia dos dados.'
+    resposta:
+      'Em Configurações > Avançado, ative o backup automático ou clique em "Fazer Backup Agora" para salvar uma cópia dos dados.'
   },
   {
     pergunta: 'Como configurar o PDV?',
-    resposta: 'Acesse Configurações > PDV para configurar impressoras, formas de pagamento, taxas e outras opções do ponto de venda.'
+    resposta:
+      'Acesse Configurações > PDV para configurar impressoras, formas de pagamento, taxas e outras opções do ponto de venda.'
   },
   {
     pergunta: 'Como gerenciar o estoque?',
-    resposta: 'Na tela de Estoque você pode registrar entradas, saídas, ajustes de inventário e configurar alertas de estoque baixo.'
+    resposta:
+      'Na tela de Estoque você pode registrar entradas, saídas, ajustes de inventário e configurar alertas de estoque baixo.'
   },
   {
     pergunta: 'Como emitir notas fiscais?',
@@ -84,12 +90,12 @@ formAjuda.addEventListener('submit', function(e) {
 // Status do Sistema
 function atualizarStatus() {
   const statusCards = document.querySelectorAll('.status-card');
-  
+
   // Simula verificação de status (poderia ser integrado a API)
   statusCards.forEach(card => {
     const indicator = card.querySelector('.status-indicator');
     const random = Math.random();
-    
+
     if (random > 0.8) {
       indicator.className = 'status-indicator warning';
       indicator.innerHTML = '<span class="status-dot"></span>Instável';
@@ -126,7 +132,7 @@ function atualizarIconeTema() {
 }
 
 // Carregar tema salvo
-(function () {
+(function() {
   const temaSalvo = localStorage.getItem('tema');
   if (temaSalvo === 'dark') {
     document.body.classList.add('dark');
@@ -156,7 +162,7 @@ menuToggle.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
   renderFAQ();
   atualizarStatus();
-  
+
   // Adiciona efeito hover nos cards
   const cards = document.querySelectorAll('.manual-card, .suporte-card');
   cards.forEach(card => {

@@ -38,7 +38,11 @@
   margin: 0 auto;
 }
 
-.ajuda-faq, .ajuda-contato, .ajuda-manuais, .ajuda-suporte, .ajuda-status {
+.ajuda-faq,
+.ajuda-contato,
+.ajuda-manuais,
+.ajuda-suporte,
+.ajuda-status {
   background: var(--card-bg);
   border-radius: var(--radius-lg);
   padding: 2rem;
@@ -54,7 +58,9 @@
   grid-column: 1 / -1;
 }
 
-.ajuda-manuais, .ajuda-suporte, .ajuda-status {
+.ajuda-manuais,
+.ajuda-suporte,
+.ajuda-status {
   grid-column: span 1;
 }
 
@@ -351,8 +357,12 @@ textarea:focus {
   .ajuda-grid {
     grid-template-columns: 1fr;
   }
-  
-  .ajuda-faq, .ajuda-contato, .ajuda-manuais, .ajuda-suporte, .ajuda-status {
+
+  .ajuda-faq,
+  .ajuda-contato,
+  .ajuda-manuais,
+  .ajuda-suporte,
+  .ajuda-status {
     grid-column: 1;
   }
 }
@@ -361,15 +371,15 @@ textarea:focus {
   .main-content {
     padding: 1rem;
   }
-  
+
   .ajuda-grid {
     gap: 1rem;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;
@@ -380,18 +390,22 @@ textarea:focus {
   .main-content {
     padding: 0.5rem;
   }
-  
-  .ajuda-faq, .ajuda-contato, .ajuda-manuais, .ajuda-suporte, .ajuda-status {
+
+  .ajuda-faq,
+  .ajuda-contato,
+  .ajuda-manuais,
+  .ajuda-suporte,
+  .ajuda-status {
     padding: 1rem;
   }
-  
-  .manuais-grid, .suporte-grid, .status-grid {
+
+  .manuais-grid,
+  .suporte-grid,
+  .status-grid {
     grid-template-columns: 1fr;
   }
-  
+
   h2 {
     font-size: 1.1rem;
   }
 }
-
-

@@ -101,7 +101,7 @@
 
 .table-sortable th::after,
 .table-sortable th::before {
-  content: "";
+  content: '';
   position: absolute;
   right: 0.5rem;
   width: 0;
@@ -275,42 +275,42 @@
 }
 
 /* Temas */
-[data-theme="dark"] .table {
+[data-theme='dark'] .table {
   color: var(--text-primary);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .table thead th {
+[data-theme='dark'] .table thead th {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
+[data-theme='dark'] .table-striped tbody tr:nth-of-type(odd) {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .table-hover tbody tr:hover {
+[data-theme='dark'] .table-hover tbody tr:hover {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .table-selectable tbody tr.selected {
+[data-theme='dark'] .table-selectable tbody tr.selected {
   background-color: var(--surface-selected);
 }
 
-[data-theme="dark"] .table-filters {
+[data-theme='dark'] .table-filters {
   background-color: var(--surface-color);
 }
 
-[data-theme="dark"] .table-export-btn {
+[data-theme='dark'] .table-export-btn {
   background-color: var(--surface-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .table-export-btn:hover {
+[data-theme='dark'] .table-export-btn:hover {
   background-color: var(--surface-hover);
   border-color: var(--border-color-dark);
 }
 
-[data-theme="dark"] .table-empty {
+[data-theme='dark'] .table-empty {
   background-color: var(--surface-color);
-} 
+}

@@ -1,7 +1,11 @@
 // Alternância de tema (usa tema.js se já existir)
-if (typeof alternarTema === 'function') {
-  document.querySelector('.theme-toggle')?.addEventListener('click', alternarTema);
-}
+// Verificação mais segura para evitar erro de função não definida
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.querySelector('.theme-toggle');
+  if (themeToggle && typeof window.alternarTema === 'function') {
+    themeToggle.addEventListener('click', window.alternarTema);
+  }
+});
 
 // Exibir/ocultar senha
 const senhaInput = document.getElementById('senha');
@@ -9,7 +13,8 @@ const toggleSenha = document.getElementById('toggleSenha');
 if (senhaInput && toggleSenha) {
   toggleSenha.addEventListener('click', () => {
     senhaInput.type = senhaInput.type === 'password' ? 'text' : 'password';
-    toggleSenha.innerHTML = senhaInput.type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
+    toggleSenha.innerHTML =
+      senhaInput.type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
   });
 }
 
@@ -24,12 +29,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const emailSalvo = localStorage.getItem('erp_login_email');
   if (emailSalvo && emailInput) {
     emailInput.value = emailSalvo;
-    if (lembrarMe) lembrarMe.checked = true;
+    if (lembrarMe) {
+      lembrarMe.checked = true;
+    }
   }
 });
 
 if (form) {
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (!emailInput.value.trim() || !senhaInput.value.trim()) {
       exibirMensagem('Por favor, preencha todos os campos.', 'erro');
@@ -57,7 +64,9 @@ if (form) {
 }
 
 function exibirMensagem(msg, tipo) {
-  if (!mensagem) return;
+  if (!mensagem) {
+    return;
+  }
   mensagem.textContent = msg;
   mensagem.className = 'mensagem ' + tipo;
   mensagem.style.display = 'block';
@@ -79,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function mostrarMensagem(texto, tipo) {
     mensagemElement.textContent = texto;
     mensagemElement.className = `mensagem ${tipo} visivel`;
-    
+
     setTimeout(() => {
       mensagemElement.className = 'mensagem';
     }, 5000);
@@ -97,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Manipulador do formulário
-  loginForm.addEventListener('submit', async (e) => {
+  loginForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const email = document.getElementById('email').value.trim();
@@ -138,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         window.location.href = 'dashboard.html';
       }, 2000);
-
     } catch (erro) {
       console.error('Erro ao realizar login:', erro);
       mostrarMensagem('Email ou senha incorretos. Tente novamente.', 'erro');
@@ -174,4 +182,4 @@ document.addEventListener('DOMContentLoaded', () => {
       input.parentElement.classList.remove('focado');
     });
   });
-}); 
+});

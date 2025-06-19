@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestão Financeira - FlexBiz ERP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" crossorigin src="/assets/style-D-opnHba.js"></script>
+    <script type="module" crossorigin src="/assets/modules-EtkaS6kX.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/style-DUZONqo7.css">
+    <link rel="stylesheet" crossorigin href="/assets/financeiro-BFljlOlh.css">
+  </head>
+  <body class="light">
+    <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+    <aside class="sidebar" role="navigation" aria-label="Menu principal">
+      <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" /></header>
+      <nav>
+        <ul>
+          <li>
+            <a href="index.html"><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a>
+          </li>
+          <li>
+            <a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a>
+          </li>
+          <li>
+            <a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a>
+          </li>
+          <li>
+            <a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a>
+          </li>
+          <li>
+            <a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a>
+          </li>
+          <li>
+            <a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a>
+          </li>
+          <li>
+            <a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a>
+          </li>
+          <li>
+            <a href="financeiro.html" class="active" aria-current="page"
+              ><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a
+            >
+          </li>
+          <li>
+            <a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a>
+          </li>
+          <li>
+            <a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a>
+          </li>
+          <li>
+            <a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a>
+          </li>
+          <li>
+            <a href="ajuda.html"><i class="fas fa-question-circle"></i><span class="link-text">Ajuda</span></a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h1>Financeiro</h1>
+        <div class="header-actions">
+          <div class="search-box">
+            <input type="text" id="searchFinance" placeholder="Buscar transações..." />
+            <i class="fas fa-search"></i>
+          </div>
+          <button id="btnToggleTema" aria-label="Alternar tema escuro/claro">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="btn" onclick="abrirModalNovaTransacao()"><i class="fas fa-plus"></i> Nova Transação</button>
+        </div>
+      </header>
+
+      <section class="cards">
+        <article class="card" aria-label="Saldo atual">
+          <h3>Saldo Atual</h3>
+          <p id="saldoAtual">R$ 0,00</p>
+        </article>
+        <article class="card" aria-label="Receitas do mês">
+          <h3>Receitas do Mês</h3>
+          <p id="receitasMes">R$ 0,00</p>
+        </article>
+        <article class="card" aria-label="Despesas do mês">
+          <h3>Despesas do Mês</h3>
+          <p id="despesasMes">R$ 0,00</p>
+        </article>
+        <article class="card" aria-label="Resultado do mês">
+          <h3>Resultado do Mês</h3>
+          <p id="resultadoMes">R$ 0,00</p>
+        </article>
+      </section>
+
+      <section class="graficos">
+        <article class="card">
+          <h3>Fluxo de Caixa</h3>
+          <canvas id="graficoFluxoCaixa"></canvas>
+        </article>
+        <article class="card">
+          <h3>Distribuição de Despesas</h3>
+          <canvas id="graficoDespesas"></canvas>
+        </article>
+      </section>
+
+      <section class="financeiro-grid">
+        <div class="financeiro-header">
+          <h2>Transações Recentes</h2>
+          <div class="financeiro-actions">
+            <div class="filtros">
+              <select id="filtroTipo" onchange="filtrarTransacoes()">
+                <option value="todos">Todos os Tipos</option>
+                <option value="receita">Receitas</option>
+                <option value="despesa">Despesas</option>
+              </select>
+              <select id="filtroCategoria" onchange="filtrarTransacoes()">
+                <option value="todas">Todas as Categorias</option>
+                <option value="vendas">Vendas</option>
+                <option value="servicos">Serviços</option>
+                <option value="aluguel">Aluguel</option>
+                <option value="funcionarios">Funcionários</option>
+                <option value="fornecedores">Fornecedores</option>
+                <option value="outros">Outros</option>
+              </select>
+            </div>
+            <button class="btn" onclick="exportarTransacoes()"><i class="fas fa-file-export"></i> Exportar</button>
+            <button class="btn" onclick="imprimirRelatorio()"><i class="fas fa-print"></i> Imprimir</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="transacoesTableBody">
+              <!-- Preenchido via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal Nova Transação -->
+    <div class="modal" id="modalNovaTransacao">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Nova Transação</h2>
+          <button class="btn-close" onclick="fecharModalNovaTransacao()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="formNovaTransacao" onsubmit="criarNovaTransacao(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="tipoTransacao">Tipo</label>
+              <select id="tipoTransacao" required onchange="atualizarCategorias()">
+                <option value="receita">Receita</option>
+                <option value="despesa">Despesa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="categoriaTransacao">Categoria</label>
+              <select id="categoriaTransacao" required>
+                <!-- Preenchido via JavaScript -->
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descricaoTransacao">Descrição</label>
+            <input type="text" id="descricaoTransacao" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="valorTransacao">Valor</label>
+              <input type="number" id="valorTransacao" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="dataTransacao">Data</label>
+              <input type="date" id="dataTransacao" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="formaPagamento">Forma de Pagamento</label>
+            <select id="formaPagamento" required>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="cartao_credito">Cartão de Crédito</option>
+              <option value="cartao_debito">Cartão de Débito</option>
+              <option value="pix">PIX</option>
+              <option value="transferencia">Transferência</option>
+              <option value="boleto">Boleto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="observacoesTransacao">Observações</label>
+            <textarea id="observacoesTransacao" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="fecharModalNovaTransacao()">Cancelar</button>
+            <button type="submit" class="btn">Salvar Transação</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Scripts -->
+  </body>
+</html>

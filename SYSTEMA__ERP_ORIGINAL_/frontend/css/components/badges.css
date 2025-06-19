@@ -153,7 +153,7 @@
 }
 
 .badge-status::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 0.5em;
@@ -234,10 +234,10 @@
 }
 
 /* Temas */
-[data-theme="dark"] .badge-soft {
+[data-theme='dark'] .badge-soft {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .badge-counter {
+[data-theme='dark'] .badge-counter {
   border-color: var(--surface-color);
-} 
+}

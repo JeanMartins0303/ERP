@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.form-file input[type="file"] {
+.form-file input[type='file'] {
   position: absolute;
   width: 0.1px;
   height: 0.1px;
@@ -571,114 +571,114 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-file-label {
+[data-theme='dark'] .form-file-label {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-file-label:hover {
+[data-theme='dark'] .form-file-label:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-file-label:disabled {
+[data-theme='dark'] .form-file-label:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-file-icon {
+[data-theme='dark'] .form-file-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-text {
+[data-theme='dark'] .form-file-text {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-file-preview-icon {
+[data-theme='dark'] .form-file-preview-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-preview-name {
+[data-theme='dark'] .form-file-preview-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-file-preview-size {
+[data-theme='dark'] .form-file-preview-size {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-progress {
+[data-theme='dark'] .form-file-progress {
   background-color: var(--background-color);
 }
 
-[data-theme="dark"] .form-file-validation-icon {
+[data-theme='dark'] .form-file-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-validation-message {
+[data-theme='dark'] .form-file-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-description-text {
+[data-theme='dark'] .form-file-description-text {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-history-item {
-  background-color: var(--background-color);
-  border-color: var(--border-color);
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .form-file-history-item:hover {
-  background-color: var(--background-color-hover);
-  color: var(--primary-color);
-}
-
-[data-theme="dark"] .form-file-history-item-icon {
-  color: var(--text-muted);
-}
-
-[data-theme="dark"] .form-file-history-item-time {
-  color: var(--text-muted);
-}
-
-[data-theme="dark"] .form-file-selector {
-  background-color: var(--background-color);
-  border-color: var(--border-color);
-}
-
-[data-theme="dark"] .form-file-selector-title {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .form-file-selector-nav-button {
-  color: var(--text-primary);
-}
-
-[data-theme="dark"] .form-file-selector-nav-button:hover {
-  background-color: var(--background-color-hover);
-  color: var(--primary-color);
-}
-
-[data-theme="dark"] .form-file-selector-item {
+[data-theme='dark'] .form-file-history-item {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-file-selector-item:hover {
+[data-theme='dark'] .form-file-history-item:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-file-selector-item-icon {
+[data-theme='dark'] .form-file-history-item-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-selector-item-size {
+[data-theme='dark'] .form-file-history-item-time {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-file-selector-item.selected {
+[data-theme='dark'] .form-file-selector {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .form-file-selector-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .form-file-selector-nav-button {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .form-file-selector-nav-button:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme='dark'] .form-file-selector-item {
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .form-file-selector-item:hover {
+  background-color: var(--background-color-hover);
+  color: var(--primary-color);
+}
+
+[data-theme='dark'] .form-file-selector-item-icon {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .form-file-selector-item-size {
+  color: var(--text-muted);
+}
+
+[data-theme='dark'] .form-file-selector-item.selected {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
-} 
+}

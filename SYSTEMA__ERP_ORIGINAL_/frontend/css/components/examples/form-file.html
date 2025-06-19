@@ -1,60 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exemplo - Componente de Arquivo</title>
-    <link rel="stylesheet" href="../form-file.css">
+    <link rel="stylesheet" href="../form-file.css" />
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-        .example {
-            margin-bottom: 2rem;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 0.5rem;
-        }
+      .example {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+      }
 
-        .example h3 {
-            margin-top: 0;
-        }
+      .example h3 {
+        margin-top: 0;
+      }
 
-        .code {
-            background: #f5f5f5;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-        }
+      .code {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Exemplos do Componente de Arquivo</h1>
 
     <!-- Exemplo Básico -->
     <div class="example">
-        <h3>Exemplo Básico</h3>
-        <div class="form-file">
-            <input type="file" id="file">
-            <label for="file">
-                <span class="icon">📄</span>
-                <span class="text">Selecionar Arquivo</span>
-            </label>
-            <div class="preview">
-                <span class="filename">documento.pdf</span>
-                <span class="filesize">2.5 MB</span>
-                <div class="actions">
-                    <button class="control-button">👁️</button>
-                    <button class="control-button">🗑️</button>
-                </div>
-            </div>
+      <h3>Exemplo Básico</h3>
+      <div class="form-file">
+        <input type="file" id="file" />
+        <label for="file">
+          <span class="icon">📄</span>
+          <span class="text">Selecionar Arquivo</span>
+        </label>
+        <div class="preview">
+          <span class="filename">documento.pdf</span>
+          <span class="filesize">2.5 MB</span>
+          <div class="actions">
+            <button class="control-button">👁️</button>
+            <button class="control-button">🗑️</button>
+          </div>
         </div>
-        <div class="code">
-            <pre><code>&lt;div class="form-file"&gt;
+      </div>
+      <div class="code">
+        <pre><code>&lt;div class="form-file"&gt;
     &lt;input type="file" id="file"&gt;
     &lt;label for="file"&gt;
         &lt;span class="icon"&gt;📄&lt;/span&gt;
@@ -69,155 +72,155 @@
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-        </div>
+      </div>
     </div>
 
     <!-- Estados -->
     <div class="example">
-        <h3>Estados</h3>
-        
-        <!-- Sucesso -->
-        <div class="form-file is-success">
-            <input type="file" id="file-success">
-            <label for="file-success">
-                <span class="icon">📄</span>
-                <span class="text">Arquivo Carregado</span>
-            </label>
-            <div class="feedback is-success">Arquivo carregado com sucesso!</div>
-        </div>
+      <h3>Estados</h3>
 
-        <!-- Erro -->
-        <div class="form-file is-error">
-            <input type="file" id="file-error">
-            <label for="file-error">
-                <span class="icon">📄</span>
-                <span class="text">Erro no Upload</span>
-            </label>
-            <div class="feedback is-error">Tamanho máximo excedido!</div>
-        </div>
+      <!-- Sucesso -->
+      <div class="form-file is-success">
+        <input type="file" id="file-success" />
+        <label for="file-success">
+          <span class="icon">📄</span>
+          <span class="text">Arquivo Carregado</span>
+        </label>
+        <div class="feedback is-success">Arquivo carregado com sucesso!</div>
+      </div>
 
-        <!-- Loading -->
-        <div class="form-file is-loading">
-            <input type="file" id="file-loading" disabled>
-            <label for="file-loading">
-                <span class="icon">📄</span>
-                <span class="text">Carregando...</span>
-            </label>
-        </div>
+      <!-- Erro -->
+      <div class="form-file is-error">
+        <input type="file" id="file-error" />
+        <label for="file-error">
+          <span class="icon">📄</span>
+          <span class="text">Erro no Upload</span>
+        </label>
+        <div class="feedback is-error">Tamanho máximo excedido!</div>
+      </div>
+
+      <!-- Loading -->
+      <div class="form-file is-loading">
+        <input type="file" id="file-loading" disabled />
+        <label for="file-loading">
+          <span class="icon">📄</span>
+          <span class="text">Carregando...</span>
+        </label>
+      </div>
     </div>
 
     <!-- Tamanhos -->
     <div class="example">
-        <h3>Tamanhos</h3>
-        
-        <!-- Pequeno -->
-        <div class="form-file is-small">
-            <input type="file" id="file-small">
-            <label for="file-small">
-                <span class="icon">📄</span>
-                <span class="text">Arquivo Pequeno</span>
-            </label>
-        </div>
+      <h3>Tamanhos</h3>
 
-        <!-- Normal -->
-        <div class="form-file">
-            <input type="file" id="file-normal">
-            <label for="file-normal">
-                <span class="icon">📄</span>
-                <span class="text">Arquivo Normal</span>
-            </label>
-        </div>
+      <!-- Pequeno -->
+      <div class="form-file is-small">
+        <input type="file" id="file-small" />
+        <label for="file-small">
+          <span class="icon">📄</span>
+          <span class="text">Arquivo Pequeno</span>
+        </label>
+      </div>
 
-        <!-- Grande -->
-        <div class="form-file is-large">
-            <input type="file" id="file-large">
-            <label for="file-large">
-                <span class="icon">📄</span>
-                <span class="text">Arquivo Grande</span>
-            </label>
-        </div>
+      <!-- Normal -->
+      <div class="form-file">
+        <input type="file" id="file-normal" />
+        <label for="file-normal">
+          <span class="icon">📄</span>
+          <span class="text">Arquivo Normal</span>
+        </label>
+      </div>
+
+      <!-- Grande -->
+      <div class="form-file is-large">
+        <input type="file" id="file-large" />
+        <label for="file-large">
+          <span class="icon">📄</span>
+          <span class="text">Arquivo Grande</span>
+        </label>
+      </div>
     </div>
 
     <!-- Histórico -->
     <div class="example">
-        <h3>Histórico</h3>
-        <div class="form-file">
-            <div class="history">
-                <div class="history-item">
-                    <span class="icon">📄</span>
-                    <span class="text">documento1.pdf</span>
-                    <span class="filesize">1.2 MB</span>
-                    <div class="history-actions">
-                        <button class="control-button">👁️</button>
-                        <button class="control-button">🗑️</button>
-                    </div>
-                </div>
-                <div class="history-item">
-                    <span class="icon">📄</span>
-                    <span class="text">documento2.docx</span>
-                    <span class="filesize">3.5 MB</span>
-                    <div class="history-actions">
-                        <button class="control-button">👁️</button>
-                        <button class="control-button">🗑️</button>
-                    </div>
-                </div>
+      <h3>Histórico</h3>
+      <div class="form-file">
+        <div class="history">
+          <div class="history-item">
+            <span class="icon">📄</span>
+            <span class="text">documento1.pdf</span>
+            <span class="filesize">1.2 MB</span>
+            <div class="history-actions">
+              <button class="control-button">👁️</button>
+              <button class="control-button">🗑️</button>
             </div>
+          </div>
+          <div class="history-item">
+            <span class="icon">📄</span>
+            <span class="text">documento2.docx</span>
+            <span class="filesize">3.5 MB</span>
+            <div class="history-actions">
+              <button class="control-button">👁️</button>
+              <button class="control-button">🗑️</button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Tema Escuro -->
     <div class="example">
-        <h3>Tema Escuro</h3>
-        <div data-theme="dark">
-            <div class="form-file">
-                <input type="file" id="file-dark">
-                <label for="file-dark">
-                    <span class="icon">📄</span>
-                    <span class="text">Arquivo (Tema Escuro)</span>
-                </label>
-                <div class="preview">
-                    <span class="filename">documento.pdf</span>
-                    <span class="filesize">2.5 MB</span>
-                    <div class="actions">
-                        <button class="control-button">👁️</button>
-                        <button class="control-button">🗑️</button>
-                    </div>
-                </div>
+      <h3>Tema Escuro</h3>
+      <div data-theme="dark">
+        <div class="form-file">
+          <input type="file" id="file-dark" />
+          <label for="file-dark">
+            <span class="icon">📄</span>
+            <span class="text">Arquivo (Tema Escuro)</span>
+          </label>
+          <div class="preview">
+            <span class="filename">documento.pdf</span>
+            <span class="filesize">2.5 MB</span>
+            <div class="actions">
+              <button class="control-button">👁️</button>
+              <button class="control-button">🗑️</button>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Formatos Suportados -->
     <div class="example">
-        <h3>Formatos Suportados</h3>
-        <div class="form-file">
-            <div class="supported-formats">
-                <span class="format-tag">PDF</span>
-                <span class="format-tag">DOC</span>
-                <span class="format-tag">XLS</span>
-                <span class="format-tag">TXT</span>
-            </div>
+      <h3>Formatos Suportados</h3>
+      <div class="form-file">
+        <div class="supported-formats">
+          <span class="format-tag">PDF</span>
+          <span class="format-tag">DOC</span>
+          <span class="format-tag">XLS</span>
+          <span class="format-tag">TXT</span>
         </div>
+      </div>
     </div>
 
     <!-- Responsividade -->
     <div class="example">
-        <h3>Responsividade</h3>
-        <div class="form-file">
-            <input type="file" id="file-responsive">
-            <label for="file-responsive">
-                <span class="icon">📄</span>
-                <span class="text">Arquivo Responsivo</span>
-            </label>
-            <div class="preview">
-                <span class="filename">documento.pdf</span>
-                <span class="filesize">2.5 MB</span>
-                <div class="actions">
-                    <button class="control-button">👁️</button>
-                    <button class="control-button">🗑️</button>
-                </div>
-            </div>
+      <h3>Responsividade</h3>
+      <div class="form-file">
+        <input type="file" id="file-responsive" />
+        <label for="file-responsive">
+          <span class="icon">📄</span>
+          <span class="text">Arquivo Responsivo</span>
+        </label>
+        <div class="preview">
+          <span class="filename">documento.pdf</span>
+          <span class="filesize">2.5 MB</span>
+          <div class="actions">
+            <button class="control-button">👁️</button>
+            <button class="control-button">🗑️</button>
+          </div>
         </div>
+      </div>
     </div>
-</body>
-</html> 
+  </body>
+</html>

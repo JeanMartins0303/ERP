@@ -177,11 +177,11 @@
 }
 
 /* Temas */
-[data-theme="dark"] .notification {
+[data-theme='dark'] .notification {
   background-color: var(--surface-color);
 }
 
-[data-theme="dark"] .notification-progress {
+[data-theme='dark'] .notification-progress {
   background-color: var(--border-color);
 }
 
@@ -271,4 +271,4 @@
   100% {
     transform: translate(0);
   }
-} 
+}

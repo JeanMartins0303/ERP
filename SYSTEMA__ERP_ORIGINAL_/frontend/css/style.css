@@ -161,7 +161,9 @@ header h1 {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  transition:
+    transform var(--transition-speed),
+    box-shadow var(--transition-speed);
   border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
@@ -653,7 +655,7 @@ tr:hover {
 }
 
 /* Dark Theme */
-[data-bs-theme="dark"] {
+[data-bs-theme='dark'] {
   --body-bg: #212529;
   --card-bg: #2c3034;
   --text-color: #f8f9fa;
@@ -733,13 +735,15 @@ tr:hover {
 }
 
 /* Forms */
-.form-control, .form-select {
+.form-control,
+.form-select {
   border-color: var(--border-color);
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
@@ -869,12 +873,12 @@ tr:hover {
   .no-print {
     display: none !important;
   }
-  
+
   .main-content {
     margin: 0 !important;
     padding: 0 !important;
   }
-  
+
   .card {
     break-inside: avoid;
     border: 1px solid #ddd !important;
@@ -882,45 +886,45 @@ tr:hover {
 }
 
 /* Ajustes para tema escuro - garantir legibilidade */
-[data-bs-theme="dark"] .card,
-[data-bs-theme="dark"] .card-body,
-[data-bs-theme="dark"] .card-title,
-[data-bs-theme="dark"] .card-text,
-[data-bs-theme="dark"] .form-label,
-[data-bs-theme="dark"] .form-select,
-[data-bs-theme="dark"] .form-control,
-[data-bs-theme="dark"] .table,
-[data-bs-theme="dark"] .table th,
-[data-bs-theme="dark"] .table td {
+[data-bs-theme='dark'] .card,
+[data-bs-theme='dark'] .card-body,
+[data-bs-theme='dark'] .card-title,
+[data-bs-theme='dark'] .card-text,
+[data-bs-theme='dark'] .form-label,
+[data-bs-theme='dark'] .form-select,
+[data-bs-theme='dark'] .form-control,
+[data-bs-theme='dark'] .table,
+[data-bs-theme='dark'] .table th,
+[data-bs-theme='dark'] .table td {
   color: var(--bs-body-color) !important;
 }
 
-[data-bs-theme="dark"] .card-title,
-[data-bs-theme="dark"] h1,
-[data-bs-theme="dark"] h2,
-[data-bs-theme="dark"] h3,
-[data-bs-theme="dark"] h4,
-[data-bs-theme="dark"] h5,
-[data-bs-theme="dark"] h6 {
+[data-bs-theme='dark'] .card-title,
+[data-bs-theme='dark'] h1,
+[data-bs-theme='dark'] h2,
+[data-bs-theme='dark'] h3,
+[data-bs-theme='dark'] h4,
+[data-bs-theme='dark'] h5,
+[data-bs-theme='dark'] h6 {
   color: var(--bs-body-color) !important;
 }
 
-[data-bs-theme="dark"] label,
-[data-bs-theme="dark"] select,
-[data-bs-theme="dark"] input,
-[data-bs-theme="dark"] option {
+[data-bs-theme='dark'] label,
+[data-bs-theme='dark'] select,
+[data-bs-theme='dark'] input,
+[data-bs-theme='dark'] option {
   color: var(--bs-body-color) !important;
   background-color: var(--bs-card-bg) !important;
 }
 
-[data-bs-theme="dark"] .nav-link {
+[data-bs-theme='dark'] .nav-link {
   color: var(--bs-body-color) !important;
 }
 
-[data-bs-theme="dark"] .nav-link.active {
+[data-bs-theme='dark'] .nav-link.active {
   color: #fff !important;
 }
 
-[data-bs-theme="dark"] .table-hover tbody tr:hover {
-  background-color: rgba(255,255,255,0.05) !important;
+[data-bs-theme='dark'] .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }

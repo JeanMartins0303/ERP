@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.form-image input[type="file"] {
+.form-image input[type='file'] {
   position: absolute;
   width: 0.1px;
   height: 0.1px;
@@ -601,99 +601,99 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-image-label {
+[data-theme='dark'] .form-image-label {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-label:hover {
+[data-theme='dark'] .form-image-label:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-image-label:disabled {
+[data-theme='dark'] .form-image-label:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-image-icon {
+[data-theme='dark'] .form-image-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-text {
+[data-theme='dark'] .form-image-text {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-preview-image {
+[data-theme='dark'] .form-image-preview-image {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-image-preview-name {
+[data-theme='dark'] .form-image-preview-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-preview-size {
+[data-theme='dark'] .form-image-preview-size {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-progress {
+[data-theme='dark'] .form-image-progress {
   background-color: var(--background-color);
 }
 
-[data-theme="dark"] .form-image-validation-icon {
+[data-theme='dark'] .form-image-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-validation-message {
+[data-theme='dark'] .form-image-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-description-text {
+[data-theme='dark'] .form-image-description-text {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-history-item {
+[data-theme='dark'] .form-image-history-item {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-history-item:hover {
+[data-theme='dark'] .form-image-history-item:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-image-history-item-time {
+[data-theme='dark'] .form-image-history-item-time {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-image-selector {
+[data-theme='dark'] .form-image-selector {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-image-selector-title {
+[data-theme='dark'] .form-image-selector-title {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-selector-nav-button {
+[data-theme='dark'] .form-image-selector-nav-button {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-image-selector-nav-button:hover {
+[data-theme='dark'] .form-image-selector-nav-button:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-image-selector-item {
+[data-theme='dark'] .form-image-selector-item {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-image-selector-item:hover {
+[data-theme='dark'] .form-image-selector-item:hover {
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-image-selector-item.selected {
+[data-theme='dark'] .form-image-selector-item.selected {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
-} 
+}

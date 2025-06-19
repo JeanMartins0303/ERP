@@ -91,7 +91,7 @@ tr:hover {
   font-size: 0.95em;
   font-weight: 600;
   letter-spacing: 0.01em;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   border: none;
 }
 .status-badge.ativo {
@@ -279,14 +279,14 @@ label {
   margin-right: 0.5rem;
 }
 
-input[type="file"] {
+input[type='file'] {
   background: var(--card-bg);
   color: var(--text-color);
   border: none;
   padding: 0.2rem 0;
 }
 
-input[type="tel"],
-input[type="text"] {
+input[type='tel'],
+input[type='text'] {
   letter-spacing: 0.02em;
-} 
+}

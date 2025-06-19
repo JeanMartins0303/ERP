@@ -1,13 +1,13 @@
 // Dados de exemplo (substituir por dados reais da API)
 const produtos = [
-  { id: 1, nome: 'Café Expresso', preco: 5.00, categoria: 'bebidas', estoque: 100 },
-  { id: 2, nome: 'X-Burger', preco: 15.00, categoria: 'pratos', estoque: 50 },
-  { id: 3, nome: 'Batata Frita', preco: 12.00, categoria: 'pratos', estoque: 75 },
-  { id: 4, nome: 'Refrigerante', preco: 6.00, categoria: 'bebidas', estoque: 200 },
-  { id: 5, nome: 'Água Mineral', preco: 3.00, categoria: 'bebidas', estoque: 150 },
-  { id: 6, nome: 'Salada', preco: 18.00, categoria: 'pratos', estoque: 30 },
-  { id: 7, nome: 'Sobremesa', preco: 8.00, categoria: 'pratos', estoque: 40 },
-  { id: 8, nome: 'Suco Natural', preco: 7.00, categoria: 'bebidas', estoque: 60 }
+  { id: 1, nome: 'Café Expresso', preco: 5.0, categoria: 'bebidas', estoque: 100 },
+  { id: 2, nome: 'X-Burger', preco: 15.0, categoria: 'pratos', estoque: 50 },
+  { id: 3, nome: 'Batata Frita', preco: 12.0, categoria: 'pratos', estoque: 75 },
+  { id: 4, nome: 'Refrigerante', preco: 6.0, categoria: 'bebidas', estoque: 200 },
+  { id: 5, nome: 'Água Mineral', preco: 3.0, categoria: 'bebidas', estoque: 150 },
+  { id: 6, nome: 'Salada', preco: 18.0, categoria: 'pratos', estoque: 30 },
+  { id: 7, nome: 'Sobremesa', preco: 8.0, categoria: 'pratos', estoque: 40 },
+  { id: 8, nome: 'Suco Natural', preco: 7.0, categoria: 'bebidas', estoque: 60 }
 ];
 
 // Estado do carrinho
@@ -45,7 +45,7 @@ function formatarMoeda(valor) {
 }
 
 function calcularTotais() {
-  const subtotal = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+  const subtotal = carrinho.reduce((total, item) => total + item.preco * item.quantidade, 0);
   const total = subtotal - desconto;
 
   subtotalEl.textContent = formatarMoeda(subtotal);
@@ -57,13 +57,17 @@ function calcularTotais() {
 
 // Renderização de produtos
 function renderizarProdutos(produtosFiltrados = produtos) {
-  produtosGrid.innerHTML = produtosFiltrados.map(produto => `
+  produtosGrid.innerHTML = produtosFiltrados
+    .map(
+      produto => `
     <div class="produto-card" data-id="${produto.id}">
       <h3>${produto.nome}</h3>
       <div class="preco">${formatarMoeda(produto.preco)}</div>
       <div class="categoria">${produto.categoria}</div>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 
   // Adicionar eventos aos cards
   document.querySelectorAll('.produto-card').forEach(card => {
@@ -74,7 +78,9 @@ function renderizarProdutos(produtosFiltrados = produtos) {
 // Gerenciamento do carrinho
 function adicionarAoCarrinho(produtoId) {
   const produto = produtos.find(p => p.id === produtoId);
-  if (!produto) return;
+  if (!produto) {
+    return;
+  }
 
   const itemExistente = carrinho.find(item => item.id === produtoId);
   if (itemExistente) {
@@ -92,7 +98,9 @@ function adicionarAoCarrinho(produtoId) {
 }
 
 function atualizarCarrinho() {
-  carrinhoItems.innerHTML = carrinho.map(item => `
+  carrinhoItems.innerHTML = carrinho
+    .map(
+      item => `
     <div class="carrinho-item">
       <div class="info">
         <span class="nome">${item.nome}</span>
@@ -108,14 +116,18 @@ function atualizarCarrinho() {
         <i class="fas fa-times"></i>
       </button>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 
   calcularTotais();
 }
 
 function alterarQuantidade(produtoId, delta) {
   const item = carrinho.find(item => item.id === produtoId);
-  if (!item) return;
+  if (!item) {
+    return;
+  }
 
   item.quantidade = Math.max(1, item.quantidade + delta);
   atualizarCarrinho();
@@ -171,7 +183,7 @@ btnDesconto.addEventListener('click', () => {
   mostrarModal(modalDesconto);
 });
 
-formDesconto.addEventListener('submit', (e) => {
+formDesconto.addEventListener('submit', e => {
   e.preventDefault();
   const tipo = document.getElementById('tipoDesconto').value;
   const valor = parseFloat(document.getElementById('valorDesconto').value);
@@ -213,7 +225,7 @@ valorPagoInput.addEventListener('input', () => {
   trocoInput.value = formatarMoeda(troco);
 });
 
-formPagamento.addEventListener('submit', (e) => {
+formPagamento.addEventListener('submit', e => {
   e.preventDefault();
   // Aqui você implementaria a lógica de finalização da venda
   alert('Venda finalizada com sucesso!');

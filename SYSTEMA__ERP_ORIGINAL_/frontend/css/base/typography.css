@@ -165,7 +165,7 @@ blockquote p:last-child {
 
 /* Estilos de código */
 code {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 0.875em;
   color: var(--accent-color);
   background-color: var(--surface-hover);
@@ -186,4 +186,4 @@ pre code {
   background-color: transparent;
   padding: 0;
   border-radius: 0;
-} 
+}

@@ -38,7 +38,7 @@
 }
 
 .form-select::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   right: var(--spacing-sm);
@@ -440,66 +440,66 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-select select {
+[data-theme='dark'] .form-select select {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-select-label {
+[data-theme='dark'] .form-select-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-select select:disabled {
+[data-theme='dark'] .form-select select:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-select-validation-icon {
+[data-theme='dark'] .form-select-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-select-validation-message {
+[data-theme='dark'] .form-select-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-select-description-text {
+[data-theme='dark'] .form-select-description-text {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-select-history-item {
+[data-theme='dark'] .form-select-history-item {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-select-history-item:hover {
+[data-theme='dark'] .form-select-history-item:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-select-history-item-time {
+[data-theme='dark'] .form-select-history-item-time {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-select-options {
+[data-theme='dark'] .form-select-options {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-select-option {
+[data-theme='dark'] .form-select-option {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-select-option:hover {
+[data-theme='dark'] .form-select-option:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-select-option.selected {
+[data-theme='dark'] .form-select-option.selected {
   background-color: var(--primary-color-light);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-select-option-description {
+[data-theme='dark'] .form-select-option-description {
   color: var(--text-muted);
-} 
+}

@@ -8,8 +8,8 @@ const produtos = [
     categoria: 'Lanches',
     estoque: 0,
     estoqueMinimo: 0,
-    custo: 8.50,
-    preco: 15.90,
+    custo: 8.5,
+    preco: 15.9,
     status: 'ativo',
     descricao: 'Hambúrguer artesanal com queijo, alface e tomate',
     ingredientes: [
@@ -28,8 +28,8 @@ const produtos = [
     categoria: 'Bebidas',
     estoque: 48,
     estoqueMinimo: 12,
-    custo: 2.50,
-    preco: 5.90,
+    custo: 2.5,
+    preco: 5.9,
     status: 'ativo',
     descricao: 'Refrigerante Coca-Cola lata 350ml'
   },
@@ -41,8 +41,8 @@ const produtos = [
     categoria: 'Acompanhamentos',
     estoque: 0,
     estoqueMinimo: 0,
-    custo: 3.50,
-    preco: 8.90,
+    custo: 3.5,
+    preco: 8.9,
     status: 'ativo',
     descricao: 'Porção de batata frita crocante',
     ingredientes: [
@@ -53,7 +53,7 @@ const produtos = [
 ];
 
 // Estado da aplicação
-let estado = {
+const estado = {
   produtos: [...produtos],
   filtros: {
     tipo: 'todos',
@@ -84,14 +84,14 @@ const elementos = {
 };
 
 // Funções auxiliares
-const formatarMoeda = (valor) => {
+const formatarMoeda = valor => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
   }).format(valor);
 };
 
-const formatarNumero = (valor) => {
+const formatarNumero = valor => {
   return new Intl.NumberFormat('pt-BR').format(valor);
 };
 
@@ -100,7 +100,7 @@ const atualizarEstatisticas = () => {
   const total = estado.produtos.length;
   const emEstoque = estado.produtos.filter(p => p.estoque > 0).length;
   const baixo = estado.produtos.filter(p => p.estoque <= p.estoqueMinimo && p.estoque > 0).length;
-  const valorTotal = estado.produtos.reduce((acc, p) => acc + (p.estoque * p.custo), 0);
+  const valorTotal = estado.produtos.reduce((acc, p) => acc + p.estoque * p.custo, 0);
 
   elementos.totalProdutos.textContent = formatarNumero(total);
   elementos.produtosEstoque.textContent = formatarNumero(emEstoque);
@@ -113,14 +113,17 @@ const renderizarProdutos = () => {
   const produtosFiltrados = estado.produtos.filter(produto => {
     const matchTipo = estado.filtros.tipo === 'todos' || produto.tipo === estado.filtros.tipo;
     const matchCategoria = estado.filtros.categoria === 'todas' || produto.categoria === estado.filtros.categoria;
-    const matchBusca = !estado.filtros.busca || 
+    const matchBusca =
+      !estado.filtros.busca ||
       produto.nome.toLowerCase().includes(estado.filtros.busca.toLowerCase()) ||
       produto.codigo.toLowerCase().includes(estado.filtros.busca.toLowerCase());
-    
+
     return matchTipo && matchCategoria && matchBusca;
   });
 
-  elementos.corpoTabelaProdutos.innerHTML = produtosFiltrados.map(produto => `
+  elementos.corpoTabelaProdutos.innerHTML = produtosFiltrados
+    .map(
+      produto => `
     <tr>
       <td>${produto.codigo}</td>
         <td>${produto.nome}</td>
@@ -130,10 +133,20 @@ const renderizarProdutos = () => {
       <td>${formatarMoeda(produto.preco)}</td>
       <td>
         <span class="status ${produto.estoque <= produto.estoqueMinimo ? 'baixo' : produto.status}">
-          <i class="fas fa-${produto.estoque <= produto.estoqueMinimo ? 'exclamation-triangle' : 
-            produto.status === 'ativo' ? 'check-circle' : 'times-circle'}"></i>
-          ${produto.estoque <= produto.estoqueMinimo ? 'Estoque Baixo' : 
-            produto.status === 'ativo' ? 'Ativo' : 'Inativo'}
+          <i class="fas fa-${
+  produto.estoque <= produto.estoqueMinimo
+    ? 'exclamation-triangle'
+    : produto.status === 'ativo'
+      ? 'check-circle'
+      : 'times-circle'
+}"></i>
+          ${
+  produto.estoque <= produto.estoqueMinimo
+    ? 'Estoque Baixo'
+    : produto.status === 'ativo'
+      ? 'Ativo'
+      : 'Inativo'
+}
         </span>
       </td>
       <td>
@@ -147,20 +160,26 @@ const renderizarProdutos = () => {
         </div>
         </td>
     </tr>
-  `).join('');
+  `
+    )
+    .join('');
 };
 
 // Gerenciar ingredientes
 const renderizarIngredientes = () => {
-  if (!estado.produtoEditando) return;
+  if (!estado.produtoEditando) {
+    return;
+  }
 
-  elementos.listaIngredientes.innerHTML = estado.produtoEditando.ingredientes.map((ing, index) => `
+  elementos.listaIngredientes.innerHTML = estado.produtoEditando.ingredientes
+    .map(
+      (ing, index) => `
     <div class="ingrediente-item">
       <select class="ingrediente-select" onchange="atualizarIngrediente(${index}, this.value)">
         ${produtos
-          .filter(p => p.tipo === 'ingrediente')
-          .map(p => `<option value="${p.id}" ${p.id === ing.id ? 'selected' : ''}>${p.nome}</option>`)
-          .join('')}
+    .filter(p => p.tipo === 'ingrediente')
+    .map(p => `<option value="${p.id}" ${p.id === ing.id ? 'selected' : ''}>${p.nome}</option>`)
+    .join('')}
       </select>
       <div class="quantidade">
         <input type="number" value="${ing.quantidade}" min="0" step="0.1" 
@@ -171,7 +190,9 @@ const renderizarIngredientes = () => {
         <i class="fas fa-times"></i>
       </button>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 };
 
 // Event Listeners
@@ -238,13 +259,13 @@ document.getElementById('btnFecharModal').addEventListener('click', fecharModal)
 document.getElementById('btnCancelar').addEventListener('click', fecharModal);
 
 // Event Listener do formulário
-document.getElementById('formProduto').addEventListener('submit', (e) => {
+document.getElementById('formProduto').addEventListener('submit', e => {
   e.preventDefault();
   salvarProduto();
 });
 
 // Event Listener para tipo de produto
-document.getElementById('tipoProdutoForm').addEventListener('change', (e) => {
+document.getElementById('tipoProdutoForm').addEventListener('change', e => {
   const ingredientesContainer = document.getElementById('ingredientesContainer');
   if (e.target.value === 'prato') {
     ingredientesContainer.classList.remove('hidden');
@@ -263,7 +284,7 @@ const gerarCodigoProduto = () => {
 const salvarProduto = () => {
   const formData = new FormData(elementos.formProduto);
   const dados = Object.fromEntries(formData.entries());
-  
+
   const produto = {
     ...estado.produtoEditando,
     ...dados,
@@ -277,7 +298,7 @@ const salvarProduto = () => {
   if (index >= 0) {
     estado.produtos[index] = produto;
     mostrarNotificacao('Produto atualizado com sucesso!', 'success');
-    } else {
+  } else {
     estado.produtos.push(produto);
     mostrarNotificacao('Produto adicionado com sucesso!', 'success');
   }
@@ -287,12 +308,37 @@ const salvarProduto = () => {
   atualizarEstatisticas();
 };
 
-const editarProduto = (id) => {
+const editarProduto = id => {
   estado.produtoEditando = { ...estado.produtos.find(p => p.id === id) };
-  abrirModal();
+  // Abrir modal - usar a mesma lógica do btnAdicionar
+  const modal = document.getElementById('modalProduto');
+  modal.style.display = 'flex';
+  modal.style.opacity = '1';
+  modal.style.visibility = 'visible';
+
+  // Preencher formulário com dados do produto
+  document.getElementById('tipoProdutoForm').value = estado.produtoEditando.tipo;
+  document.getElementById('categoriaProdutoForm').value = estado.produtoEditando.categoria;
+  document.getElementById('codigoProduto').value = estado.produtoEditando.codigo;
+  document.getElementById('nomeProduto').value = estado.produtoEditando.nome;
+  document.getElementById('descricaoProduto').value = estado.produtoEditando.descricao;
+  document.getElementById('estoqueProduto').value = estado.produtoEditando.estoque;
+  document.getElementById('estoqueMinimo').value = estado.produtoEditando.estoqueMinimo;
+  document.getElementById('custoProduto').value = estado.produtoEditando.custo;
+  document.getElementById('precoProduto').value = estado.produtoEditando.preco;
+  document.getElementById('margemProduto').value = ((estado.produtoEditando.preco - estado.produtoEditando.custo) / estado.produtoEditando.custo * 100).toFixed(2);
+
+  // Mostrar seção de ingredientes se for prato
+  const ingredientesContainer = document.getElementById('ingredientesContainer');
+  if (estado.produtoEditando.tipo === 'prato') {
+    ingredientesContainer.classList.remove('hidden');
+    renderizarIngredientes();
+  } else {
+    ingredientesContainer.classList.add('hidden');
+  }
 };
 
-const excluirProduto = (id) => {
+const excluirProduto = id => {
   if (confirm('Tem certeza que deseja excluir este produto?')) {
     estado.produtos = estado.produtos.filter(p => p.id !== id);
     renderizarProdutos();
@@ -310,7 +356,7 @@ const atualizarQuantidade = (index, quantidade) => {
   estado.produtoEditando.ingredientes[index].quantidade = Number(quantidade);
 };
 
-const removerIngrediente = (index) => {
+const removerIngrediente = index => {
   estado.produtoEditando.ingredientes.splice(index, 1);
   renderizarIngredientes();
 };
@@ -322,13 +368,13 @@ const mostrarNotificacao = (mensagem, tipo) => {
     <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
     <span>${mensagem}</span>
   `;
-  
+
   document.body.appendChild(notificacao);
-  
+
   setTimeout(() => {
     notificacao.classList.add('show');
   }, 100);
-  
+
   setTimeout(() => {
     notificacao.classList.remove('show');
     setTimeout(() => {

@@ -5,10 +5,11 @@ const pratos = [
     nome: 'X-Burger',
     categoria: 'Lanches',
     descricao: 'Hambúrguer artesanal com queijo, alface e tomate',
-    preco: 15.90,
+    preco: 15.9,
     tempoPreparo: 15,
     status: 'ativo',
-    imagem: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    imagem:
+      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     ingredientes: [
       { id: 1, nome: 'Pão de Hambúrguer', quantidade: 1, unidade: 'un' },
       { id: 2, nome: 'Hambúrguer', quantidade: 1, unidade: 'un' },
@@ -22,10 +23,11 @@ const pratos = [
     nome: 'Batata Frita',
     categoria: 'Acompanhamentos',
     descricao: 'Porção de batata frita crocante',
-    preco: 8.90,
+    preco: 8.9,
     tempoPreparo: 10,
     status: 'ativo',
-    imagem: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    imagem:
+      'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     ingredientes: [
       { id: 6, nome: 'Batata', quantidade: 200, unidade: 'g' },
       { id: 7, nome: 'Óleo', quantidade: 50, unidade: 'ml' }
@@ -36,18 +38,16 @@ const pratos = [
     nome: 'Coca-Cola 350ml',
     categoria: 'Bebidas',
     descricao: 'Refrigerante Coca-Cola lata 350ml',
-    preco: 5.90,
+    preco: 5.9,
     tempoPreparo: 1,
     status: 'ativo',
     imagem: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-    ingredientes: [
-      { id: 8, nome: 'Coca-Cola', quantidade: 1, unidade: 'lata' }
-    ]
+    ingredientes: [{ id: 8, nome: 'Coca-Cola', quantidade: 1, unidade: 'lata' }]
   }
 ];
 
 // Estado da aplicação
-let estado = {
+const estado = {
   pratos: [...pratos],
   filtros: {
     categoria: 'todas',
@@ -57,14 +57,14 @@ let estado = {
 };
 
 // Funções auxiliares
-const formatarMoeda = (valor) => {
+const formatarMoeda = valor => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
   }).format(valor);
 };
 
-const formatarTempo = (minutos) => {
+const formatarTempo = minutos => {
   return `${minutos} min`;
 };
 
@@ -72,15 +72,18 @@ const formatarTempo = (minutos) => {
 const renderizarCardapio = () => {
   const pratosFiltrados = estado.pratos.filter(prato => {
     const matchCategoria = estado.filtros.categoria === 'todas' || prato.categoria === estado.filtros.categoria;
-    const matchBusca = !estado.filtros.busca || 
+    const matchBusca =
+      !estado.filtros.busca ||
       prato.nome.toLowerCase().includes(estado.filtros.busca.toLowerCase()) ||
       prato.descricao.toLowerCase().includes(estado.filtros.busca.toLowerCase());
-    
+
     return matchCategoria && matchBusca;
   });
 
   const cardapioGrid = document.querySelector('.cardapio-grid');
-  cardapioGrid.innerHTML = pratosFiltrados.map(prato => `
+  cardapioGrid.innerHTML = pratosFiltrados
+    .map(
+      prato => `
     <article class="prato-card">
       <img src="${prato.imagem}" alt="${prato.nome}" class="prato-imagem">
       <div class="prato-info">
@@ -103,7 +106,9 @@ const renderizarCardapio = () => {
         </div>
       </div>
     </article>
-  `).join('');
+  `
+    )
+    .join('');
 };
 
 // Event Listeners
@@ -116,7 +121,8 @@ document.getElementById('btnAdicionar').addEventListener('click', () => {
     preco: 0,
     tempoPreparo: 0,
     status: 'ativo',
-    imagem: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    imagem:
+      'https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
     ingredientes: []
   };
   abrirModal();
@@ -136,7 +142,7 @@ const abrirModal = () => {
   modal.style.display = 'flex';
   modal.style.opacity = '1';
   modal.style.visibility = 'visible';
-  
+
   // Preencher formulário
   if (estado.pratoEditando) {
     document.getElementById('categoriaPrato').value = estado.pratoEditando.categoria;
@@ -146,7 +152,7 @@ const abrirModal = () => {
     document.getElementById('tempoPreparo').value = estado.pratoEditando.tempoPreparo;
     document.getElementById('statusPrato').value = estado.pratoEditando.status;
   }
-  
+
   renderizarIngredientes();
 };
 
@@ -162,7 +168,7 @@ const fecharModal = () => {
 const salvarPrato = () => {
   const formData = new FormData(document.getElementById('formPrato'));
   const dados = Object.fromEntries(formData.entries());
-  
+
   const prato = {
     ...estado.pratoEditando,
     ...dados,
@@ -183,12 +189,12 @@ const salvarPrato = () => {
   renderizarCardapio();
 };
 
-const editarPrato = (id) => {
+const editarPrato = id => {
   estado.pratoEditando = { ...estado.pratos.find(p => p.id === id) };
   abrirModal();
 };
 
-const excluirPrato = (id) => {
+const excluirPrato = id => {
   if (confirm('Tem certeza que deseja excluir este prato?')) {
     estado.pratos = estado.pratos.filter(p => p.id !== id);
     renderizarCardapio();
@@ -197,16 +203,20 @@ const excluirPrato = (id) => {
 };
 
 const renderizarIngredientes = () => {
-  if (!estado.pratoEditando) return;
+  if (!estado.pratoEditando) {
+    return;
+  }
 
   const listaIngredientes = document.getElementById('listaIngredientes');
-  listaIngredientes.innerHTML = estado.pratoEditando.ingredientes.map((ing, index) => `
+  listaIngredientes.innerHTML = estado.pratoEditando.ingredientes
+    .map(
+      (ing, index) => `
     <div class="ingrediente-item">
       <select class="ingrediente-select" onchange="atualizarIngrediente(${index}, this.value)">
         ${pratos
-          .filter(p => p.tipo === 'ingrediente')
-          .map(p => `<option value="${p.id}" ${p.id === ing.id ? 'selected' : ''}>${p.nome}</option>`)
-          .join('')}
+    .filter(p => p.tipo === 'ingrediente')
+    .map(p => `<option value="${p.id}" ${p.id === ing.id ? 'selected' : ''}>${p.nome}</option>`)
+    .join('')}
       </select>
       <div class="quantidade">
         <input type="number" value="${ing.quantidade}" min="0" step="0.1" 
@@ -217,7 +227,9 @@ const renderizarIngredientes = () => {
         <i class="fas fa-times"></i>
       </button>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 };
 
 const atualizarIngrediente = (index, id) => {
@@ -229,7 +241,7 @@ const atualizarQuantidade = (index, quantidade) => {
   estado.pratoEditando.ingredientes[index].quantidade = Number(quantidade);
 };
 
-const removerIngrediente = (index) => {
+const removerIngrediente = index => {
   estado.pratoEditando.ingredientes.splice(index, 1);
   renderizarIngredientes();
 };
@@ -241,13 +253,13 @@ const mostrarNotificacao = (mensagem, tipo) => {
     <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
     <span>${mensagem}</span>
   `;
-  
+
   document.body.appendChild(notificacao);
-  
+
   setTimeout(() => {
     notificacao.classList.add('show');
   }, 100);
-  
+
   setTimeout(() => {
     notificacao.classList.remove('show');
     setTimeout(() => {
@@ -259,7 +271,7 @@ const mostrarNotificacao = (mensagem, tipo) => {
 // Event Listeners do Modal
 document.getElementById('btnFecharModal').addEventListener('click', fecharModal);
 document.getElementById('btnCancelar').addEventListener('click', fecharModal);
-document.getElementById('formPrato').addEventListener('submit', (e) => {
+document.getElementById('formPrato').addEventListener('submit', e => {
   e.preventDefault();
   salvarPrato();
 });
@@ -293,4 +305,4 @@ const inicializar = () => {
 };
 
 // Iniciar aplicação
-inicializar(); 
+inicializar();

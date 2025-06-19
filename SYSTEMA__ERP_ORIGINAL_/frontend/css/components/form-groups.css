@@ -256,51 +256,51 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-group-description {
+[data-theme='dark'] .form-group-description {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-icon i {
+[data-theme='dark'] .form-group-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-select i {
+[data-theme='dark'] .form-group-select i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-upload {
+[data-theme='dark'] .form-group-upload {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-group-upload:hover {
+[data-theme='dark'] .form-group-upload:hover {
   border-color: var(--primary-color);
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .form-group-upload i {
+[data-theme='dark'] .form-group-upload i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-upload .upload-text {
+[data-theme='dark'] .form-group-upload .upload-text {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-upload .upload-hint {
+[data-theme='dark'] .form-group-upload .upload-hint {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-progress .progress {
+[data-theme='dark'] .form-group-progress .progress {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .form-group-counter .counter {
+[data-theme='dark'] .form-group-counter .counter {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-group-counter .counter.warning {
+[data-theme='dark'] .form-group-counter .counter.warning {
   color: var(--warning-color);
 }
 
-[data-theme="dark"] .form-group-counter .counter.error {
+[data-theme='dark'] .form-group-counter .counter.error {
   color: var(--error-color);
-} 
+}

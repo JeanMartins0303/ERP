@@ -5,6 +5,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import logo from '../../../img/logo_login_principal.png';
 
 interface CardData {
   title: string;
@@ -98,7 +99,7 @@ const Dashboard: React.FC = () => {
     <Box sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
         <img
-          src={require('../../../img/logo_login_principal.png')}
+          src="/img/logo_login_principal.png"
           alt="Logo COREL SYS"
           style={{ height: 60, width: 'auto', marginBottom: 8 }}
           onError={(e) => {

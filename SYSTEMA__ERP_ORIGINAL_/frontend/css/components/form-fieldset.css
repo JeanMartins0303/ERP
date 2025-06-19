@@ -262,47 +262,47 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-fieldset-legend {
+[data-theme='dark'] .form-fieldset-legend {
   color: var(--text-primary);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-fieldset-section {
+[data-theme='dark'] .form-fieldset-section {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-fieldset-attachment {
+[data-theme='dark'] .form-fieldset-attachment {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-fieldset-attachment-name {
+[data-theme='dark'] .form-fieldset-attachment-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-fieldset-attachment-size {
+[data-theme='dark'] .form-fieldset-attachment-size {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-fieldset-progress-bar {
+[data-theme='dark'] .form-fieldset-progress-bar {
   background-color: var(--background-color-light);
 }
 
-[data-theme="dark"] .form-fieldset-message-success {
+[data-theme='dark'] .form-fieldset-message-success {
   background-color: var(--success-color-light);
   color: var(--success-color);
 }
 
-[data-theme="dark"] .form-fieldset-message-error {
+[data-theme='dark'] .form-fieldset-message-error {
   background-color: var(--error-color-light);
   color: var(--error-color);
 }
 
-[data-theme="dark"] .form-fieldset-message-warning {
+[data-theme='dark'] .form-fieldset-message-warning {
   background-color: var(--warning-color-light);
   color: var(--warning-color);
 }
 
-[data-theme="dark"] .form-fieldset-message-info {
+[data-theme='dark'] .form-fieldset-message-info {
   background-color: var(--info-color-light);
   color: var(--info-color);
-} 
+}

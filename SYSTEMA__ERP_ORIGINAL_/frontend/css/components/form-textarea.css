@@ -415,63 +415,63 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-textarea textarea {
+[data-theme='dark'] .form-textarea textarea {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea-label {
+[data-theme='dark'] .form-textarea-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea textarea:disabled {
+[data-theme='dark'] .form-textarea textarea:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-textarea-validation-icon {
+[data-theme='dark'] .form-textarea-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-textarea-validation-message {
+[data-theme='dark'] .form-textarea-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-textarea-counter-label {
+[data-theme='dark'] .form-textarea-counter-label {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-textarea-counter-value {
+[data-theme='dark'] .form-textarea-counter-value {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea-format-button {
+[data-theme='dark'] .form-textarea-format-button {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea-format-button:hover {
+[data-theme='dark'] .form-textarea-format-button:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-textarea-format-button.active {
+[data-theme='dark'] .form-textarea-format-button.active {
   background-color: var(--primary-color);
   color: var(--text-white);
 }
 
-[data-theme="dark"] .form-textarea-history-item {
+[data-theme='dark'] .form-textarea-history-item {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea-history-item:hover {
+[data-theme='dark'] .form-textarea-history-item:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-textarea-history-item-time {
+[data-theme='dark'] .form-textarea-history-item-time {
   color: var(--text-muted);
-} 
+}

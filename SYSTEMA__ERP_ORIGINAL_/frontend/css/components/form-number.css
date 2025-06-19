@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.form-number input[type="number"] {
+.form-number input[type='number'] {
   -webkit-appearance: none;
   width: 100%;
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -21,23 +21,23 @@
   transition: var(--transition-fast);
 }
 
-.form-number input[type="number"]::-webkit-inner-spin-button,
-.form-number input[type="number"]::-webkit-outer-spin-button {
+.form-number input[type='number']::-webkit-inner-spin-button,
+.form-number input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.form-number input[type="number"]:hover {
+.form-number input[type='number']:hover {
   border-color: var(--primary-color);
 }
 
-.form-number input[type="number"]:focus {
+.form-number input[type='number']:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-.form-number input[type="number"]:disabled {
+.form-number input[type='number']:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
@@ -48,60 +48,60 @@
 }
 
 /* Número com estados */
-.form-number-success input[type="number"] {
+.form-number-success input[type='number'] {
   border-color: var(--success-color);
 }
 
-.form-number-success input[type="number"]:hover {
+.form-number-success input[type='number']:hover {
   border-color: var(--success-color);
 }
 
-.form-number-success input[type="number"]:focus {
+.form-number-success input[type='number']:focus {
   border-color: var(--success-color);
   box-shadow: 0 0 0 2px var(--success-color-light);
 }
 
-.form-number-error input[type="number"] {
+.form-number-error input[type='number'] {
   border-color: var(--error-color);
 }
 
-.form-number-error input[type="number"]:hover {
+.form-number-error input[type='number']:hover {
   border-color: var(--error-color);
 }
 
-.form-number-error input[type="number"]:focus {
+.form-number-error input[type='number']:focus {
   border-color: var(--error-color);
   box-shadow: 0 0 0 2px var(--error-color-light);
 }
 
-.form-number-warning input[type="number"] {
+.form-number-warning input[type='number'] {
   border-color: var(--warning-color);
 }
 
-.form-number-warning input[type="number"]:hover {
+.form-number-warning input[type='number']:hover {
   border-color: var(--warning-color);
 }
 
-.form-number-warning input[type="number"]:focus {
+.form-number-warning input[type='number']:focus {
   border-color: var(--warning-color);
   box-shadow: 0 0 0 2px var(--warning-color-light);
 }
 
-.form-number-info input[type="number"] {
+.form-number-info input[type='number'] {
   border-color: var(--info-color);
 }
 
-.form-number-info input[type="number"]:hover {
+.form-number-info input[type='number']:hover {
   border-color: var(--info-color);
 }
 
-.form-number-info input[type="number"]:focus {
+.form-number-info input[type='number']:focus {
   border-color: var(--info-color);
   box-shadow: 0 0 0 2px var(--info-color-light);
 }
 
 /* Número com tamanhos */
-.form-number-sm input[type="number"] {
+.form-number-sm input[type='number'] {
   padding: var(--spacing-xs);
   font-size: var(--font-size-sm);
 }
@@ -110,7 +110,7 @@
   font-size: var(--font-size-sm);
 }
 
-.form-number-lg input[type="number"] {
+.form-number-lg input[type='number'] {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-lg);
 }
@@ -145,11 +145,11 @@
 }
 
 /* Número com animações */
-.form-number-animated input[type="number"] {
+.form-number-animated input[type='number'] {
   transition: all 0.3s ease;
 }
 
-.form-number-animated input[type="number"]:hover {
+.form-number-animated input[type='number']:hover {
   transform: scale(1.02);
 }
 
@@ -210,7 +210,7 @@
   pointer-events: none;
 }
 
-.form-number-loading input[type="number"] {
+.form-number-loading input[type='number'] {
   border-color: var(--primary-color);
   border-top-color: transparent;
   animation: spin 0.8s linear infinite;
@@ -444,7 +444,7 @@
     gap: var(--spacing-xs);
   }
 
-  .form-number input[type="number"] {
+  .form-number input[type='number'] {
     padding: var(--spacing-xs);
     font-size: var(--font-size-sm);
   }
@@ -453,7 +453,7 @@
     font-size: var(--font-size-sm);
   }
 
-  .form-number-sm input[type="number"] {
+  .form-number-sm input[type='number'] {
     padding: var(--spacing-xs);
     font-size: var(--font-size-xs);
   }
@@ -462,7 +462,7 @@
     font-size: var(--font-size-xs);
   }
 
-  .form-number-lg input[type="number"] {
+  .form-number-lg input[type='number'] {
     padding: var(--spacing-sm);
     font-size: var(--font-size-md);
   }
@@ -497,75 +497,75 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-number input[type="number"] {
+[data-theme='dark'] .form-number input[type='number'] {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number-label {
+[data-theme='dark'] .form-number-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number input[type="number"]:disabled {
+[data-theme='dark'] .form-number input[type='number']:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-number-validation-icon {
+[data-theme='dark'] .form-number-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-number-validation-message {
+[data-theme='dark'] .form-number-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-number-description-text {
+[data-theme='dark'] .form-number-description-text {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-number-history-item {
+[data-theme='dark'] .form-number-history-item {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number-history-item:hover {
+[data-theme='dark'] .form-number-history-item:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-number-history-item-time {
+[data-theme='dark'] .form-number-history-item-time {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-number-selector {
+[data-theme='dark'] .form-number-selector {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-number-selector-title {
+[data-theme='dark'] .form-number-selector-title {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number-selector-nav-button {
+[data-theme='dark'] .form-number-selector-nav-button {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number-selector-nav-button:hover {
+[data-theme='dark'] .form-number-selector-nav-button:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-number-selector-digit {
+[data-theme='dark'] .form-number-selector-digit {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-number-selector-digit:hover {
+[data-theme='dark'] .form-number-selector-digit:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-number-selector-digit.selected {
+[data-theme='dark'] .form-number-selector-digit.selected {
   background-color: var(--primary-color);
   color: var(--text-white);
-} 
+}

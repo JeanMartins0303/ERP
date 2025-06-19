@@ -275,122 +275,122 @@
 }
 
 /* Temas */
-[data-theme="dark"] .date-time-input {
+[data-theme='dark'] .date-time-input {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .date-time-input:hover {
+[data-theme='dark'] .date-time-input:hover {
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .date-time-icon {
+[data-theme='dark'] .date-time-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .date-time-input:hover .date-time-icon {
+[data-theme='dark'] .date-time-input:hover .date-time-icon {
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .date-time-value {
+[data-theme='dark'] .date-time-value {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .date-time-popup {
+[data-theme='dark'] .date-time-popup {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .calendar-title {
+[data-theme='dark'] .calendar-title {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .calendar-nav-button {
+[data-theme='dark'] .calendar-nav-button {
   color: var(--text-muted);
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .calendar-nav-button:hover {
+[data-theme='dark'] .calendar-nav-button:hover {
   color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .calendar-weekday {
+[data-theme='dark'] .calendar-weekday {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .calendar-day {
+[data-theme='dark'] .calendar-day {
   color: var(--text-primary);
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .calendar-day:hover {
+[data-theme='dark'] .calendar-day:hover {
   background-color: var(--surface-hover);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .calendar-day.today {
+[data-theme='dark'] .calendar-day.today {
   color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .calendar-day.selected {
+[data-theme='dark'] .calendar-day.selected {
   color: var(--text-on-primary);
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .calendar-day.disabled {
+[data-theme='dark'] .calendar-day.disabled {
   color: var(--text-disabled);
   background-color: var(--surface-disabled);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .time-selector {
+[data-theme='dark'] .time-selector {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .time-input {
+[data-theme='dark'] .time-input {
   color: var(--text-primary);
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .time-separator {
+[data-theme='dark'] .time-separator {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .period-button {
+[data-theme='dark'] .period-button {
   color: var(--text-primary);
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .period-button:hover {
+[data-theme='dark'] .period-button:hover {
   background-color: var(--surface-hover);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .period-button.active {
+[data-theme='dark'] .period-button.active {
   color: var(--text-on-primary);
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .date-time-actions {
+[data-theme='dark'] .date-time-actions {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .date-time-action {
+[data-theme='dark'] .date-time-action {
   color: var(--text-primary);
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .date-time-action:hover {
+[data-theme='dark'] .date-time-action:hover {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
   color: var(--text-on-primary);
-} 
+}

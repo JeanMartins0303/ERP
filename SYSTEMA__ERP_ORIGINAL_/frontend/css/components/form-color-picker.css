@@ -103,9 +103,15 @@
   height: 20px;
   margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius-sm);
-  background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-image:
+    linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%);
   background-size: 10px 10px;
-  background-position: 0 0, 0 5px, 5px -5px, -5px 0px;
+  background-position:
+    0 0,
+    0 5px,
+    5px -5px,
+    -5px 0px;
   cursor: pointer;
 }
 
@@ -255,55 +261,55 @@
 }
 
 /* Temas */
-[data-theme="dark"] .color-input {
+[data-theme='dark'] .color-input {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-input:hover {
+[data-theme='dark'] .color-input:hover {
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .color-preview {
+[data-theme='dark'] .color-preview {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-value {
+[data-theme='dark'] .color-value {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .color-popup {
+[data-theme='dark'] .color-popup {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-input-label {
+[data-theme='dark'] .color-input-label {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .color-input-field {
+[data-theme='dark'] .color-input-field {
   color: var(--text-primary);
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-palette-item,
-[data-theme="dark"] .color-recent-item {
+[data-theme='dark'] .color-palette-item,
+[data-theme='dark'] .color-recent-item {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-actions {
+[data-theme='dark'] .color-actions {
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-action {
+[data-theme='dark'] .color-action {
   color: var(--text-primary);
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .color-action:hover {
+[data-theme='dark'] .color-action:hover {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
   color: var(--text-on-primary);
-} 
+}

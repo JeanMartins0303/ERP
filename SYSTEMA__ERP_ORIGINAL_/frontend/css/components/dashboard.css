@@ -3,7 +3,9 @@
   background-color: var(--surface-color);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .dashboard-card:hover {
@@ -255,15 +257,15 @@
 }
 
 /* Temas do Dashboard */
-[data-theme="dark"] .dashboard-card {
+[data-theme='dark'] .dashboard-card {
   background-color: var(--surface-color);
 }
 
-[data-theme="dark"] .stat-card {
+[data-theme='dark'] .stat-card {
   background-color: var(--surface-color);
 }
 
-[data-theme="dark"] .dashboard-filters {
+[data-theme='dark'] .dashboard-filters {
   background-color: var(--surface-color);
 }
 
@@ -310,4 +312,4 @@
   font-size: var(--font-size-md);
   color: var(--text-secondary);
   margin-bottom: var(--spacing-md);
-} 
+}

@@ -13,7 +13,9 @@
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
   resize: vertical;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .form-textarea:focus {
@@ -203,52 +205,52 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-textarea {
+[data-theme='dark'] .form-textarea {
   background-color: var(--surface-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-textarea:focus {
+[data-theme='dark'] .form-textarea:focus {
   background-color: var(--surface-color);
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-textarea::placeholder {
+[data-theme='dark'] .form-textarea::placeholder {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-textarea:disabled,
-[data-theme="dark"] .form-textarea[readonly] {
+[data-theme='dark'] .form-textarea:disabled,
+[data-theme='dark'] .form-textarea[readonly] {
   background-color: var(--surface-disabled);
 }
 
-[data-theme="dark"] .textarea-toolbar .toolbar {
+[data-theme='dark'] .textarea-toolbar .toolbar {
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .textarea-toolbar .toolbar button {
+[data-theme='dark'] .textarea-toolbar .toolbar button {
   color: var(--text-muted);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .textarea-toolbar .toolbar button:hover {
+[data-theme='dark'] .textarea-toolbar .toolbar button:hover {
   color: var(--text-primary);
   background-color: var(--surface-color);
 }
 
-[data-theme="dark"] .textarea-preview .preview {
+[data-theme='dark'] .textarea-preview .preview {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .textarea-upload .upload-area {
+[data-theme='dark'] .textarea-upload .upload-area {
   background-color: var(--surface-hover);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .textarea-upload .upload-area:hover {
+[data-theme='dark'] .textarea-upload .upload-area:hover {
   background-color: var(--surface-color);
   border-color: var(--primary-color);
-} 
+}

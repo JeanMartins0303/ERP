@@ -282,87 +282,87 @@
 }
 
 /* Temas */
-[data-theme="dark"] .upload-area {
+[data-theme='dark'] .upload-area {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .upload-area:hover {
+[data-theme='dark'] .upload-area:hover {
   border-color: var(--primary-color);
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .upload-area.drag-over {
+[data-theme='dark'] .upload-area.drag-over {
   border-color: var(--primary-color);
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .upload-icon {
+[data-theme='dark'] .upload-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .upload-area:hover .upload-icon {
+[data-theme='dark'] .upload-area:hover .upload-icon {
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .upload-text {
+[data-theme='dark'] .upload-text {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .upload-hint {
+[data-theme='dark'] .upload-hint {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .upload-file {
+[data-theme='dark'] .upload-file {
   background-color: var(--surface-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .upload-file:hover {
+[data-theme='dark'] .upload-file:hover {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .upload-file-icon {
+[data-theme='dark'] .upload-file-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .upload-file-name {
+[data-theme='dark'] .upload-file-name {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .upload-file-size {
+[data-theme='dark'] .upload-file-size {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .upload-file-progress {
+[data-theme='dark'] .upload-file-progress {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .upload-file-action {
+[data-theme='dark'] .upload-file-action {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .upload-file-action:hover {
+[data-theme='dark'] .upload-file-action:hover {
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .upload-file-action.remove:hover {
+[data-theme='dark'] .upload-file-action.remove:hover {
   color: var(--error-color);
 }
 
-[data-theme="dark"] .upload-preview-actions {
+[data-theme='dark'] .upload-preview-actions {
   background-color: rgba(var(--surface-rgb), 0.8);
 }
 
-[data-theme="dark"] .upload-preview-action {
+[data-theme='dark'] .upload-preview-action {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .upload-preview-action:hover {
+[data-theme='dark'] .upload-preview-action:hover {
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .upload-limits {
+[data-theme='dark'] .upload-limits {
   background-color: var(--surface-hover);
   color: var(--text-muted);
-} 
+}

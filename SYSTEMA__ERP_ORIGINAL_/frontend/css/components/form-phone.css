@@ -7,7 +7,7 @@
   user-select: none;
 }
 
-.form-phone input[type="tel"] {
+.form-phone input[type='tel'] {
   -webkit-appearance: none;
   width: 100%;
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -20,17 +20,17 @@
   transition: var(--transition-fast);
 }
 
-.form-phone input[type="tel"]:hover {
+.form-phone input[type='tel']:hover {
   border-color: var(--primary-color);
 }
 
-.form-phone input[type="tel"]:focus {
+.form-phone input[type='tel']:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-.form-phone input[type="tel"]:disabled {
+.form-phone input[type='tel']:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
@@ -41,60 +41,60 @@
 }
 
 /* Telefone com estados */
-.form-phone-success input[type="tel"] {
+.form-phone-success input[type='tel'] {
   border-color: var(--success-color);
 }
 
-.form-phone-success input[type="tel"]:hover {
+.form-phone-success input[type='tel']:hover {
   border-color: var(--success-color);
 }
 
-.form-phone-success input[type="tel"]:focus {
+.form-phone-success input[type='tel']:focus {
   border-color: var(--success-color);
   box-shadow: 0 0 0 2px var(--success-color-light);
 }
 
-.form-phone-error input[type="tel"] {
+.form-phone-error input[type='tel'] {
   border-color: var(--error-color);
 }
 
-.form-phone-error input[type="tel"]:hover {
+.form-phone-error input[type='tel']:hover {
   border-color: var(--error-color);
 }
 
-.form-phone-error input[type="tel"]:focus {
+.form-phone-error input[type='tel']:focus {
   border-color: var(--error-color);
   box-shadow: 0 0 0 2px var(--error-color-light);
 }
 
-.form-phone-warning input[type="tel"] {
+.form-phone-warning input[type='tel'] {
   border-color: var(--warning-color);
 }
 
-.form-phone-warning input[type="tel"]:hover {
+.form-phone-warning input[type='tel']:hover {
   border-color: var(--warning-color);
 }
 
-.form-phone-warning input[type="tel"]:focus {
+.form-phone-warning input[type='tel']:focus {
   border-color: var(--warning-color);
   box-shadow: 0 0 0 2px var(--warning-color-light);
 }
 
-.form-phone-info input[type="tel"] {
+.form-phone-info input[type='tel'] {
   border-color: var(--info-color);
 }
 
-.form-phone-info input[type="tel"]:hover {
+.form-phone-info input[type='tel']:hover {
   border-color: var(--info-color);
 }
 
-.form-phone-info input[type="tel"]:focus {
+.form-phone-info input[type='tel']:focus {
   border-color: var(--info-color);
   box-shadow: 0 0 0 2px var(--info-color-light);
 }
 
 /* Telefone com tamanhos */
-.form-phone-sm input[type="tel"] {
+.form-phone-sm input[type='tel'] {
   padding: var(--spacing-xs);
   font-size: var(--font-size-sm);
 }
@@ -103,7 +103,7 @@
   font-size: var(--font-size-sm);
 }
 
-.form-phone-lg input[type="tel"] {
+.form-phone-lg input[type='tel'] {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-lg);
 }
@@ -138,11 +138,11 @@
 }
 
 /* Telefone com animações */
-.form-phone-animated input[type="tel"] {
+.form-phone-animated input[type='tel'] {
   transition: all 0.3s ease;
 }
 
-.form-phone-animated input[type="tel"]:hover {
+.form-phone-animated input[type='tel']:hover {
   transform: scale(1.05);
 }
 
@@ -203,7 +203,7 @@
   pointer-events: none;
 }
 
-.form-phone-loading input[type="tel"] {
+.form-phone-loading input[type='tel'] {
   border-color: var(--primary-color);
   border-top-color: transparent;
   animation: spin 0.8s linear infinite;
@@ -318,7 +318,7 @@
   pointer-events: none;
 }
 
-.form-phone-mask input[type="tel"] {
+.form-phone-mask input[type='tel'] {
   padding-left: calc(var(--spacing-sm) * 2 + 1rem);
 }
 
@@ -364,7 +364,7 @@
     gap: var(--spacing-xs);
   }
 
-  .form-phone input[type="tel"] {
+  .form-phone input[type='tel'] {
     padding: var(--spacing-xs);
     font-size: var(--font-size-sm);
   }
@@ -373,7 +373,7 @@
     font-size: var(--font-size-sm);
   }
 
-  .form-phone-sm input[type="tel"] {
+  .form-phone-sm input[type='tel'] {
     padding: var(--spacing-xs);
     font-size: var(--font-size-xs);
   }
@@ -382,7 +382,7 @@
     font-size: var(--font-size-xs);
   }
 
-  .form-phone-lg input[type="tel"] {
+  .form-phone-lg input[type='tel'] {
     padding: var(--spacing-sm);
     font-size: var(--font-size-md);
   }
@@ -412,59 +412,59 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-phone input[type="tel"] {
+[data-theme='dark'] .form-phone input[type='tel'] {
   background-color: var(--background-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-phone-label {
+[data-theme='dark'] .form-phone-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-phone input[type="tel"]:disabled {
+[data-theme='dark'] .form-phone input[type='tel']:disabled {
   opacity: 0.7;
 }
 
-[data-theme="dark"] .form-phone-validation-icon {
+[data-theme='dark'] .form-phone-validation-icon {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-phone-validation-message {
+[data-theme='dark'] .form-phone-validation-message {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-phone-countries {
+[data-theme='dark'] .form-phone-countries {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-phone-country {
+[data-theme='dark'] .form-phone-country {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-phone-country:hover {
+[data-theme='dark'] .form-phone-country:hover {
   background-color: var(--background-color-hover);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-phone-country.selected {
+[data-theme='dark'] .form-phone-country.selected {
   background-color: var(--primary-color);
   color: var(--text-white);
 }
 
-[data-theme="dark"] .form-phone-country-name {
+[data-theme='dark'] .form-phone-country-name {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-phone-mask-prefix {
+[data-theme='dark'] .form-phone-mask-prefix {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-phone-format-label {
+[data-theme='dark'] .form-phone-format-label {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-phone-format-value {
+[data-theme='dark'] .form-phone-format-value {
   color: var(--text-primary);
-} 
+}

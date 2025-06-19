@@ -47,8 +47,26 @@ function configurarEventos() {
 // --- Dados Simulados ---
 function carregarTransacoes() {
   transacoes = [
-    { id: 1, data: '2024-06-01', descricao: 'Venda de produtos', categoria: 'Vendas', tipo: 'receita', valor: 1500, status: 'pago', formaPagamento: 'cartao_credito' },
-    { id: 2, data: '2024-06-02', descricao: 'Pagamento aluguel', categoria: 'Aluguel', tipo: 'despesa', valor: 800, status: 'pendente', formaPagamento: 'boleto' }
+    {
+      id: 1,
+      data: '2024-06-01',
+      descricao: 'Venda de produtos',
+      categoria: 'Vendas',
+      tipo: 'receita',
+      valor: 1500,
+      status: 'pago',
+      formaPagamento: 'cartao_credito'
+    },
+    {
+      id: 2,
+      data: '2024-06-02',
+      descricao: 'Pagamento aluguel',
+      categoria: 'Aluguel',
+      tipo: 'despesa',
+      valor: 800,
+      status: 'pendente',
+      formaPagamento: 'boleto'
+    }
   ];
   atualizarTabelaTransacoes();
   atualizarResumo();
@@ -82,9 +100,17 @@ function filtrarTransacoes() {
   const categoria = document.getElementById('filtroCategoria').value;
   const busca = document.getElementById('searchFinance').value.toLowerCase();
   let filtradas = transacoes;
-  if (tipo !== 'todos') filtradas = filtradas.filter(t => t.tipo === tipo);
-  if (categoria !== 'todas') filtradas = filtradas.filter(t => t.categoria.toLowerCase() === categoria);
-  if (busca) filtradas = filtradas.filter(t => t.descricao.toLowerCase().includes(busca) || t.categoria.toLowerCase().includes(busca));
+  if (tipo !== 'todos') {
+    filtradas = filtradas.filter(t => t.tipo === tipo);
+  }
+  if (categoria !== 'todas') {
+    filtradas = filtradas.filter(t => t.categoria.toLowerCase() === categoria);
+  }
+  if (busca) {
+    filtradas = filtradas.filter(
+      t => t.descricao.toLowerCase().includes(busca) || t.categoria.toLowerCase().includes(busca)
+    );
+  }
   atualizarTabelaTransacoes(filtradas);
 }
 
@@ -131,17 +157,19 @@ function criarOuEditarTransacao(e) {
   if (idEdicao) {
     const idx = transacoes.findIndex(t => t.id === idEdicao);
     transacoes[idx] = nova;
-    } else {
+  } else {
     transacoes.push(nova);
-    }
+  }
   atualizarTabelaTransacoes();
   atualizarResumo();
   fecharModalNovaTransacao();
-  }
+}
 
 window.editarTransacao = function(id) {
   const t = transacoes.find(t => t.id === id);
-  if (!t) return;
+  if (!t) {
+    return;
+  }
   idEdicao = id;
   document.getElementById('tipoTransacao').value = t.tipo;
   atualizarCategorias();
@@ -158,7 +186,7 @@ window.excluirTransacao = function(id) {
     transacoes = transacoes.filter(t => t.id !== id);
     atualizarTabelaTransacoes();
     atualizarResumo();
-    }
+  }
 };
 
 // --- Resumo ---
@@ -196,7 +224,9 @@ function inicializarGraficos() {
     type: 'doughnut',
     data: {
       labels: ['Aluguel', 'Funcionários', 'Fornecedores', 'Impostos', 'Outros'],
-      datasets: [{ data: [30, 25, 20, 15, 10], backgroundColor: ['#FFC107', '#2196F3', '#9C27B0', '#F44336', '#607D8B'] }]
+      datasets: [
+        { data: [30, 25, 20, 15, 10], backgroundColor: ['#FFC107', '#2196F3', '#9C27B0', '#F44336', '#607D8B'] }
+      ]
     },
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
   });
@@ -204,7 +234,9 @@ function inicializarGraficos() {
 
 // --- Utilitários ---
 function formatarData(data) {
-  if (!data) return '';
+  if (!data) {
+    return '';
+  }
   return new Date(data).toLocaleDateString('pt-BR');
 }
 function formatarValor(valor) {

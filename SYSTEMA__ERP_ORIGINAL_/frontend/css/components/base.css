@@ -101,7 +101,9 @@
   background-clip: padding-box;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .form-control:focus {
@@ -148,11 +150,11 @@
   print-color-adjust: exact;
 }
 
-.form-check-input[type="checkbox"] {
+.form-check-input[type='checkbox'] {
   border-radius: var(--border-radius-sm);
 }
 
-.form-check-input[type="radio"] {
+.form-check-input[type='radio'] {
   border-radius: 50%;
 }
 
@@ -213,7 +215,9 @@
   background-clip: padding-box;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   resize: vertical;
   min-height: 100px;
 }
@@ -533,4 +537,4 @@
   margin: var(--spacing-sm) 0;
   overflow: hidden;
   border-top: 1px solid var(--border-color);
-} 
+}

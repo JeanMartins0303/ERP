@@ -260,7 +260,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -269,57 +270,57 @@
 }
 
 /* Input com tipos específicos */
-.form-input[type="number"] {
+.form-input[type='number'] {
   -moz-appearance: textfield;
 }
 
-.form-input[type="number"]::-webkit-outer-spin-button,
-.form-input[type="number"]::-webkit-inner-spin-button {
+.form-input[type='number']::-webkit-outer-spin-button,
+.form-input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.form-input[type="search"] {
+.form-input[type='search'] {
   -webkit-appearance: none;
 }
 
-.form-input[type="search"]::-webkit-search-decoration,
-.form-input[type="search"]::-webkit-search-cancel-button,
-.form-input[type="search"]::-webkit-search-results-button,
-.form-input[type="search"]::-webkit-search-results-decoration {
+.form-input[type='search']::-webkit-search-decoration,
+.form-input[type='search']::-webkit-search-cancel-button,
+.form-input[type='search']::-webkit-search-results-button,
+.form-input[type='search']::-webkit-search-results-decoration {
   -webkit-appearance: none;
 }
 
-.form-input[type="date"],
-.form-input[type="time"],
-.form-input[type="datetime-local"],
-.form-input[type="month"],
-.form-input[type="week"] {
+.form-input[type='date'],
+.form-input[type='time'],
+.form-input[type='datetime-local'],
+.form-input[type='month'],
+.form-input[type='week'] {
   -webkit-appearance: none;
 }
 
-.form-input[type="color"] {
+.form-input[type='color'] {
   -webkit-appearance: none;
   padding: var(--spacing-xs);
   width: 3rem;
   height: 3rem;
 }
 
-.form-input[type="color"]::-webkit-color-swatch-wrapper {
+.form-input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
 
-.form-input[type="color"]::-webkit-color-swatch {
+.form-input[type='color']::-webkit-color-swatch {
   border: none;
   border-radius: var(--border-radius-sm);
 }
 
-.form-input[type="file"] {
+.form-input[type='file'] {
   padding: var(--spacing-xs);
   line-height: 1;
 }
 
-.form-input[type="file"]::-webkit-file-upload-button {
+.form-input[type='file']::-webkit-file-upload-button {
   padding: var(--spacing-xs) var(--spacing-sm);
   margin: calc(var(--spacing-xs) * -1) calc(var(--spacing-xs) * -1);
   margin-right: var(--spacing-sm);
@@ -332,11 +333,11 @@
   transition: var(--transition-fast);
 }
 
-.form-input[type="file"]:hover::-webkit-file-upload-button {
+.form-input[type='file']:hover::-webkit-file-upload-button {
   background-color: var(--background-color);
 }
 
-.form-input[type="file"]:focus::-webkit-file-upload-button {
+.form-input[type='file']:focus::-webkit-file-upload-button {
   outline: none;
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
@@ -398,69 +399,69 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-input {
+[data-theme='dark'] .form-input {
   color: var(--text-primary);
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-input:hover {
+[data-theme='dark'] .form-input:hover {
   border-color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-input:focus {
+[data-theme='dark'] .form-input:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-[data-theme="dark"] .form-input::placeholder {
+[data-theme='dark'] .form-input::placeholder {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-input-icon i {
+[data-theme='dark'] .form-input-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-input-autocomplete-suggestions {
+[data-theme='dark'] .form-input-autocomplete-suggestions {
   background-color: var(--background-color);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-input-autocomplete-suggestion {
+[data-theme='dark'] .form-input-autocomplete-suggestion {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-input-autocomplete-suggestion:hover {
+[data-theme='dark'] .form-input-autocomplete-suggestion:hover {
   background-color: var(--primary-color-light);
   color: var(--primary-color);
 }
 
-[data-theme="dark"] .form-input-autocomplete-suggestion.selected {
+[data-theme='dark'] .form-input-autocomplete-suggestion.selected {
   background-color: var(--primary-color);
   color: var(--text-on-primary);
 }
 
-[data-theme="dark"] .form-input-mask::after {
+[data-theme='dark'] .form-input-mask::after {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-input-counter::after {
+[data-theme='dark'] .form-input-counter::after {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-input-group-prepend,
-[data-theme="dark"] .form-input-group-append {
+[data-theme='dark'] .form-input-group-prepend,
+[data-theme='dark'] .form-input-group-append {
   color: var(--text-muted);
   background-color: var(--background-color-light);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-input[type="file"]::-webkit-file-upload-button {
+[data-theme='dark'] .form-input[type='file']::-webkit-file-upload-button {
   color: var(--text-primary);
   background-color: var(--background-color-light);
   border-color: var(--border-color);
 }
 
-[data-theme="dark"] .form-input[type="file"]:hover::-webkit-file-upload-button {
+[data-theme='dark'] .form-input[type='file']:hover::-webkit-file-upload-button {
   background-color: var(--background-color);
-} 
+}

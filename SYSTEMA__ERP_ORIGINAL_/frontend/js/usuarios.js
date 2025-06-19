@@ -33,9 +33,36 @@ function configurarEventos() {
 
 function carregarUsuarios() {
   usuarios = [
-    { id: 1, nome: 'João Silva', email: 'joao@empresa.com', perfil: 'admin', status: 'ativo', telefone: '(11) 99999-1111', cpf: '123.456.789-00', foto: '' },
-    { id: 2, nome: 'Maria Souza', email: 'maria@empresa.com', perfil: 'gerente', status: 'ativo', telefone: '(21) 98888-2222', cpf: '987.654.321-00', foto: '' },
-    { id: 3, nome: 'Carlos Lima', email: 'carlos@empresa.com', perfil: 'operador', status: 'inativo', telefone: '(31) 97777-3333', cpf: '111.222.333-44', foto: '' }
+    {
+      id: 1,
+      nome: 'João Silva',
+      email: 'joao@empresa.com',
+      perfil: 'admin',
+      status: 'ativo',
+      telefone: '(11) 99999-1111',
+      cpf: '123.456.789-00',
+      foto: ''
+    },
+    {
+      id: 2,
+      nome: 'Maria Souza',
+      email: 'maria@empresa.com',
+      perfil: 'gerente',
+      status: 'ativo',
+      telefone: '(21) 98888-2222',
+      cpf: '987.654.321-00',
+      foto: ''
+    },
+    {
+      id: 3,
+      nome: 'Carlos Lima',
+      email: 'carlos@empresa.com',
+      perfil: 'operador',
+      status: 'inativo',
+      telefone: '(31) 97777-3333',
+      cpf: '111.222.333-44',
+      foto: ''
+    }
   ];
   atualizarTabelaUsuarios();
 }
@@ -67,8 +94,12 @@ function filtrarUsuarios() {
   const tipo = document.getElementById('filtroTipoUsuario').value;
   const busca = document.getElementById('searchUsuario').value.toLowerCase();
   let filtradas = usuarios;
-  if (tipo !== 'todos') filtradas = filtradas.filter(u => u.perfil === tipo);
-  if (busca) filtradas = filtradas.filter(u => u.nome.toLowerCase().includes(busca) || u.email.toLowerCase().includes(busca));
+  if (tipo !== 'todos') {
+    filtradas = filtradas.filter(u => u.perfil === tipo);
+  }
+  if (busca) {
+    filtradas = filtradas.filter(u => u.nome.toLowerCase().includes(busca) || u.email.toLowerCase().includes(busca));
+  }
   atualizarTabelaUsuarios(filtradas);
 }
 
@@ -122,7 +153,9 @@ function salvarUsuarioFinal(usuario) {
 }
 window.editarUsuario = function(id) {
   const u = usuarios.find(u => u.id === id);
-  if (!u) return;
+  if (!u) {
+    return;
+  }
   idEdicao = id;
   document.getElementById('nomeUsuario').value = u.nome;
   document.getElementById('emailUsuario').value = u.email;
@@ -162,4 +195,4 @@ window.exportarUsuarios = function() {
 };
 window.imprimirUsuarios = function() {
   window.print();
-}; 
+};

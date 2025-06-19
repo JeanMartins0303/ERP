@@ -636,7 +636,7 @@ tr:hover {
 }
 
 .menu-toggle i.close-icon {
-  color: var(--cinza-claro); 
+  color: var(--cinza-claro);
 }
 
 /* Telas até 768px (tablets e celulares grandes) */
@@ -742,7 +742,7 @@ tr:hover {
 
   .filtros label,
   .filtros select,
-  .filtros input[type="date"] {
+  .filtros input[type='date'] {
     font-size: 0.9rem;
     width: 100%;
   }

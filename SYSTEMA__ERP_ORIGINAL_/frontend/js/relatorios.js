@@ -68,8 +68,12 @@ function filtrarRelatorios() {
   const tipo = document.getElementById('filtroTipoRelatorio').value;
   const busca = document.getElementById('searchRelatorio').value.toLowerCase();
   let filtradas = relatorios;
-  if (tipo !== 'todos') filtradas = filtradas.filter(r => r.tipo === tipo);
-  if (busca) filtradas = filtradas.filter(r => r.titulo.toLowerCase().includes(busca));
+  if (tipo !== 'todos') {
+    filtradas = filtradas.filter(r => r.tipo === tipo);
+  }
+  if (busca) {
+    filtradas = filtradas.filter(r => r.titulo.toLowerCase().includes(busca));
+  }
   atualizarTabelaRelatorios(filtradas);
 }
 
@@ -152,7 +156,9 @@ function inicializarGraficos() {
 
 // Utilitários
 function formatarData(data) {
-  if (!data) return '';
+  if (!data) {
+    return '';
+  }
   return new Date(data).toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
 }
 function formatarTipo(tipo) {
@@ -177,4 +183,4 @@ window.exportarRelatorios = function() {
 };
 window.imprimirRelatorio = function() {
   window.print();
-}; 
+};

@@ -248,7 +248,7 @@
 }
 
 .btn-loading::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -317,7 +317,7 @@
 }
 
 .btn-dropdown::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   right: var(--spacing-sm);
@@ -364,30 +364,30 @@
 }
 
 /* Temas */
-[data-theme="dark"] .btn-soft {
+[data-theme='dark'] .btn-soft {
   background-color: var(--surface-hover);
 }
 
-[data-theme="dark"] .btn-soft.btn-primary:hover {
+[data-theme='dark'] .btn-soft.btn-primary:hover {
   background-color: var(--primary-color-dark);
 }
 
-[data-theme="dark"] .btn-soft.btn-secondary:hover {
+[data-theme='dark'] .btn-soft.btn-secondary:hover {
   background-color: var(--secondary-color-dark);
 }
 
-[data-theme="dark"] .btn-soft.btn-success:hover {
+[data-theme='dark'] .btn-soft.btn-success:hover {
   background-color: var(--success-color-dark);
 }
 
-[data-theme="dark"] .btn-soft.btn-danger:hover {
+[data-theme='dark'] .btn-soft.btn-danger:hover {
   background-color: var(--error-color-dark);
 }
 
-[data-theme="dark"] .btn-soft.btn-warning:hover {
+[data-theme='dark'] .btn-soft.btn-warning:hover {
   background-color: var(--warning-color-dark);
 }
 
-[data-theme="dark"] .btn-soft.btn-info:hover {
+[data-theme='dark'] .btn-soft.btn-info:hover {
   background-color: var(--info-color-dark);
-} 
+}

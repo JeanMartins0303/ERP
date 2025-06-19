@@ -130,7 +130,7 @@
   cursor: pointer;
 }
 
-.terms-checkbox input[type="checkbox"] {
+.terms-checkbox input[type='checkbox'] {
   width: 1rem;
   height: 1rem;
   margin-top: 0.25rem;
@@ -299,4 +299,4 @@
   .cadastro-features {
     grid-template-columns: 1fr;
   }
-} 
+}

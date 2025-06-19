@@ -10,7 +10,7 @@
 
 /* Label com asterisco */
 .form-label-required::after {
-  content: "*";
+  content: '*';
   margin-left: var(--spacing-xs);
   color: var(--error-color);
 }
@@ -168,32 +168,32 @@
 }
 
 /* Temas */
-[data-theme="dark"] .form-label {
+[data-theme='dark'] .form-label {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-label-icon i {
+[data-theme='dark'] .form-label-icon i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-tooltip i {
+[data-theme='dark'] .form-label-tooltip i {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-tooltip .tooltip {
+[data-theme='dark'] .form-label-tooltip .tooltip {
   background-color: var(--surface-color);
   border-color: var(--border-color);
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .form-label-description {
+[data-theme='dark'] .form-label-description {
   color: var(--text-muted);
 }
 
-[data-theme="dark"] .form-label-feedback.is-valid {
+[data-theme='dark'] .form-label-feedback.is-valid {
   color: var(--success-color);
 }
 
-[data-theme="dark"] .form-label-feedback.is-invalid {
+[data-theme='dark'] .form-label-feedback.is-invalid {
   color: var(--error-color);
-} 
+}

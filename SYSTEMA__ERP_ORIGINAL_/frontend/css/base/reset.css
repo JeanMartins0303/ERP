@@ -1,5 +1,7 @@
 /* Reset moderno e minimalista */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,7 +15,7 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-regular);
   line-height: 1.5;
@@ -24,7 +26,12 @@ body {
 }
 
 /* Elementos de texto */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
   margin-bottom: var(--spacing-md);
   font-weight: var(--font-weight-semibold);
@@ -37,7 +44,8 @@ p {
 }
 
 /* Listas */
-ul, ol {
+ul,
+ol {
   margin-top: 0;
   margin-bottom: var(--spacing-md);
   padding-left: var(--spacing-xl);
@@ -86,9 +94,9 @@ select {
 }
 
 button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
+[type='button'],
+[type='reset'],
+[type='submit'] {
   -webkit-appearance: button;
 }
 
@@ -119,4 +127,4 @@ abbr[title] {
 ::selection {
   background-color: var(--primary-color-light);
   color: var(--text-primary);
-} 
+}

@@ -1,4 +1,3 @@
-import CONFIG from './config.js';
 import { notifications } from './notifications.js';
 
 class Auth {
@@ -15,8 +14,8 @@ class Auth {
   }
 
   loadTokens() {
-    this.token = localStorage.getItem(CONFIG.AUTH.TOKEN_KEY);
-    this.refreshToken = localStorage.getItem(CONFIG.AUTH.REFRESH_TOKEN_KEY);
+    this.token = localStorage.getItem('user-token');
+    this.refreshToken = localStorage.getItem('user-refresh-token');
 
     if (this.token) {
       this.user = this.parseJwt(this.token);
@@ -76,7 +75,8 @@ class Auth {
 
   async login(email, password) {
     try {
-      const response = await fetch(`${CONFIG.API.BASE_URL}/auth/login`, {
+      const apiUrl = window.CONFIG ? window.CONFIG.utils.getApiUrl() : 'http://localhost:8080/api';
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -92,10 +92,14 @@ class Auth {
       this.setTokens(data.token, data.refreshToken);
       this.user = this.parseJwt(data.token);
 
-      notifications.success('Login realizado com sucesso!');
+      if (window.notifications) {
+        window.notifications.success('Login realizado com sucesso!');
+      }
       return true;
     } catch (error) {
-      notifications.error(error.message || 'Erro ao realizar login');
+      if (window.notifications) {
+        window.notifications.error(error.message || 'Erro ao realizar login');
+      }
       return false;
     }
   }
@@ -103,7 +107,8 @@ class Auth {
   async logout() {
     try {
       if (this.token) {
-        await fetch(`${CONFIG.API.BASE_URL}/auth/logout`, {
+        const apiUrl = window.CONFIG ? window.CONFIG.utils.getApiUrl() : 'http://localhost:8080/api';
+        await fetch(`${apiUrl}/auth/logout`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${this.token}`
@@ -124,7 +129,8 @@ class Auth {
         throw new Error('Refresh token não disponível');
       }
 
-      const response = await fetch(`${CONFIG.API.BASE_URL}/auth/refresh`, {
+      const apiUrl = window.CONFIG ? window.CONFIG.utils.getApiUrl() : 'http://localhost:8080/api';
+      const response = await fetch(`${apiUrl}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -151,8 +157,8 @@ class Auth {
     this.token = token;
     this.refreshToken = refreshToken;
 
-    localStorage.setItem(CONFIG.AUTH.TOKEN_KEY, token);
-    localStorage.setItem(CONFIG.AUTH.REFRESH_TOKEN_KEY, refreshToken);
+    localStorage.setItem('user-token', token);
+    localStorage.setItem('user-refresh-token', refreshToken);
 
     this.setupTokenRefresh();
   }
@@ -162,8 +168,8 @@ class Auth {
     this.refreshToken = null;
     this.user = null;
 
-    localStorage.removeItem(CONFIG.AUTH.TOKEN_KEY);
-    localStorage.removeItem(CONFIG.AUTH.REFRESH_TOKEN_KEY);
+    localStorage.removeItem('user-token');
+    localStorage.removeItem('user-refresh-token');
   }
 
   parseJwt(token) {
@@ -213,4 +219,13 @@ class Auth {
   }
 }
 
-export const auth = new Auth();
+// Inicializa o sistema de autenticação
+const auth = new Auth();
+
+// Disponibiliza globalmente
+window.auth = auth;
+
+// Exporta para uso em módulos
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { Auth, auth };
+}

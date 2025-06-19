@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle && typeof window.alternarTema === 'function') {
     themeToggle.addEventListener('click', window.alternarTema);
-  }
+}
 });
 
 // Exibir/ocultar senha

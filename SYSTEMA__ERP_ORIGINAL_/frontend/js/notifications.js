@@ -1,4 +1,5 @@
-import CONFIG from './config.js';
+// Todas as referências a CONFIG devem ser window.CONFIG
+// Exemplo: window.CONFIG.NOTIFICATIONS.AUTO_HIDE
 
 class Notifications {
   constructor() {

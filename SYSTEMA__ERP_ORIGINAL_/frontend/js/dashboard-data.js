@@ -1,10 +1,12 @@
-import CONFIG from './config.js';
-import { notifications } from './notifications.js';
+// import { notifications } from './notifications.js';
+
+// Todas as referências a CONFIG devem ser window.CONFIG
+// Exemplo: window.CONFIG.utils.getApiUrl()
 
 class DashboardData {
   constructor() {
     this.cache = new Map();
-    this.cacheTimeout = CONFIG.CACHE.DURATION;
+    this.cacheTimeout = window.CONFIG.CACHE.DURATION;
     this.baseUrl = '/api/dashboard';
   }
 
@@ -19,7 +21,7 @@ class DashboardData {
     }
 
     try {
-      const response = await fetch(`${CONFIG.API_URL}/${endpoint}`);
+      const response = await fetch(`${window.CONFIG.API.BASE_URL}/${endpoint}`);
       if (!response.ok) {
         throw new Error('Erro ao buscar dados');
       }

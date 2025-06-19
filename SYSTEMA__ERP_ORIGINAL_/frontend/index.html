@@ -1,200 +1,188 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ede7f6" />
     <link href="/SYSTEMA__ERP_ORIGINAL_/img/bb.png" rel="icon" />
-    <title>CorelSys - Gestão Empresarial</title>
-
-    <!-- Bootstrap 5 CSS -->
+    <title>CorelSys - Dashboard Minimalista</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/notifications.css" />
-    <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Vite Entry Point -->
+  <link rel="stylesheet" href="css/notifications.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="/main.js"></script>
-  </head>
-  <body class="light">
-    <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-    <aside class="sidebar" role="navigation" aria-label="Menu principal">
-      <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" /></header>
-      <nav>
-        <ul>
-          <li>
-            <a href="index.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
-          </li>
-          <li>
-            <a href="pdv.html"><i class="fas fa-cash-register"></i> PDV</a>
-          </li>
-          <li>
-            <a href="produtos.html"><i class="fas fa-box"></i> Produtos</a>
-          </li>
-          <li>
-            <a href="cardapio.html"><i class="fas fa-utensils"></i> Cardápio</a>
-          </li>
-          <li>
-            <a href="estoque.html"><i class="fas fa-archive"></i> Estoque</a>
-          </li>
-          <li>
-            <a href="mesas.html"><i class="fas fa-chair"></i> Mesas</a>
-          </li>
-          <li>
-            <a href="clientes.html"><i class="fas fa-users"></i> Clientes</a>
-          </li>
-          <li>
-            <a href="financeiro.html"><i class="fas fa-dollar-sign"></i> Financeiro</a>
-          </li>
-          <li>
-            <a href="relatorios.html"><i class="fas fa-file-alt"></i> Relatórios</a>
-          </li>
-          <li>
-            <a href="usuarios.html"><i class="fas fa-user-cog"></i> Usuários</a>
-          </li>
-          <li>
-            <a href="configuracoes.html"><i class="fas fa-cog"></i> Configurações</a>
-          </li>
-          <li>
-            <a href="ajuda.html"><i class="fas fa-question-circle"></i> Ajuda</a>
-          </li>
-          <li>
-            <a href="login.html" class="text-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>
-          </li>
-        </ul>
+</head>
+  <body class="minimal-bg">
+    <header class="header minimal-header">
+      <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+      <div class="header-brand">
+        <img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="CorelSys" />
+        <span>CorelSys ERP</span>
+      </div>
+      <div class="header-actions">
+        <button class="header-action-btn" data-theme-toggle aria-label="Alternar tema">
+          <span class="theme-toggle-icon sun">☀️</span>
+          <span class="theme-toggle-icon moon">🌙</span>
+        </button>
+        <button class="header-action-btn" data-user-menu-toggle aria-label="Menu do usuário">
+          <img src="/SYSTEMA__ERP_ORIGINAL_/img/bb.png" alt="Usuário" class="user-avatar" />
+        </button>
+      </div>
+    </header>
+    <aside class="sidebar minimal-sidebar closed" role="navigation" aria-label="Menu principal">
+      <nav class="sidebar-nav">
+        <a href="index.html" class="sidebar-nav-item active"><i class="fas fa-home"></i><span class="sidebar-label">Dashboard</span></a>
+        <a href="pdv.html" class="sidebar-nav-item" title="PDV"><i class="fas fa-cash-register"></i><span class="sidebar-label">PDV</span></a>
+        <a href="produtos.html" class="sidebar-nav-item" title="Produtos"><i class="fas fa-box"></i><span class="sidebar-label">Produtos</span></a>
+        <a href="cardapio.html" class="sidebar-nav-item" title="Cardápio"><i class="fas fa-utensils"></i><span class="sidebar-label">Cardápio</span></a>
+        <a href="estoque.html" class="sidebar-nav-item" title="Estoque"><i class="fas fa-archive"></i><span class="sidebar-label">Estoque</span></a>
+        <a href="mesas.html" class="sidebar-nav-item" title="Mesas"><i class="fas fa-chair"></i><span class="sidebar-label">Mesas</span></a>
+        <a href="clientes.html" class="sidebar-nav-item" title="Clientes"><i class="fas fa-users"></i><span class="sidebar-label">Clientes</span></a>
+        <a href="financeiro.html" class="sidebar-nav-item" title="Financeiro"><i class="fas fa-dollar-sign"></i><span class="sidebar-label">Financeiro</span></a>
+        <a href="relatorios.html" class="sidebar-nav-item" title="Relatórios"><i class="fas fa-file-alt"></i><span class="sidebar-label">Relatórios</span></a>
+        <a href="usuarios.html" class="sidebar-nav-item" title="Usuários"><i class="fas fa-user-cog"></i><span class="sidebar-label">Usuários</span></a>
+        <a href="configuracoes.html" class="sidebar-nav-item" title="Configurações"><i class="fas fa-cog"></i><span class="sidebar-label">Configurações</span></a>
+        <a href="ajuda.html" class="sidebar-nav-item" title="Ajuda"><i class="fas fa-question-circle"></i><span class="sidebar-label">Ajuda</span></a>
+        <a href="login.html" class="sidebar-nav-item text-danger" data-logout title="Sair"><i class="fas fa-sign-out-alt"></i><span class="sidebar-label">Sair</span></a>
       </nav>
     </aside>
-
-    <main class="main-content">
-      <header class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 mb-0">Dashboard</h1>
-        <div class="header-actions">
-          <button id="btnToggleTema" class="btn btn-outline-secondary" aria-label="Alternar tema escuro/claro">
-            <i class="fas fa-moon"></i>
-          </button>
-        </div>
-      </header>
-
-      <!-- Cards Section -->
-      <div class="cards">
-        <div class="card success">
-          <h3><i class="fas fa-chart-line"></i> Vendas Hoje</h3>
-          <p id="vendasHoje">R$ 0,00</p>
-          <div class="trend positive">
-            <i class="fas fa-arrow-up"></i>
-            <span>12% vs ontem</span>
-          </div>
-        </div>
-        <div class="card primary">
-          <h3><i class="fas fa-receipt"></i> Ticket Médio</h3>
-          <p id="ticketMedio">R$ 0,00</p>
-          <div class="trend positive">
-            <i class="fas fa-arrow-up"></i>
-            <span>5% vs semana anterior</span>
-          </div>
-        </div>
-        <div class="card warning">
-          <h3><i class="fas fa-chair"></i> Taxa de Ocupação</h3>
-          <p id="taxaOcupacao">0%</p>
-          <div class="trend negative">
-            <i class="fas fa-arrow-down"></i>
-            <span>3% vs ontem</span>
-          </div>
-        </div>
-        <div class="card danger">
-          <h3><i class="fas fa-exclamation-triangle"></i> Estoque Crítico</h3>
-          <p id="produtosBaixoEstoque">0</p>
-          <div class="trend">
-            <span>Itens precisando de atenção</span>
-          </div>
+    <main class="main-content minimal-main-content">
+      <div class="content-wrapper minimal-content-wrapper">
+        <div class="content-header mb-4 minimal-content-header">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+            <div>
+              <h1 class="content-title mb-1">Dashboard</h1>
+              <p class="content-subtitle">Painel Analítico Minimalista</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-fab minimal-fab" title="Nova Ação"><i class="fas fa-plus"></i></button>
         </div>
       </div>
-
-      <!-- Filtros Section -->
-      <div class="filtros">
-        <div class="filtro-periodo">
-          <label for="periodo">Período:</label>
-          <select id="periodo" class="select-filtro">
-            <option value="hoje">Hoje</option>
-            <option value="semana">Última Semana</option>
-            <option value="mes">Último Mês</option>
-            <option value="personalizado">Personalizado</option>
-          </select>
         </div>
-        <div class="filtro-data" style="display: none">
-          <div class="input-group">
-            <input type="date" id="dataInicio" class="input-filtro" placeholder="De" />
-            <input type="date" id="dataFim" class="input-filtro" placeholder="Até" />
-          </div>
+        <section class="kpi-grid mb-4">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Vendas Hoje</span>
+              <span class="kpi-badge kpi-up"><i class="fas fa-arrow-up"></i>+12%</span>
+      </div>
+            <div class="kpi-value">R$ 0,00</div>
+            <div class="kpi-mini-chart"><canvas id="miniChartVendas"></canvas></div>
+            <div class="kpi-footer">vs ontem</div>
+        </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Ticket Médio</span>
+              <span class="kpi-badge kpi-up"><i class="fas fa-arrow-up"></i>+5%</span>
+      </div>
+            <div class="kpi-value">R$ 0,00</div>
+            <div class="kpi-mini-chart"><canvas id="miniChartTicket"></canvas></div>
+            <div class="kpi-footer">vs semana anterior</div>
+        </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Taxa de Ocupação</span>
+              <span class="kpi-badge kpi-down"><i class="fas fa-arrow-down"></i>-3%</span>
+      </div>
+            <div class="kpi-value">0%</div>
+            <div class="kpi-mini-chart"><canvas id="miniChartOcupacao"></canvas></div>
+            <div class="kpi-footer">vs ontem</div>
+    </div>
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Estoque Crítico</span>
+              <span class="kpi-badge kpi-alert"><i class="fas fa-exclamation-triangle"></i>0</span>
+      </div>
+            <div class="kpi-value">0</div>
+            <div class="kpi-mini-chart"><canvas id="miniChartEstoque"></canvas></div>
+            <div class="kpi-footer">Itens críticos</div>
+        </div>
+        </section>
+        <section class="charts-analytics mb-4">
+          <div class="analytics-card">
+            <div class="analytics-header">
+              <h3 class="analytics-title"><i class="fas fa-chart-pie"></i> Vendas por Categoria</h3>
+              <button class="btn btn-sm btn-glow" title="Download"><i class="fas fa-download"></i></button>
+      </div>
+            <div class="analytics-chart"><canvas id="graficoVendasCategoria"></canvas></div>
+    </div>
+          <div class="analytics-card">
+            <div class="analytics-header">
+              <h3 class="analytics-title"><i class="fas fa-chart-bar"></i> Vendas por Período</h3>
+              <button class="btn btn-sm btn-glow" title="Download"><i class="fas fa-download"></i></button>
+        </div>
+            <div class="analytics-chart"><canvas id="graficoVendasPeriodo"></canvas></div>
+      </div>
+        </section>
+        <section class="mb-4">
+          <div class="table-card">
+            <div class="table-header d-flex justify-content-between align-items-center mb-2">
+              <h3 class="table-title"><i class="fas fa-star"></i> Produtos Mais Vendidos</h3>
+              <div class="table-actions d-flex gap-2">
+                <button class="btn btn-secondary btn-sm btn-glow" onclick="exportarRelatorio()"><i class="fas fa-file-export"></i> Exportar</button>
+                <button class="btn btn-secondary btn-sm btn-glow" onclick="imprimirRelatorio()"><i class="fas fa-print"></i> Imprimir</button>
         </div>
       </div>
-
-      <!-- Gráficos Section -->
-      <div class="graficos">
-        <div class="card">
-          <h3>Vendas por Categoria</h3>
-          <div class="grafico-container">
-            <canvas id="graficoVendasCategoria"></canvas>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Vendas por Período</h3>
-          <div class="grafico-container">
-            <canvas id="graficoVendasPeriodo"></canvas>
-          </div>
-        </div>
+            <div class="table-responsive mt-2">
+              <table class="table table-borderless align-middle mb-0">
+          <thead>
+                  <tr style="border-bottom:1px solid var(--border-color);">
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Valor Total</th>
+              <th>Variação</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaProdutos">
+            <!-- Preenchido via JS -->
+          </tbody>
+        </table>
       </div>
-
-      <!-- Tabela Produtos -->
-      <div class="tabela-produtos">
-        <header>
-          <h3>Produtos Mais Vendidos</h3>
-          <div class="acoes">
-            <button onclick="exportarRelatorio()" class="btn"><i class="fas fa-file-export"></i> Exportar</button>
-            <button onclick="imprimirRelatorio()" class="btn"><i class="fas fa-print"></i> Imprimir</button>
+    </div>
+        </section>
+        <section>
+          <div class="alert-card">
+            <div class="alert-header mb-1">
+              <h3 class="alert-title"><i class="fas fa-bell"></i> Alertas e Notificações</h3>
+            </div>
+            <div class="alert-body" id="alertasContainer"><!-- Preenchido via JS --></div>
           </div>
-        </header>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Valor Total</th>
-                <th>Variação</th>
-              </tr>
-            </thead>
-            <tbody id="corpoTabelaProdutos">
-              <!-- Preenchido via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Alertas Section -->
-      <div class="alertas">
-        <h3><i class="fas fa-bell"></i> Alertas e Notificações</h3>
-        <div id="alertasContainer">
-          <!-- Preenchido via JS -->
-        </div>
+        </section>
+        <button class="btn btn-fab minimal-fab" style="position:fixed;bottom:2.2rem;right:2.2rem;z-index:2000;opacity:0.92;" title="Nova Ação Rápida"><i class="fas fa-plus"></i></button>
       </div>
     </main>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Dashboard Scripts -->
-    <script type="module" src="js/dashboard-data.js"></script>
-    <script type="module" src="js/metricas-operacionais.js"></script>
-    <script type="module" src="js/dashboard.js"></script>
-  </body>
+    <div class="user-menu dropdown-menu">
+      <div class="user-info">
+        <img src="/SYSTEMA__ERP_ORIGINAL_/img/bb.png" alt="Usuário" class="user-avatar" />
+        <div class="user-details">
+          <div class="user-name">Administrador</div>
+          <div class="user-email">admin@corelsys.com</div>
+        </div>
+      </div>
+      <div class="dropdown-divider"></div>
+      <a href="perfil.html" class="dropdown-item"><i class="fas fa-user"></i>Perfil</a>
+      <a href="configuracoes.html" class="dropdown-item"><i class="fas fa-cog"></i>Configurações</a>
+      <div class="dropdown-divider"></div>
+      <a href="login.html" class="dropdown-item text-danger" data-logout><i class="fas fa-sign-out-alt"></i>Sair</a>
+    </div>
+    <div class="notifications-panel">
+      <div class="notifications-header">
+        <h4>Notificações</h4>
+        <button class="btn btn-sm btn-secondary" onclick="marcarTodasComoLidas()">Marcar todas como lidas</button>
+      </div>
+      <div class="notifications-list" id="notificationsList"><!-- Preenchido via JS --></div>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/dashboard-data.js"></script>
+  <script type="module" src="js/metricas-operacionais.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script>
+    // Sidebar retrátil minimalista
+    document.querySelector('.menu-toggle').onclick = function() {
+      document.querySelector('.sidebar').classList.toggle('closed');
+    };
+  </script>
+</body>
 </html>

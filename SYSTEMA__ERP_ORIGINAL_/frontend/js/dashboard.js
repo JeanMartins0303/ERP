@@ -1,5 +1,6 @@
 import { dashboardData } from './dashboard-data.js';
 import { notifications } from './notifications.js';
+import windowConfig from './config.js';
 
 class Dashboard {
   constructor() {
@@ -318,7 +319,7 @@ class Dashboard {
 
   async exportarRelatorio() {
     try {
-      const response = await fetch(`${CONFIG.API_URL}/dashboard/exportar`, {
+      const response = await fetch(`${window.CONFIG.API.BASE_URL}/dashboard/exportar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -358,3 +359,134 @@ class Dashboard {
 
 // Inicializar o dashboard
 const dashboard = new Dashboard();
+
+// Mini-gráficos dos KPIs
+function criarMiniChart(id, data, cor) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.map((_, i) => i + 1),
+      datasets: [{
+        data,
+        borderColor: cor,
+        backgroundColor: 'rgba(124,77,255,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.5,
+        fill: true,
+      }],
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { display: false } },
+      elements: { line: { borderJoinStyle: 'round' } },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+
+// Dados fictícios para demonstração
+criarMiniChart('miniChartVendas', [10, 12, 14, 13, 15, 18, 20], '#7c4dff');
+criarMiniChart('miniChartTicket', [5, 6, 7, 7, 8, 9, 10], '#00e5ff');
+criarMiniChart('miniChartOcupacao', [80, 78, 75, 77, 74, 72, 70], '#ff5252');
+criarMiniChart('miniChartEstoque', [2, 3, 1, 2, 0, 1, 0], '#ffd600');
+
+// Gráfico de Vendas por Categoria
+const ctxCategoria = document.getElementById('graficoVendasCategoria');
+if (ctxCategoria) {
+  new Chart(ctxCategoria, {
+    type: 'doughnut',
+    data: {
+      labels: ['Bebidas', 'Comidas', 'Sobremesas', 'Outros'],
+      datasets: [{
+        data: [40, 30, 20, 10],
+        backgroundColor: ['#7c4dff', '#00e5ff', '#ffd600', '#ff5252'],
+        borderWidth: 2,
+        borderColor: '#fff',
+      }],
+    },
+    options: {
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { color: getComputedStyle(document.body).getPropertyValue('--text') } },
+      },
+      cutout: '70%',
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+// Gráfico de Vendas por Período
+const ctxPeriodo = document.getElementById('graficoVendasPeriodo');
+if (ctxPeriodo) {
+  new Chart(ctxPeriodo, {
+    type: 'bar',
+    data: {
+      labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+      datasets: [{
+        label: 'Vendas',
+        data: [120, 150, 170, 140, 180, 220, 200],
+        backgroundColor: 'linear-gradient(120deg, #7c4dff, #00e5ff)',
+        borderRadius: 12,
+        barPercentage: 0.7,
+        categoryPercentage: 0.6,
+      }],
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
+        },
+        y: {
+          grid: { color: 'rgba(124,77,255,0.08)' },
+          ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-secondary') },
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+}
+
+// Tema dinâmico para Chart.js
+function atualizarCoresCharts() {
+  Chart.defaults.color = getComputedStyle(document.body).getPropertyValue('--text');
+}
+window.addEventListener('themechange', atualizarCoresCharts);
+
+// Animação de entrada dos cards
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.kpi-card, .analytics-card, .table-card, .alert-card').forEach(card => {
+    card.style.opacity = 0;
+    setTimeout(() => {
+      card.style.opacity = 1;
+      card.style.transform = 'none';
+    }, 200);
+  });
+});
+
+// Exemplo de preenchimento da tabela de produtos
+const corpoTabela = document.getElementById('corpoTabelaProdutos');
+if (corpoTabela) {
+  corpoTabela.innerHTML = `
+    <tr><td>Hambúrguer</td><td>120</td><td>R$ 1.200,00</td><td><span class="kpi-badge kpi-up">+8%</span></td></tr>
+    <tr><td>Pizza</td><td>90</td><td>R$ 1.050,00</td><td><span class="kpi-badge kpi-up">+5%</span></td></tr>
+    <tr><td>Refrigerante</td><td>150</td><td>R$ 600,00</td><td><span class="kpi-badge kpi-down">-2%</span></td></tr>
+    <tr><td>Sorvete</td><td>60</td><td>R$ 300,00</td><td><span class="kpi-badge kpi-up">+12%</span></td></tr>
+  `;
+}
+// Alertas de exemplo
+const alertasContainer = document.getElementById('alertasContainer');
+if (alertasContainer) {
+  alertasContainer.innerHTML = `
+    <div><i class="fas fa-exclamation-triangle text-warning"></i> Estoque crítico: 2 produtos abaixo do mínimo.</div>
+    <div><i class="fas fa-bell text-primary"></i> Nova venda realizada há 2 minutos.</div>
+    <div><i class="fas fa-user-plus text-success"></i> Novo cliente cadastrado.</div>
+  `;
+}

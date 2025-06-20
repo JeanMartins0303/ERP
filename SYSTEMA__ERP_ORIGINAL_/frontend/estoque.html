@@ -1,206 +1,582 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Estoque - FlexBiz ERP</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/estoque.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorelSys ERP - Gestão de Estoque</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            
+            --stat-color-1: #22c55e; /* green */
+            --stat-color-2: #3b82f6; /* blue */
+            --stat-color-3: #f97316; /* orange */
+            --stat-color-4: #ec4899; /* pink */
+            
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #ffffff;
+            
+            --border-color: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body[data-theme='dark'] {
+            --primary-color: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        
+        .header { 
+            background: var(--bg-gradient); 
+            padding: 1rem 1.5rem; 
+            color: var(--text-light); 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            box-shadow: var(--shadow-md);
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out;
+            width: 100%;
+        }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); position: relative; }
+        .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
+        .header-btn.primary:hover { background: rgba(255, 255, 255, 0.3); }
+        .notification-badge { position: absolute; top: -3px; right: -3px; background: var(--danger-color); border: 2px solid var(--primary-dark); border-radius: 50%; width: 1.1rem; height: 1.1rem; font-size: 0.65rem; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+        .user-avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        
+        .sidebar { position: fixed; left: 0; top: 0; height: 100vh; width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border-color); z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-header { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border-color); }
+        .sidebar-logo-icon { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: var(--bg-gradient); color: var(--text-light); }
+        .sidebar-logo-text { font-weight: 600; font-size: 1.25rem; color: var(--text-primary); }
+        .sidebar-nav { flex-grow: 1; padding: 1rem 0; overflow-y: auto; }
+        .sidebar-nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.5rem; margin: 0.25rem 1rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); border-radius: var(--radius-md); font-weight: 500; }
+        .sidebar-nav-item:hover { background: var(--bg-primary); color: var(--primary-color); }
+        .sidebar-nav-item.active { background: var(--bg-gradient); color: var(--text-light); box-shadow: var(--shadow-md); }
+        .sidebar-nav-item i { width: 1.25rem; text-align: center; }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
+        
+        .main-container { 
+            padding: 1.5rem; 
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
+            width: 100%;
+        }
+        .main-content-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
+        .main-content-overlay.active { opacity: 1; visibility: visible; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+        .stat-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .stat-card.total:hover { border-color: var(--stat-color-1); }
+        .stat-card.baixo:hover { border-color: var(--stat-color-2); }
+        .stat-card.valor:hover { border-color: var(--stat-color-3); }
+        .stat-card.sem:hover { border-color: var(--stat-color-4); }
+        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .stat-icon { width: 3rem; height: 3rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; }
+        
+        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #16a34a); }
+        .stat-card.baixo .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #2563eb); }
+        .stat-card.valor .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #ea580c); }
+        .stat-card.sem .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #db2777); }
+        .stat-trend { display: flex; align-items: center; gap: 0.25rem; font-size: 0.875rem; font-weight: 600; }
+        .stat-trend.positive { color: var(--success-color); }
+        .stat-trend.negative { color: var(--danger-color); }
+        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.1rem; line-height: 1.2;}
+        .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; }
+        
+        .search-container { margin-bottom: 1.5rem; }
+        .search-input { width: 100%; padding: 1rem 1.5rem; padding-left: 3rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-card); color: var(--text-primary); font-size: 1rem; transition: var(--transition); }
+        .search-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-control {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            height: 48px;
+            flex-grow: 1;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-card {
+            margin-top: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .table-card .card-header {
+            flex-wrap: wrap;
+            row-gap: 1rem;
+        }
+
+        .table-card .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-card .header-filters {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .table-card .search-input-header {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            height: 48px;
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .table-card .filter-control {
+            height: 48px;
+            flex-grow: 1;
+        }
+        
+        .estoque-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 2fr 1fr;
+            grid-template-areas:
+                "movimentacao   categoria"
+                "abc            abc"
+                "produtos       produtos";
+        }
+        .movimentacao-card { grid-area: movimentacao; }
+        .categoria-card { grid-area: categoria; }
+        .abc-card { grid-area: abc; }
+        .produtos-card { grid-area: produtos; }
+
+        .chart-card, .table-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; row-gap: 1rem; }
+        .card-title { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
+        .card-actions { display: flex; gap: 0.5rem; }
+        .card-btn { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; height: 48px; }
+        .card-btn:hover { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
+        .chart-container { height: 350px; position: relative; }
+        
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+        }
+        .chart-center-text-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .chart-center-text-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .table-controls { display: flex; width: 100%; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .search-input { width: 100%; padding: 0.75rem 1rem; padding-left: 2.5rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; transition: var(--transition); height: 48px; flex-grow: 1; min-width: 200px; }
+        .search-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
+        .search-wrapper { position: relative; flex-grow: 1; }
+        .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .filter-control { padding: 0.75rem 1rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; height: 48px; }
+        .card-actions { display: flex; gap: 0.5rem; }
+        .card-btn { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; height: 48px; }
+        .card-btn:hover { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
+        
+        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .table thead th { text-align: left; padding: 0.75rem 1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+        .table tbody tr { border-bottom: 1px solid var(--border-color); transition: var(--transition); }
+        .table tbody tr:hover { background: var(--bg-primary); }
+        .table tbody tr:last-child { border-bottom: none; }
+        .table tbody td { padding: 1rem; vertical-align: middle; font-weight: 500; }
+        .table .product-info { display: flex; align-items: center; gap: 1rem; }
+        .table .product-img { width: 40px; height: 40px; border-radius: var(--radius-md); object-fit: cover; }
+        .table th:first-child, .table td:first-child { padding-left: 1rem; }
+        .table th:first-child input, .table td:first-child input { margin-right: 0.5rem; }
+        
+        .batch-actions-bar {
+            display: none;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .batch-actions-bar.visible {
+            display: flex;
+        }
+
+        .status-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .status-badge.normal { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
+        .status-badge.baixo { background: rgba(59, 130, 246, 0.1); color: var(--stat-color-2); }
+        .status-badge.critico { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+        .status-badge.sem { background: rgba(156, 163, 175, 0.1); color: var(--text-secondary); }
+        
+        .action-buttons { display: flex; gap: 0.5rem; }
+        .action-btn { width: 2rem; height: 2rem; border-radius: var(--radius-md); border: none; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; font-size: 0.875rem; }
+        .action-btn.edit { background: rgba(59, 130, 246, 0.1); color: var(--stat-color-2); }
+        .action-btn.edit:hover { background: var(--stat-color-2); color: white; }
+        .action-btn.delete { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+        .action-btn.delete:hover { background: var(--danger-color); color: white; }
+        
+        @media (min-width: 1024px) { 
+            .header.with-sidebar,
+            .main-container.with-sidebar { margin-left: 260px; width: calc(100% - 260px); }
+            .sidebar { transform: none; transition: left 0.3s ease-in-out; left: -260px; }
+            .sidebar.open { left: 0; }
+            .estoque-grid {
+                grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+                grid-template-areas:
+                    "movimentacao   categoria"
+                    "abc            abc"
+                    "produtos       produtos";
+            }
+            .movimentacao-card { grid-area: movimentacao; }
+            .categoria-card { grid-area: categoria; }
+            .abc-card { grid-area: abc; }
+            .produtos-card { grid-area: produtos; }
+        }
+        
+        @media (max-width: 1023px) { 
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+            .sidebar.open { transform: translateX(0); }
+            .estoque-grid { grid-template-columns: 1fr; } 
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+        }
+
+        @media (max-width: 767px) { 
+            .header-content { flex-direction: row; } 
+            .logo-text h1 { font-size: 1rem; } 
+            .main-container { padding: 1rem; } 
+            .stats-grid { grid-template-columns: 1fr; } 
+            .stat-value { font-size: 1.75rem; }
+            .card-header { margin-bottom: 1rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .chart-card, .table-card { padding: 1rem; }
+            .table thead { display: none; }
+            .table tbody, .table tr, .table td { display: block; width: 100%; }
+            .table tr { border-bottom: 2px solid var(--border-color); padding: 1rem 0; }
+            .table tr:last-child { border-bottom: none; }
+            .table td { border: none; padding: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; text-align: right; }
+            .table td::before { content: attr(data-label); font-weight: 600; text-align: left; color: var(--text-primary); margin-right: 1rem; }
+            .table .product-info { justify-content: flex-end; }
+        }
+        
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-card, .chart-card, .table-card { animation: fadeInUp 0.5s ease-out backwards; }
+
+        .skeleton {
+            opacity: .7;
+            animation: skeleton-loading 1s linear infinite alternate;
+        }
+        .skeleton-text {
+            width: 100%;
+            height: 0.7rem;
+            margin-bottom: 0.5rem;
+            border-radius: .25rem;
+        }
+        .skeleton-text:last-child {
+            margin-bottom: 0;
+            width: 80%;
+        }
+        @keyframes skeleton-loading {
+            0% { background-color: hsl(200, 20%, 70%); }
+            100% { background-color: hsl(200, 20%, 95%); }
+        }
+        body[data-theme='dark'] .skeleton-text {
+             @keyframes skeleton-loading {
+                0% { background-color: hsl(210, 9%, 31%); }
+                100% { background-color: hsl(210, 9%, 45%); }
+            }
+        }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); animation: fadeIn 0.3s; }
+        .modal-content { background-color: var(--bg-card); margin: 5% auto; padding: 2rem; border-radius: var(--radius-xl); max-width: 600px; width: 90%; position: relative; animation: slideIn 0.3s; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;}
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); }
+        .history-list { list-style: none; max-height: 300px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; padding: 0.75rem; border-radius: var(--radius-md); }
+        .history-item:nth-child(odd) { background-color: var(--bg-primary); }
+        .history-item .date { color: var(--text-secondary); font-size: 0.9rem; }
+        .history-item .user { font-weight: 500; }
+        .history-item .quantity.in { color: var(--success-color); }
+        .history-item .quantity.out { color: var(--danger-color); }
+    </style>
   </head>
-  <body class="light">
-    <button class="menu-toggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
-    <aside class="sidebar" role="navigation" aria-label="Menu principal">
-      <header><img src="/SYSTEMA__ERP_ORIGINAL_/img/originaldash.png" alt="logo" /></header>
-      <nav>
-        <ul>
-          <li>
-            <a href="index.html" class="active" aria-current="page"
-              ><i class="fas fa-chart-pie"></i><span class="link-text">Dashboard</span></a
-            >
-          </li>
-          <li>
-            <a href="pdv.html"><i class="fas fa-cash-register"></i><span class="link-text">PDV</span></a>
-          </li>
-          <li>
-            <a href="produtos.html"><i class="fas fa-box"></i><span class="link-text">Produtos</span></a>
-          </li>
-          <li>
-            <a href="cardapio.html"><i class="fas fa-utensils"></i><span class="link-text">Cardápio</span></a>
-          </li>
-          <li>
-            <a href="estoque.html"><i class="fas fa-warehouse"></i><span class="link-text">Estoque</span></a>
-          </li>
-          <li>
-            <a href="mesas.html"><i class="fas fa-chair"></i><span class="link-text">Mesas</span></a>
-          </li>
-          <li>
-            <a href="clientes.html"><i class="fas fa-users"></i><span class="link-text">Clientes</span></a>
-          </li>
-          <li>
-            <a href="financeiro.html"><i class="fas fa-dollar-sign"></i><span class="link-text">Financeiro</span></a>
-          </li>
-          <li>
-            <a href="relatorios.html"><i class="fas fa-file-alt"></i><span class="link-text">Relatórios</span></a>
-          </li>
-          <li>
-            <a href="usuarios.html"><i class="fas fa-user-shield"></i><span class="link-text">Usuários</span></a>
-          </li>
-          <li>
-            <a href="configuracoes.html"><i class="fas fa-cog"></i><span class="link-text">Configurações</span></a>
-          </li>
-          <li>
-            <a href="ajuda.html"><i class="fas fa-question-circle"></i><span class="link-text">Ajuda</span></a>
-          </li>
-          <li>
-            <a href="login.html" class="logout-button menu-item"
-              ><i class="fas fa-sign-out-alt"></i><span class="link-text">Sair</span></a
-            >
-          </li>
-        </ul>
+<body class="loading">
+    <div class="main-content-overlay" id="mainContentOverlay"></div>
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-icon"><i class="fas fa-atom"></i></div>
+            <span class="sidebar-logo-text">CorelSys</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard-oficial.html" class="sidebar-nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="pdv.html" class="sidebar-nav-item"><i class="fas fa-cash-register"></i><span>PDV</span></a>
+            <a href="produtos.html" class="sidebar-nav-item"><i class="fas fa-box"></i><span>Produtos</span></a>
+            <a href="estoque.html" class="sidebar-nav-item active"><i class="fas fa-warehouse"></i><span>Estoque</span></a>
+            <a href="financeiro.html" class="sidebar-nav-item"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></a>
+            <a href="relatorios.html" class="sidebar-nav-item"><i class="fas fa-file-alt"></i><span>Relatórios</span></a>
+            <a href="clientes.html" class="sidebar-nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+            <a href="usuarios.html" class="sidebar-nav-item"><i class="fas fa-user-shield"></i><span>Usuários</span></a>
       </nav>
+        <div class="sidebar-footer">
+            <a href="configuracoes.html" class="sidebar-nav-item"><i class="fas fa-cog"></i><span>Configurações</span></a>
+            <a href="login.html" class="sidebar-nav-item"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a>
+        </div>
     </aside>
 
-    <main class="main-content">
-      <header class="estoque-header">
-        <h1>Gestão de Estoque</h1>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <button class="header-btn" id="sidebarToggleBtn"><i class="fas fa-bars"></i></button>
+                <div class="logo-text"><h1>Gestão de Estoque</h1></div>
+            </div>
         <div class="header-actions">
-          <button
-            class="estoque-btn estoque-btn-primary"
-            onclick="adicionarProduto()"
-            aria-label="Adicionar novo produto"
-          >
+                <button class="header-btn primary" onclick="adicionarProduto()">
             <i class="fas fa-plus"></i> Novo Produto
           </button>
-          <button id="btnToggleTema" class="estoque-btn-icon" aria-label="Alternar tema escuro/claro">
-            <i class="fas fa-moon"></i>
+                <button class="header-btn" id="themeToggleBtn">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <button class="header-btn">
+                    <img src="/SYSTEMA__ERP_ORIGINAL_/img/bb.png" alt="Avatar" class="user-avatar" />
           </button>
+            </div>
         </div>
       </header>
 
-      <section class="estoque-cards">
-        <article class="estoque-card">
-          <h3><i class="fas fa-boxes"></i> Total de Produtos</h3>
-          <p id="totalProdutos">0</p>
-          <div class="trend up">
-            <i class="fas fa-arrow-up"></i>
-            <span>5% este mês</span>
-          </div>
-        </article>
-        <article class="estoque-card">
-          <h3><i class="fas fa-exclamation-triangle"></i> Estoque Baixo</h3>
-          <p id="produtosBaixoEstoque">0</p>
-          <div class="trend down">
-            <i class="fas fa-arrow-down"></i>
-            <span>2% esta semana</span>
-          </div>
-        </article>
-        <article class="estoque-card">
-          <h3><i class="fas fa-dollar-sign"></i> Valor em Estoque</h3>
-          <p id="valorTotalEstoque">R$ 0,00</p>
-          <div class="trend up">
-            <i class="fas fa-arrow-up"></i>
-            <span>8% este mês</span>
-          </div>
-        </article>
-        <article class="estoque-card">
-          <h3><i class="fas fa-times-circle"></i> Sem Estoque</h3>
-          <p id="produtosSemEstoque">0</p>
-          <div class="trend down">
-            <i class="fas fa-arrow-down"></i>
-            <span>3% esta semana</span>
-          </div>
-        </article>
-      </section>
-
-      <div class="estoque-search">
-        <input
-          type="text"
-          id="searchProduto"
-          placeholder="Buscar produto por nome, código ou categoria..."
-          aria-label="Buscar produto"
-        />
-        <i class="fas fa-search"></i>
-      </div>
-
-      <section class="estoque-graficos">
-        <article class="estoque-grafico-card">
-          <h3><i class="fas fa-chart-pie"></i> Estoque por Categoria</h3>
-          <canvas id="graficoEstoqueCategoria"></canvas>
-        </article>
-        <article class="estoque-grafico-card">
-          <h3><i class="fas fa-chart-line"></i> Movimentação de Estoque</h3>
-          <canvas id="graficoMovimentacao"></canvas>
-        </article>
-      </section>
-
-      <section class="estoque-table">
-        <header>
-          <h3>Produtos em Estoque</h3>
-          <div class="table-actions">
-            <button
-              onclick="exportarRelatorio()"
-              class="estoque-btn estoque-btn-secondary"
-              aria-label="Exportar relatório"
-            >
-              <i class="fas fa-file-export"></i> Exportar
-            </button>
-            <button
-              onclick="imprimirRelatorio()"
-              class="estoque-btn estoque-btn-secondary"
-              aria-label="Imprimir relatório"
-            >
-              <i class="fas fa-print"></i> Imprimir
-            </button>
-          </div>
-        </header>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Produto</th>
-                <th>Categoria</th>
-                <th>Quantidade</th>
-                <th>Mínimo</th>
-                <th>Status</th>
-                <th>Última Atualização</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="corpoTabelaEstoque">
-              <!-- Preenchido via JS -->
-            </tbody>
-          </table>
+    <main class="main-container" id="mainContainer">
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                    <div class="stat-trend positive"><i class="fas fa-arrow-up"></i>+5.2%</div>
+                </div>
+                <div class="stat-body">
+                    <div class="stat-value">1.247</div>
+                    <div class="stat-label">Total de Produtos</div>
+                </div>
+            </div>
+            <div class="stat-card baixo">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-trend negative"><i class="fas fa-arrow-down"></i>-2.1%</div>
+                </div>
+                <div class="stat-body">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">Estoque Baixo</div>
+                </div>
+            </div>
+            <div class="stat-card valor">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-trend positive"><i class="fas fa-arrow-up"></i>+8.7%</div>
+                </div>
+                <div class="stat-body">
+                    <div class="stat-value">R$ 89.450</div>
+                    <div class="stat-label">Valor em Estoque</div>
+                </div>
+            </div>
+            <div class="stat-card sem">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-trend negative"><i class="fas fa-arrow-down"></i>-3.4%</div>
+                </div>
+                <div class="stat-body">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Sem Estoque</div>
+                </div>
+            </div>
         </div>
-      </section>
+
+        <div class="search-container">
+            <div style="position: relative; margin-bottom: 1.5rem;">
+                <input type="text" class="search-input" id="searchProduto" placeholder="Buscar produto por nome, código ou categoria..." aria-label="Buscar produto">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="filters-container">
+                <select id="filtroCategoria" class="filter-control" aria-label="Filtrar por categoria">
+                    <option value="">Todas as categorias</option>
+                    <option value="Alimentos">Alimentos</option>
+                    <option value="Bebidas">Bebidas</option>
+                    <option value="Limpeza">Limpeza</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                <select id="filtroStatus" class="filter-control" aria-label="Filtrar por status">
+                    <option value="">Todos os status</option>
+                    <option value="normal">Normal</option>
+                    <option value="baixo">Baixo</option>
+                    <option value="sem">Sem Estoque</option>
+                </select>
+                <input type="text" id="filtroFornecedor" class="filter-control" placeholder="Filtrar por fornecedor..." aria-label="Filtrar por fornecedor">
+            </div>
+        </div>
+
+        <div class="estoque-grid">
+            <div class="chart-card movimentacao-card">
+                <div class="card-header">
+                    <h2 class="card-title">Movimentação de Estoque</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="movimentacaoChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card categoria-card">
+                <div class="card-header">
+                    <h2 class="card-title">Estoque por Categoria</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="categoriaChart"></canvas>
+                    <div id="categoria-chart-center-text" class="chart-center-text"></div>
+                </div>
+            </div>
+
+            <div class="chart-card abc-card">
+                <div class="card-header">
+                    <h2 class="card-title">Análise de Curva ABC</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="abcChart"></canvas>
+                </div>
+            </div>
+
+            <div class="table-card produtos-card">
+                <div class="card-header">
+                    <div id="default-controls" class="table-controls">
+                        <div class="search-wrapper">
+                            <input type="text" class="search-input" id="searchProduto" placeholder="Buscar produto..." aria-label="Buscar produto">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <select id="filtroCategoria" class="filter-control" aria-label="Filtrar por categoria">
+                            <option value="">Todas as categorias</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Bebidas">Bebidas</option>
+                        </select>
+                        <select id="filtroStatus" class="filter-control" aria-label="Filtrar por status">
+                            <option value="">Todos os status</option>
+                            <option value="normal">Normal</option>
+                            <option value="baixo">Baixo</option>
+                        </select>
+                    </div>
+                    <div id="batch-actions-bar" class="batch-actions-bar">
+                        <span id="selection-count"></span>
+                        <button class="card-btn" style="background-color: var(--danger-color); color: white; border-color: var(--danger-color);" id="delete-selected-btn"><i class="fas fa-trash"></i> Excluir Selecionados</button>
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-btn" onclick="exportarRelatorio()">
+                            <i class="fas fa-file-export"></i> Exportar
+                        </button>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all-checkbox"></th>
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Quantidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtosTabela">
+                        <!-- Skeleton rows will be injected here -->
+                    </tbody>
+                </table>
+                <div id="paginacao" style="display:flex; gap:0.5rem; justify-content:flex-end; align-items:center; margin-top:1.5rem;"></div>
+            </div>
+        </div>
     </main>
 
     <!-- Modal de Cadastro de Produto -->
-    <div id="modalProduto" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Novo Produto</h2>
-          <button class="modal-close" onclick="fecharModal()">
+    <div id="modalProduto" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000;">
+        <div class="modal-content" style="background: var(--bg-card); border-radius: var(--radius-xl); padding: 2rem; max-width: 600px; width: 90%; margin: 2rem auto; max-height: 90vh; overflow-y: auto;">
+            <div class="card-header">
+                <h2 class="card-title">Novo Produto</h2>
+                <button class="header-btn" onclick="fecharModal()">
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <form id="formProduto" onsubmit="salvarProduto(event)">
-          <div class="form-group">
-            <label for="codigo">Código do Produto</label>
-            <input type="text" id="codigo" name="codigo" required />
+            <form id="formProduto" onsubmit="salvarProduto(event)" style="margin-top: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Código do Produto</label>
+                        <input type="text" id="codigo" name="codigo" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Nome do Produto</label>
+                        <input type="text" id="nome" name="nome" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+          </div>
           </div>
 
-          <div class="form-group">
-            <label for="nome">Nome do Produto</label>
-            <input type="text" id="nome" name="nome" required />
-          </div>
-
-          <div class="form-group">
-            <label for="categoria">Categoria</label>
-            <select id="categoria" name="categoria" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Categoria</label>
+                        <select id="categoria" name="categoria" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
               <option value="">Selecione uma categoria</option>
               <option value="Bebidas">Bebidas</option>
               <option value="Alimentos">Alimentos</option>
@@ -208,53 +584,526 @@
               <option value="Outros">Outros</option>
             </select>
           </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="quantidade">Quantidade</label>
-              <input type="number" id="quantidade" name="quantidade" min="0" required />
-            </div>
-
-            <div class="form-group">
-              <label for="minimo">Quantidade Mínima</label>
-              <input type="number" id="minimo" name="minimo" min="0" required />
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Fornecedor</label>
+                        <input type="text" id="fornecedor" name="fornecedor" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="precoCusto">Preço de Custo</label>
-              <input type="number" id="precoCusto" name="precoCusto" step="0.01" min="0" required />
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Quantidade</label>
+                        <input type="number" id="quantidade" name="quantidade" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Quantidade Mínima</label>
+                        <input type="number" id="minimo" name="minimo" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
             </div>
-
-            <div class="form-group">
-              <label for="precoVenda">Preço de Venda</label>
-              <input type="number" id="precoVenda" name="precoVenda" step="0.01" min="0" required />
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Preço de Custo</label>
+                        <input type="number" id="precoCusto" name="precoCusto" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="fornecedor">Fornecedor</label>
-            <input type="text" id="fornecedor" name="fornecedor" required />
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Preço de Venda</label>
+                    <input type="number" id="precoVenda" name="precoVenda" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary);">
           </div>
 
-          <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea id="descricao" name="descricao" rows="3"></textarea>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Imagem do Produto</label>
+                    <input type="file" id="imagemProduto" accept="image/*" style="display:block; margin-bottom:0.5rem;">
+                    <img id="previewImagemProduto" src="https://via.placeholder.com/80" alt="Preview" style="max-width:80px; max-height:80px; border-radius:0.5rem; display:block;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--text-primary); resize: vertical;"></textarea>
           </div>
 
-          <div class="form-actions">
-            <button type="button" class="estoque-btn estoque-btn-secondary" onclick="fecharModal()">Cancelar</button>
-            <button type="submit" class="estoque-btn estoque-btn-primary">Salvar Produto</button>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="card-btn" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="header-btn primary">Salvar Produto</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom Scripts -->
-    <script type="module" src="js/estoque.js"></script>
-    <script type="module" src="js/tema.js"></script>
+    <!-- History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title" id="history-product-title">Histórico de Movimentações</h2>
+                <button class="modal-close" onclick="closeHistoryModal()">&times;</button>
+            </div>
+            <ul id="history-list" class="history-list">
+                <!-- History items will be injected here -->
+            </ul>
+        </div>
+    </div>
+
+    <div id="toast" style="display:none; position:fixed; bottom:2rem; right:2rem; z-index:9999; background:var(--primary-color); color:white; padding:1rem 2rem; border-radius:0.75rem; box-shadow:var(--shadow-lg); font-weight:600; font-size:1rem; opacity:0; transition:opacity 0.4s, transform 0.4s; transform:translateY(30px); pointer-events:none;">
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tema escuro/claro
+            const themeToggleBtn = document.getElementById('themeToggleBtn'), themeIcon = document.getElementById('theme-icon');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            const setTheme = theme => { document.body.dataset.theme = theme; localStorage.setItem('theme', theme); themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; };
+            setTheme(currentTheme);
+            themeToggleBtn.addEventListener('click', () => setTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+            // Sidebar responsiva
+            const sidebarToggleBtn = document.getElementById('sidebarToggleBtn'),
+                  sidebar = document.getElementById('sidebar'),
+                  mainContainer = document.getElementById('mainContainer'),
+                  overlay = document.getElementById('mainContentOverlay'),
+                  header = document.querySelector('.header');
+
+            const handleSidebarLayout = () => {
+                const isOpen = sidebar.classList.contains('open');
+                const isDesktop = window.innerWidth >= 1024;
+                mainContainer.classList.toggle('with-sidebar', isOpen && isDesktop);
+                header.classList.toggle('with-sidebar', isOpen && isDesktop);
+                overlay.classList.toggle('active', isOpen && !isDesktop);
+            };
+
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('open');
+                handleSidebarLayout();
+            };
+            
+            sidebarToggleBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+            window.addEventListener('resize', handleSidebarLayout);
+            
+            handleSidebarLayout();
+
+            // Configuração dos gráficos
+            const getCssVar = (varName) => getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+            
+            const tooltipStyle = {
+                backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                titleFont: { size: 14, weight: 'bold' },
+                bodyFont: { size: 12 },
+                padding: 12,
+                cornerRadius: 8,
+                borderColor: 'rgba(139, 92, 246, 0.5)',
+                borderWidth: 1,
+                backdropFilter: 'blur(5px)'
+            };
+
+            // Add a listener to resize charts when sidebar transition ends
+            mainContainer.addEventListener('transitionend', (event) => {
+                if (event.propertyName === 'margin-left') {
+                    setTimeout(() => {
+                       charts.forEach(chart => chart.resize());
+                    }, 50);
+                }
+            });
+
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+                renderTabela();
+                setupBatchActions();
+
+                const charts = [];
+
+                // Categoria Chart
+                const categoriaChartCtx = document.getElementById('categoriaChart').getContext('2d');
+                const categoriaChart = new Chart(categoriaChartCtx, {
+                    type: 'doughnut',
+                    data: { 
+                        labels: ['Alimentos', 'Bebidas', 'Limpeza', 'Outros'], 
+                        datasets: [{ 
+                            data: [450, 320, 280, 197], 
+                            backgroundColor: [getCssVar('--stat-color-1'), getCssVar('--stat-color-2'), getCssVar('--stat-color-3'), getCssVar('--stat-color-4')], 
+                            borderWidth: 0,
+                            borderColor: getCssVar('--bg-card'),
+                            hoverBorderWidth: 4
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        cutout: '75%',
+                        plugins: { 
+                            legend: { display: true, position: 'bottom', labels: { color: getCssVar('--text-secondary')} },
+                            tooltip: tooltipStyle
+                        }
+                    }
+                });
+                charts.push(categoriaChart);
+                
+                // Update doughnut center text
+                const totalItems = categoriaChart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                document.getElementById('categoria-chart-center-text').innerHTML = `
+                    <div class="chart-center-text-value">${totalItems}</div>
+                    <div class="chart-center-text-label">Itens</div>
+                 `;
+
+                // ABC Chart
+                const abcChartCtx = document.getElementById('abcChart').getContext('2d');
+                new Chart(abcChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Curva A (80%)', 'Curva B (15%)', 'Curva C (5%)'],
+                        datasets: [{
+                            label: 'Valor do Estoque por Curva',
+                            data: [80000, 15000, 5000], // Mocked data
+                            backgroundColor: [
+                                'rgba(34, 197, 94, 0.6)',
+                                'rgba(59, 130, 246, 0.6)',
+                                'rgba(245, 158, 11, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgb(34, 197, 94)',
+                                'rgb(59, 130, 246)',
+                                'rgb(245, 158, 11)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: tooltipStyle
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    callback: function(value) {
+                                        return 'R$ ' + value / 1000 + 'k';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                charts.push(abcChart);
+
+                // Movimentacao Chart
+                const movimentacaoChartCtx = document.getElementById('movimentacaoChart').getContext('2d');
+                const movimentacaoGradient = movimentacaoChartCtx.createLinearGradient(0, 0, 0, 300);
+                movimentacaoGradient.addColorStop(0, 'rgba(139, 92, 246, 0.4)');
+                movimentacaoGradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+
+                const movimentacaoChart = new Chart(movimentacaoChartCtx, {
+                    type: 'line',
+                    data: { 
+                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'], 
+                        datasets: [{ 
+                            label: 'Entrada', 
+                            data: [120, 190, 300, 500, 200, 300], 
+                            borderColor: getCssVar('--stat-color-1'), 
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)', 
+                            tension: 0.4, 
+                            fill: true 
+                        }, {
+                            label: 'Saída', 
+                            data: [100, 150, 250, 400, 180, 280], 
+                            borderColor: getCssVar('--danger-color'), 
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)', 
+                            tension: 0.4, 
+                            fill: true 
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        scales: { 
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: getCssVar('--border-color') }, 
+                                ticks: { color: getCssVar('--text-secondary') } 
+                            }, 
+                            x: { 
+                                grid: { display: false }, 
+                                ticks: { color: getCssVar('--text-secondary') } 
+                            } 
+                        },
+                        plugins: { 
+                            legend: { 
+                                display: true, 
+                                position: 'bottom',
+                                labels: { color: getCssVar('--text-secondary') }
+                            },
+                            tooltip: tooltipStyle
+                        }
+                    }
+                });
+                charts.push(movimentacaoChart);
+            }, 1500);
+
+            // Busca
+            const searchInput = document.getElementById('searchProduto');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const tableRows = document.querySelectorAll('.table tbody tr');
+                
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+
+            // Skeleton Loading Simulation
+            const skeletonRows = 5;
+            const tableBody = document.getElementById('produtosTabela');
+            let skeletonHTML = '';
+            for(let i=0; i < skeletonRows; i++) {
+                skeletonHTML += `
+                    <tr>
+                        <td><div class="skeleton skeleton-text" style="width: 18px; height: 18px;"></div></td>
+                        <td><div class="skeleton skeleton-text"></div></td>
+                        <td><div class="skeleton skeleton-text"></div></td>
+                        <td><div class="skeleton skeleton-text"></div></td>
+                        <td><div class="skeleton skeleton-text"></div></td>
+                        <td><div class="skeleton skeleton-text"></div></td>
+                    </tr>
+                `;
+            }
+            tableBody.innerHTML = skeletonHTML;
+            
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+                renderTabela();
+                setupBatchActions();
+            }, 1500);
+        });
+
+        // Funções do modal
+        function adicionarProduto() {
+            document.getElementById('modalProduto').style.display = 'block';
+        }
+
+        function fecharModal() {
+            document.getElementById('modalProduto').style.display = 'none';
+        }
+
+        // Toast feedback
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.opacity = 1; toast.style.transform = 'translateY(0)'; }, 10);
+            setTimeout(() => { toast.style.opacity = 0; toast.style.transform = 'translateY(30px)'; }, 2500);
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // Confirmação visual para exclusão
+        document.querySelectorAll('.action-btn.delete').forEach(btn => {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                if (confirm('Tem certeza que deseja excluir este produto?')) {
+                    showToast('Produto excluído com sucesso!');
+                }
+            };
+        });
+
+        // Feedback para salvar produto
+        function salvarProduto(event) {
+            event.preventDefault();
+            showToast('Produto salvo com sucesso!');
+            fecharModal();
+        }
+
+        function exportarRelatorio() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFont('Inter', 'bold');
+            doc.setFontSize(18);
+            doc.setTextColor(40);
+            doc.text('Relatório de Estoque', 14, 22);
+
+            const tableData = produtosExemplo.map(p => [
+                p.id,
+                p.nome,
+                p.categoria,
+                p.quantidade,
+                `R$ ${(p.quantidade * 10).toFixed(2)}` // Mocked value
+            ]);
+
+            doc.autoTable({
+                head: [['ID', 'Produto', 'Categoria', 'Qtd.', 'Valor Total']],
+                body: tableData,
+                startY: 30,
+                theme: 'grid',
+                headStyles: { fillColor: [139, 92, 246] },
+            });
+            
+            doc.save('relatorio_estoque.pdf');
+            showToast('Relatório PDF gerado com sucesso!');
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        // Microanimações em botões e modais
+        document.querySelectorAll('.header-btn, .card-btn, .action-btn').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.style.transform = 'scale(0.95)');
+            btn.addEventListener('mouseup', () => btn.style.transform = 'scale(1)');
+            btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+        });
+
+        // Preview da imagem do produto
+        document.getElementById('imagemProduto').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('previewImagemProduto');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) { preview.src = ev.target.result; };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = 'https://via.placeholder.com/80';
+            }
+        });
+
+        // Paginação simulada
+        const produtosExemplo = [
+            { id: 1, nome: 'Produto Exemplo 1', categoria: 'Alimentos', quantidade: 150, status: 'normal', img: 'https://via.placeholder.com/40' },
+            { id: 2, nome: 'Produto Exemplo 2', categoria: 'Bebidas', quantidade: 25, status: 'baixo', img: 'https://via.placeholder.com/40' },
+            { id: 3, nome: 'Produto Exemplo 3', categoria: 'Limpeza', quantidade: 0, status: 'sem', img: 'https://via.placeholder.com/40' },
+            { id: 4, nome: 'Produto Exemplo 4', categoria: 'Alimentos', quantidade: 200, status: 'normal', img: 'https://via.placeholder.com/40' },
+            { id: 5, nome: 'Produto Exemplo 5', categoria: 'Outros', quantidade: 10, status: 'baixo', img: 'https://via.placeholder.com/40' },
+        ];
+        let paginaAtual = 1;
+        const itensPorPagina = 2;
+        function renderTabela() {
+            const tbody = document.getElementById('produtosTabela');
+            tbody.innerHTML = '';
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = inicio + itensPorPagina;
+            const produtosPagina = produtosExemplo.slice(inicio, fim);
+            produtosPagina.forEach(produto => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><input type="checkbox" class="product-checkbox" data-id="${produto.id}"></td>
+                        <td data-label="Produto">
+                            <div class="product-info">
+                                <img src="${produto.img}" alt="Produto" class="product-img">
+                                <span>${produto.nome}</span>
+                            </div>
+                        </td>
+                        <td data-label="Categoria">${produto.categoria}</td>
+                        <td data-label="Quantidade"><input type="number" value="${produto.quantidade}" min="0" style="width:60px; padding:0.25rem; border-radius:0.5rem; border:1px solid var(--border-color); background:var(--bg-primary); color:var(--text-primary); font-weight:600; text-align:center;"></td>
+                        <td data-label="Status"><span class="status-badge ${produto.status}">${produto.status.charAt(0).toUpperCase() + produto.status.slice(1)}</span></td>
+                        <td data-label="Ações">
+                            <div class="action-buttons">
+                                <button class="action-btn edit" aria-label="Editar produto" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete" aria-label="Excluir produto" title="Excluir"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn history" aria-label="Ver histórico" title="Histórico"><i class="fas fa-history"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            renderPaginacao();
+            setupBatchActions();
+            document.querySelectorAll('.action-btn.history').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.closest('tr').querySelector('.product-checkbox').dataset.id);
+                    openHistoryModal(productId);
+                });
+            });
+        }
+        function renderPaginacao() {
+            const paginacao = document.getElementById('paginacao');
+            paginacao.innerHTML = '';
+            const totalPaginas = Math.ceil(produtosExemplo.length / itensPorPagina);
+            for (let i = 1; i <= totalPaginas; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = 'card-btn';
+                if (i === paginaAtual) btn.style.background = 'var(--primary-color)', btn.style.color = 'white';
+                btn.onclick = () => { paginaAtual = i; renderTabela(); };
+                paginacao.appendChild(btn);
+            }
+        }
+        function setupBatchActions() {
+            const selectAllCheckbox = document.getElementById('select-all-checkbox');
+            const rowCheckboxes = document.querySelectorAll('.product-checkbox');
+            const batchActionsBar = document.getElementById('batch-actions-bar');
+            const defaultControls = document.getElementById('default-controls');
+            const selectionCount = document.getElementById('selection-count');
+            const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+
+            function updateBatchActionBar() {
+                const selectedCount = document.querySelectorAll('.product-checkbox:checked').length;
+                if (selectedCount > 0) {
+                    batchActionsBar.classList.add('visible');
+                    defaultControls.style.display = 'none';
+                    selectionCount.textContent = `${selectedCount} selecionado(s)`;
+                } else {
+                    batchActionsBar.classList.remove('visible');
+                    defaultControls.style.display = 'flex';
+                }
+            }
+
+            selectAllCheckbox.addEventListener('change', (e) => {
+                rowCheckboxes.forEach(checkbox => {
+                    checkbox.checked = e.target.checked;
+                });
+                updateBatchActionBar();
+            });
+
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    if (!checkbox.checked) {
+                        selectAllCheckbox.checked = false;
+                    }
+                    updateBatchActionBar();
+                });
+            });
+            
+            deleteSelectedBtn.addEventListener('click', () => {
+                if(confirm('Tem certeza que deseja excluir os produtos selecionados?')){
+                    showToast('Produtos selecionados foram excluídos.');
+                    // Here you would add the logic to delete items
+                    // For now, just re-render the table
+                    renderTabela();
+                    updateBatchActionBar();
+                }
+            });
+        }
+
+        function openHistoryModal(productId) {
+            const product = produtosExemplo.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('history-product-title').textContent = `Histórico - ${product.nome}`;
+            const historyList = document.getElementById('history-list');
+            
+            // Mocked history data
+            const mockedHistory = [
+                { date: '2023-05-01', user: 'Admin', type: 'in', qty: 50 },
+                { date: '2023-05-03', user: 'Vendedor 1', type: 'out', qty: -10 },
+                { date: '2023-05-10', user: 'Admin', type: 'in', qty: 20 },
+                { date: '2023-05-15', user: 'Vendedor 2', type: 'out', qty: -5 },
+            ];
+
+            historyList.innerHTML = mockedHistory.map(item => `
+                <li class="history-item">
+                    <span class="date">${item.date}</span>
+                    <span class="user">${item.user}</span>
+                    <span class="quantity ${item.type}">${item.qty > 0 ? '+' : ''}${item.qty}</span>
+                </li>
+            `).join('');
+
+            document.getElementById('historyModal').style.display = 'block';
+        }
+    </script>
   </body>
 </html>

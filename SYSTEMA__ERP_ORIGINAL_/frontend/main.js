@@ -66,25 +66,22 @@ class ERPSystem {
   }
 
   setupSidebarToggle() {
-    const sidebarToggle = document.querySelector('[data-sidebar-toggle]');
+    const sidebarToggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
-    const mainContent = document.querySelector('.main-content');
     
-    if (sidebarToggle && sidebar && mainContent) {
+    if (sidebarToggle && sidebar) {
       sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        mainContent.classList.toggle('expanded');
+        sidebar.classList.toggle('closed');
         
         // Salva preferência
-        const isCollapsed = sidebar.classList.contains('collapsed');
-        localStorage.setItem('sidebar-collapsed', isCollapsed);
+        const isClosed = sidebar.classList.contains('closed');
+        localStorage.setItem('sidebar-closed', isClosed);
       });
       
       // Restaura preferência salva
-      const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
-      if (isCollapsed) {
-        sidebar.classList.add('collapsed');
-        mainContent.classList.add('expanded');
+      const isClosed = localStorage.getItem('sidebar-closed') === 'true';
+      if (isClosed) {
+        sidebar.classList.add('closed');
       }
     }
   }
@@ -246,7 +243,7 @@ class ERPSystem {
       // Ctrl/Cmd + B: Toggle sidebar
       if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
         e.preventDefault();
-        document.querySelector('[data-sidebar-toggle]')?.click();
+        document.querySelector('.menu-toggle')?.click();
       }
       
       // Escape: Fecha modais/menus

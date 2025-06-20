@@ -24,8 +24,8 @@
       </div>
       <div class="header-actions">
         <button class="header-action-btn" data-theme-toggle aria-label="Alternar tema">
-          <span class="theme-toggle-icon sun">☀️</span>
-          <span class="theme-toggle-icon moon">🌙</span>
+          <i class="fas fa-sun theme-toggle-icon sun"></i>
+          <i class="fas fa-moon theme-toggle-icon moon"></i>
         </button>
         <button class="header-action-btn" data-user-menu-toggle aria-label="Menu do usuário">
           <img src="/SYSTEMA__ERP_ORIGINAL_/img/bb.png" alt="Usuário" class="user-avatar" />
@@ -178,11 +178,5 @@
   <script type="module" src="js/dashboard-data.js"></script>
   <script type="module" src="js/metricas-operacionais.js"></script>
   <script type="module" src="js/dashboard.js"></script>
-  <script>
-    // Sidebar retrátil minimalista
-    document.querySelector('.menu-toggle').onclick = function() {
-      document.querySelector('.sidebar').classList.toggle('closed');
-    };
-  </script>
 </body>
 </html>

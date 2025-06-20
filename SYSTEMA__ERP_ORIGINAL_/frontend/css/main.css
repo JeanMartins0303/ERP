@@ -9,15 +9,15 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background var(--transition), color var(--transition);
+  background: var(--theme-bg-color);
+  color: var(--theme-text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   min-height: 100vh;
-  background: var(--bg);
-  transition: background var(--transition);
+  background: var(--theme-bg-color);
+  transition: background-color 0.3s ease;
 }
 
 /* Layout principal */
@@ -35,82 +35,53 @@ body {
 
 /* Header */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem 2.5rem 1.2rem 2.5rem;
-  background: var(--bg-glass);
-  box-shadow: 0 2px 16px 0 var(--primary-light);
-  border-bottom: 2px solid var(--primary-light);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  transition: background var(--transition), box-shadow var(--transition);
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: var(--theme-header-bg);
+  border-bottom: 1px solid var(--theme-border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-[data-theme="dark"] .header {
-  background: var(--bg-glass-dark);
-  border-bottom: 2px solid var(--primary-dark);
-  box-shadow: 0 2px 24px 0 var(--primary-dark);
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--theme-icon-color);
+    font-size: 1.25rem;
+    cursor: pointer;
 }
 
 .header-brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--primary);
-  letter-spacing: -1px;
-}
-
-.header-brand img {
-  height: 38px;
-  width: auto;
-  border-radius: 0.7rem;
-  box-shadow: 0 2px 8px 0 var(--primary-light);
+  font-weight: 700;
+  font-size: 1.25rem;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .header-action-btn {
   background: none;
   border: none;
-  color: var(--primary);
-  font-size: 1.3rem;
+  color: var(--theme-icon-color);
+  font-size: 1.25rem;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
   position: relative;
 }
 
-.header-action-btn:hover, .header-action-btn:focus {
-  background: var(--primary-light);
-  color: #fff;
-  box-shadow: 0 2px 12px 0 var(--primary);
-}
-
 .theme-toggle-icon {
-  font-size: 1.3rem;
   display: none;
 }
 
-[data-theme="light"] .theme-toggle-icon.sun,
-[data-theme="dark"] .theme-toggle-icon.moon {
-  display: inline;
-}
-
-[data-theme="dark"] .theme-toggle-icon.sun {
-  display: none;
-}
-
-[data-theme="light"] .theme-toggle-icon.moon {
-  display: none;
+html[data-theme='light'] .theme-toggle-icon.sun,
+html[data-theme='dark'] .theme-toggle-icon.moon {
+  display: inline-block;
 }
 
 .user-avatar {
@@ -118,8 +89,6 @@ body {
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary-light);
-  box-shadow: 0 2px 8px 0 var(--primary-light);
 }
 
 /* Sidebar */
@@ -128,52 +97,105 @@ body {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 80px;
-  background: var(--bg-glass);
-  box-shadow: 2px 0 16px 0 var(--primary-light);
-  z-index: 900;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1.5rem;
-  transition: background var(--transition), box-shadow var(--transition);
+  width: 250px;
+  background-color: var(--theme-sidebar-bg);
+  border-right: 1px solid var(--theme-border-color);
+  padding: 1.5rem;
+  z-index: 1000;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-[data-theme="dark"] .sidebar {
-  background: var(--bg-glass-dark);
-  box-shadow: 2px 0 24px 0 var(--primary-dark);
+.sidebar.closed {
+  transform: translateX(-100%);
 }
 
 .sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  width: 100%;
+  gap: 0.5rem;
 }
 
 .sidebar-nav-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  color: var(--text-secondary);
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: var(--theme-text-secondary-color);
   text-decoration: none;
-  font-size: 1.2rem;
   font-weight: 500;
-  padding: 0.7rem 0;
-  border-radius: 1.2rem;
-  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
-  margin: 0 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.sidebar-nav-item.active, .sidebar-nav-item:hover, .sidebar-nav-item:focus {
-  background: linear-gradient(120deg, var(--primary), var(--accent));
-  color: #fff;
-  box-shadow: 0 2px 12px 0 var(--primary-light);
+.sidebar-nav-item:hover {
+  background-color: var(--theme-bg-color);
+  color: var(--theme-text-color);
+}
+
+.sidebar-nav-item.active {
+  background-color: var(--theme-primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.sidebar-nav-item.active:hover {
+    background-color: var(--theme-primary-hover-color);
+    color: white;
 }
 
 .sidebar-nav-item i {
-  font-size: 1.3rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Main Content Adjustments */
+@media (min-width: 769px) {
+    .sidebar.closed + .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    z-index: 1030;
+  }
+
+  .sidebar.closed {
+      transform: translateX(-100%);
+  }
+
+  .sidebar.opened {
+      transform: translateX(0);
+  }
+
+  .main-content {
+      margin-left: 0 !important;
+  }
+}
+
+/* User Menu & Notifications Panel (keep bootstrap default behavior, just apply theme) */
+.user-menu, .notifications-panel {
+    background-color: var(--theme-surface-color);
+    border-color: var(--theme-border-color);
+    color: var(--theme-text-color);
+}
+
+.dropdown-item {
+    color: var(--theme-text-color);
+}
+
+.dropdown-item:hover {
+    background-color: var(--theme-bg-color);
+}
+
+.dropdown-divider {
+    border-color: var(--theme-border-color);
 }
 
 /* Main Content */

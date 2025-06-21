@@ -1,8 +1,8 @@
-package seu.pacote.controller;
+package com.arjuncodes.hello.controller;
 
-import seu.pacote.model.Usuario;
-import seu.pacote.dto.LoginDTO;
-import seu.pacote.repository.UsuarioRepository;
+import com.arjuncodes.hello.model.Usuario;
+import com.arjuncodes.hello.dto.LoginDTO;
+import com.arjuncodes.hello.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;

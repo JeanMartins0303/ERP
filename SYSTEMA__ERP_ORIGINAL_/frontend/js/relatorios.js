@@ -1,186 +1,241 @@
-// Estado global
-let relatorios = [];
-let idEdicao = null;
-
-// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
-  configurarTema();
-  carregarRelatorios();
-  configurarEventos();
-  inicializarGraficos();
+
+    let relatoriosChartCategoria = null;
+    let relatoriosChartTipos = null;
+
+    /**
+     * Cria uma configuração de gráfico padrão para os gráficos do Chart.js.
+     * @param {boolean} isDarkMode - Se o tema escuro está ativo.
+     * @returns {object} Configuração padrão do Chart.js.
+     */
+    function getChartDefaultOptions(isDarkMode) {
+        const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+        const textColor = isDarkMode ? '#f8fafc' : '#1f2937';
+        const legendColor = isDarkMode ? '#94a3b8' : '#6b7280';
+
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: legendColor,
+                        font: {
+                            size: 12,
+                            family: "'Inter', sans-serif"
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
+                    titleColor: textColor,
+                    bodyColor: textColor,
+                    borderColor: gridColor,
+                    borderWidth: 1,
+                    boxPadding: 8,
+                    padding: 10,
+                    cornerRadius: 6,
+                    titleFont: { weight: 'bold' },
+                    bodyFont: { family: "'Inter', sans-serif" }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor, drawOnChartArea: false },
+                    border: { color: gridColor }
+                },
+                y: {
+                    ticks: { color: textColor },
+                    grid: { color: gridColor },
+                    border: { display: false }
+                },
+            },
+        };
+    }
+    
+    /**
+     * Inicializa os 4 gráficos de estatísticas no topo da página.
+     */
+    function initStatCharts() {
+        const statChartIds = ['chartGerados', 'chartVendas', 'chartExportacoes', 'chartErros'];
+        const statChartData = [
+            { data: [5, 8, 3, 10, 7, 12], color: '#3b82f6' },
+            { data: [10, 15, 8, 12, 18, 20], color: '#22c55e' },
+            { data: [3, 5, 2, 7, 6, 9], color: '#f97316' },
+            { data: [2, 1, 3, 0, 1, 2], color: '#ef4444' },
+        ];
+
+        statChartIds.forEach((id, index) => {
+            const ctx = document.getElementById(id)?.getContext('2d');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'],
+                        datasets: [{
+                            data: statChartData[index].data,
+                            borderColor: statChartData[index].color,
+                            backgroundColor: statChartData[index].color + '1A', // 10% opacity
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                        }],
+                    },
+                    options: { 
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { display: false }, y: { display: false } },
+                        elements: { point: { radius: 0 } }
+                    },
+                });
+            }
+        });
+    }
+
+    /**
+     * Inicializa os 2 gráficos principais no grid.
+     */
+    function initMainCharts(isDarkMode) {
+        // Gráfico de Relatórios por Categoria (Barras)
+        const categoriaCtx = document.getElementById('chartRelatoriosCategoria')?.getContext('2d');
+        if (categoriaCtx) {
+            relatoriosChartCategoria = new Chart(categoriaCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    datasets: [
+                        { label: 'Financeiro', data: [120, 150, 180, 220, 190, 250], backgroundColor: '#22c55e' },
+                        { label: 'Vendas', data: [80, 100, 130, 150, 120, 180], backgroundColor: '#ef4444' },
+                    ],
+                },
+                options: { 
+                    ...getChartDefaultOptions(isDarkMode),
+                    scales: { 
+                        x: { ...getChartDefaultOptions(isDarkMode).scales.x, stacked: true },
+                        y: { ...getChartDefaultOptions(isDarkMode).scales.y, stacked: true } 
+                    }
+                }
+            });
+        }
+
+        // Gráfico de Tipos de Relatórios (Donut)
+        const tiposCtx = document.getElementById('chartTiposRelatorios')?.getContext('2d');
+        if (tiposCtx) {
+            relatoriosChartTipos = new Chart(tiposCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Vendas', 'Financeiro', 'Estoque', 'Clientes'],
+                    datasets: [{
+                        data: [45, 25, 15, 15],
+                        backgroundColor: ['#3b82f6', '#22c55e', '#f97316', '#ef4444'],
+                        borderColor: isDarkMode ? '#1e293b' : '#ffffff',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }],
+                },
+                options: {
+                    ...getChartDefaultOptions(isDarkMode),
+                    cutout: '70%',
+                    plugins: { 
+                        ...getChartDefaultOptions(isDarkMode).plugins,
+                        legend: { ...getChartDefaultOptions(isDarkMode).plugins.legend, display: true, position: 'right' }
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Atualiza as cores dos gráficos principais quando o tema muda.
+     * @param {boolean} isDarkMode 
+     */
+    function updateChartColors(isDarkMode) {
+        if (relatoriosChartCategoria) {
+            const options = getChartDefaultOptions(isDarkMode);
+            relatoriosChartCategoria.options.scales.x = { ...options.scales.x, stacked: true };
+            relatoriosChartCategoria.options.scales.y = { ...options.scales.y, stacked: true };
+            relatoriosChartCategoria.options.plugins.legend.labels.color = options.plugins.legend.labels.color;
+            relatoriosChartCategoria.update();
+        }
+        if (relatoriosChartTipos) {
+            const options = getChartDefaultOptions(isDarkMode);
+            relatoriosChartTipos.data.datasets[0].borderColor = isDarkMode ? '#1e293b' : '#ffffff';
+            relatoriosChartTipos.options.plugins.legend.labels.color = options.plugins.legend.labels.color;
+            relatoriosChartTipos.update();
+        }
+    }
+
+    /**
+     * Popula a tabela de histórico de relatórios com dados.
+     */
+    function populateReportsTable() {
+        const tbody = document.getElementById('reportsTableBody');
+        if (!tbody) return;
+
+        const reports = [
+            { date: '01/07/2024', type: 'Vendas', title: 'Relatório de Vendas - Junho', responsible: 'Admin', status: 'concluido' },
+            { date: '30/06/2024', type: 'Financeiro', title: 'Fechamento Mensal', responsible: 'Ana Silva', status: 'concluido' },
+            { date: '28/06/2024', type: 'Estoque', title: 'Inventário Semanal', responsible: 'Admin', status: 'erro' },
+            { date: '25/06/2024', type: 'Clientes', title: 'Análise de Churn', responsible: 'Carlos Lima', status: 'concluido' },
+            { date: '22/06/2024', type: 'Vendas', title: 'Vendas por Região - Q2', responsible: 'Admin', status: 'processando' },
+        ];
+
+        tbody.innerHTML = reports.map(report => `
+            <tr>
+                <td>${report.date}</td>
+                <td>${report.type}</td>
+                <td>${report.title}</td>
+                <td>${report.responsible}</td>
+                <td><span class="status-badge ${report.status}">${report.status.charAt(0).toUpperCase() + report.status.slice(1)}</span></td>
+                <td class="action-buttons">
+                    <button class="action-btn" title="Download"><i class="fas fa-download"></i></button>
+                    <button class="action-btn" title="Visualizar"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn" title="Excluir"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    /**
+     * Configura os ouvintes de eventos para interações do usuário no modal.
+     */
+    function setupEventListeners() {
+        const newReportModal = document.getElementById('newReportModal');
+        const openModalBtn = document.querySelector('[onclick="openNewReportModal()"]');
+        const closeModalBtn = document.querySelector('.modal-close');
+
+        if (openModalBtn) {
+            openModalBtn.onclick = (e) => {
+                e.preventDefault();
+                newReportModal.style.display = 'block';
+            };
+        }
+        
+        if (closeModalBtn) {
+            closeModalBtn.onclick = () => newReportModal.style.display = 'none';
+        }
+      
+        window.onclick = (event) => {
+            if (event.target == newReportModal) {
+                newReportModal.style.display = 'none';
+            }
+        };
+    }
+
+    // --- INICIALIZAÇÃO ---
+
+    const isInitialThemeDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    initStatCharts();
+    initMainCharts(isInitialThemeDark);
+    populateReportsTable();
+    setupEventListeners();
+
+    // Listener para mudança de tema, vindo do tema.js
+    document.addEventListener('themeChanged', (e) => {
+        updateChartColors(e.detail.theme === 'dark');
+    });
+
 });
-
-// Tema
-function configurarTema() {
-  const temaSalvo = localStorage.getItem('tema') || 'light';
-  document.body.className = temaSalvo;
-  atualizarIconeTema(temaSalvo);
-  document.getElementById('btnToggleTema').onclick = () => {
-    const temaAtual = document.body.classList.contains('light') ? 'dark' : 'light';
-    document.body.className = temaAtual;
-    localStorage.setItem('tema', temaAtual);
-    atualizarIconeTema(temaAtual);
-  };
-}
-function atualizarIconeTema(tema) {
-  const btn = document.getElementById('btnToggleTema');
-  btn.innerHTML = tema === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-}
-
-// Eventos
-function configurarEventos() {
-  document.getElementById('searchRelatorio').addEventListener('input', filtrarRelatorios);
-  document.getElementById('filtroTipoRelatorio').addEventListener('change', filtrarRelatorios);
-  document.getElementById('formNovoRelatorio').addEventListener('submit', gerarNovoRelatorio);
-}
-
-// Dados Simulados
-function carregarRelatorios() {
-  relatorios = [
-    { id: 1, data: '2024-06-01', tipo: 'vendas', titulo: 'Vendas Maio', responsavel: 'João', status: 'sucesso' },
-    { id: 2, data: '2024-06-02', tipo: 'despesas', titulo: 'Despesas Maio', responsavel: 'Maria', status: 'gerando' }
-  ];
-  atualizarTabelaRelatorios();
-}
-
-// Tabela e Filtros
-function atualizarTabelaRelatorios(filtradas = null) {
-  const tbody = document.getElementById('relatoriosTableBody');
-  tbody.innerHTML = '';
-  const lista = filtradas || relatorios;
-  lista.forEach(r => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${formatarData(r.data)}</td>
-      <td>${formatarTipo(r.tipo)}</td>
-      <td>${r.titulo}</td>
-      <td>${r.responsavel}</td>
-      <td><span class="status ${r.status}">${formatarStatus(r.status)}</span></td>
-      <td class="acoes">
-        <button class="btn-icon" onclick="excluirRelatorio(${r.id})" title="Excluir"><i class="fas fa-trash"></i></button>
-      </td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function filtrarRelatorios() {
-  const tipo = document.getElementById('filtroTipoRelatorio').value;
-  const busca = document.getElementById('searchRelatorio').value.toLowerCase();
-  let filtradas = relatorios;
-  if (tipo !== 'todos') {
-    filtradas = filtradas.filter(r => r.tipo === tipo);
-  }
-  if (busca) {
-    filtradas = filtradas.filter(r => r.titulo.toLowerCase().includes(busca));
-  }
-  atualizarTabelaRelatorios(filtradas);
-}
-
-// Modal
-function abrirModalNovoRelatorio() {
-  idEdicao = null;
-  document.getElementById('formNovoRelatorio').reset();
-  document.getElementById('modalNovoRelatorio').classList.add('active');
-}
-window.abrirModalNovoRelatorio = abrirModalNovoRelatorio;
-
-function fecharModalNovoRelatorio() {
-  document.getElementById('modalNovoRelatorio').classList.remove('active');
-  idEdicao = null;
-}
-window.fecharModalNovoRelatorio = fecharModalNovoRelatorio;
-
-// CRUD Relatórios
-function gerarNovoRelatorio(e) {
-  e.preventDefault();
-  const novo = {
-    id: relatorios.length ? Math.max(...relatorios.map(r => r.id)) + 1 : 1,
-    data: document.getElementById('periodoRelatorio').value + '-01',
-    tipo: document.getElementById('tipoRelatorio').value,
-    titulo: document.getElementById('tituloRelatorio').value,
-    responsavel: 'Usuário',
-    status: 'gerando'
-  };
-  relatorios.push(novo);
-  atualizarTabelaRelatorios();
-  fecharModalNovoRelatorio();
-}
-
-window.excluirRelatorio = function(id) {
-  if (confirm('Deseja realmente excluir este relatório?')) {
-    relatorios = relatorios.filter(r => r.id !== id);
-    atualizarTabelaRelatorios();
-  }
-};
-
-// Gráficos
-let graficoVendas = null;
-let graficoDespesas = null;
-let graficoEstoque = null;
-let graficoClientes = null;
-function inicializarGraficos() {
-  graficoVendas = new Chart(document.getElementById('graficoVendas').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-      datasets: [{ label: 'Vendas', data: [120, 190, 150, 170, 220, 200], backgroundColor: 'rgba(79,70,229,0.7)' }]
-    },
-    options: { responsive: true, maintainAspectRatio: false }
-  });
-  graficoDespesas = new Chart(document.getElementById('graficoDespesas').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-      datasets: [{ label: 'Despesas', data: [100, 150, 130, 140, 180, 160], borderColor: '#F44336', tension: 0.4 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false }
-  });
-  graficoEstoque = new Chart(document.getElementById('graficoEstoque').getContext('2d'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Baixo', 'Normal', 'Alto'],
-      datasets: [{ data: [10, 60, 30], backgroundColor: ['#F59E0B', '#10B981', '#3B82F6'] }]
-    },
-    options: { responsive: true, maintainAspectRatio: false }
-  });
-  graficoClientes = new Chart(document.getElementById('graficoClientes').getContext('2d'), {
-    type: 'pie',
-    data: {
-      labels: ['Ativos', 'Inativos'],
-      datasets: [{ data: [80, 20], backgroundColor: ['#4F46E5', '#E5E7EB'] }]
-    },
-    options: { responsive: true, maintainAspectRatio: false }
-  });
-}
-
-// Utilitários
-function formatarData(data) {
-  if (!data) {
-    return '';
-  }
-  return new Date(data).toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
-}
-function formatarTipo(tipo) {
-  const map = { vendas: 'Vendas', despesas: 'Despesas', estoque: 'Estoque', clientes: 'Clientes' };
-  return map[tipo] || tipo;
-}
-function formatarStatus(status) {
-  const map = { sucesso: 'Sucesso', gerando: 'Gerando', falha: 'Falha', cancelado: 'Cancelado' };
-  return map[status] || status;
-}
-
-// Exportação e Impressão
-window.exportarRelatorios = function() {
-  const dados = JSON.stringify(relatorios, null, 2);
-  const blob = new Blob([dados], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'relatorios.json';
-  a.click();
-  URL.revokeObjectURL(url);
-};
-window.imprimirRelatorio = function() {
-  window.print();
-};

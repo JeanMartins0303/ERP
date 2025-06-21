@@ -554,8 +554,6 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        let categoryChart, ratingChart;
-
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
@@ -566,9 +564,7 @@
             localStorage.setItem('theme', newTheme);
             const icon = themeToggle.querySelector('i');
             icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-            updateChartsTheme();
         });
-
         // Sidebar Toggle
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
@@ -587,172 +583,153 @@
             sidebar.classList.remove('open');
             mainContentOverlay.classList.remove('active');
         });
-
-        function updateChartsTheme() {
-            const bodyStyles = getComputedStyle(document.body);
-            const textColor = bodyStyles.getPropertyValue('--text-secondary').trim();
-            const gridColor = bodyStyles.getPropertyValue('--border-color').trim();
-
-            if (categoryChart) {
-                categoryChart.options.plugins.legend.labels.color = textColor;
-                categoryChart.update('none');
-            }
-
-            if (ratingChart) {
-                ratingChart.options.scales.x.ticks.color = textColor;
-                ratingChart.options.scales.y.ticks.color = textColor;
-                ratingChart.options.scales.x.grid.color = gridColor;
-                ratingChart.options.scales.y.grid.color = gridColor;
-                ratingChart.update('none');
-            }
-        }
-        
-        function initCharts() {
-             // Mini Charts
-            function createMiniChart(canvasId, data, color) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                return new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', '', ''],
-                        datasets: [{ data, borderColor: color, borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-                });
-            }
-            createMiniChart('totalChart', [110, 112, 115, 118, 122, 125, 128], '#3b82f6');
-            createMiniChart('ativosChart', [100, 102, 104, 108, 110, 112, 115], '#22c55e');
-            createMiniChart('novosChart', [2, 3, 5, 6, 8, 10, 12], '#f97316');
-            createMiniChart('contratosChart', [12, 11, 10, 10, 9, 8, 8], '#ef4444');
-
-            // Main Charts
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            categoryChart = new Chart(categoryCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tecnologia', 'Alimentício', 'Limpeza', 'Escritório', 'Outros'],
-                    datasets: [{
-                        data: [45, 25, 15, 10, 5],
-                        backgroundColor: ['#8b5cf6', '#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
-                        hoverBackgroundColor: ['#7c3aed', '#059669', '#2563eb', '#d97706', '#dc2626'],
-                        borderWidth: 0,
-                        hoverOffset: 10,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                boxWidth: 12,
-                                padding: 20,
-                                font: {
-                                    size: 12,
-                                    weight: '600'
-                                },
-                                generateLabels: function(chart) {
-                                    const data = chart.data;
-                                    if (data.labels.length && data.datasets.length) {
-                                        return data.labels.map((label, i) => {
-                                            const dataset = data.datasets[0];
-                                            const value = dataset.data[i];
-                                            const total = dataset.data.reduce((a, b) => a + b, 0);
-                                            const percentage = ((value / total) * 100).toFixed(1);
-                                            
-                                            return {
-                                                text: `${label} (${percentage}%)`,
-                                                fillStyle: dataset.backgroundColor[i],
-                                                strokeStyle: dataset.backgroundColor[i],
-                                                lineWidth: 0,
-                                                pointStyle: 'circle',
-                                                hidden: false,
-                                                index: i
-                                            };
-                                        });
-                                    }
-                                    return [];
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: 'var(--primary-color)',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} fornecedores (${percentage}%)`;
-                                }
-                            }
-                        }
-                    },
-                    cutout: '65%',
-                    animation: {
-                        animateRotate: true,
-                        animateScale: true,
-                        duration: 1500,
-                        easing: 'easeOutQuart'
-                    },
-                }
-            });
-
-            const ratingCtx = document.getElementById('ratingChart').getContext('2d');
-            ratingChart = new Chart(ratingCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['5★', '4★', '3★', '2★', '1★'],
-                    datasets: [{
-                        label: 'Nº de Fornecedores',
-                        data: [60, 45, 15, 5, 3],
-                        backgroundColor: '#8b5cf6aa',
-                        borderColor: '#8b5cf6',
-                        borderWidth: 2,
-                        borderRadius: 8,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
         // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         body.setAttribute('data-theme', savedTheme);
         const icon = themeToggle.querySelector('i');
         icon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        // Charts
+        function createMiniChart(canvasId, data, color) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', ''],
+                    datasets: [{ data, borderColor: color, borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+            });
+        }
+        // Initialize mini charts
+        createMiniChart('totalChart', [110, 112, 115, 118, 122, 125, 128], '#3b82f6');
+        createMiniChart('ativosChart', [100, 102, 104, 108, 110, 112, 115], '#22c55e');
+        createMiniChart('novosChart', [2, 3, 5, 6, 8, 10, 12], '#f97316');
+        createMiniChart('contratosChart', [12, 11, 10, 10, 9, 8, 8], '#ef4444');
 
-        initCharts();
-        updateChartsTheme();
+        // Main Charts
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tecnologia', 'Alimentício', 'Limpeza', 'Escritório', 'Outros'],
+                datasets: [{
+                    data: [45, 25, 15, 10, 5],
+                    backgroundColor: [
+                        '#8b5cf6',
+                        '#10b981',
+                        '#3b82f6',
+                        '#f59e0b',
+                        '#ef4444'
+                    ],
+                    hoverBackgroundColor: [
+                        '#7c3aed',
+                        '#059669',
+                        '#2563eb',
+                        '#d97706',
+                        '#dc2626'
+                    ],
+                    borderColor: 'var(--bg-card)',
+                    borderWidth: 4,
+                    hoverBorderWidth: 6,
+                    hoverOffset: 10,
+                }]
+            },
+            options: {
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { 
+                        position: 'bottom', 
+                        labels: { 
+                            usePointStyle: true, 
+                            boxWidth: 12,
+                            padding: 20,
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            },
+                            generateLabels: function(chart) {
+                                const data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map((label, i) => {
+                                        const dataset = data.datasets[0];
+                                        const value = dataset.data[i];
+                                        const total = dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((value / total) * 100).toFixed(1);
+                                        
+                                        return {
+                                            text: `${label} (${percentage}%)`,
+                                            fillStyle: dataset.backgroundColor[i],
+                                            strokeStyle: dataset.backgroundColor[i],
+                                            lineWidth: 0,
+                                            pointStyle: 'circle',
+                                            hidden: false,
+                                            index: i
+                                        };
+                                    });
+                                }
+                                return [];
+                            }
+                        } 
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        borderColor: 'var(--primary-color)',
+                        borderWidth: 1,
+                        cornerRadius: 8,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} fornecedores (${percentage}%)`;
+                            }
+                        }
+                    }
+                },
+                cutout: '65%',
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 1500,
+                    easing: 'easeOutQuart'
+                },
+                elements: {
+                    arc: {
+                        borderWidth: 0
+                    }
+                }
+            }
+        });
+
+        const ratingCtx = document.getElementById('ratingChart').getContext('2d');
+        new Chart(ratingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['5★', '4★', '3★', '2★', '1★'],
+                datasets: [{
+                    label: 'Nº de Fornecedores',
+                    data: [60, 45, 15, 5, 3],
+                    backgroundColor: '#8b5cf6aa',
+                    borderColor: '#8b5cf6',
+                    borderWidth: 2,
+                    borderRadius: 8,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
 
         // Modal Logic
         const modalOverlay = document.getElementById('supplierModalOverlay');
@@ -763,9 +740,11 @@
         function openModal(isEdit = false) {
             modalTitle.textContent = isEdit ? 'Editar Fornecedor' : 'Adicionar Novo Fornecedor';
             if (isEdit) {
+                // Pre-fill form for demo
                 document.getElementById('nomeFantasia').value = 'TechCorp Soluções';
                 document.getElementById('razaoSocial').value = 'TechCorp Soluções em Tecnologia LTDA';
                 document.getElementById('cnpj').value = '01.234.567/0001-89';
+                // ... pre-fill other fields
             } else {
                 form.reset();
             }
@@ -776,6 +755,7 @@
             modalOverlay.classList.remove('active');
         }
         
+        // Loading & Toast
         const loadingOverlay = document.getElementById('loadingOverlay');
         const toastContainer = document.getElementById('toastContainer');
 
@@ -796,6 +776,7 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             showLoading();
+            // Simulate API call
             setTimeout(() => {
                 hideLoading();
                 closeModal();

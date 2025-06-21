@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CorelSys ERP - Fornecedores</title>
+    <title>CorelSys ERP - Compras</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,10 +16,11 @@
             --danger-color: #ef4444;
             --success-color: #22c55e;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             --stat-color-1: #3b82f6;
-            --stat-color-2: #22c55e;
-            --stat-color-3: #f97316;
-            --stat-color-4: #ef4444;
+            --stat-color-2: #f97316;
+            --stat-color-3: #10b981;
+            --stat-color-4: #6b7280;
             --bg-primary: #f9fafb;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
@@ -84,18 +85,18 @@
         .stat-trend.positive { color: var(--success-color); }
         .stat-trend.negative { color: var(--danger-color); }
         .stat-chart { height: 40px; margin-top: auto; position: relative; }
-        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
-        .stat-card.ativos .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #16a34a); }
-        .stat-card.novos .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
-        .stat-card.contratos .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
+        .stat-card.mes .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
+        .stat-card.pendentes .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #d97706); }
+        .stat-card.media .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #059669); }
+        .stat-card.fornecedores .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #4b5563); }
         @media (min-width: 1024px) { .header.with-sidebar, .main-container.with-sidebar { margin-left: 260px; width: calc(100% - 260px); } .sidebar { transform: none; transition: left 0.3s ease-in-out; left: -260px; } .sidebar.open { left: 0; } }
         @media (max-width: 767px) { .stats-grid { grid-template-columns: 1fr; } }
-
+        
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 2fr;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .card {
@@ -123,25 +124,26 @@
             color: var(--text-primary);
         }
         .chart-container {
-            height: 300px;
-        }
-        
-        .main-content-card {
-            grid-column: span 3;
+            height: 350px;
         }
 
+        .main-content-card {
+            grid-column: 1 / -1;
+        }
+        
         .table-actions {
             display: flex;
             gap: 1rem;
             align-items: center;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
         .search-container {
             position: relative;
             flex-grow: 1;
         }
         .search-input {
-            width: 100%;
+            min-width: 250px;
             padding: 0.75rem 1rem 0.75rem 2.5rem;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
@@ -161,6 +163,18 @@
             transform: translateY(-50%);
             color: var(--text-secondary);
         }
+        .filter-btn {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
         
         .table-responsive {
             overflow-x: auto;
@@ -174,6 +188,7 @@
             padding: 1rem;
             vertical-align: middle;
             border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
         }
         .data-table th {
             font-weight: 600;
@@ -184,25 +199,6 @@
         .data-table tbody tr:hover {
             background-color: var(--bg-primary);
         }
-        .supplier-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .supplier-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .supplier-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .supplier-category {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
         .status-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 999px;
@@ -211,22 +207,20 @@
             display: inline-flex;
             align-items: center;
             gap: 0.25rem;
+            text-transform: capitalize;
         }
-        .status-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-        .status-badge.active { background-color: color-mix(in srgb, var(--success-color) 15%, transparent); color: var(--success-color); }
-        .status-badge.active::before { background-color: var(--success-color); }
-        .status-badge.inactive { background-color: color-mix(in srgb, var(--danger-color) 15%, transparent); color: var(--danger-color); }
-        .status-badge.inactive::before { background-color: var(--danger-color); }
+        .status-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+        .status-badge.recebido { background-color: color-mix(in srgb, var(--success-color) 15%, transparent); color: var(--success-color); }
+        .status-badge.recebido::before { background-color: var(--success-color); }
+        .status-badge.pendente { background-color: color-mix(in srgb, var(--warning-color) 15%, transparent); color: var(--warning-color); }
+        .status-badge.pendente::before { background-color: var(--warning-color); }
+        .status-badge.cancelado { background-color: color-mix(in srgb, var(--danger-color) 15%, transparent); color: var(--danger-color); }
+        .status-badge.cancelado::before { background-color: var(--danger-color); }
 
         .action-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); padding: 0.5rem; border-radius: 50%; width: 32px; height: 32px; display: inline-flex; justify-content: center; align-items: center; }
         .action-btn:hover { background-color: var(--bg-primary); color: var(--primary-color); }
-
-        /* Modal Styles */
+        
+        /* Modal, Loading, Toast Styles */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1040; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; backdrop-filter: blur(4px); }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: var(--bg-secondary); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); width: 95%; max-width: 800px; z-index: 1050; opacity: 0; visibility: hidden; transition: all 0.3s ease; display: flex; flex-direction: column; max-height: 90vh; }
@@ -247,15 +241,11 @@
         .btn-secondary:hover { background: var(--border-color); }
         .btn-primary { background: var(--primary-color); color: var(--text-light); }
         .btn-primary:hover { background: var(--primary-dark); }
-        
-        /* Loading Overlay */
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .3s; }
         body[data-theme='dark'] .loading-overlay { background: rgba(15, 23, 42, 0.8); }
         .loading-overlay.active { opacity: 1; visibility: visible; }
         .spinner { width: 56px; height: 56px; border: 7px solid var(--primary-color); border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Toast Notification */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 1rem; }
         .toast { background: var(--bg-secondary); color: var(--text-primary); padding: 1rem 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 1rem; transform: translateX(120%); opacity: 0; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); border-left: 4px solid; }
         .toast.show { transform: translateX(0); opacity: 1; }
@@ -263,22 +253,8 @@
         .toast-icon { font-size: 1.25rem; }
         .toast.success .toast-icon { color: var(--success-color); }
 
-        /* Insights Styles */
-        .insights-content { display: flex; flex-direction: column; gap: 1rem; }
-        .insight-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: var(--radius-md); background: var(--bg-primary); border: 1px solid var(--border-color); transition: var(--transition); }
-        .insight-item:hover { transform: translateX(4px); box-shadow: var(--shadow-sm); }
-        .insight-icon { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: white; }
-        .insight-icon.success { background: linear-gradient(135deg, var(--success-color), #16a34a); }
-        .insight-icon.warning { background: linear-gradient(135deg, var(--warning-color), #d97706); }
-        .insight-icon.info { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); }
-        .insight-icon.danger { background: linear-gradient(135deg, var(--danger-color), #b91c1c); }
-        .insight-text { flex-grow: 1; }
-        .insight-value { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
-        .insight-label { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; }
-
         @media (max-width: 1200px) {
             .content-grid { grid-template-columns: 1fr; }
-            .main-content-card { grid-column: span 1; }
         }
     </style>
 </head>
@@ -292,11 +268,13 @@
         <nav class="sidebar-nav">
             <a href="dashboard.html" class="sidebar-nav-item"><i class="fas fa-home"></i> Dashboard</a>
             <a href="pdv.html" class="sidebar-nav-item"><i class="fas fa-cash-register"></i> PDV</a>
+            <a href="vendas.html" class="sidebar-nav-item"><i class="fas fa-shopping-cart"></i> Vendas</a>
+            <a href="compras.html" class="sidebar-nav-item active"><i class="fas fa-shopping-bag"></i> Compras</a>
             <a href="produtos.html" class="sidebar-nav-item"><i class="fas fa-box"></i> Produtos</a>
             <a href="estoque.html" class="sidebar-nav-item"><i class="fas fa-warehouse"></i> Estoque</a>
             <a href="financeiro.html" class="sidebar-nav-item"><i class="fas fa-dollar-sign"></i> Financeiro</a>
             <a href="funcionarios.html" class="sidebar-nav-item"><i class="fas fa-user-tie"></i> Funcionários</a>
-            <a href="fornecedores.html" class="sidebar-nav-item active"><i class="fas fa-truck"></i> Fornecedores</a>
+            <a href="fornecedores.html" class="sidebar-nav-item"><i class="fas fa-truck"></i> Fornecedores</a>
             <a href="relatorios.html" class="sidebar-nav-item"><i class="fas fa-file-alt"></i> Relatórios</a>
             <a href="clientes.html" class="sidebar-nav-item"><i class="fas fa-users"></i> Clientes</a>
             <a href="usuarios.html" class="sidebar-nav-item"><i class="fas fa-user-shield"></i> Usuários</a>
@@ -315,7 +293,7 @@
                 <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <button class="header-btn"><i class="fas fa-bell"></i></button>
                 <button class="header-btn primary" onclick="openModal()">
-                    <i class="fas fa-plus"></i> Novo Fornecedor
+                    <i class="fas fa-plus"></i> Nova Compra
                 </button>
                 <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar do Usuário" class="user-avatar">
             </div>
@@ -323,164 +301,104 @@
     </header>
     <main class="main-container" id="mainContainer">
         <div class="stats-grid">
-            <div class="stat-card total">
+            <div class="stat-card mes">
                 <div class="stat-header">
-                    <div class="stat-icon"><i class="fas fa-building"></i></div>
-                    <div class="stat-trend positive">+5.1%</div>
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="stat-trend positive">+5.2%</div>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-value">128</div>
-                    <div class="stat-label">Total de Fornecedores</div>
+                    <div class="stat-value">R$ 12.875,00</div>
+                    <div class="stat-label">Gasto no Mês</div>
                 </div>
-                <div class="stat-chart"><canvas id="totalChart"></canvas></div>
+                <div class="stat-chart"><canvas id="mesChart"></canvas></div>
             </div>
-            <div class="stat-card ativos">
+            <div class="stat-card pendentes">
                 <div class="stat-header">
-                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                    <div class="stat-trend positive">+3.2%</div>
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-trend negative">Atrasado</div>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Pedidos Pendentes</div>
+                </div>
+                <div class="stat-chart"><canvas id="pendentesChart"></canvas></div>
+            </div>
+            <div class="stat-card media">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div class="stat-trend positive">+3.1%</div>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">R$ 450,20</div>
+                    <div class="stat-label">Média por Compra</div>
+                </div>
+                <div class="stat-chart"><canvas id="mediaChart"></canvas></div>
+            </div>
+            <div class="stat-card fornecedores">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                    <div class="stat-trend">Estável</div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-value">115</div>
-                    <div class="stat-label">Ativos</div>
+                    <div class="stat-label">Fornecedores Ativos</div>
                 </div>
-                <div class="stat-chart"><canvas id="ativosChart"></canvas></div>
-            </div>
-            <div class="stat-card novos">
-                <div class="stat-header">
-                    <div class="stat-icon"><i class="fas fa-star"></i></div>
-                    <div class="stat-trend positive">+10</div>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value">12</div>
-                    <div class="stat-label">Novos no Mês</div>
-                </div>
-                <div class="stat-chart"><canvas id="novosChart"></canvas></div>
-            </div>
-            <div class="stat-card contratos">
-                <div class="stat-header">
-                    <div class="stat-icon"><i class="fas fa-file-signature"></i></div>
-                    <div class="stat-trend negative">Vencendo</div>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Contratos Vencendo</div>
-                </div>
-                <div class="stat-chart"><canvas id="contratosChart"></canvas></div>
+                <div class="stat-chart"><canvas id="fornecedoresChart"></canvas></div>
             </div>
         </div>
 
         <div class="content-grid">
             <div class="card">
-                <div class="card-header"><h3 class="card-title">Fornecedores por Categoria</h3></div>
-                <div class="chart-container"><canvas id="categoryChart"></canvas></div>
-            </div>
-            <div class="card">
-                <div class="card-header"><h3 class="card-title">Avaliação Média</h3></div>
-                <div class="chart-container"><canvas id="ratingChart"></canvas></div>
-            </div>
-            <div class="card" style="grid-column: 3; grid-row: 1;">
-                <div class="card-header"><h3 class="card-title">Insights Rápidos</h3></div>
-                <div class="insights-content">
-                    <div class="insight-item">
-                        <div class="insight-icon success"><i class="fas fa-check-circle"></i></div>
-                        <div class="insight-text">
-                            <div class="insight-value">12</div>
-                            <div class="insight-label">Novos no Mês</div>
-                        </div>
-                    </div>
-                    <div class="insight-item">
-                        <div class="insight-icon warning"><i class="fas fa-exclamation-circle"></i></div>
-                        <div class="insight-text">
-                            <div class="insight-value">8</div>
-                            <div class="insight-label">Contratos Vencendo</div>
-                        </div>
-                    </div>
-                    <div class="insight-item">
-                        <div class="insight-icon info"><i class="fas fa-info-circle"></i></div>
-                        <div class="insight-text">
-                            <div class="insight-value">115</div>
-                            <div class="insight-label">Ativos</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="card-header"><h3 class="card-title">Top 5 Produtos Comprados</h3></div>
+                <div class="chart-container"><canvas id="topProductsChart"></canvas></div>
             </div>
 
-            <div class="card main-content-card">
-                <div class="table-actions">
-                    <div class="search-container">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" placeholder="Buscar por nome, CNPJ ou categoria...">
-                    </div>
-                </div>
-                <div class="table-responsive">
+            <div class="card" style="grid-column: 2; grid-row: 1;">
+                 <div class="card-header"><h3 class="card-title">Histórico de Compras</h3></div>
+                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>Pedido</th>
                                 <th>Fornecedor</th>
-                                <th>CNPJ</th>
-                                <th>Contato</th>
+                                <th>Data</th>
+                                <th>Total</th>
                                 <th>Status</th>
-                                <th>Avaliação</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <div class="supplier-info">
-                                        <img src="https://i.pravatar.cc/150?u=tech" alt="Avatar" class="supplier-avatar">
-                                        <div>
-                                            <div class="supplier-name">TechCorp Soluções</div>
-                                            <div class="supplier-category">Tecnologia</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>01.234.567/0001-89</td>
-                                <td>contato@techcorp.com</td>
-                                <td><span class="status-badge active">Ativo</span></td>
-                                <td><i class="fas fa-star" style="color: var(--warning-color);"></i> 4.8</td>
-                                <td>
-                                    <button class="action-btn" onclick="openModal(true)"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                                </td>
+                                <td>#C2024-051</td>
+                                <td>TechCorp Soluções</td>
+                                <td>03/07/2024</td>
+                                <td>R$ 2.500,00</td>
+                                <td><span class="status-badge recebido">Recebido</span></td>
+                                <td><button class="action-btn" title="Ver Detalhes" onclick="openModal(true)"><i class="fas fa-eye"></i></button></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <div class="supplier-info">
-                                        <img src="https://i.pravatar.cc/150?u=food" alt="Avatar" class="supplier-avatar">
-                                        <div>
-                                            <div class="supplier-name">Alimentos S.A.</div>
-                                            <div class="supplier-category">Alimentício</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>11.222.333/0001-45</td>
-                                <td>vendas@alimentos.com</td>
-                                <td><span class="status-badge active">Ativo</span></td>
-                                <td><i class="fas fa-star" style="color: var(--warning-color);"></i> 4.5</td>
-                                <td>
-                                    <button class="action-btn" onclick="openModal(true)"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                                </td>
+                                <td>#C2024-050</td>
+                                <td>Alimentos S.A.</td>
+                                <td>02/07/2024</td>
+                                <td>R$ 850,00</td>
+                                <td><span class="status-badge recebido">Recebido</span></td>
+                                <td><button class="action-btn" title="Ver Detalhes" onclick="openModal(true)"><i class="fas fa-eye"></i></button></td>
                             </tr>
-                             <tr>
-                                <td>
-                                    <div class="supplier-info">
-                                        <img src="https://i.pravatar.cc/150?u=office" alt="Avatar" class="supplier-avatar">
-                                        <div>
-                                            <div class="supplier-name">Office Supplies</div>
-                                            <div class="supplier-category">Material de Escritório</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>22.333.444/0001-56</td>
-                                <td>support@officesupplies.br</td>
-                                <td><span class="status-badge inactive">Inativo</span></td>
-                                <td><i class="fas fa-star" style="color: var(--warning-color);"></i> 3.9</td>
-                                <td>
-                                    <button class="action-btn" onclick="openModal(true)"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
-                                </td>
+                            <tr>
+                                <td>#C2024-049</td>
+                                <td>Office Supplies</td>
+                                <td>01/07/2024</td>
+                                <td>R$ 320,00</td>
+                                <td><span class="status-badge pendente">Pendente</span></td>
+                                <td><button class="action-btn" title="Ver Detalhes" onclick="openModal(true)"><i class="fas fa-eye"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>#C2024-048</td>
+                                <td>LimpaTudo</td>
+                                <td>30/06/2024</td>
+                                <td>R$ 410,50</td>
+                                <td><span class="status-badge cancelado">Cancelado</span></td>
+                                <td><button class="action-btn" title="Ver Detalhes" onclick="openModal(true)"><i class="fas fa-eye"></i></button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -489,62 +407,44 @@
         </div>
     </main>
 
-    <div class="modal-overlay" id="supplierModalOverlay">
-        <div class="modal" id="supplierModal">
+    <div class="modal-overlay" id="compraModalOverlay">
+        <div class="modal" id="compraModal">
             <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Adicionar Novo Fornecedor</h3>
+                <h3 class="modal-title" id="modalTitle">Registrar Nova Compra</h3>
                 <button class="modal-close-btn" onclick="closeModal()">&times;</button>
             </div>
-            <form id="supplierForm">
+            <form id="compraForm">
                 <div class="modal-body">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
-                            <input type="text" id="nomeFantasia" class="form-input" required>
+                            <label for="fornecedor" class="form-label">Fornecedor</label>
+                            <select id="fornecedor" class="form-input" required></select>
                         </div>
                         <div class="form-group">
-                            <label for="razaoSocial" class="form-label">Razão Social</label>
-                            <input type="text" id="razaoSocial" class="form-input">
+                            <label for="dataPedido" class="form-label">Data do Pedido</label>
+                            <input type="date" id="dataPedido" class="form-input" required>
                         </div>
                         <div class="form-group">
-                            <label for="cnpj" class="form-label">CNPJ</label>
-                            <input type="text" id="cnpj" class="form-input" required>
+                            <label for="notaFiscal" class="form-label">Nota Fiscal</label>
+                            <input type="text" id="notaFiscal" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label for="inscricaoEstadual" class="form-label">Inscrição Estadual</label>
-                            <input type="text" id="inscricaoEstadual" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="contatoNome" class="form-label">Nome do Contato</label>
-                            <input type="text" id="contatoNome" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contatoEmail" class="form-label">Email</label>
-                            <input type="email" id="contatoEmail" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contatoTelefone" class="form-label">Telefone</label>
-                            <input type="tel" id="contatoTelefone" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label for="categoria" class="form-label">Categoria</label>
-                            <select id="categoria" class="form-input">
-                                <option>Tecnologia</option>
-                                <option>Alimentício</option>
-                                <option>Limpeza</option>
-                                <option>Material de Escritório</option>
-                                <option>Outros</option>
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" class="form-input">
+                                <option>Pendente</option>
+                                <option>Recebido</option>
+                                <option>Cancelado</option>
                             </select>
                         </div>
                         <div class="form-group full-width">
-                            <label for="observacoes" class="form-label">Observações</label>
-                            <textarea id="observacoes" class="form-input" rows="3"></textarea>
+                            <label class="form-label">Itens do Pedido</label>
+                            <!-- Placeholder for dynamic item rows -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Fornecedor</button>
+                    <button type="submit" class="btn btn-primary">Salvar Compra</button>
                 </div>
             </form>
         </div>
@@ -554,18 +454,74 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        let categoryChart, ratingChart;
+        let topProductsChart;
 
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
+        function updateChartsTheme() {
+            const bodyStyles = getComputedStyle(document.body);
+            const textColor = bodyStyles.getPropertyValue('--text-primary').trim();
+            const gridColor = bodyStyles.getPropertyValue('--border-color').trim();
+
+            if (topProductsChart) {
+                topProductsChart.options.scales.x.ticks.color = textColor;
+                topProductsChart.options.scales.y.ticks.color = textColor;
+                topProductsChart.options.scales.x.grid.color = gridColor;
+                topProductsChart.options.scales.y.grid.color = gridColor;
+                topProductsChart.update('none');
+            }
+        }
+        
+        function initCharts() {
+            // Mini Charts
+            function createMiniChart(canvasId, data, color) {
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                return new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['', '', '', '', '', '', ''],
+                        datasets: [{ data, borderColor: color, borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
+                });
+            }
+            createMiniChart('mesChart', [8000, 9500, 11000, 10500, 12000, 11500, 12875], '#3b82f6');
+            createMiniChart('pendentesChart', [12, 14, 13, 15, 12, 14, 15], '#f97316');
+            createMiniChart('mediaChart', [420, 430, 455, 440, 460, 450, 450.2], '#10b981');
+            createMiniChart('fornecedoresChart', [110, 112, 115, 114, 115, 115, 115], '#6b7280');
+            
+            // Top Products Chart
+            const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+            topProductsChart = new Chart(topProductsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Monitor 24"', 'Teclado Mecânico', 'Mouse Sem Fio', 'SSD 1TB', 'Cadeira Gamer'],
+                    datasets: [{
+                        label: 'Quantidade Comprada',
+                        data: [50, 75, 120, 45, 30],
+                        backgroundColor: [ 'rgba(139, 92, 246, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(59, 130, 246, 0.7)', 'rgba(245, 158, 11, 0.7)', 'rgba(239, 68, 68, 0.7)', ],
+                        borderColor: [ '#8b5cf6', '#10b981', '#3b82f6', '#f59e0b', '#ef4444', ],
+                        borderWidth: 2,
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+        
         const body = document.body;
+        const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            const icon = themeToggle.querySelector('i');
-            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            themeToggle.querySelector('i').className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
             updateChartsTheme();
         });
 
@@ -588,200 +544,33 @@
             mainContentOverlay.classList.remove('active');
         });
 
-        function updateChartsTheme() {
-            const bodyStyles = getComputedStyle(document.body);
-            const textColor = bodyStyles.getPropertyValue('--text-secondary').trim();
-            const gridColor = bodyStyles.getPropertyValue('--border-color').trim();
-
-            if (categoryChart) {
-                categoryChart.options.plugins.legend.labels.color = textColor;
-                categoryChart.update('none');
-            }
-
-            if (ratingChart) {
-                ratingChart.options.scales.x.ticks.color = textColor;
-                ratingChart.options.scales.y.ticks.color = textColor;
-                ratingChart.options.scales.x.grid.color = gridColor;
-                ratingChart.options.scales.y.grid.color = gridColor;
-                ratingChart.update('none');
-            }
-        }
-        
-        function initCharts() {
-             // Mini Charts
-            function createMiniChart(canvasId, data, color) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                return new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', '', ''],
-                        datasets: [{ data, borderColor: color, borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-                });
-            }
-            createMiniChart('totalChart', [110, 112, 115, 118, 122, 125, 128], '#3b82f6');
-            createMiniChart('ativosChart', [100, 102, 104, 108, 110, 112, 115], '#22c55e');
-            createMiniChart('novosChart', [2, 3, 5, 6, 8, 10, 12], '#f97316');
-            createMiniChart('contratosChart', [12, 11, 10, 10, 9, 8, 8], '#ef4444');
-
-            // Main Charts
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            categoryChart = new Chart(categoryCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tecnologia', 'Alimentício', 'Limpeza', 'Escritório', 'Outros'],
-                    datasets: [{
-                        data: [45, 25, 15, 10, 5],
-                        backgroundColor: ['#8b5cf6', '#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
-                        hoverBackgroundColor: ['#7c3aed', '#059669', '#2563eb', '#d97706', '#dc2626'],
-                        borderWidth: 0,
-                        hoverOffset: 10,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                usePointStyle: true,
-                                boxWidth: 12,
-                                padding: 20,
-                                font: {
-                                    size: 12,
-                                    weight: '600'
-                                },
-                                generateLabels: function(chart) {
-                                    const data = chart.data;
-                                    if (data.labels.length && data.datasets.length) {
-                                        return data.labels.map((label, i) => {
-                                            const dataset = data.datasets[0];
-                                            const value = dataset.data[i];
-                                            const total = dataset.data.reduce((a, b) => a + b, 0);
-                                            const percentage = ((value / total) * 100).toFixed(1);
-                                            
-                                            return {
-                                                text: `${label} (${percentage}%)`,
-                                                fillStyle: dataset.backgroundColor[i],
-                                                strokeStyle: dataset.backgroundColor[i],
-                                                lineWidth: 0,
-                                                pointStyle: 'circle',
-                                                hidden: false,
-                                                index: i
-                                            };
-                                        });
-                                    }
-                                    return [];
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: 'var(--primary-color)',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((value / total) * 100).toFixed(1);
-                                    return `${label}: ${value} fornecedores (${percentage}%)`;
-                                }
-                            }
-                        }
-                    },
-                    cutout: '65%',
-                    animation: {
-                        animateRotate: true,
-                        animateScale: true,
-                        duration: 1500,
-                        easing: 'easeOutQuart'
-                    },
-                }
-            });
-
-            const ratingCtx = document.getElementById('ratingChart').getContext('2d');
-            ratingChart = new Chart(ratingCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['5★', '4★', '3★', '2★', '1★'],
-                    datasets: [{
-                        label: 'Nº de Fornecedores',
-                        data: [60, 45, 15, 5, 3],
-                        backgroundColor: '#8b5cf6aa',
-                        borderColor: '#8b5cf6',
-                        borderWidth: 2,
-                        borderRadius: 8,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Initialize theme
         const savedTheme = localStorage.getItem('theme') || 'light';
         body.setAttribute('data-theme', savedTheme);
-        const icon = themeToggle.querySelector('i');
-        icon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-
+        themeToggle.querySelector('i').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        
         initCharts();
         updateChartsTheme();
 
         // Modal Logic
-        const modalOverlay = document.getElementById('supplierModalOverlay');
-        const modal = document.getElementById('supplierModal');
-        const form = document.getElementById('supplierForm');
+        const modalOverlay = document.getElementById('compraModalOverlay');
+        const form = document.getElementById('compraForm');
         const modalTitle = document.getElementById('modalTitle');
-
+        
         function openModal(isEdit = false) {
-            modalTitle.textContent = isEdit ? 'Editar Fornecedor' : 'Adicionar Novo Fornecedor';
-            if (isEdit) {
-                document.getElementById('nomeFantasia').value = 'TechCorp Soluções';
-                document.getElementById('razaoSocial').value = 'TechCorp Soluções em Tecnologia LTDA';
-                document.getElementById('cnpj').value = '01.234.567/0001-89';
-            } else {
-                form.reset();
-            }
+            modalTitle.textContent = isEdit ? 'Detalhes da Compra' : 'Registrar Nova Compra';
+            form.reset();
+            // TODO: Pre-fill form if isEdit
             modalOverlay.classList.add('active');
         }
-
         function closeModal() {
             modalOverlay.classList.remove('active');
         }
         
+        // Loading & Toast
         const loadingOverlay = document.getElementById('loadingOverlay');
         const toastContainer = document.getElementById('toastContainer');
-
         function showLoading() { loadingOverlay.classList.add('active'); }
         function hideLoading() { loadingOverlay.classList.remove('active'); }
-
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `toast ${type} show`;
@@ -799,7 +588,7 @@
             setTimeout(() => {
                 hideLoading();
                 closeModal();
-                showToast('Fornecedor salvo com sucesso!');
+                showToast('Compra salva com sucesso!');
             }, 1500);
         });
 

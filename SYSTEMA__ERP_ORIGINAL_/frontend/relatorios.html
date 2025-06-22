@@ -16,6 +16,7 @@
             --danger-color: #ef4444;
             --success-color: #22c55e;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             
             --stat-color-1: #3b82f6; /* Blue */
             --stat-color-2: #22c55e; /* Green */
@@ -102,7 +103,153 @@
         .stat-trend.negative { color: var(--danger-color); }
         .stat-value { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin: 0.5rem 0; line-height: 1.2; }
         .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; }
-        .stat-chart { height: 40px; margin-top: 1rem; }
+        .stat-chart {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            margin-top: 1rem;
+        }
+        
+        .stat-chart canvas {
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chart-tooltip {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+        }
+        
+        .chart-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chart-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid var(--bg-card);
+        }
+        
+        .chart-container {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .chart-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .chart-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            border-radius: var(--radius-lg);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .chart-container:hover .chart-overlay {
+            opacity: 1;
+        }
+        
+        /* Main Chart Styling */
+        .main-chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+        }
+        
+        .main-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .main-chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chart-period-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+        
+        .chart-period-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .chart-period-btn:hover:not(.active) {
+            background: var(--border-light);
+            color: var(--text-primary);
+        }
+        
+        .main-chart-canvas {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius-lg);
+        }
         
         .stat-card.gerados .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
         .stat-card.vendas .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #15803d); }
@@ -118,7 +265,6 @@
         .card-actions { display: flex; gap: 0.5rem; }
         .card-btn { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; }
         .card-btn:hover { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
-        .chart-container { height: 280px; position: relative; }
         
         /* Table */
         .table-controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
@@ -157,6 +303,17 @@
         .btn:hover { background: var(--primary-dark); }
         .btn-secondary { background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); }
         .btn-secondary:hover { background: var(--border-color); }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-container { margin-left: 0; width: 100%; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        }
 
         /* Toast Notifications */
         .toast-container {
@@ -332,17 +489,6 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .main-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-container { margin-left: 0; width: 100%; }
-            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-        }
-
         /* Responsive Design */
         @media (max-width: 1024px) {
             .stats-grid {
@@ -514,6 +660,114 @@
                 margin-left: 0;
                 width: 100%;
             }
+        }
+
+        /* Report Table Styling */
+        .report-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .report-type-badge.vendas {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+        
+        .report-type-badge.financeiro {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-color);
+        }
+        
+        .report-type-badge.estoque {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .report-type-badge.clientes {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .report-type-badge.produtos {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .report-title {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .report-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .format-badge {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.7rem;
+        }
+        
+        .size-info {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+        }
+        
+        .action-btn:hover {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .action-btn[title*="Visualizar"]:hover {
+            color: var(--info-color);
+        }
+        
+        .action-btn[title*="Exportar"]:hover {
+            color: var(--success-color);
+        }
+        
+        .action-btn[title*="Compartilhar"]:hover {
+            color: var(--warning-color);
+        }
+        
+        .action-btn[title*="Excluir"]:hover {
+            color: var(--danger-color);
         }
     </style>
 </head>
@@ -705,7 +959,406 @@
         </div>
     </div>
 
+    <script src="js/relatorios.js"></script>
+    <script src="main.js" type="module" defer></script>
+
+    <!-- Toast Notification System -->
+    <div class="toast-container">
+        <!-- Toast notifications will be dynamically added here -->
+    </div>
+
     <script>
+        // Modern Charts Configuration
+        const chartColors = {
+            primary: 'rgba(139, 92, 246, 0.8)',
+            primaryBorder: 'rgba(139, 92, 246, 1)',
+            success: 'rgba(34, 197, 94, 0.8)',
+            successBorder: 'rgba(34, 197, 94, 1)',
+            danger: 'rgba(239, 68, 68, 0.8)',
+            dangerBorder: 'rgba(239, 68, 68, 1)',
+            warning: 'rgba(245, 158, 11, 0.8)',
+            warningBorder: 'rgba(245, 158, 11, 1)',
+            info: 'rgba(59, 130, 246, 0.8)',
+            infoBorder: 'rgba(59, 130, 246, 1)'
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    padding: 12,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(107, 114, 128, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        }
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    radius: 4,
+                    hoverRadius: 6,
+                    backgroundColor: '#ffffff',
+                    borderWidth: 2
+                },
+                line: {
+                    tension: 0.4
+                }
+            }
+        };
+
+        // Initialize charts and data
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStatCharts();
+            initializeMainCharts();
+            renderReportsTable();
+            
+            // Show welcome toast
+            setTimeout(() => {
+                toast.info('Sistema de Relatórios', 'Sistema de relatórios carregado com sucesso!');
+            }, 1000);
+        });
+
+        // Initialize Stat Charts
+        function initializeStatCharts() {
+            // Relatórios Gerados Chart
+            const geradosCtx = document.getElementById('chartGerados')?.getContext('2d');
+            if (geradosCtx) {
+                new Chart(geradosCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['', '', '', '', '', ''],
+                        datasets: [{
+                            data: [120, 145, 132, 158, 167, 148],
+                            borderColor: chartColors.infoBorder,
+                            backgroundColor: chartColors.info,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + ' relatórios';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Vendas Chart
+            const vendasCtx = document.getElementById('chartVendas')?.getContext('2d');
+            if (vendasCtx) {
+                new Chart(vendasCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['', '', '', '', '', ''],
+                        datasets: [{
+                            data: [180, 195, 210, 225, 240, 230],
+                            borderColor: chartColors.successBorder,
+                            backgroundColor: chartColors.success,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'R$ ' + (context.parsed.y * 10) + 'K';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Exportações Chart
+            const exportacoesCtx = document.getElementById('chartExportacoes')?.getContext('2d');
+            if (exportacoesCtx) {
+                new Chart(exportacoesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['', '', '', '', '', ''],
+                        datasets: [{
+                            data: [250, 280, 310, 290, 320, 310],
+                            borderColor: chartColors.warningBorder,
+                            backgroundColor: chartColors.warning,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + ' exportações';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Erros Chart
+            const errosCtx = document.getElementById('chartErros')?.getContext('2d');
+            if (errosCtx) {
+                new Chart(errosCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['', '', '', '', '', ''],
+                        datasets: [{
+                            data: [15, 12, 18, 10, 8, 12],
+                            borderColor: chartColors.dangerBorder,
+                            backgroundColor: chartColors.danger,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + ' erros';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Main Charts
+        function initializeMainCharts() {
+            const isDarkMode = document.body.getAttribute('data-theme') === 'dark';
+            const textColor = isDarkMode ? '#f8fafc' : '#1f2937';
+            
+            // Relatórios por Categoria Chart
+            const categoriaCtx = document.getElementById('chartRelatoriosCategoria')?.getContext('2d');
+            if (categoriaCtx) {
+                new Chart(categoriaCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Vendas', 'Financeiro', 'Estoque', 'Clientes', 'Produtos'],
+                        datasets: [{
+                            label: 'Relatórios',
+                            data: [45, 32, 28, 22, 18],
+                            backgroundColor: [
+                                chartColors.success,
+                                chartColors.info,
+                                chartColors.warning,
+                                chartColors.primary,
+                                chartColors.danger
+                            ],
+                            borderColor: [
+                                chartColors.successBorder,
+                                chartColors.infoBorder,
+                                chartColors.warningBorder,
+                                chartColors.primaryBorder,
+                                chartColors.dangerBorder
+                            ],
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            borderSkipped: false
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + ' relatórios';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: 'rgba(107, 114, 128, 0.1)',
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Tipos de Relatórios Chart
+            const tiposCtx = document.getElementById('chartTiposRelatorios')?.getContext('2d');
+            if (tiposCtx) {
+                new Chart(tiposCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['PDF', 'Excel', 'CSV', 'HTML'],
+                        datasets: [{
+                            data: [45, 30, 15, 10],
+                            backgroundColor: [
+                                chartColors.danger,
+                                chartColors.success,
+                                chartColors.info,
+                                chartColors.warning
+                            ],
+                            borderColor: [
+                                chartColors.dangerBorder,
+                                chartColors.successBorder,
+                                chartColors.infoBorder,
+                                chartColors.warningBorder
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: textColor,
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
         // Toast Notification System
         class ToastManager {
             constructor() {
@@ -822,337 +1475,246 @@
             }, 3000);
         }
 
-        // Modern Charts Configuration
-        const chartColors = {
-            primary: 'rgba(139, 92, 246, 0.8)',
-            primaryBorder: 'rgba(139, 92, 246, 1)',
-            success: 'rgba(34, 197, 94, 0.8)',
-            successBorder: 'rgba(34, 197, 94, 1)',
-            danger: 'rgba(239, 68, 68, 0.8)',
-            dangerBorder: 'rgba(239, 68, 68, 1)',
-            warning: 'rgba(245, 158, 11, 0.8)',
-            warningBorder: 'rgba(245, 158, 11, 1)',
-            info: 'rgba(59, 130, 246, 0.8)',
-            infoBorder: 'rgba(59, 130, 246, 1)'
-        };
+        // Update action functions
+        function generateReport() {
+            const form = document.getElementById('reportForm');
+            const formData = new FormData(form);
+            
+            // Simulate report generation
+            toast.info('Processando', 'Gerando relatório...', 2000);
+            
+            setTimeout(() => {
+                closeNewReportModal();
+                toast.success('Relatório Criado', 'Relatório gerado com sucesso!');
+                
+                // Add to table
+                const newReport = {
+                    id: Date.now(),
+                    date: new Date().toLocaleDateString('pt-BR'),
+                    type: formData.get('type'),
+                    title: formData.get('title'),
+                    responsible: 'Usuário Atual',
+                    status: 'Concluído'
+                };
+                
+                reports.unshift(newReport);
+                renderReportsTable();
+            }, 2000);
+        }
 
-        const commonChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                duration: 2000,
-                easing: 'easeInOutQuart'
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    titleColor: '#ffffff',
-                    bodyColor: '#ffffff',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    borderWidth: 1,
-                    cornerRadius: 8,
-                    displayColors: false,
-                    padding: 12,
-                    titleFont: {
-                        size: 14,
-                        weight: 'bold'
-                    },
-                    bodyFont: {
-                        size: 13
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: 'rgba(107, 114, 128, 0.8)',
-                        font: {
-                            size: 11
-                        }
-                    }
-                },
-                y: {
-                    grid: {
-                        color: 'rgba(107, 114, 128, 0.1)',
-                        drawBorder: false
-                    },
-                    ticks: {
-                        color: 'rgba(107, 114, 128, 0.8)',
-                        font: {
-                            size: 11
-                        }
-                    }
-                }
-            },
-            elements: {
-                point: {
-                    radius: 4,
-                    hoverRadius: 6,
-                    backgroundColor: '#ffffff',
-                    borderWidth: 2
-                },
-                line: {
-                    tension: 0.4
-                }
-            }
-        };
+        function exportReport(id) {
+            toast.info('Exportando', 'Preparando arquivo para download...', 2000);
+            
+            setTimeout(() => {
+                toast.success('Exportação Concluída', 'Relatório exportado com sucesso!');
+            }, 2000);
+        }
 
-        // Initialize Stat Charts
-        function initializeStatCharts() {
-            // Relatórios Gerados Chart
-            const geradosCtx = document.getElementById('chartGerados')?.getContext('2d');
-            if (geradosCtx) {
-                new Chart(geradosCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', ''],
-                        datasets: [{
-                            data: [120, 140, 130, 150, 180, 148],
-                            borderColor: chartColors.infoBorder,
-                            backgroundColor: chartColors.info,
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        }
-                    }
-                });
-            }
-
-            // Vendas Chart
-            const vendasCtx = document.getElementById('chartVendas')?.getContext('2d');
-            if (vendasCtx) {
-                new Chart(vendasCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', ''],
-                        datasets: [{
-                            data: [180, 200, 190, 220, 250, 230],
-                            borderColor: chartColors.successBorder,
-                            backgroundColor: chartColors.success,
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        }
-                    }
-                });
-            }
-
-            // Exportações Chart
-            const exportacoesCtx = document.getElementById('chartExportacoes')?.getContext('2d');
-            if (exportacoesCtx) {
-                new Chart(exportacoesCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', ''],
-                        datasets: [{
-                            data: [250, 280, 300, 320, 350, 310],
-                            borderColor: chartColors.warningBorder,
-                            backgroundColor: chartColors.warning,
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        }
-                    }
-                });
-            }
-
-            // Erros Chart
-            const errosCtx = document.getElementById('chartErros')?.getContext('2d');
-            if (errosCtx) {
-                new Chart(errosCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['', '', '', '', '', ''],
-                        datasets: [{
-                            data: [15, 12, 10, 8, 5, 12],
-                            borderColor: chartColors.dangerBorder,
-                            backgroundColor: chartColors.danger,
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        scales: {
-                            x: { display: false },
-                            y: { display: false }
-                        }
-                    }
-                });
+        function deleteReport(id) {
+            if (confirm('Tem certeza que deseja excluir este relatório?')) {
+                reports = reports.filter(r => r.id !== id);
+                renderReportsTable();
+                toast.success('Relatório Excluído', 'Relatório removido com sucesso!');
             }
         }
 
-        // Main Charts
-        function initializeMainCharts() {
-            // Relatórios por Categoria
-            const categoriaCtx = document.getElementById('chartRelatoriosCategoria')?.getContext('2d');
-            if (categoriaCtx) {
-                new Chart(categoriaCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Vendas', 'Financeiro', 'Estoque', 'Clientes'],
-                        datasets: [{
-                            data: [35, 25, 20, 20],
-                            backgroundColor: [
-                                chartColors.success,
-                                chartColors.info,
-                                chartColors.warning,
-                                chartColors.primary
-                            ],
-                            borderColor: [
-                                chartColors.successBorder,
-                                chartColors.infoBorder,
-                                chartColors.warningBorder,
-                                chartColors.primaryBorder
-                            ],
-                            borderWidth: 2,
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        plugins: {
-                            ...commonChartOptions.plugins,
-                            legend: {
-                                display: true,
-                                position: 'bottom',
-                                labels: {
-                                    color: 'rgba(107, 114, 128, 0.8)',
-                                    usePointStyle: true,
-                                    padding: 20
-                                }
-                            }
-                        }
-                    }
-                });
+        // Mock Data - Histórico de Relatórios
+        let reports = [
+            {
+                id: 1,
+                date: '15/01/2025',
+                type: 'Vendas',
+                title: 'Relatório de Vendas - Janeiro 2025',
+                responsible: 'João Silva',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '2.3 MB'
+            },
+            {
+                id: 2,
+                date: '14/01/2025',
+                type: 'Financeiro',
+                title: 'Fluxo de Caixa - Semana 2',
+                responsible: 'Maria Santos',
+                status: 'Concluído',
+                format: 'Excel',
+                size: '1.8 MB'
+            },
+            {
+                id: 3,
+                date: '13/01/2025',
+                type: 'Estoque',
+                title: 'Inventário de Produtos',
+                responsible: 'Pedro Costa',
+                status: 'Processando',
+                format: 'CSV',
+                size: '4.1 MB'
+            },
+            {
+                id: 4,
+                date: '12/01/2025',
+                type: 'Clientes',
+                title: 'Análise de Clientes VIP',
+                responsible: 'Ana Oliveira',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '3.2 MB'
+            },
+            {
+                id: 5,
+                date: '11/01/2025',
+                type: 'Produtos',
+                title: 'Relatório de Produtos Mais Vendidos',
+                responsible: 'Carlos Lima',
+                status: 'Concluído',
+                format: 'Excel',
+                size: '1.5 MB'
+            },
+            {
+                id: 6,
+                date: '10/01/2025',
+                type: 'Vendas',
+                title: 'Análise de Vendas por Região',
+                responsible: 'João Silva',
+                status: 'Erro',
+                format: 'PDF',
+                size: '0 MB'
+            },
+            {
+                id: 7,
+                date: '09/01/2025',
+                type: 'Financeiro',
+                title: 'DRE - Dezembro 2024',
+                responsible: 'Maria Santos',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '5.7 MB'
+            },
+            {
+                id: 8,
+                date: '08/01/2025',
+                type: 'Estoque',
+                title: 'Produtos com Estoque Baixo',
+                responsible: 'Pedro Costa',
+                status: 'Concluído',
+                format: 'HTML',
+                size: '0.8 MB'
+            },
+            {
+                id: 9,
+                date: '07/01/2025',
+                type: 'Clientes',
+                title: 'Relatório de Fidelidade',
+                responsible: 'Ana Oliveira',
+                status: 'Concluído',
+                format: 'Excel',
+                size: '2.1 MB'
+            },
+            {
+                id: 10,
+                date: '06/01/2025',
+                type: 'Vendas',
+                title: 'Performance de Vendedores',
+                responsible: 'João Silva',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '3.8 MB'
+            },
+            {
+                id: 11,
+                date: '05/01/2025',
+                type: 'Financeiro',
+                title: 'Contas a Receber - Vencidas',
+                responsible: 'Maria Santos',
+                status: 'Processando',
+                format: 'Excel',
+                size: '1.2 MB'
+            },
+            {
+                id: 12,
+                date: '04/01/2025',
+                type: 'Produtos',
+                title: 'Análise de Margem de Lucro',
+                responsible: 'Carlos Lima',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '2.9 MB'
+            },
+            {
+                id: 13,
+                date: '03/01/2025',
+                type: 'Estoque',
+                title: 'Movimentação de Estoque - Dezembro',
+                responsible: 'Pedro Costa',
+                status: 'Concluído',
+                format: 'CSV',
+                size: '6.3 MB'
+            },
+            {
+                id: 14,
+                date: '02/01/2025',
+                type: 'Clientes',
+                title: 'Relatório de Novos Clientes',
+                responsible: 'Ana Oliveira',
+                status: 'Concluído',
+                format: 'Excel',
+                size: '1.7 MB'
+            },
+            {
+                id: 15,
+                date: '01/01/2025',
+                type: 'Vendas',
+                title: 'Resumo Anual de Vendas 2024',
+                responsible: 'João Silva',
+                status: 'Concluído',
+                format: 'PDF',
+                size: '8.5 MB'
             }
-
-            // Tipos de Relatórios
-            const tiposCtx = document.getElementById('chartTiposRelatorios')?.getContext('2d');
-            if (tiposCtx) {
-                new Chart(tiposCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Vendas', 'Financeiro', 'Estoque', 'Clientes', 'Produtos'],
-                        datasets: [{
-                            label: 'Quantidade',
-                            data: [450, 320, 280, 200, 180],
-                            backgroundColor: [
-                                chartColors.success,
-                                chartColors.info,
-                                chartColors.warning,
-                                chartColors.primary,
-                                chartColors.danger
-                            ],
-                            borderColor: [
-                                chartColors.successBorder,
-                                chartColors.infoBorder,
-                                chartColors.warningBorder,
-                                chartColors.primaryBorder,
-                                chartColors.dangerBorder
-                            ],
-                            borderWidth: 2,
-                            borderRadius: 8,
-                            borderSkipped: false
-                        }]
-                    },
-                    options: {
-                        ...commonChartOptions,
-                        plugins: {
-                            ...commonChartOptions.plugins,
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            x: {
-                                grid: {
-                                    display: false
-                                },
-                                ticks: {
-                                    color: 'rgba(107, 114, 128, 0.8)',
-                                    font: {
-                                        size: 12,
-                                        weight: '600'
-                                    }
-                                }
-                            },
-                            y: {
-                                grid: {
-                                    color: 'rgba(107, 114, 128, 0.1)',
-                                    drawBorder: false
-                                },
-                                ticks: {
-                                    color: 'rgba(107, 114, 128, 0.8)',
-                                    font: {
-                                        size: 12
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        // Mock data for reports table
-        const reportsData = [
-            { date: '2024-01-15', type: 'Vendas', title: 'Relatório de Vendas - Janeiro', responsible: 'João Silva', status: 'concluido' },
-            { date: '2024-01-14', type: 'Financeiro', title: 'Fluxo de Caixa - Dezembro', responsible: 'Maria Santos', status: 'processando' },
-            { date: '2024-01-13', type: 'Estoque', title: 'Inventário Geral', responsible: 'Pedro Costa', status: 'concluido' },
-            { date: '2024-01-12', type: 'Clientes', title: 'Análise de Clientes', responsible: 'Ana Oliveira', status: 'erro' },
-            { date: '2024-01-11', type: 'Vendas', title: 'Relatório de Vendas - Dezembro', responsible: 'João Silva', status: 'concluido' }
         ];
 
-        function populateReportsTable() {
+        // Render Reports Table
+        function renderReportsTable() {
             const tbody = document.getElementById('reportsTableBody');
+            if (!tbody) return;
+            
             tbody.innerHTML = '';
-
-            reportsData.forEach(report => {
+            
+            reports.forEach(report => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${new Date(report.date).toLocaleDateString('pt-BR')}</td>
-                    <td>${report.type}</td>
-                    <td>${report.title}</td>
+                    <td>${report.date}</td>
+                    <td>
+                        <span class="report-type-badge ${report.type.toLowerCase()}">
+                            ${report.type}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="report-title">
+                            <strong>${report.title}</strong>
+                            <div class="report-meta">
+                                <span class="format-badge">${report.format}</span>
+                                <span class="size-info">${report.size}</span>
+                            </div>
+                        </div>
+                    </td>
                     <td>${report.responsible}</td>
-                    <td><span class="status-badge ${report.status}">${report.status}</span></td>
+                    <td>
+                        <span class="status-badge ${report.status.toLowerCase()}">
+                            ${report.status}
+                        </span>
+                    </td>
                     <td>
                         <div class="action-buttons">
-                            <button class="action-btn" onclick="downloadReport('${report.title}')" title="Download">
-                                <i class="fas fa-download"></i>
-                            </button>
-                            <button class="action-btn" onclick="viewReport('${report.title}')" title="Visualizar">
+                            <button class="action-btn" onclick="viewReport(${report.id})" title="Visualizar">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="action-btn" onclick="deleteReport('${report.title}')" title="Excluir">
+                            <button class="action-btn" onclick="exportReport(${report.id})" title="Exportar">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="action-btn" onclick="shareReport(${report.id})" title="Compartilhar">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="action-btn" onclick="deleteReport(${report.id})" title="Excluir">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1162,49 +1724,27 @@
             });
         }
 
-        // Action functions
-        function downloadReport(title) {
-            toast.success('Download Iniciado', `Relatório "${title}" sendo baixado...`);
-        }
-
-        function viewReport(title) {
-            toast.info('Visualização', `Abrindo relatório "${title}"...`);
-        }
-
-        function deleteReport(title) {
-            if (confirm(`Tem certeza que deseja excluir o relatório "${title}"?`)) {
-                toast.success('Relatório Excluído', `Relatório "${title}" removido com sucesso!`);
+        // Additional action functions
+        function viewReport(id) {
+            const report = reports.find(r => r.id === id);
+            if (report) {
+                toast.info('Visualizando', `Abrindo ${report.title}...`);
+                // Simulate opening report
+                setTimeout(() => {
+                    toast.success('Relatório Aberto', 'Relatório carregado com sucesso!');
+                }, 1500);
             }
         }
 
-        function openNewReportModal() {
-            document.getElementById('newReportModal').style.display = 'block';
+        function shareReport(id) {
+            const report = reports.find(r => r.id === id);
+            if (report) {
+                toast.info('Compartilhando', 'Gerando link de compartilhamento...');
+                setTimeout(() => {
+                    toast.success('Link Gerado', 'Link de compartilhamento copiado!');
+                }, 1000);
+            }
         }
-
-        function closeNewReportModal() {
-            document.getElementById('newReportModal').style.display = 'none';
-        }
-
-        // Form submission
-        document.getElementById('newReportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('reportTitle').value;
-            const type = document.getElementById('reportType').value;
-            const period = document.getElementById('reportPeriod').value;
-            
-            toast.success('Relatório Criado', `Relatório "${title}" está sendo gerado...`);
-            closeNewReportModal();
-            this.reset();
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeStatCharts();
-            initializeMainCharts();
-            populateReportsTable();
-            toast.success('Sistema Carregado', 'Relatórios carregados com sucesso!');
-        });
     </script>
-    <script src="main.js" type="module" defer></script>
 </body>
 </html>

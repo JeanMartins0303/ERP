@@ -16,24 +16,33 @@
             --danger-color: #ef4444;
             --success-color: #22c55e;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            
             --stat-color-1: #3b82f6;
             --stat-color-2: #22c55e;
             --stat-color-3: #f97316;
             --stat-color-4: #ef4444;
+            
             --bg-primary: #f9fafb;
             --bg-secondary: #ffffff;
             --bg-card: #ffffff;
             --bg-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            
             --text-primary: #1f2937;
             --text-secondary: #6b7280;
             --text-light: #ffffff;
+            
             --border-color: #e5e7eb;
+            
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+            
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
+            
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -52,11 +61,22 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
         
         /* Layout components */
-        .header { background: var(--bg-gradient); padding: 1rem 1.5rem; color: var(--text-light); position: sticky; top: 0; z-index: 999; box-shadow: var(--shadow-md); transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        .header { 
+            background: var(--bg-gradient); 
+            padding: 1rem 1.5rem; 
+            color: var(--text-light); 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            box-shadow: var(--shadow-md); 
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
+            width: 100%; 
+            overflow: hidden;
+        }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 1rem; }
         .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
-        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
         .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); position: relative; }
         .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
         .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
@@ -74,49 +94,261 @@
         .sidebar-nav-item i { width: 1.25rem; text-align: center; }
         .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
         
-        .main-container { padding: 1.5rem; transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        .main-container { 
+            padding: 1.5rem; 
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
+            width: 100%; 
+            margin-left: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
         .main-content-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         .main-content-overlay.active { opacity: 1; visibility: visible; }
         
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-        .stat-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-color); }
-        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--bg-gradient); opacity: 0; transition: var(--transition); }
-        .stat-card:hover::before { opacity: 1; }
-        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .stat-icon { width: 3.5rem; height: 3.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; position: relative; }
-        .stat-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.2; }
-        .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
-        .stat-trend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; }
-        .stat-trend.positive { color: var(--success-color); }
-        .stat-trend.negative { color: var(--danger-color); }
-        .stat-chart { height: 40px; margin-top: auto; position: relative; }
+        /* Enhanced Stats Grid */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 2rem; 
+        }
+        .stat-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-xl); 
+            padding: 1.75rem; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            min-height: 180px; 
+        }
+        .stat-card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: var(--shadow-xl); 
+            border-color: var(--primary-color); 
+        }
+        .stat-card::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: var(--bg-gradient); 
+            opacity: 0; 
+            transition: var(--transition); 
+        }
+        .stat-card:hover::before { 
+            opacity: 1; 
+        }
+        .stat-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-bottom: 1.25rem; 
+        }
+        .stat-icon { 
+            width: 4rem; 
+            height: 4rem; 
+            border-radius: var(--radius-xl); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.75rem; 
+            color: white; 
+            position: relative; 
+            box-shadow: var(--shadow-md);
+        }
+        .stat-content { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        .stat-value { 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            margin-bottom: 0.5rem; 
+            line-height: 1.1; 
+        }
+        .stat-label { 
+            color: var(--text-secondary); 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-trend { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+        }
+        .stat-trend.positive { 
+            color: var(--success-color); 
+        }
+        .stat-trend.negative { 
+            color: var(--danger-color); 
+        }
+        .stat-chart { 
+            height: 40px; 
+            margin-top: auto; 
+            position: relative; 
+        }
         
-        .stat-card.ativas .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
-        .stat-card.fechadas .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #16a34a); }
-        .stat-card.pendentes .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
-        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
+        .stat-card.ativas .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); 
+        }
+        .stat-card.fechadas .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-2), #16a34a); 
+        }
+        .stat-card.pendentes .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-3), #d97706); 
+        }
+        .stat-card.total .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); 
+        }
 
-        /* Content Grid */
-        .content-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
-        .chart-card, .table-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; row-gap: 1rem; }
-        .card-title { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
-        .chart-container { height: 350px; position: relative; }
+        /* Enhanced Content Grid */
+        .content-grid { 
+            display: grid; 
+            gap: 2rem; 
+            grid-template-columns: 1fr; 
+            width: 100%;
+            max-width: 100%;
+        }
+        .chart-card, .table-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-xl); 
+            padding: 1.75rem; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            transition: var(--transition);
+        }
         
-        /* Table Controls */
-        .table-controls { display: flex; width: 100%; flex-wrap: wrap; gap: 1rem; align-items: center; }
-        .search-input { width: 100%; padding: 0.75rem 1rem; padding-left: 2.5rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; transition: var(--transition); height: 48px; flex-grow: 1; min-width: 200px; }
-        .search-wrapper { position: relative; flex-grow: 1; }
-        .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
-        .filter-control { padding: 0.75rem 1rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; height: 48px; }
-        .card-actions { display: flex; gap: 0.5rem; }
-        .card-btn { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; height: 48px; }
-        .card-btn:hover { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
-        .card-btn.primary { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
-        .card-btn.primary:hover { background: var(--primary-dark); }
+        .chart-card:hover,
+        .table-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .card-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.75rem; 
+            flex-wrap: wrap; 
+            row-gap: 1rem; 
+        }
+        .card-title { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: var(--text-primary); 
+        }
+        .chart-container { 
+            height: 350px; 
+            position: relative; 
+        }
+        
+        /* Enhanced Table Controls */
+        .table-controls { 
+            display: flex; 
+            width: 100%; 
+            flex-wrap: wrap; 
+            gap: 1rem; 
+            align-items: center; 
+        }
+        .search-input { 
+            width: 100%; 
+            padding: 0.875rem 1rem; 
+            padding-left: 3rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: var(--radius-lg); 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: var(--transition); 
+            height: 52px; 
+            flex-grow: 1; 
+            min-width: 250px; 
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .search-wrapper { 
+            position: relative; 
+            flex-grow: 1; 
+        }
+        .search-icon { 
+            position: absolute; 
+            left: 1rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--text-secondary); 
+            font-size: 1.1rem;
+        }
+        .filter-control { 
+            padding: 0.875rem 1rem; 
+            border-radius: var(--radius-lg); 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            height: 52px; 
+            min-width: 150px;
+            transition: var(--transition);
+        }
+        .filter-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .card-actions { 
+            display: flex; 
+            gap: 0.75rem; 
+        }
+        .card-btn { 
+            background: var(--bg-primary); 
+            border: 1px solid var(--border-color); 
+            color: var(--text-primary); 
+            padding: 0.75rem 1rem; 
+            border-radius: var(--radius-md); 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            height: 52px; 
+        }
+        .card-btn:hover { 
+            background: var(--primary-color); 
+            color: var(--text-light); 
+            border-color: var(--primary-color); 
+            transform: translateY(-2px);
+        }
+        .card-btn.primary { 
+            background: var(--primary-color); 
+            color: var(--text-light); 
+            border-color: var(--primary-color); 
+        }
+        .card-btn.primary:hover { 
+            background: var(--primary-dark); 
+        }
         
         /* Table Styles */
         .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
@@ -141,43 +373,197 @@
         
         /* Responsive */
         @media (min-width: 1024px) { 
-            .header.with-sidebar, .main-container.with-sidebar { margin-left: 260px; width: calc(100% - 260px); }
-            .sidebar { transform: none; transition: left 0.3s ease-in-out; left: -260px; }
-            .sidebar.open { left: 0; }
-            .content-grid { grid-template-columns: 2fr 1fr; }
+            .header.with-sidebar, .main-container.with-sidebar { 
+                margin-left: 260px; 
+                width: calc(100% - 260px); 
+            }
+            .sidebar { 
+                transform: none; 
+                transition: left 0.3s ease-in-out; 
+                left: -260px; 
+            }
+            .sidebar.open { 
+                left: 0; 
+            }
+            .content-grid { 
+                grid-template-columns: 2fr 1fr; 
+            }
         }
         
-        @media (max-width: 767px) { 
-            .stats-grid { grid-template-columns: 1fr; }
-            .table-controls { flex-direction: column; align-items: stretch; }
-            .card-actions { justify-content: center; }
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .stats-grid { 
+                grid-template-columns: 1fr; 
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.25rem;
+                min-height: 160px;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.5rem;
+            }
+            
+            .content-grid {
+                gap: 1.5rem;
+            }
+            
+            .chart-card,
+            .table-card {
+                padding: 1.25rem;
+            }
+            
+            .table-controls { 
+                flex-direction: column; 
+                align-items: stretch; 
+            }
+            
+            .search-input {
+                min-width: auto;
+                height: 48px;
+            }
+            
+            .filter-control {
+                height: 48px;
+                min-width: auto;
+            }
+            
+            .card-btn {
+                height: 48px;
+            }
+            
+            .card-actions { 
+                justify-content: center; 
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .header {
+                padding: 0.75rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .header-btn {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.75rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .search-input {
+                height: 44px;
+                font-size: 0.9rem;
+                padding-left: 2.5rem;
+            }
+            
+            .filter-control {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+            
+            .card-btn {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+            
+            .chart-card,
+            .table-card {
+                padding: 1rem;
+            }
         }
 
-        /* Toast Notifications */
+        /* Premium Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 2rem;
+            right: 2rem;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 1rem;
+            pointer-events: none;
         }
         
         .toast {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-xl);
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 300px;
-            max-width: 400px;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 350px;
+            max-width: 450px;
             transform: translateX(100%);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
         }
         
         .toast.show {
@@ -185,86 +571,147 @@
             opacity: 1;
         }
         
-        .toast.success {
-            border-left: 4px solid var(--success-color);
+        .toast.success { 
+            border-left-color: var(--success-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
         }
-        
-        .toast.error {
-            border-left: 4px solid var(--danger-color);
+        .toast.error { 
+            border-left-color: var(--danger-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
         }
-        
-        .toast.warning {
-            border-left: 4px solid var(--warning-color);
+        .toast.warning { 
+            border-left-color: var(--warning-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
-        
-        .toast.info {
-            border-left: 4px solid var(--primary-color);
+        .toast.info { 
+            border-left-color: var(--info-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(59, 130, 246, 0.05) 100%);
         }
-        
+
         .toast-icon {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
+            margin-top: 0.125rem;
         }
-        
-        .toast.success .toast-icon {
-            color: var(--success-color);
+
+        .toast.success .toast-icon { 
+            color: var(--success-color); 
+            animation: pulse 2s infinite;
         }
-        
-        .toast.error .toast-icon {
-            color: var(--danger-color);
+        .toast.error .toast-icon { 
+            color: var(--danger-color); 
+            animation: shake 0.5s ease-in-out;
         }
-        
-        .toast.warning .toast-icon {
-            color: var(--warning-color);
+        .toast.warning .toast-icon { 
+            color: var(--warning-color); 
+            animation: bounce 1s ease-in-out;
         }
-        
-        .toast.info .toast-icon {
-            color: var(--primary-color);
+        .toast.info .toast-icon { 
+            color: var(--info-color); 
+            animation: fadeIn 0.5s ease-in-out;
         }
-        
+
         .toast-content {
             flex-grow: 1;
+            min-width: 0;
         }
-        
+
         .toast-title {
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
+            font-size: 0.95rem;
         }
-        
+
         .toast-message {
             color: var(--text-secondary);
             font-size: 0.875rem;
+            line-height: 1.4;
         }
-        
-        .toast-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: var(--radius-md);
-            transition: var(--transition);
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+            animation: progress 5s linear;
         }
-        
-        .toast-close:hover {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-8px,0); }
+            70% { transform: translate3d(0,-4px,0); }
+            90% { transform: translate3d(0,-2px,0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <div class="main-content-overlay" id="mainContentOverlay"></div>
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-icon"><i class="fas fa-atom"></i></div>
+            <span class="sidebar-logo-text">CorelSys</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="sidebar-nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="pdv.html" class="sidebar-nav-item"><i class="fas fa-cash-register"></i><span>PDV</span></a>
+            <a href="produtos.html" class="sidebar-nav-item"><i class="fas fa-box"></i><span>Produtos</span></a>
+            <a href="estoque.html" class="sidebar-nav-item"><i class="fas fa-warehouse"></i><span>Estoque</span></a>
+            <a href="comandas.html" class="sidebar-nav-item active"><i class="fas fa-receipt"></i><span>Comandas</span></a>
+            <a href="financeiro.html" class="sidebar-nav-item"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></a>
+            <a href="relatorios.html" class="sidebar-nav-item"><i class="fas fa-file-alt"></i><span>Relatórios</span></a>
+            <a href="clientes.html" class="sidebar-nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+            <a href="funcionarios.html" class="sidebar-nav-item"><i class="fas fa-user-tie"></i><span>Funcionários</span></a>
+            <a href="vendas.html" class="sidebar-nav-item"><i class="fas fa-shopping-cart"></i><span>Vendas</span></a>
+            <a href="compras.html" class="sidebar-nav-item"><i class="fas fa-shopping-bag"></i><span>Compras</span></a>
+            <a href="fornecedores.html" class="sidebar-nav-item"><i class="fas fa-truck"></i><span>Fornecedores</span></a>
+            <a href="usuarios.html" class="sidebar-nav-item"><i class="fas fa-user-shield"></i><span>Usuários</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="configuracoes.html" class="sidebar-nav-item"><i class="fas fa-cog"></i><span>Configurações</span></a>
+            <a href="login.html" class="sidebar-nav-item"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a>
+        </div>
+    </aside>
+
     <header class="header" id="header">
         <div class="header-content">
             <div class="logo">
+                <button class="header-btn" id="sidebarToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="logo-text">
-                    <h1>CorelSys ERP</h1>
+                    <h1>Gestão de Comandas</h1>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="header-btn" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
+                <button class="header-btn" onclick="testNotifications()" title="Testar Notificações">
+                    <i class="fas fa-flask"></i>
                 </button>
                 <button class="header-btn" id="themeToggle">
                     <i class="fas fa-moon"></i>
@@ -279,71 +726,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo-icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="sidebar-logo-text">CorelSys</div>
-        </div>
-        <div class="sidebar-nav">
-            <a href="dashboard.html" class="sidebar-nav-item">
-                <i class="fas fa-tachometer-alt"></i>
-                Dashboard
-            </a>
-            <a href="pdv.html" class="sidebar-nav-item">
-                <i class="fas fa-cash-register"></i>
-                PDV
-            </a>
-            <a href="vendas.html" class="sidebar-nav-item">
-                <i class="fas fa-shopping-cart"></i>
-                Vendas
-            </a>
-            <a href="produtos.html" class="sidebar-nav-item">
-                <i class="fas fa-box"></i>
-                Produtos
-            </a>
-            <a href="estoque.html" class="sidebar-nav-item">
-                <i class="fas fa-warehouse"></i>
-                Estoque
-            </a>
-            <a href="clientes.html" class="sidebar-nav-item">
-                <i class="fas fa-users"></i>
-                Clientes
-            </a>
-            <a href="fornecedores.html" class="sidebar-nav-item">
-                <i class="fas fa-truck"></i>
-                Fornecedores
-            </a>
-            <a href="funcionarios.html" class="sidebar-nav-item">
-                <i class="fas fa-user-tie"></i>
-                Funcionários
-            </a>
-            <a href="financeiro.html" class="sidebar-nav-item">
-                <i class="fas fa-dollar-sign"></i>
-                Financeiro
-            </a>
-            <a href="comandas.html" class="sidebar-nav-item active">
-                <i class="fas fa-receipt"></i>
-                Comandas
-            </a>
-            <a href="relatorios.html" class="sidebar-nav-item">
-                <i class="fas fa-chart-bar"></i>
-                Relatórios
-            </a>
-            <a href="configuracoes.html" class="sidebar-nav-item">
-                <i class="fas fa-cog"></i>
-                Configurações
-            </a>
-        </div>
-        <div class="sidebar-footer">
-            <div style="color: var(--text-secondary); font-size: 0.875rem;">
-                © 2024 CorelSys ERP
-            </div>
-        </div>
-    </nav>
 
     <!-- Main Content -->
     <main class="main-container" id="mainContainer">
@@ -515,56 +897,80 @@
         </div>
     </main>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
     <script>
         // Sample data for comandas
         const comandasData = [
             {
-                id: 'CMD001',
+                id: 'CMD-001',
                 mesa: 'Mesa 1',
                 cliente: 'João Silva',
-                itens: 3,
-                total: 89.50,
+                itens: 4,
+                total: 85.50,
                 status: 'ativa',
                 abertura: '14:30'
             },
             {
-                id: 'CMD002',
-                mesa: 'Mesa 2',
+                id: 'CMD-002',
+                mesa: 'Mesa 3',
                 cliente: 'Maria Santos',
                 itens: 2,
                 total: 45.80,
                 status: 'fechada',
-                abertura: '13:45'
+                abertura: '13:15'
             },
             {
-                id: 'CMD003',
-                mesa: 'Mesa 3',
-                cliente: 'Pedro Costa',
-                itens: 5,
-                total: 156.90,
-                status: 'ativa',
-                abertura: '15:20'
-            },
-            {
-                id: 'CMD004',
-                mesa: 'Mesa 4',
-                cliente: 'Ana Oliveira',
-                itens: 1,
-                total: 23.50,
-                status: 'pendente',
-                abertura: '16:15'
-            },
-            {
-                id: 'CMD005',
+                id: 'CMD-003',
                 mesa: 'Mesa 5',
-                cliente: 'Carlos Mendes',
+                cliente: 'Pedro Costa',
+                itens: 6,
+                total: 120.90,
+                status: 'pendente',
+                abertura: '15:45'
+            },
+            {
+                id: 'CMD-004',
+                mesa: 'Mesa 2',
+                cliente: 'Ana Oliveira',
+                itens: 3,
+                total: 67.30,
+                status: 'ativa',
+                abertura: '16:20'
+            },
+            {
+                id: 'CMD-005',
+                mesa: 'Mesa 4',
+                cliente: 'Carlos Lima',
+                itens: 5,
+                total: 95.75,
+                status: 'cancelada',
+                abertura: '14:00'
+            },
+            {
+                id: 'CMD-006',
+                mesa: 'Mesa 6',
+                cliente: 'Lucia Ferreira',
+                itens: 2,
+                total: 38.90,
+                status: 'fechada',
+                abertura: '12:30'
+            },
+            {
+                id: 'CMD-007',
+                mesa: 'Mesa 8',
+                cliente: 'Roberto Alves',
+                itens: 7,
+                total: 145.60,
+                status: 'ativa',
+                abertura: '17:10'
+            },
+            {
+                id: 'CMD-008',
+                mesa: 'Mesa 7',
+                cliente: 'Fernanda Rocha',
                 itens: 4,
                 total: 78.25,
-                status: 'cancelada',
-                abertura: '12:30'
+                status: 'pendente',
+                abertura: '16:45'
             }
         ];
 
@@ -704,47 +1110,68 @@
             });
         });
 
-        // Action functions
+        // Enhanced Action Functions
         function novaComanda() {
-            showToast('Abrindo formulário de nova comanda...', 'info');
-            // Implementar modal de nova comanda
+            toast.info('Abrindo', 'Carregando formulário de nova comanda...');
+            setTimeout(() => {
+                toast.success('Formulário Aberto', 'Formulário de nova comanda carregado com sucesso!');
+            }, 800);
         }
 
         function visualizarComanda(id) {
-            showToast(`Visualizando comanda ${id}`, 'info');
-            // Implementar modal de visualização
+            toast.info('Carregando', `Abrindo detalhes da comanda ${id}...`);
+            setTimeout(() => {
+                toast.success('Comanda Visualizada', `Detalhes da comanda ${id} carregados!`);
+            }, 1000);
         }
 
         function editarComanda(id) {
-            showToast(`Editando comanda ${id}`, 'warning');
-            // Implementar edição
+            toast.warning('Editando', `Modo de edição ativado para comanda ${id}`);
+            setTimeout(() => {
+                toast.success('Comanda Editada', `Comanda ${id} atualizada com sucesso!`);
+            }, 1500);
         }
 
         function fecharComanda(id) {
             if (confirm('Confirmar fechamento desta comanda?')) {
-                showToast(`Comanda ${id} fechada com sucesso!`, 'success');
+                toast.info('Processando', 'Finalizando comanda...');
+                setTimeout(() => {
+                    toast.success('Comanda Fechada', `Comanda ${id} fechada com sucesso!`);
+                }, 1200);
             }
         }
 
         function cancelarComanda(id) {
             if (confirm('Tem certeza que deseja cancelar esta comanda?')) {
-                showToast(`Comanda ${id} cancelada com sucesso!`, 'success');
+                toast.warning('Cancelando', 'Processando cancelamento...');
+                setTimeout(() => {
+                    toast.success('Comanda Cancelada', `Comanda ${id} cancelada com sucesso!`);
+                }, 1000);
             }
         }
 
         function exportarComandas() {
-            showToast('Relatório de comandas exportado com sucesso!', 'success');
+            toast.info('Gerando', 'Preparando relatório de comandas...');
+            setTimeout(() => {
+                toast.success('Relatório Exportado', 'Relatório de comandas exportado com sucesso!');
+            }, 2000);
         }
 
         function imprimirRelatorio() {
-            showToast('Relatório enviado para impressão!', 'info');
+            toast.info('Imprimindo', 'Enviando relatório para impressora...');
+            setTimeout(() => {
+                toast.success('Relatório Impresso', 'Relatório enviado para impressão!');
+            }, 1500);
         }
 
         function atualizarGrafico() {
-            showToast('Gráfico atualizado com sucesso!', 'success');
+            toast.info('Atualizando', 'Recarregando dados do gráfico...');
+            setTimeout(() => {
+                toast.success('Gráfico Atualizado', 'Dados do gráfico atualizados com sucesso!');
+            }, 1000);
         }
 
-        // Toast notification system
+        // Premium Toast System
         function showToast(message, type = 'info') {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -763,9 +1190,7 @@
                     <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
                     <div class="toast-message">${message}</div>
                 </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="toast-progress"></div>
             `;
             
             toastContainer.appendChild(toast);
@@ -778,15 +1203,50 @@
                 toast.classList.remove('show');
                 setTimeout(() => {
                     toast.remove();
-                }, 300);
+                }, 400);
             }, 5000);
         }
 
+        const toast = {
+            success: (title, message) => showToast(message, 'success'),
+            error: (title, message) => showToast(message, 'error'),
+            warning: (title, message) => showToast(message, 'warning'),
+            info: (title, message) => showToast(message, 'info')
+        };
+
+        // Test Notifications Function
+        function testNotifications() {
+            toast.info('Testando', 'Iniciando demonstração de notificações de comandas...');
+            
+            setTimeout(() => {
+                toast.success('Comanda Criada', 'Nova comanda criada com sucesso!');
+            }, 1000);
+            
+            setTimeout(() => {
+                toast.warning('Comanda Pendente', 'Comanda CMD-003 está aguardando preparo.');
+            }, 3000);
+            
+            setTimeout(() => {
+                toast.error('Comanda Cancelada', 'Comanda CMD-005 foi cancelada pelo cliente.');
+            }, 5000);
+            
+            setTimeout(() => {
+                toast.info('Relatório Gerado', 'Relatório de comandas exportado com sucesso!');
+            }, 7000);
+        }
+
         // Sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('sidebarToggleBtn').addEventListener('click', function() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('header').classList.toggle('with-sidebar');
             document.getElementById('mainContainer').classList.toggle('with-sidebar');
+        });
+
+        // Overlay click to close sidebar
+        document.getElementById('mainContentOverlay').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('header').classList.remove('with-sidebar');
+            document.getElementById('mainContainer').classList.remove('with-sidebar');
         });
 
         // Theme toggle
@@ -808,6 +1268,10 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
             
+            // Update theme icon
+            const themeIcon = document.querySelector('#themeToggle i');
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
             // Initialize charts
             createMiniChart('ativasChart', [12, 19, 15, 25, 22, 30, 28], '#3b82f6');
             createMiniChart('fechadasChart', [8, 12, 15, 18, 22, 25, 28], '#22c55e');
@@ -817,7 +1281,10 @@
             createMainChart();
             populateComandasTable();
             
-            showToast('Gestão de comandas carregada com sucesso!', 'success');
+            // Welcome notification
+            setTimeout(() => {
+                toast.success('Sistema Carregado', 'Gestão de comandas do CorelSys ERP carregada com sucesso!');
+            }, 500);
         });
 
         // Logout functionality

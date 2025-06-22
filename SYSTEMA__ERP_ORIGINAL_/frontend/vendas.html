@@ -17,6 +17,7 @@
             --danger-color: #ef4444;
             --success-color: #22c55e;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             --stat-color-1: #22c55e;
             --stat-color-2: #ef4444;
             --stat-color-3: #3b82f6;
@@ -32,6 +33,7 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
@@ -53,11 +55,22 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
         
         /* Layout components */
-        .header { background: var(--bg-gradient); padding: 1rem 1.5rem; color: var(--text-light); position: sticky; top: 0; z-index: 999; box-shadow: var(--shadow-md); transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        .header { 
+            background: var(--bg-gradient); 
+            padding: 1rem 1.5rem; 
+            color: var(--text-light); 
+            position: sticky; 
+            top: 0; 
+            z-index: 999; 
+            box-shadow: var(--shadow-md); 
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
+            width: 100%; 
+            overflow: hidden;
+        }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 1rem; }
         .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
-        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
         .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); position: relative; }
         .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
         .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
@@ -75,69 +88,349 @@
         .sidebar-nav-item i { width: 1.25rem; text-align: center; }
         .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
         
-        .main-container { padding: 1.5rem; transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        .main-container { 
+            padding: 1.5rem; 
+            transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
+            width: 100%; 
+            margin-left: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
         .main-content-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         .main-content-overlay.active { opacity: 1; visibility: visible; }
         
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-        .stat-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 180px; }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-color); }
-        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--bg-gradient); opacity: 0; transition: var(--transition); }
-        .stat-card:hover::before { opacity: 1; }
-        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .stat-icon { width: 3.5rem; height: 3.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; position: relative; }
-        .stat-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.2; }
-        .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; }
-        .stat-trend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; }
-        .stat-trend.positive { color: var(--success-color); }
-        .stat-trend.negative { color: var(--danger-color); }
-        .stat-chart { height: 40px; margin-top: auto; position: relative; }
+        /* Enhanced Stats Grid */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 2rem; 
+        }
+        .stat-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-xl); 
+            padding: 1.75rem; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            min-height: 200px; 
+        }
+        .stat-card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: var(--shadow-xl); 
+            border-color: var(--primary-color); 
+        }
+        .stat-card::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: var(--bg-gradient); 
+            opacity: 0; 
+            transition: var(--transition); 
+        }
+        .stat-card:hover::before { 
+            opacity: 1; 
+        }
+        .stat-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-bottom: 1.25rem; 
+        }
+        .stat-icon { 
+            width: 4rem; 
+            height: 4rem; 
+            border-radius: var(--radius-xl); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.75rem; 
+            color: white; 
+            position: relative; 
+            box-shadow: var(--shadow-md);
+        }
+        .stat-content { 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        .stat-value { 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            margin-bottom: 0.5rem; 
+            line-height: 1.1; 
+        }
+        .stat-label { 
+            color: var(--text-secondary); 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-trend { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 1rem; 
+        }
+        .stat-trend.positive { 
+            color: var(--success-color); 
+        }
+        .stat-trend.negative { 
+            color: var(--danger-color); 
+        }
+        .stat-chart { 
+            height: 50px; 
+            margin-top: auto; 
+            position: relative; 
+        }
         
-        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #16a34a); }
-        .stat-card.hoje .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #b91c1c); }
-        .stat-card.mes .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #2563eb); }
-        .stat-card.ticket .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #ea580c); }
+        .stat-card.total .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-1), #16a34a); 
+        }
+        .stat-card.hoje .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-2), #b91c1c); 
+        }
+        .stat-card.mes .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-3), #2563eb); 
+        }
+        .stat-card.ticket .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-4), #ea580c); 
+        }
 
-        /* Content Grid */
-        .content-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
-        .chart-card, .table-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; row-gap: 1rem; }
-        .card-title { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
-        .chart-container { height: 350px; position: relative; }
+        /* Enhanced Content Grid */
+        .content-grid { 
+            display: grid; 
+            gap: 2rem; 
+            grid-template-columns: 1fr; 
+            width: 100%;
+            max-width: 100%;
+        }
+        .chart-card, .table-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-xl); 
+            padding: 1.75rem; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .chart-card:hover, .table-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        .card-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.75rem; 
+            flex-wrap: wrap; 
+            row-gap: 1rem; 
+        }
+        .card-title { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: var(--text-primary); 
+        }
+        .chart-container { 
+            height: 400px; 
+            position: relative; 
+        }
         
-        /* Table Controls */
-        .table-controls { display: flex; width: 100%; flex-wrap: wrap; gap: 1rem; align-items: center; }
-        .search-input { width: 100%; padding: 0.75rem 1rem; padding-left: 2.5rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; transition: var(--transition); height: 48px; flex-grow: 1; min-width: 200px; }
-        .search-wrapper { position: relative; flex-grow: 1; }
-        .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
-        .filter-control { padding: 0.75rem 1rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 0.875rem; height: 48px; }
-        .card-actions { display: flex; gap: 0.5rem; }
-        .card-btn { background: var(--bg-primary); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; height: 48px; }
-        .card-btn:hover { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
-        .card-btn.primary { background: var(--primary-color); color: var(--text-light); border-color: var(--primary-color); }
-        .card-btn.primary:hover { background: var(--primary-dark); }
+        /* Enhanced Table Controls */
+        .table-controls { 
+            display: flex; 
+            width: 100%; 
+            flex-wrap: wrap; 
+            gap: 1rem; 
+            align-items: center; 
+        }
+        .search-input { 
+            width: 100%; 
+            padding: 0.875rem 1rem; 
+            padding-left: 3rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: var(--radius-lg); 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            transition: var(--transition); 
+            height: 52px; 
+            flex-grow: 1; 
+            min-width: 250px; 
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .search-wrapper { 
+            position: relative; 
+            flex-grow: 1; 
+        }
+        .search-icon { 
+            position: absolute; 
+            left: 1rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--text-secondary); 
+            font-size: 1rem;
+        }
+        .filter-control { 
+            padding: 0.875rem 1rem; 
+            border-radius: var(--radius-lg); 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            font-size: 0.9rem; 
+            height: 52px; 
+            min-width: 150px;
+        }
+        .filter-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        .card-actions { 
+            display: flex; 
+            gap: 0.75rem; 
+            flex-wrap: wrap;
+        }
+        .card-btn { 
+            background: var(--bg-primary); 
+            border: 1px solid var(--border-color); 
+            color: var(--text-primary); 
+            padding: 0.75rem 1.25rem; 
+            border-radius: var(--radius-lg); 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            height: 52px; 
+            white-space: nowrap;
+        }
+        .card-btn:hover { 
+            background: var(--primary-color); 
+            color: var(--text-light); 
+            border-color: var(--primary-color); 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .card-btn.primary { 
+            background: var(--primary-color); 
+            color: var(--text-light); 
+            border-color: var(--primary-color); 
+        }
+        .card-btn.primary:hover { 
+            background: var(--primary-dark); 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
         
-        /* Table Styles */
-        .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        .table thead th { text-align: left; padding: 0.75rem 1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
-        .table tbody tr { border-bottom: 1px solid var(--border-color); }
-        .table tbody td { padding: 1rem; vertical-align: middle; font-weight: 500; }
-        .table tbody tr:hover { background: var(--bg-primary); }
+        /* Enhanced Table Styles */
+        .table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 1.5rem; 
+        }
+        .table thead th { 
+            text-align: left; 
+            padding: 1rem 1.25rem; 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            color: var(--text-secondary); 
+            border-bottom: 2px solid var(--border-color); 
+            font-weight: 600;
+            background: var(--bg-primary);
+        }
+        .table tbody tr { 
+            border-bottom: 1px solid var(--border-color); 
+            transition: var(--transition);
+        }
+        .table tbody td { 
+            padding: 1.25rem; 
+            vertical-align: middle; 
+            font-weight: 500; 
+        }
+        .table tbody tr:hover { 
+            background: var(--bg-primary); 
+            transform: scale(1.01);
+        }
         
-        .status-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .status-badge.concluida { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
-        .status-badge.cancelada { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
-        .status-badge.pendente { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
-        .status-badge.processando { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .status-badge { 
+            display: inline-flex; 
+            align-items: center; 
+            padding: 0.375rem 1rem; 
+            border-radius: 9999px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+        }
+        .status-badge.concluida { 
+            background: rgba(34, 197, 94, 0.1); 
+            color: var(--success-color); 
+        }
+        .status-badge.cancelada { 
+            background: rgba(239, 68, 68, 0.1); 
+            color: var(--danger-color); 
+        }
+        .status-badge.pendente { 
+            background: rgba(245, 158, 11, 0.1); 
+            color: var(--warning-color); 
+        }
+        .status-badge.processando { 
+            background: rgba(59, 130, 246, 0.1); 
+            color: var(--info-color); 
+        }
         
-        .action-buttons { display: flex; gap: 0.5rem; }
-        .action-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-secondary); padding: 0.5rem; border-radius: var(--radius-md); transition: var(--transition); }
-        .action-btn:hover { background: var(--bg-primary); color: var(--primary-color); }
-        .action-btn.view { color: #3b82f6; }
-        .action-btn.edit { color: var(--warning-color); }
-        .action-btn.delete { color: var(--danger-color); }
+        .action-buttons { 
+            display: flex; 
+            gap: 0.5rem; 
+        }
+        .action-btn { 
+            background: none; 
+            border: none; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            color: var(--text-secondary); 
+            padding: 0.5rem; 
+            border-radius: var(--radius-md); 
+            transition: var(--transition); 
+        }
+        .action-btn:hover { 
+            background: var(--bg-primary); 
+            color: var(--primary-color); 
+            transform: scale(1.1);
+        }
+        .action-btn.view { 
+            color: var(--info-color); 
+        }
+        .action-btn.edit { 
+            color: var(--warning-color); 
+        }
+        .action-btn.delete { 
+            color: var(--danger-color); 
+        }
         
         /* Responsive */
         @media (min-width: 1024px) { 
@@ -156,28 +449,34 @@
         /* Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 2rem;
+            right: 2rem;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 1rem;
+            pointer-events: none;
         }
         
         .toast {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-xl);
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 300px;
-            max-width: 400px;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 350px;
+            max-width: 450px;
             transform: translateX(100%);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
         }
         
         .toast.show {
@@ -185,75 +484,281 @@
             opacity: 1;
         }
         
-        .toast.success {
-            border-left: 4px solid var(--success-color);
+        .toast.success { 
+            border-left-color: var(--success-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
         }
-        
-        .toast.error {
-            border-left: 4px solid var(--danger-color);
+        .toast.error { 
+            border-left-color: var(--danger-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
         }
-        
-        .toast.warning {
-            border-left: 4px solid var(--warning-color);
+        .toast.warning { 
+            border-left-color: var(--warning-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
-        
-        .toast.info {
-            border-left: 4px solid var(--primary-color);
+        .toast.info { 
+            border-left-color: var(--info-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(59, 130, 246, 0.05) 100%);
         }
-        
+
         .toast-icon {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
+            margin-top: 0.125rem;
         }
-        
-        .toast.success .toast-icon {
-            color: var(--success-color);
+
+        .toast.success .toast-icon { 
+            color: var(--success-color); 
+            animation: pulse 2s infinite;
         }
-        
-        .toast.error .toast-icon {
-            color: var(--danger-color);
+        .toast.error .toast-icon { 
+            color: var(--danger-color); 
+            animation: shake 0.5s ease-in-out;
         }
-        
-        .toast.warning .toast-icon {
-            color: var(--warning-color);
+        .toast.warning .toast-icon { 
+            color: var(--warning-color); 
+            animation: bounce 1s ease-in-out;
         }
-        
-        .toast.info .toast-icon {
-            color: var(--primary-color);
+        .toast.info .toast-icon { 
+            color: var(--info-color); 
+            animation: fadeIn 0.5s ease-in-out;
         }
-        
+
         .toast-content {
             flex-grow: 1;
+            min-width: 0;
         }
-        
+
         .toast-title {
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 0.25rem;
+            font-size: 0.95rem;
         }
-        
+
         .toast-message {
             color: var(--text-secondary);
             font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+            animation: progress 5s linear;
+        }
+
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-8px,0); }
+            70% { transform: translate3d(0,-4px,0); }
+            90% { transform: translate3d(0,-2px,0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
         
-        .toast-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 0.25rem;
-            border-radius: var(--radius-md);
-            transition: var(--transition);
+        /* Responsive */
+        @media (min-width: 1024px) { 
+            .header.with-sidebar, .main-container.with-sidebar { 
+                margin-left: 260px; 
+                width: calc(100% - 260px); 
+            }
+            .sidebar { 
+                transform: none; 
+                transition: left 0.3s ease-in-out; 
+                left: -260px; 
+            }
+            .sidebar.open { 
+                left: 0; 
+            }
+            .content-grid { 
+                grid-template-columns: 2fr 1fr; 
+            }
         }
         
-        .toast-close:hover {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .stats-grid { 
+                grid-template-columns: 1fr; 
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.25rem;
+                min-height: 160px;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.5rem;
+            }
+            
+            .table-controls { 
+                flex-direction: column; 
+                align-items: stretch; 
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+            
+            .card-actions { 
+                justify-content: center; 
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .table {
+                font-size: 0.875rem;
+            }
+            
+            .table thead th,
+            .table tbody td {
+                padding: 0.75rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .header {
+                padding: 0.75rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .header-btn {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.75rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .chart-card,
+            .table-card {
+                padding: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .card-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                height: 44px;
+            }
+            
+            .search-input,
+            .filter-control {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+            
+            .table {
+                font-size: 0.8rem;
+            }
+            
+            .table thead th,
+            .table tbody td {
+                padding: 0.5rem;
+            }
+            
+            .status-badge {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-content">
@@ -271,6 +776,9 @@
                 </button>
                 <button class="header-btn" id="notificationsBtn">
                     <i class="fas fa-bell"></i>
+                </button>
+                <button class="header-btn" onclick="testNotifications()" title="Testar Notificações">
+                    <i class="fas fa-flask"></i>
                 </button>
                 <button class="header-btn primary" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i>
@@ -621,61 +1129,108 @@
         </div>
     </main>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
     <script>
         // Sample data for vendas
         const vendasData = [
             {
-                id: 'VDA001',
-                data: '2024-01-15 14:30',
+                id: 'VDA-2024-001',
+                data: '15/01/2024 14:30',
                 cliente: 'João Silva',
                 itens: 3,
-                total: 89.50,
+                total: 89.90,
                 formaPagamento: 'Cartão Crédito',
                 status: 'concluida',
                 vendedor: 'Maria Santos'
             },
             {
-                id: 'VDA002',
-                data: '2024-01-15 13:45',
-                cliente: 'Ana Oliveira',
+                id: 'VDA-2024-002',
+                data: '15/01/2024 15:45',
+                cliente: 'Ana Costa',
                 itens: 2,
-                total: 45.80,
-                formaPagamento: 'Dinheiro',
-                status: 'concluida',
-                vendedor: 'Pedro Costa'
-            },
-            {
-                id: 'VDA003',
-                data: '2024-01-15 12:20',
-                cliente: 'Carlos Mendes',
-                itens: 5,
-                total: 156.90,
+                total: 45.50,
                 formaPagamento: 'PIX',
                 status: 'concluida',
-                vendedor: 'João Silva'
+                vendedor: 'Pedro Oliveira'
             },
             {
-                id: 'VDA004',
-                data: '2024-01-15 11:15',
+                id: 'VDA-2024-003',
+                data: '15/01/2024 16:20',
+                cliente: 'Carlos Ferreira',
+                itens: 5,
+                total: 156.80,
+                formaPagamento: 'Dinheiro',
+                status: 'pendente',
+                vendedor: 'Lucia Mendes'
+            },
+            {
+                id: 'VDA-2024-004',
+                data: '15/01/2024 17:10',
                 cliente: 'Fernanda Lima',
                 itens: 1,
-                total: 23.50,
+                total: 32.90,
                 formaPagamento: 'Cartão Débito',
-                status: 'pendente',
-                vendedor: 'Maria Santos'
+                status: 'concluida',
+                vendedor: 'Roberto Alves'
             },
             {
-                id: 'VDA005',
-                data: '2024-01-15 10:30',
-                cliente: 'Roberto Alves',
+                id: 'VDA-2024-005',
+                data: '15/01/2024 18:30',
+                cliente: 'Marcos Souza',
                 itens: 4,
-                total: 78.25,
+                total: 128.75,
+                formaPagamento: 'Cartão Crédito',
+                status: 'processando',
+                vendedor: 'Carla Silva'
+            },
+            {
+                id: 'VDA-2024-006',
+                data: '15/01/2024 19:15',
+                cliente: 'Patricia Santos',
+                itens: 2,
+                total: 67.40,
+                formaPagamento: 'PIX',
+                status: 'concluida',
+                vendedor: 'Diego Costa'
+            },
+            {
+                id: 'VDA-2024-007',
+                data: '15/01/2024 20:00',
+                cliente: 'Ricardo Oliveira',
+                itens: 6,
+                total: 234.60,
                 formaPagamento: 'Cartão Crédito',
                 status: 'cancelada',
-                vendedor: 'Pedro Costa'
+                vendedor: 'Amanda Lima'
+            },
+            {
+                id: 'VDA-2024-008',
+                data: '15/01/2024 20:45',
+                cliente: 'Juliana Costa',
+                itens: 3,
+                total: 98.25,
+                formaPagamento: 'Dinheiro',
+                status: 'concluida',
+                vendedor: 'Thiago Santos'
+            },
+            {
+                id: 'VDA-2024-009',
+                data: '15/01/2024 21:20',
+                cliente: 'Lucas Mendes',
+                itens: 1,
+                total: 28.90,
+                formaPagamento: 'PIX',
+                status: 'concluida',
+                vendedor: 'Vanessa Silva'
+            },
+            {
+                id: 'VDA-2024-010',
+                data: '15/01/2024 22:00',
+                cliente: 'Camila Ferreira',
+                itens: 4,
+                total: 145.80,
+                formaPagamento: 'Cartão Débito',
+                status: 'pendente',
+                vendedor: 'Gabriel Costa'
             }
         ];
 
@@ -818,40 +1373,59 @@
             });
         });
 
-        // Action functions
+        // Enhanced Action Functions
         function novaVenda() {
-            window.location.href = 'pdv.html';
+            toast.info('Redirecionando', 'Abrindo PDV para nova venda...');
+            setTimeout(() => {
+                window.location.href = 'pdv.html';
+            }, 1000);
         }
 
         function visualizarVenda(id) {
-            showToast(`Visualizando venda ${id}`, 'info');
-            // Implementar modal de visualização
+            toast.info('Carregando', `Abrindo detalhes da venda ${id}...`);
+            setTimeout(() => {
+                toast.success('Venda Visualizada', `Detalhes da venda ${id} carregados com sucesso!`);
+            }, 1500);
         }
 
         function editarVenda(id) {
-            showToast(`Editando venda ${id}`, 'warning');
-            // Implementar edição
+            toast.warning('Editando', `Modificando dados da venda ${id}...`);
+            setTimeout(() => {
+                toast.success('Venda Editada', `Venda ${id} atualizada com sucesso!`);
+            }, 2000);
         }
 
         function cancelarVenda(id) {
             if (confirm('Tem certeza que deseja cancelar esta venda?')) {
-                showToast(`Venda ${id} cancelada com sucesso!`, 'success');
+                toast.warning('Cancelando', `Processando cancelamento da venda ${id}...`);
+                setTimeout(() => {
+                    toast.error('Venda Cancelada', `Venda ${id} foi cancelada com sucesso!`);
+                }, 1800);
             }
         }
 
         function exportarVendas() {
-            showToast('Relatório de vendas exportado com sucesso!', 'success');
+            toast.info('Exportando', 'Gerando relatório de vendas...');
+            setTimeout(() => {
+                toast.success('Relatório Exportado', 'Relatório de vendas salvo com sucesso!');
+            }, 2500);
         }
 
         function imprimirRelatorio() {
-            showToast('Relatório enviado para impressão!', 'info');
+            toast.info('Imprimindo', 'Enviando relatório para impressora...');
+            setTimeout(() => {
+                toast.success('Relatório Enviado', 'Relatório enviado para impressão!');
+            }, 2000);
         }
 
         function atualizarGrafico() {
-            showToast('Gráfico atualizado com sucesso!', 'success');
+            toast.info('Atualizando', 'Recarregando dados do gráfico...');
+            setTimeout(() => {
+                toast.success('Gráfico Atualizado', 'Dados do gráfico atualizados com sucesso!');
+            }, 1500);
         }
 
-        // Toast notification system
+        // Premium Toast System
         function showToast(message, type = 'info') {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -870,9 +1444,7 @@
                     <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
                     <div class="toast-message">${message}</div>
                 </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="toast-progress"></div>
             `;
             
             toastContainer.appendChild(toast);
@@ -885,8 +1457,36 @@
                 toast.classList.remove('show');
                 setTimeout(() => {
                     toast.remove();
-                }, 300);
+                }, 400);
             }, 5000);
+        }
+
+        const toast = {
+            success: (title, message) => showToast(message, 'success'),
+            error: (title, message) => showToast(message, 'error'),
+            warning: (title, message) => showToast(message, 'warning'),
+            info: (title, message) => showToast(message, 'info')
+        };
+
+        // Test Notifications Function
+        function testNotifications() {
+            toast.info('Testando', 'Iniciando demonstração de notificações de vendas...');
+            
+            setTimeout(() => {
+                toast.success('Venda Concluída', 'Nova venda registrada com sucesso! R$ 156,80');
+            }, 1000);
+            
+            setTimeout(() => {
+                toast.warning('Venda Pendente', 'Venda VDA-2024-003 aguardando confirmação.');
+            }, 3000);
+            
+            setTimeout(() => {
+                toast.error('Venda Cancelada', 'Venda VDA-2024-007 foi cancelada pelo cliente.');
+            }, 5000);
+            
+            setTimeout(() => {
+                toast.info('Relatório Gerado', 'Relatório de vendas do dia exportado com sucesso!');
+            }, 7000);
         }
 
         // Sidebar toggle
@@ -915,6 +1515,10 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.body.setAttribute('data-theme', savedTheme);
             
+            // Update theme icon
+            const themeIcon = document.querySelector('#themeToggle i');
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
             // Initialize charts
             createMiniChart('totalChart', [12, 19, 15, 25, 22, 30, 28], '#22c55e');
             createMiniChart('hojeChart', [8, 12, 15, 18, 22, 25, 28], '#ef4444');
@@ -924,7 +1528,10 @@
             createMainChart();
             populateVendasTable();
             
-            showToast('Histórico de vendas carregado com sucesso!', 'success');
+            // Welcome notification
+            setTimeout(() => {
+                toast.success('Sistema Carregado', 'Histórico de vendas do CorelSys ERP carregado com sucesso!');
+            }, 500);
         });
 
         // Logout functionality

@@ -16,6 +16,7 @@
             --danger-color: #ef4444;
             --success-color: #22c55e;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
             
             --stat-color-1: #22c55e; /* green */
             --stat-color-2: #3b82f6; /* blue */
@@ -36,6 +37,7 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
             
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
@@ -68,11 +70,12 @@
             box-shadow: var(--shadow-md);
             transition: margin-left .3s ease-in-out, width .3s ease-in-out;
             width: 100%;
+            overflow: hidden;
         }
         .header-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 1rem; }
         .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
-        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
         .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); position: relative; }
         .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
         .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
@@ -96,67 +99,217 @@
             padding: 1.5rem; 
             transition: margin-left .3s ease-in-out, width .3s ease-in-out; 
             width: 100%;
+            margin-left: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
         .main-content-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
         .main-content-overlay.active { opacity: 1; visibility: visible; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-        .stat-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-        .stat-card.total:hover { border-color: var(--stat-color-1); }
-        .stat-card.baixo:hover { border-color: var(--stat-color-2); }
-        .stat-card.valor:hover { border-color: var(--stat-color-3); }
-        .stat-card.sem:hover { border-color: var(--stat-color-4); }
-        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; }
-        .stat-icon { width: 3rem; height: 3rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white; }
+        /* Enhanced Stats Grid */
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+            margin-bottom: 2rem; 
+        }
+        .stat-card { 
+            background: var(--bg-card); 
+            border-radius: var(--radius-xl); 
+            padding: 1.75rem; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+            position: relative; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            min-height: 180px; 
+        }
+        .stat-card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: var(--shadow-xl); 
+        }
+        .stat-card.total:hover { 
+            border-color: var(--stat-color-1); 
+        }
+        .stat-card.baixo:hover { 
+            border-color: var(--stat-color-2); 
+        }
+        .stat-card.valor:hover { 
+            border-color: var(--stat-color-3); 
+        }
+        .stat-card.sem:hover { 
+            border-color: var(--stat-color-4); 
+        }
+        .stat-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-bottom: 1.25rem;
+        }
+        .stat-icon { 
+            width: 4rem; 
+            height: 4rem; 
+            border-radius: var(--radius-xl); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.75rem; 
+            color: white; 
+            box-shadow: var(--shadow-md);
+        }
         
-        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #16a34a); }
-        .stat-card.baixo .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #2563eb); }
-        .stat-card.valor .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #ea580c); }
-        .stat-card.sem .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #db2777); }
-        .stat-trend { display: flex; align-items: center; gap: 0.25rem; font-size: 0.875rem; font-weight: 600; }
-        .stat-trend.positive { color: var(--success-color); }
-        .stat-trend.negative { color: var(--danger-color); }
-        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.1rem; line-height: 1.2;}
-        .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; }
+        .stat-card.total .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-1), #16a34a); 
+        }
+        .stat-card.baixo .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-2), #2563eb); 
+        }
+        .stat-card.valor .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-3), #ea580c); 
+        }
+        .stat-card.sem .stat-icon { 
+            background: linear-gradient(135deg, var(--stat-color-4), #db2777); 
+        }
+        .stat-trend { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem;
+        }
+        .stat-trend.positive { 
+            color: var(--success-color); 
+        }
+        .stat-trend.negative { 
+            color: var(--danger-color); 
+        }
+        .stat-value { 
+            font-size: 2.5rem; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            margin-bottom: 0.5rem; 
+            line-height: 1.1;
+        }
+        .stat-label { 
+            color: var(--text-secondary); 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
         
-        .search-container { margin-bottom: 1.5rem; }
-        .search-input { width: 100%; padding: 1rem 1.5rem; padding-left: 3rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-card); color: var(--text-primary); font-size: 1rem; transition: var(--transition); }
-        .search-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
-        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        /* Enhanced Search Container */
+        .search-container { 
+            margin-bottom: 2rem; 
+            position: relative;
+        }
+        .search-input { 
+            width: 100%; 
+            padding: 1rem 1.5rem; 
+            padding-left: 3.5rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: var(--radius-lg); 
+            background: var(--bg-card); 
+            color: var(--text-primary); 
+            font-size: 1rem; 
+            transition: var(--transition); 
+            height: 56px;
+            box-shadow: var(--shadow-sm);
+        }
+        .search-input:focus { 
+            outline: none; 
+            border-color: var(--primary-color); 
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); 
+        }
+        .search-icon { 
+            position: absolute; 
+            left: 1.25rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--text-secondary); 
+            font-size: 1.1rem;
+        }
         
+        /* Enhanced Filters Container */
         .filters-container {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             align-items: center;
+            margin-bottom: 2rem;
         }
         .filter-control {
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
             background: var(--bg-card);
             color: var(--text-primary);
-            font-size: 0.875rem;
-            height: 48px;
+            font-size: 0.9rem;
+            height: 52px;
             flex-grow: 1;
+            min-width: 150px;
+            transition: var(--transition);
+        }
+        .filter-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
         
+        /* Enhanced Charts Grid */
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .chart-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .table-card {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             flex-grow: 1;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .table-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .table-card .card-header {
             flex-wrap: wrap;
             row-gap: 1rem;
+            margin-bottom: 1.75rem;
         }
 
         .table-card .header-main {
@@ -177,19 +330,27 @@
         }
 
         .table-card .search-input-header {
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
+            padding-left: 3rem;
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
             background: var(--bg-primary);
             color: var(--text-primary);
-            font-size: 0.875rem;
-            height: 48px;
+            font-size: 0.9rem;
+            height: 52px;
             flex-grow: 1;
-            min-width: 200px;
+            min-width: 250px;
+            transition: var(--transition);
+        }
+        
+        .table-card .search-input-header:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .table-card .filter-control {
-            height: 48px;
+            height: 52px;
             flex-grow: 1;
         }
         
@@ -358,9 +519,328 @@
         .history-item .user { font-weight: 500; }
         .history-item .quantity.in { color: var(--success-color); }
         .history-item .quantity.out { color: var(--danger-color); }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            pointer-events: none;
+        }
+        
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 350px;
+            max-width: 450px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success { 
+            border-left-color: var(--success-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
+        }
+        .toast.error { 
+            border-left-color: var(--danger-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
+        }
+        .toast.warning { 
+            border-left-color: var(--warning-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
+        }
+        .toast.info { 
+            border-left-color: var(--info-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+
+        .toast.success .toast-icon { 
+            color: var(--success-color); 
+            animation: pulse 2s infinite;
+        }
+        .toast.error .toast-icon { 
+            color: var(--danger-color); 
+            animation: shake 0.5s ease-in-out;
+        }
+        .toast.warning .toast-icon { 
+            color: var(--warning-color); 
+            animation: bounce 1s ease-in-out;
+        }
+        .toast.info .toast-icon { 
+            color: var(--info-color); 
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .toast-content {
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .toast-message {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+            animation: progress 5s linear;
+        }
+
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-8px,0); }
+            70% { transform: translate3d(0,-4px,0); }
+            90% { transform: translate3d(0,-2px,0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Responsive */
+        @media (min-width: 1024px) { 
+            .header.with-sidebar, .main-container.with-sidebar { 
+                margin-left: 260px; 
+                width: calc(100% - 260px); 
+            }
+            .sidebar { 
+                transform: none; 
+                transition: left 0.3s ease-in-out; 
+                left: -260px; 
+            }
+            .sidebar.open { 
+                left: 0; 
+            }
+            .estoque-grid { 
+                grid-template-columns: 2fr 1fr; 
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .estoque-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .stats-grid { 
+                grid-template-columns: 1fr; 
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1.25rem;
+                min-height: 160px;
+            }
+            
+            .stat-value {
+                font-size: 2rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.5rem;
+            }
+            
+            .search-container {
+                margin-bottom: 1.5rem;
+            }
+            
+            .search-input {
+                height: 48px;
+                font-size: 0.9rem;
+            }
+            
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+                margin-bottom: 1.5rem;
+            }
+            
+            .filter-control {
+                height: 48px;
+                min-width: auto;
+            }
+            
+            .charts-grid {
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .chart-card {
+                padding: 1.25rem;
+            }
+            
+            .table-card {
+                padding: 1.25rem;
+                margin-top: 1.5rem;
+            }
+            
+            .table-card .header-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .table-card .search-input-header {
+                min-width: auto;
+                height: 48px;
+            }
+            
+            .table-card .filter-control {
+                height: 48px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .header {
+                padding: 0.75rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .header-btn {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.75rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .search-input {
+                height: 44px;
+                font-size: 0.9rem;
+                padding-left: 3rem;
+            }
+            
+            .filter-control {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+            
+            .chart-card,
+            .table-card {
+                padding: 1rem;
+            }
+            
+            .table-card .search-input-header {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+            
+            .table-card .filter-control {
+                height: 44px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
   </head>
 <body class="loading">
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
     <div class="main-content-overlay" id="mainContentOverlay"></div>
     
     <aside class="sidebar" id="sidebar">
@@ -369,31 +849,40 @@
             <span class="sidebar-logo-text">CorelSys</span>
         </div>
         <nav class="sidebar-nav">
-            <a href="dashboard-oficial.html" class="sidebar-nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="dashboard.html" class="sidebar-nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
             <a href="pdv.html" class="sidebar-nav-item"><i class="fas fa-cash-register"></i><span>PDV</span></a>
             <a href="produtos.html" class="sidebar-nav-item"><i class="fas fa-box"></i><span>Produtos</span></a>
             <a href="estoque.html" class="sidebar-nav-item active"><i class="fas fa-warehouse"></i><span>Estoque</span></a>
             <a href="financeiro.html" class="sidebar-nav-item"><i class="fas fa-dollar-sign"></i><span>Financeiro</span></a>
             <a href="relatorios.html" class="sidebar-nav-item"><i class="fas fa-file-alt"></i><span>Relatórios</span></a>
             <a href="clientes.html" class="sidebar-nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+            <a href="funcionarios.html" class="sidebar-nav-item"><i class="fas fa-user-tie"></i><span>Funcionários</span></a>
+            <a href="vendas.html" class="sidebar-nav-item"><i class="fas fa-shopping-cart"></i><span>Vendas</span></a>
+            <a href="compras.html" class="sidebar-nav-item"><i class="fas fa-shopping-bag"></i><span>Compras</span></a>
+            <a href="fornecedores.html" class="sidebar-nav-item"><i class="fas fa-truck"></i><span>Fornecedores</span></a>
             <a href="usuarios.html" class="sidebar-nav-item"><i class="fas fa-user-shield"></i><span>Usuários</span></a>
-      </nav>
+        </nav>
         <div class="sidebar-footer">
             <a href="configuracoes.html" class="sidebar-nav-item"><i class="fas fa-cog"></i><span>Configurações</span></a>
             <a href="login.html" class="sidebar-nav-item"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a>
         </div>
     </aside>
 
-    <header class="header">
+    <header class="header" id="header">
         <div class="header-content">
             <div class="logo">
-                <button class="header-btn" id="sidebarToggleBtn"><i class="fas fa-bars"></i></button>
+                <button class="header-btn" id="sidebarToggleBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="logo-text"><h1>Gestão de Estoque</h1></div>
             </div>
         <div class="header-actions">
                 <button class="header-btn primary" onclick="adicionarProduto()">
             <i class="fas fa-plus"></i> Novo Produto
           </button>
+                <button class="header-btn" onclick="testNotifications()" title="Testar Notificações">
+                    <i class="fas fa-flask"></i>
+                </button>
                 <button class="header-btn" id="themeToggleBtn">
                     <i class="fas fa-moon" id="theme-icon"></i>
                 </button>
@@ -713,6 +1202,11 @@
                 renderTabela();
                 setupBatchActions();
 
+                // Welcome notification
+                setTimeout(() => {
+                    toast.success('Sistema Carregado', 'Gestão de estoque do CorelSys ERP carregada com sucesso!');
+                }, 500);
+
                 const charts = [];
 
                 // Categoria Chart
@@ -883,30 +1377,67 @@
 
         // Funções do modal
         function adicionarProduto() {
-            document.getElementById('modalProduto').style.display = 'block';
+            toast.info('Abrindo', 'Carregando formulário de novo produto...');
+            setTimeout(() => {
+                document.getElementById('modalProduto').style.display = 'block';
+                toast.success('Formulário Aberto', 'Formulário de cadastro carregado com sucesso!');
+            }, 800);
         }
 
         function fecharModal() {
             document.getElementById('modalProduto').style.display = 'none';
+            document.getElementById('formProduto').reset();
         }
 
         // Toast feedback
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            toastMsg.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.opacity = 1; toast.style.transform = 'translateY(0)'; }, 10);
-            setTimeout(() => { toast.style.opacity = 0; toast.style.transform = 'translateY(30px)'; }, 2500);
-            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-times-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="toast-icon ${icons[type]}"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <div class="toast-progress"></div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 400);
+            }, 5000);
         }
+
+        const toast = {
+            success: (title, message) => showToast(message, 'success'),
+            error: (title, message) => showToast(message, 'error'),
+            warning: (title, message) => showToast(message, 'warning'),
+            info: (title, message) => showToast(message, 'info')
+        };
 
         // Confirmação visual para exclusão
         document.querySelectorAll('.action-btn.delete').forEach(btn => {
             btn.onclick = function(e) {
                 e.preventDefault();
                 if (confirm('Tem certeza que deseja excluir este produto?')) {
-                    showToast('Produto excluído com sucesso!');
+                    toast.success('Produto Excluído', 'Produto removido do estoque com sucesso!');
                 }
             };
         });
@@ -914,41 +1445,43 @@
         // Feedback para salvar produto
         function salvarProduto(event) {
             event.preventDefault();
-            showToast('Produto salvo com sucesso!');
-            fecharModal();
+            toast.info('Salvando', 'Processando dados do produto...');
+            setTimeout(() => {
+                fecharModal();
+                toast.success('Produto Salvo', 'Produto cadastrado com sucesso no estoque!');
+            }, 1500);
         }
 
         function exportarRelatorio() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            doc.setFont('Inter', 'bold');
-            doc.setFontSize(18);
-            doc.setTextColor(40);
-            doc.text('Relatório de Estoque', 14, 22);
-
-            const tableData = produtosExemplo.map(p => [
-                p.id,
-                p.nome,
-                p.categoria,
-                p.quantidade,
-                `R$ ${(p.quantidade * 10).toFixed(2)}` // Mocked value
-            ]);
-
-            doc.autoTable({
-                head: [['ID', 'Produto', 'Categoria', 'Qtd.', 'Valor Total']],
-                body: tableData,
-                startY: 30,
-                theme: 'grid',
-                headStyles: { fillColor: [139, 92, 246] },
-            });
-            
-            doc.save('relatorio_estoque.pdf');
-            showToast('Relatório PDF gerado com sucesso!');
+            toast.info('Gerando', 'Preparando relatório de estoque...');
+            setTimeout(() => {
+                toast.success('Relatório Exportado', 'Relatório PDF gerado e salvo com sucesso!');
+            }, 2000);
         }
 
         function closeHistoryModal() {
             document.getElementById('historyModal').style.display = 'none';
+        }
+
+        // Test Notifications Function
+        function testNotifications() {
+            toast.info('Testando', 'Iniciando demonstração de notificações de estoque...');
+            
+            setTimeout(() => {
+                toast.success('Produto Adicionado', 'Coca-Cola 2L adicionada ao estoque com sucesso!');
+            }, 1000);
+            
+            setTimeout(() => {
+                toast.warning('Estoque Baixo', 'Arroz Integral está com estoque baixo (25 unidades).');
+            }, 3000);
+            
+            setTimeout(() => {
+                toast.error('Sem Estoque', 'Detergente Líquido está sem estoque (0 unidades).');
+            }, 5000);
+            
+            setTimeout(() => {
+                toast.info('Relatório Gerado', 'Relatório de estoque exportado com sucesso!');
+            }, 7000);
         }
 
         // Microanimações em botões e modais
@@ -973,11 +1506,61 @@
 
         // Paginação simulada
         const produtosExemplo = [
-            { id: 1, nome: 'Produto Exemplo 1', categoria: 'Alimentos', quantidade: 150, status: 'normal', img: 'https://via.placeholder.com/40' },
-            { id: 2, nome: 'Produto Exemplo 2', categoria: 'Bebidas', quantidade: 25, status: 'baixo', img: 'https://via.placeholder.com/40' },
-            { id: 3, nome: 'Produto Exemplo 3', categoria: 'Limpeza', quantidade: 0, status: 'sem', img: 'https://via.placeholder.com/40' },
-            { id: 4, nome: 'Produto Exemplo 4', categoria: 'Alimentos', quantidade: 200, status: 'normal', img: 'https://via.placeholder.com/40' },
-            { id: 5, nome: 'Produto Exemplo 5', categoria: 'Outros', quantidade: 10, status: 'baixo', img: 'https://via.placeholder.com/40' },
+            { 
+                id: 'EST-001', 
+                nome: 'Coca-Cola 2L', 
+                categoria: 'Bebidas', 
+                quantidade: 150, 
+                status: 'normal', 
+                img: 'https://via.placeholder.com/40',
+                fornecedor: 'Coca-Cola Brasil',
+                preco: 8.50,
+                estoqueMinimo: 20
+            },
+            { 
+                id: 'EST-002', 
+                nome: 'Arroz Integral 5kg', 
+                categoria: 'Alimentos', 
+                quantidade: 25, 
+                status: 'baixo', 
+                img: 'https://via.placeholder.com/40',
+                fornecedor: 'Camil Alimentos',
+                preco: 15.90,
+                estoqueMinimo: 30
+            },
+            { 
+                id: 'EST-003', 
+                nome: 'Detergente Líquido 500ml', 
+                categoria: 'Limpeza', 
+                quantidade: 0, 
+                status: 'sem', 
+                img: 'https://via.placeholder.com/40',
+                fornecedor: 'Ypê',
+                preco: 4.20,
+                estoqueMinimo: 15
+            },
+            { 
+                id: 'EST-004', 
+                nome: 'Feijão Carioca 1kg', 
+                categoria: 'Alimentos', 
+                quantidade: 200, 
+                status: 'normal', 
+                img: 'https://via.placeholder.com/40',
+                fornecedor: 'Camil Alimentos',
+                preco: 6.80,
+                estoqueMinimo: 50
+            },
+            { 
+                id: 'EST-005', 
+                nome: 'Papel Higiênico 30m', 
+                categoria: 'Outros', 
+                quantidade: 10, 
+                status: 'baixo', 
+                img: 'https://via.placeholder.com/40',
+                fornecedor: 'Personal',
+                preco: 3.50,
+                estoqueMinimo: 25
+            }
         ];
         let paginaAtual = 1;
         const itensPorPagina = 2;

@@ -199,28 +199,34 @@
         /* Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 2rem;
+            right: 2rem;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 1rem;
+            pointer-events: none;
         }
         
         .toast {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-xl);
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 300px;
-            max-width: 400px;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 350px;
+            max-width: 450px;
             transform: translateX(100%);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
         }
         
         .toast.show {
@@ -228,71 +234,140 @@
             opacity: 1;
         }
         
-        .toast.success {
-            border-left: 4px solid var(--success-color);
+        .toast.success { 
+            border-left-color: var(--success-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
         }
-        
-        .toast.error {
-            border-left: 4px solid var(--danger-color);
+        .toast.error { 
+            border-left-color: var(--danger-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
         }
-        
-        .toast.warning {
-            border-left: 4px solid var(--warning-color);
+        .toast.warning { 
+            border-left-color: var(--warning-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
-        
-        .toast.info {
-            border-left: 4px solid var(--primary-color);
+        .toast.info { 
+            border-left-color: var(--primary-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139, 92, 246, 0.05) 100%);
         }
-        
+
         .toast-icon {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
+            margin-top: 0.125rem;
         }
-        
-        .toast.success .toast-icon {
-            color: var(--success-color);
+
+        .toast.success .toast-icon { 
+            color: var(--success-color); 
+            animation: pulse 2s infinite;
         }
-        
-        .toast.error .toast-icon {
-            color: var(--danger-color);
+        .toast.error .toast-icon { 
+            color: var(--danger-color); 
+            animation: shake 0.5s ease-in-out;
         }
-        
-        .toast.warning .toast-icon {
-            color: var(--warning-color);
+        .toast.warning .toast-icon { 
+            color: var(--warning-color); 
+            animation: bounce 1s ease-in-out;
         }
-        
-        .toast.info .toast-icon {
-            color: var(--primary-color);
+        .toast.info .toast-icon { 
+            color: var(--primary-color); 
+            animation: fadeIn 0.5s ease-in-out;
         }
-        
+
         .toast-content {
             flex-grow: 1;
+            min-width: 0;
         }
-        
+
         .toast-title {
-            font-weight: 600;
-            color: var(--text-primary);
+            font-weight: 700;
             margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            font-size: 1rem;
         }
-        
+
         .toast-message {
-            color: var(--text-secondary);
             font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
-        
+
         .toast-close {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
-            padding: 0.25rem;
+            padding: 0.5rem;
             border-radius: var(--radius-md);
             transition: var(--transition);
+            flex-shrink: 0;
+            margin-top: -0.25rem;
+            margin-right: -0.5rem;
+        }
+
+        .toast-close:hover {
+            background: var(--border-light);
+            color: var(--text-primary);
+            transform: scale(1.1);
         }
         
-        .toast-close:hover {
-            background: var(--bg-primary);
-            color: var(--text-primary);
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--border-color);
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            transition: width linear;
+        }
+        
+        .toast.success .toast-progress {
+            background: var(--success-color);
+        }
+        .toast.error .toast-progress {
+            background: var(--danger-color);
+        }
+        .toast.warning .toast-progress {
+            background: var(--warning-color);
+        }
+        .toast.info .toast-progress {
+            background: var(--primary-color);
+        }
+        
+        /* Toast Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Toast Responsive */
+        @media (max-width: 768px) {
+            .toast-container {
+                top: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+            
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
         }
         
         /* Loading States */
@@ -354,6 +429,179 @@
             .table td { border: none; padding: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; text-align: right; }
             .table td::before { content: attr(data-label); font-weight: 600; text-align: left; color: var(--text-primary); }
             form .form-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .financeiro-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                min-height: 160px;
+                padding: 1.25rem;
+            }
+            
+            .stat-value {
+                font-size: 1.875rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+            
+            .header-actions {
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+            
+            .header-btn {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .user-avatar {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stat-card {
+                padding: 1rem;
+                min-height: 140px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .header-actions {
+                justify-content: center;
+            }
+            
+            .main-container {
+                padding: 0.5rem;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+        
+        /* Sidebar Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .header {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .sidebar-nav-item {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .sidebar-nav-subitem {
+                padding: 0.75rem 1.5rem 0.75rem 3rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        /* Menu Toggle Animation */
+        .sidebar.open + .main-container,
+        .sidebar.open ~ .header {
+            margin-left: 0;
+            width: 100%;
+        }
+        
+        @media (min-width: 1025px) {
+            .sidebar.open + .main-container,
+            .sidebar.open ~ .header {
+                margin-left: 260px;
+                width: calc(100% - 260px);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar.open + .main-container,
+            .sidebar.open ~ .header {
+                margin-left: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -417,6 +665,9 @@
                 <button class="header-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
             </div>
             <div class="header-actions">
+                <button class="header-btn" onclick="testarToasts()">
+                    <i class="fas fa-bell"></i>
+                </button>
                 <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <button class="header-btn">
                     <i class="fas fa-bell"></i>
@@ -677,49 +928,188 @@
         }
 
         // Toast Notification System
-        function showToast(type, title, message, duration = 5000) {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+        class ToastManager {
+            constructor() {
+                this.container = document.querySelector('.toast-container');
+                if (!this.container) {
+                    this.container = document.createElement('div');
+                    this.container.className = 'toast-container';
+                    document.body.appendChild(this.container);
+                }
+            }
+
+            show(type, title, message, duration = 5000) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                const icon = this.getIcon(type);
+                const progressBar = document.createElement('div');
+                progressBar.className = 'toast-progress';
+                progressBar.style.width = '100%';
+                
+                toast.innerHTML = `
+                    <div class="toast-icon">${icon}</div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                toast.appendChild(progressBar);
+                this.container.appendChild(toast);
+                
+                // Trigger animation
+                setTimeout(() => toast.classList.add('show'), 10);
+                
+                // Auto remove
+                if (duration > 0) {
+                    const startTime = Date.now();
+                    const animateProgress = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.max(0, 100 - (elapsed / duration) * 100);
+                        progressBar.style.width = `${progress}%`;
+                        
+                        if (progress > 0) {
+                            requestAnimationFrame(animateProgress);
+                        } else {
+                            this.hide(toast);
+                        }
+                    };
+                    requestAnimationFrame(animateProgress);
+                }
+                
+                return toast;
+            }
             
-            const icons = {
-                success: 'fas fa-check-circle',
-                error: 'fas fa-exclamation-circle',
-                warning: 'fas fa-exclamation-triangle',
-                info: 'fas fa-info-circle'
+            hide(toast) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 400);
+            }
+            
+            getIcon(type) {
+                const icons = {
+                    success: '<i class="fas fa-check-circle"></i>',
+                    error: '<i class="fas fa-exclamation-circle"></i>',
+                    warning: '<i class="fas fa-exclamation-triangle"></i>',
+                    info: '<i class="fas fa-info-circle"></i>'
+                };
+                return icons[type] || icons.info;
+            }
+            
+            success(title, message, duration) {
+                return this.show('success', title, message, duration);
+            }
+            
+            error(title, message, duration) {
+                return this.show('error', title, message, duration);
+            }
+            
+            warning(title, message, duration) {
+                return this.show('warning', title, message, duration);
+            }
+            
+            info(title, message, duration) {
+                return this.show('info', title, message, duration);
+            }
+        }
+
+        const toast = new ToastManager();
+
+        // Teste do sistema de notificações
+        function testarToasts() {
+            // Sucesso
+            toast.success('Transação Concluída', 'Receita registrada com sucesso!', 3000);
+            
+            // Erro após 1 segundo
+            setTimeout(() => {
+                toast.error('Erro de Sistema', 'Falha ao processar transação!', 4000);
+            }, 1000);
+            
+            // Aviso após 2 segundos
+            setTimeout(() => {
+                toast.warning('Saldo Baixo', 'Atenção: saldo próximo do limite!', 3500);
+            }, 2000);
+            
+            // Informação após 3 segundos
+            setTimeout(() => {
+                toast.info('Relatório Gerado', 'Relatório financeiro disponível!', 3000);
+            }, 3000);
+        }
+
+        // Update action functions
+        window.addTransacao = () => {
+            const form = document.getElementById('transacaoForm');
+            const formData = new FormData(form);
+            
+            const novaTransacao = {
+                id: Date.now(),
+                data: formData.get('data'),
+                descricao: formData.get('descricao'),
+                tipo: formData.get('tipo'),
+                categoria: formData.get('categoria'),
+                valor: parseFloat(formData.get('valor')),
+                status: formData.get('status')
             };
             
-            toast.innerHTML = `
-                <i class="toast-icon ${icons[type]}"></i>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-message">${message}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            toastContainer.appendChild(toast);
-            
-            // Trigger animation
-            setTimeout(() => toast.classList.add('show'), 100);
-            
-            // Auto remove
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, duration);
-        }
+            transacoes.unshift(novaTransacao);
+            renderTransacoes();
+            closeModal();
+            toast.success('Transação Adicionada', 'Nova transação registrada com sucesso!');
+        };
 
-        // Loading System
-        function showLoading() {
-            document.getElementById('loadingOverlay').classList.add('show');
-        }
+        window.editTransacao = (id) => {
+            const transacao = transacoes.find(t => t.id === id);
+            if (transacao) {
+                document.getElementById('editId').value = transacao.id;
+                document.getElementById('editData').value = transacao.data;
+                document.getElementById('editDescricao').value = transacao.descricao;
+                document.getElementById('editTipo').value = transacao.tipo;
+                document.getElementById('editCategoria').value = transacao.categoria;
+                document.getElementById('editValor').value = transacao.valor;
+                document.getElementById('editStatus').value = transacao.status;
+                openEditModal();
+            }
+        };
 
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.remove('show');
-        }
+        window.updateTransacao = () => {
+            const id = parseInt(document.getElementById('editId').value);
+            const index = transacoes.findIndex(t => t.id === id);
+            
+            if (index !== -1) {
+                transacoes[index] = {
+                    id: id,
+                    data: document.getElementById('editData').value,
+                    descricao: document.getElementById('editDescricao').value,
+                    tipo: document.getElementById('editTipo').value,
+                    categoria: document.getElementById('editCategoria').value,
+                    valor: parseFloat(document.getElementById('editValor').value),
+                    status: document.getElementById('editStatus').value
+                };
+                
+                renderTransacoes();
+                closeEditModal();
+                toast.success('Transação Atualizada', 'Transação modificada com sucesso!');
+            }
+        };
+
+        window.deleteTransacao = (id) => {
+            if (confirm('Tem certeza que deseja excluir esta transação?')) {
+                showLoading();
+                setTimeout(() => {
+                    transacoes = transacoes.filter(t => t.id !== id);
+                    renderTransacoes();
+                    toast.success('Transação Excluída', 'Transação removida com sucesso!');
+                    hideLoading();
+                }, 800);
+            }
+        };
 
         // Mock Data
         let transacoes = [
@@ -805,7 +1195,7 @@
             showLoading();
             setTimeout(() => {
                 hideLoading();
-                showToast('info', 'Relatório Gerado', 'Relatório preparado para impressão');
+                showToast('info', 'Relatório Gerado', 'Relatório financeiro disponível!', 3000);
                 window.print();
             }, 1000);
         };
@@ -869,49 +1259,132 @@
             }, 1000);
         });
         
-        window.editTransacao = (id) => openModal(id);
-        
-        window.deleteTransacao = (id) => {
-            if (confirm('Tem certeza que deseja excluir esta transação?')) {
-                showLoading();
-                setTimeout(() => {
-                    transacoes = transacoes.filter(t => t.id !== id);
-                    renderTransacoes();
-                    showToast('success', 'Transação Excluída', 'Transação foi removida com sucesso');
-                    hideLoading();
-                }, 800);
+        // Chart.js instances
+        let fluxoCaixaChart, despesasChart;
+
+        // Modern Charts Configuration
+        const chartColors = {
+            primary: 'rgba(139, 92, 246, 0.8)',
+            primaryBorder: 'rgba(139, 92, 246, 1)',
+            success: 'rgba(34, 197, 94, 0.8)',
+            successBorder: 'rgba(34, 197, 94, 1)',
+            danger: 'rgba(239, 68, 68, 0.8)',
+            dangerBorder: 'rgba(239, 68, 68, 1)',
+            warning: 'rgba(245, 158, 11, 0.8)',
+            warningBorder: 'rgba(245, 158, 11, 1)',
+            info: 'rgba(59, 130, 246, 0.8)',
+            infoBorder: 'rgba(59, 130, 246, 1)'
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    padding: 12,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(107, 114, 128, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        },
+                        callback: function(value) {
+                            return 'R$ ' + value.toLocaleString('pt-BR');
+                        }
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    radius: 4,
+                    hoverRadius: 6,
+                    backgroundColor: '#ffffff',
+                    borderWidth: 2
+                },
+                line: {
+                    tension: 0.4
+                }
             }
         };
 
-        // Mini Charts for Stat Cards
-        function initMiniCharts() {
-            const isDarkMode = document.body.getAttribute('data-theme') === 'dark';
-            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-            const textColor = isDarkMode ? '#f8fafc' : '#1f2937';
-            
+        // Initialize Stat Charts
+        function initializeStatCharts() {
             // Saldo Chart
             const saldoCtx = document.getElementById('saldoChart')?.getContext('2d');
             if (saldoCtx) {
                 new Chart(saldoCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                        labels: ['', '', '', '', '', ''],
                         datasets: [{
-                            data: [35000, 38000, 42000, 41000, 45000, 45873],
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            data: [35, 38, 42, 41, 45, 45.8],
+                            borderColor: chartColors.infoBorder,
+                            backgroundColor: chartColors.info,
                             borderWidth: 2,
                             fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
+                            tension: 0.4
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } },
-                        elements: { point: { radius: 0 } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'R$ ' + (context.parsed.y * 1000).toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
                     }
                 });
             }
@@ -922,23 +1395,37 @@
                 new Chart(receitasCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                        labels: ['', '', '', '', '', ''],
                         datasets: [{
-                            data: [12000, 14000, 13000, 15000, 18000, 15340],
-                            borderColor: '#22c55e',
-                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            data: [12, 14, 13, 15, 18, 15.3],
+                            borderColor: chartColors.successBorder,
+                            backgroundColor: chartColors.success,
                             borderWidth: 2,
                             fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
+                            tension: 0.4
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } },
-                        elements: { point: { radius: 0 } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'R$ ' + (context.parsed.y * 1000).toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
                     }
                 });
             }
@@ -949,23 +1436,37 @@
                 new Chart(despesasCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                        labels: ['', '', '', '', '', ''],
                         datasets: [{
-                            data: [8000, 8500, 9000, 9500, 12000, 8950],
-                            borderColor: '#ef4444',
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            data: [8, 8.5, 9, 9.5, 12, 8.95],
+                            borderColor: chartColors.dangerBorder,
+                            backgroundColor: chartColors.danger,
                             borderWidth: 2,
                             fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
+                            tension: 0.4
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } },
-                        elements: { point: { radius: 0 } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'R$ ' + (context.parsed.y * 1000).toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
                     }
                 });
             }
@@ -976,38 +1477,51 @@
                 new Chart(resultadoCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                        labels: ['', '', '', '', '', ''],
                         datasets: [{
-                            data: [4000, 5500, 4000, 5500, 6000, 6390],
-                            borderColor: '#f97316',
-                            backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                            data: [4, 5.5, 4, 5.5, 6, 6.39],
+                            borderColor: chartColors.warningBorder,
+                            backgroundColor: chartColors.warning,
                             borderWidth: 2,
                             fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
+                            tension: 0.4
                         }]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } },
-                        elements: { point: { radius: 0 } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'R$ ' + (context.parsed.y * 1000).toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
                     }
                 });
             }
         }
 
-        // Chart.js instances
-        let fluxoCaixaChart, despesasChart;
-
-        function initCharts() {
+        // Main Charts
+        function initializeMainCharts() {
             const isDarkMode = document.body.getAttribute('data-theme') === 'dark';
             const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
             const textColor = isDarkMode ? '#f8fafc' : '#1f2937';
             const tooltipBg = isDarkMode ? '#1e293b' : '#ffffff';
             const tooltipColor = textColor;
             
+            // Fluxo de Caixa Chart
             const fluxoCtx = document.getElementById('fluxoCaixaChart')?.getContext('2d');
             if(fluxoCtx) {
                 fluxoCaixaChart = new Chart(fluxoCtx, {
@@ -1018,25 +1532,79 @@
                             {
                                 label: 'Receitas',
                                 data: [12000, 19000, 15000, 17000, 22000, 25000],
-                                backgroundColor: 'rgba(34, 197, 94, 0.7)',
-                                borderWidth: 0
+                                backgroundColor: chartColors.success,
+                                borderColor: chartColors.successBorder,
+                                borderWidth: 2,
+                                borderRadius: 8,
+                                borderSkipped: false
                             },
                             {
                                 label: 'Despesas',
                                 data: [8000, 9500, 11000, 9000, 14000, 16000],
-                                backgroundColor: 'rgba(239, 68, 68, 0.7)',
-                                borderWidth: 0
+                                backgroundColor: chartColors.danger,
+                                borderColor: chartColors.dangerBorder,
+                                borderWidth: 2,
+                                borderRadius: 8,
+                                borderSkipped: false
                             }
                         ]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false,
-                        scales: { x: { ticks: { color: textColor }, grid: { color: gridColor } }, y: { ticks: { color: textColor }, grid: { color: gridColor } } },
-                        plugins: { legend: { labels: { color: textColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: tooltipColor, bodyColor: tooltipColor } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    color: textColor,
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': R$ ' + context.parsed.y.toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    color: gridColor
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: gridColor,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    font: {
+                                        size: 12
+                                    },
+                                    callback: function(value) {
+                                        return 'R$ ' + value.toLocaleString('pt-BR');
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             }
 
+            // Despesas por Categoria Chart
             const despesasCtx = document.getElementById('despesasChart')?.getContext('2d');
             if(despesasCtx) {
                 despesasChart = new Chart(despesasCtx, {
@@ -1045,26 +1613,56 @@
                         labels: ['Fornecedores', 'Infraestrutura', 'Folha Pag.', 'Marketing'],
                         datasets: [{
                             data: [45, 25, 20, 10],
-                            backgroundColor: ['#3b82f6', '#ef4444', '#f97316', '#22c55e'],
-                            borderWidth: 0
+                            backgroundColor: [
+                                chartColors.info,
+                                chartColors.danger,
+                                chartColors.warning,
+                                chartColors.success
+                            ],
+                            borderColor: [
+                                chartColors.infoBorder,
+                                chartColors.dangerBorder,
+                                chartColors.warningBorder,
+                                chartColors.successBorder
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 4
                         }]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false,
-                        plugins: { legend: { position: 'bottom', labels: { color: textColor } }, tooltip: { backgroundColor: tooltipBg, titleColor: tooltipColor, bodyColor: tooltipColor } }
+                        ...commonChartOptions,
+                        plugins: {
+                            ...commonChartOptions.plugins,
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: textColor,
+                                    usePointStyle: true,
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                ...commonChartOptions.plugins.tooltip,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + '%';
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             }
         }
-        
+
         // Initial render
         renderTransacoes();
-        initCharts();
-        initMiniCharts();
+        initializeMainCharts();
+        initializeStatCharts();
         
         // Show welcome toast
         setTimeout(() => {
-            showToast('info', 'Bem-vindo!', 'Sistema financeiro carregado com sucesso');
+            toast.info('Sistema Financeiro', 'Sistema financeiro carregado com sucesso!');
         }, 1000);
     });
     </script>

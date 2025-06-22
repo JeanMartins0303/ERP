@@ -139,13 +139,150 @@
             font-size: 0.75rem;
         }
         .stat-chart {
-            height: 40px;
-            margin-top: auto;
             position: relative;
+            width: 100%;
+            height: 60px;
+            margin-top: 1rem;
         }
         .stat-chart canvas {
-            width: 100% !important;
-            height: 100% !important;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chart-tooltip {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            box-shadow: var(--shadow-xl);
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+        }
+        
+        .chart-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chart-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid var(--bg-card);
+        }
+        
+        .chart-container {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .chart-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .chart-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            border-radius: var(--radius-lg);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .chart-container:hover .chart-overlay {
+            opacity: 1;
+        }
+        
+        /* Main Chart Styling */
+        .main-chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--success-color), var(--warning-color));
+        }
+        
+        .main-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .main-chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .main-chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chart-period-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+        
+        .chart-period-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .chart-period-btn:hover:not(.active) {
+            background: var(--border-light);
+            color: var(--text-primary);
+        }
+        
+        .main-chart-canvas {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius-lg);
         }
 
         .stat-card.vendas .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #16a34a); }
@@ -259,28 +396,34 @@
         /* Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 2rem;
+            right: 2rem;
             z-index: 10000;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 1rem;
+            pointer-events: none;
         }
         
         .toast {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 1rem 1.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-xl);
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-width: 300px;
-            max-width: 400px;
+            align-items: flex-start;
+            gap: 1rem;
+            min-width: 350px;
+            max-width: 450px;
             transform: translateX(100%);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
         }
         
         .toast.show {
@@ -289,70 +432,139 @@
         }
         
         .toast.success {
-            border-left: 4px solid var(--success-color);
+            border-left-color: var(--success-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
         }
-        
         .toast.error {
-            border-left: 4px solid var(--danger-color);
+            border-left-color: var(--danger-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.05) 100%);
         }
-        
         .toast.warning {
-            border-left: 4px solid var(--warning-color);
+            border-left-color: var(--warning-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(245, 158, 11, 0.05) 100%);
         }
-        
         .toast.info {
-            border-left: 4px solid var(--primary-color);
+            border-left-color: var(--primary-color); 
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139, 92, 246, 0.05) 100%);
         }
         
         .toast-icon {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
+            margin-top: 0.125rem;
         }
         
         .toast.success .toast-icon {
             color: var(--success-color);
+            animation: pulse 2s infinite;
         }
-        
         .toast.error .toast-icon {
             color: var(--danger-color);
+            animation: shake 0.5s ease-in-out;
         }
-        
         .toast.warning .toast-icon {
             color: var(--warning-color);
+            animation: bounce 1s ease-in-out;
         }
-        
         .toast.info .toast-icon {
             color: var(--primary-color);
+            animation: fadeIn 0.5s ease-in-out;
         }
         
         .toast-content {
             flex-grow: 1;
+            min-width: 0;
         }
         
         .toast-title {
-            font-weight: 600;
-            color: var(--text-primary);
+            font-weight: 700;
             margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            font-size: 1rem;
         }
         
         .toast-message {
-            color: var(--text-secondary);
             font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
         }
         
         .toast-close {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             cursor: pointer;
-            padding: 0.25rem;
+            padding: 0.5rem;
             border-radius: var(--radius-md);
             transition: var(--transition);
+            flex-shrink: 0;
+            margin-top: -0.25rem;
+            margin-right: -0.5rem;
         }
         
         .toast-close:hover {
-            background: var(--bg-primary);
+            background: var(--border-light);
             color: var(--text-primary);
+            transform: scale(1.1);
+        }
+        
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--border-color);
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            transition: width linear;
+        }
+        
+        .toast.success .toast-progress {
+            background: var(--success-color);
+        }
+        .toast.error .toast-progress {
+            background: var(--danger-color);
+        }
+        .toast.warning .toast-progress {
+            background: var(--warning-color);
+        }
+        .toast.info .toast-progress {
+            background: var(--primary-color);
+        }
+        
+        /* Toast Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Toast Responsive */
+        @media (max-width: 768px) {
+            .toast-container {
+                top: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+            
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
         }
         
         /* Loading States */
@@ -503,6 +715,183 @@
             text-align: center;
             font-size: 0.875rem;
         }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header-actions {
+                gap: 0.5rem;
+            }
+            
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                min-height: 160px;
+                padding: 1.25rem;
+            }
+            
+            .stat-value {
+                font-size: 1.875rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+            
+            .header-actions {
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+            
+            .header-btn {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .user-avatar {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .alertas-container {
+                max-height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stat-card {
+                padding: 1rem;
+                min-height: 140px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .header-actions {
+                justify-content: center;
+            }
+            
+            .main-container {
+                padding: 0.5rem;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+        
+        /* Sidebar Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .header {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .sidebar-nav-item {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .sidebar-nav-subitem {
+                padding: 0.75rem 1.5rem 0.75rem 3rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        /* Menu Toggle Animation */
+        .sidebar.open + .main-container,
+        .sidebar.open ~ .header {
+            margin-left: 0;
+            width: 100%;
+        }
+        
+        @media (min-width: 1025px) {
+            .sidebar.open + .main-container,
+            .sidebar.open ~ .header {
+                margin-left: 260px;
+                width: calc(100% - 260px);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar.open + .main-container,
+            .sidebar.open ~ .header {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -538,8 +927,8 @@
                 </div>
                 <div class="sidebar-nav-submenu">
                     <a href="pdv.html" class="sidebar-nav-subitem">
-                        <i class="fas fa-cash-register"></i> PDV
-                    </a>
+                <i class="fas fa-cash-register"></i> PDV
+            </a>
                     <a href="vendas.html" class="sidebar-nav-subitem">
                         <i class="fas fa-chart-line"></i> Histórico
                     </a>
@@ -581,8 +970,8 @@
                         <i class="fas fa-boxes"></i> Catálogo
                     </a>
                     <a href="estoque.html" class="sidebar-nav-subitem">
-                        <i class="fas fa-warehouse"></i> Estoque
-                    </a>
+                <i class="fas fa-warehouse"></i> Estoque
+            </a>
                     <a href="cardapio.html" class="sidebar-nav-subitem">
                         <i class="fas fa-utensils"></i> Cardápio
                     </a>
@@ -597,6 +986,7 @@
                     <i class="fas fa-chevron-down dropdown-arrow"></i>
                 </div>
                 <div class="sidebar-nav-submenu">
+                    
                     <a href="clientes.html" class="sidebar-nav-subitem">
                         <i class="fas fa-user-friends"></i> Cadastro
                     </a>
@@ -618,11 +1008,11 @@
                         <i class="fas fa-chart-pie"></i> Dashboard
                     </a>
                     <a href="contas-receber.html" class="sidebar-nav-subitem">
-                        <i class="fas fa-hand-holding-usd"></i> Contas a Receber
-                    </a>
+                <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+            </a>
                     <a href="contas-pagar.html" class="sidebar-nav-subitem">
-                        <i class="fas fa-credit-card"></i> Contas a Pagar
-                    </a>
+                <i class="fas fa-credit-card"></i> Contas a Pagar
+            </a>
                 </div>
             </div>
             
@@ -696,6 +1086,9 @@
                 <button class="header-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
             </div>
             <div class="header-actions">
+                <button class="header-btn" onclick="testarToasts()">
+                    <i class="fas fa-bell"></i>
+                </button>
                 <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <button class="header-btn">
                     <i class="fas fa-bell"></i>
@@ -940,72 +1333,318 @@
         const icon = themeToggle.querySelector('i');
         icon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
 
-        // Charts
-        function createMiniChart(canvasId, data, color) {
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            return new Chart(ctx, {
+        // Modern Charts Configuration
+        const chartColors = {
+            primary: 'rgba(139, 92, 246, 0.8)',
+            primaryBorder: 'rgba(139, 92, 246, 1)',
+            success: 'rgba(34, 197, 94, 0.8)',
+            successBorder: 'rgba(34, 197, 94, 1)',
+            danger: 'rgba(239, 68, 68, 0.8)',
+            dangerBorder: 'rgba(239, 68, 68, 1)',
+            warning: 'rgba(245, 158, 11, 0.8)',
+            warningBorder: 'rgba(245, 158, 11, 1)',
+            info: 'rgba(59, 130, 246, 0.8)',
+            infoBorder: 'rgba(59, 130, 246, 1)'
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    padding: 12,
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 13
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(107, 114, 128, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: 'rgba(107, 114, 128, 0.8)',
+                        font: {
+                            size: 11
+                        },
+                        callback: function(value) {
+                            return 'R$ ' + value.toLocaleString('pt-BR');
+                        }
+                    }
+                }
+            },
+            elements: {
+                point: {
+                    radius: 4,
+                    hoverRadius: 6,
+                    backgroundColor: '#ffffff',
+                    borderWidth: 2
+                },
+                line: {
+                    tension: 0.4
+                }
+            }
+        };
+
+        // Initialize Stat Charts
+        function initializeStatCharts() {
+            // Vendas Chart
+            const vendasCtx = document.getElementById('vendasChart').getContext('2d');
+            new Chart(vendasCtx, {
                 type: 'line',
                 data: {
                     labels: ['', '', '', '', '', '', ''],
                     datasets: [{
-                        data: data,
-                        borderColor: color,
-                        backgroundColor: color + '20',
+                        data: [12, 19, 15, 25, 22, 30, 28],
+                        borderColor: chartColors.successBorder,
+                        backgroundColor: chartColors.success,
                         borderWidth: 2,
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 0
+                        tension: 0.4
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    ...commonChartOptions,
                     plugins: {
-                        legend: { display: false }
+                        ...commonChartOptions.plugins,
+                        tooltip: {
+                            ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'R$ ' + (context.parsed.y * 1000).toLocaleString('pt-BR');
+                                }
+                            }
+                        }
                     },
                     scales: {
-                        x: { display: false },
-                        y: { display: false }
+                        x: {
+                            display: false
                     },
-                    elements: {
-                        point: { radius: 0 }
+                        y: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Produtos Chart
+            const produtosCtx = document.getElementById('produtosChart').getContext('2d');
+            new Chart(produtosCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [8, 12, 10, 18, 15, 22, 20],
+                        borderColor: chartColors.dangerBorder,
+                        backgroundColor: chartColors.danger,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        tooltip: {
+                            ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' produtos';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Clientes Chart
+            const clientesCtx = document.getElementById('clientesChart').getContext('2d');
+            new Chart(clientesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [5, 8, 6, 12, 10, 15, 13],
+                        borderColor: chartColors.infoBorder,
+                        backgroundColor: chartColors.info,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        tooltip: {
+                            ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' clientes';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Estoque Chart
+            const estoqueCtx = document.getElementById('estoqueChart').getContext('2d');
+            new Chart(estoqueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [20, 18, 22, 19, 16, 14, 12],
+                        borderColor: chartColors.warningBorder,
+                        backgroundColor: chartColors.warning,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        tooltip: {
+                            ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return (context.parsed.y * 1000) + ' itens';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
                     }
                 }
             });
         }
 
-        // Initialize mini charts
-        createMiniChart('vendasChart', [12, 19, 15, 25, 22, 30, 28], '#22c55e');
-        createMiniChart('produtosChart', [8, 12, 15, 18, 22, 25, 28], '#ef4444');
-        createMiniChart('clientesChart', [5, 8, 12, 15, 18, 22, 25], '#3b82f6');
-        createMiniChart('estoqueChart', [30, 28, 25, 22, 18, 15, 12], '#f97316');
-
-        // Main chart
+        // Main Vendas Chart
+        function initializeMainChart() {
         const vendasProdutosCtx = document.getElementById('vendasProdutosChart').getContext('2d');
-        new Chart(vendasProdutosCtx, {
+            const mainChart = new Chart(vendasProdutosCtx, {
             type: 'bar',
             data: {
                 labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
                 datasets: [{
                     label: 'Vendas (R$)',
                     data: [4500, 5200, 4800, 6100, 5800, 7200, 6800],
-                    backgroundColor: 'rgba(139, 92, 246, 0.8)',
-                    borderColor: 'rgba(139, 92, 246, 1)',
-                    borderWidth: 1
+                        backgroundColor: [
+                            chartColors.primary,
+                            chartColors.success,
+                            chartColors.info,
+                            chartColors.warning,
+                            chartColors.danger,
+                            chartColors.primary,
+                            chartColors.success
+                        ],
+                        borderColor: [
+                            chartColors.primaryBorder,
+                            chartColors.successBorder,
+                            chartColors.infoBorder,
+                            chartColors.warningBorder,
+                            chartColors.dangerBorder,
+                            chartColors.primaryBorder,
+                            chartColors.successBorder
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8,
+                        borderSkipped: false
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                    ...commonChartOptions,
                 plugins: {
-                    legend: {
-                        display: false
+                        ...commonChartOptions.plugins,
+                        tooltip: {
+                            ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'R$ ' + context.parsed.y.toLocaleString('pt-BR');
+                                }
+                            }
                     }
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true,
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'rgba(107, 114, 128, 0.8)',
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(107, 114, 128, 0.1)',
+                                drawBorder: false
+                            },
                         ticks: {
+                                color: 'rgba(107, 114, 128, 0.8)',
+                                font: {
+                                    size: 12
+                                },
                             callback: function(value) {
                                 return 'R$ ' + value.toLocaleString('pt-BR');
                             }
@@ -1014,6 +1653,9 @@
                 }
             }
         });
+
+            return mainChart;
+        }
 
         // Sample activities data
         const atividades = [
@@ -1096,64 +1738,142 @@
             console.log('Filter by user:', e.target.value);
         });
 
+        // Toast Notification System
+        class ToastManager {
+            constructor() {
+                this.container = document.querySelector('.toast-container');
+                if (!this.container) {
+                    this.container = document.createElement('div');
+                    this.container.className = 'toast-container';
+                    document.body.appendChild(this.container);
+                }
+            }
+
+            show(type, title, message, duration = 5000) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                const icon = this.getIcon(type);
+                const progressBar = document.createElement('div');
+                progressBar.className = 'toast-progress';
+                progressBar.style.width = '100%';
+                
+                toast.innerHTML = `
+                    <div class="toast-icon">${icon}</div>
+                    <div class="toast-content">
+                        <div class="toast-title">${title}</div>
+                        <div class="toast-message">${message}</div>
+                    </div>
+                    <button class="toast-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                toast.appendChild(progressBar);
+                this.container.appendChild(toast);
+                
+                // Trigger animation
+                setTimeout(() => toast.classList.add('show'), 10);
+                
+                // Auto remove
+                if (duration > 0) {
+                    const startTime = Date.now();
+                    const animateProgress = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.max(0, 100 - (elapsed / duration) * 100);
+                        progressBar.style.width = `${progress}%`;
+                        
+                        if (progress > 0) {
+                            requestAnimationFrame(animateProgress);
+                        } else {
+                            this.hide(toast);
+                        }
+                    };
+                    requestAnimationFrame(animateProgress);
+                }
+                
+                return toast;
+            }
+            
+            hide(toast) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 400);
+            }
+            
+            getIcon(type) {
+                const icons = {
+                    success: '<i class="fas fa-check-circle"></i>',
+                    error: '<i class="fas fa-exclamation-circle"></i>',
+                    warning: '<i class="fas fa-exclamation-triangle"></i>',
+                    info: '<i class="fas fa-info-circle"></i>'
+                };
+                return icons[type] || icons.info;
+            }
+            
+            success(title, message, duration) {
+                return this.show('success', title, message, duration);
+            }
+            
+            error(title, message, duration) {
+                return this.show('error', title, message, duration);
+            }
+            
+            warning(title, message, duration) {
+                return this.show('warning', title, message, duration);
+            }
+            
+            info(title, message, duration) {
+                return this.show('info', title, message, duration);
+            }
+        }
+
+        const toast = new ToastManager();
+
         // Action functions
         function refreshDashboard() {
-            showToast('Dashboard atualizado com sucesso!', 'success');
+            toast.success('Dashboard Atualizado', 'Dados do dashboard atualizados com sucesso!');
             // Add actual refresh logic here
         }
 
         function exportarVendas() {
-            showToast('Relatório de vendas exportado!', 'success');
+            toast.success('Exportação Concluída', 'Relatório de vendas exportado com sucesso!');
         }
 
         function imprimirRelatorio() {
-            showToast('Relatório enviado para impressão!', 'info');
+            toast.info('Impressão', 'Relatório enviado para impressão!');
         }
 
         function exportarAtividades() {
-            showToast('Atividades exportadas com sucesso!', 'success');
+            toast.success('Exportação Concluída', 'Atividades exportadas com sucesso!');
         }
 
         function marcarTodosLidos() {
-            showToast('Todos os alertas marcados como lidos!', 'success');
+            toast.success('Alertas Atualizados', 'Todos os alertas marcados como lidos!');
         }
 
-        // Toast notification system
-        function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+        // Teste do sistema de notificações
+        function testarToasts() {
+            // Sucesso
+            toast.success('Dashboard Atualizado', 'Dados atualizados com sucesso!', 3000);
             
-            const icons = {
-                success: 'fas fa-check-circle',
-                error: 'fas fa-times-circle',
-                warning: 'fas fa-exclamation-triangle',
-                info: 'fas fa-info-circle'
-            };
-            
-            toast.innerHTML = `
-                <i class="toast-icon ${icons[type]}"></i>
-                <div class="toast-content">
-                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
-                    <div class="toast-message">${message}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            toastContainer.appendChild(toast);
-            
+            // Erro após 1 segundo
             setTimeout(() => {
-                toast.classList.add('show');
-            }, 100);
+                toast.error('Erro de Conexão', 'Falha ao conectar com o servidor!', 4000);
+            }, 1000);
             
+            // Aviso após 2 segundos
             setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 5000);
+                toast.warning('Estoque Baixo', 'Produtos com estoque baixo detectados!', 3500);
+            }, 2000);
+            
+            // Informação após 3 segundos
+            setTimeout(() => {
+                toast.info('Sistema Atualizado', 'Novas funcionalidades disponíveis!', 3000);
+            }, 3000);
         }
 
         // Submenu functionality
@@ -1205,9 +1925,11 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            initializeStatCharts();
+            initializeMainChart();
             populateActivitiesTable();
             setActiveSubmenuItem();
-            showToast('Dashboard carregado com sucesso!', 'success');
+            toast.success('Sistema Carregado', 'Dashboard carregado com sucesso!');
         });
 
         // Logout functionality

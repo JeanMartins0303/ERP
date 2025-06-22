@@ -158,7 +158,7 @@
             .card-actions { justify-content: center; }
         }
 
-        /* Toast Notifications */
+        /* Toast Notifications Premium */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -183,6 +183,18 @@
             transform: translateX(100%);
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toast::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
         }
         
         .toast.show {
@@ -190,20 +202,20 @@
             opacity: 1;
         }
         
-        .toast.success {
-            border-left: 4px solid var(--success-color);
+        .toast.success::before {
+            background: var(--success-color);
         }
         
-        .toast.error {
-            border-left: 4px solid var(--danger-color);
+        .toast.error::before {
+            background: var(--danger-color);
         }
         
-        .toast.warning {
-            border-left: 4px solid var(--warning-color);
+        .toast.warning::before {
+            background: var(--warning-color);
         }
         
-        .toast.info {
-            border-left: 4px solid var(--primary-color);
+        .toast.info::before {
+            background: var(--primary-color);
         }
         
         .toast-icon {
@@ -256,6 +268,33 @@
             background: var(--bg-primary);
             color: var(--text-primary);
         }
+
+        /* Progress Bar Animation */
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-color);
+            animation: toastProgress 5s linear forwards;
+        }
+        
+        .toast.success .toast-progress {
+            background: var(--success-color);
+        }
+        
+        .toast.error .toast-progress {
+            background: var(--danger-color);
+        }
+        
+        .toast.warning .toast-progress {
+            background: var(--warning-color);
+        }
+        
+        @keyframes toastProgress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
     </style>
 </head>
 <body>
@@ -276,6 +315,9 @@
                 </button>
                 <button class="header-btn" id="notificationsBtn">
                     <i class="fas fa-bell"></i>
+                </button>
+                <button class="header-btn" id="testToastBtn" title="Testar Notificações">
+                    <i class="fas fa-flask"></i>
                 </button>
                 <button class="header-btn primary" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i>
@@ -750,7 +792,7 @@
             showToast('Gráfico atualizado com sucesso!', 'success');
         }
 
-        // Toast notification system
+        // Toast notification system premium
         function showToast(message, type = 'info') {
             const toastContainer = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -772,6 +814,7 @@
                 <button class="toast-close" onclick="this.parentElement.remove()">
                     <i class="fas fa-times"></i>
                 </button>
+                <div class="toast-progress"></div>
             `;
             
             toastContainer.appendChild(toast);
@@ -786,6 +829,23 @@
                     toast.remove();
                 }, 300);
             }, 5000);
+        }
+
+        // Test toast notifications
+        function testToastNotifications() {
+            showToast('Funcionário cadastrado com sucesso!', 'success');
+            
+            setTimeout(() => {
+                showToast('Atenção: Funcionário em férias até 15/01', 'warning');
+            }, 1000);
+            
+            setTimeout(() => {
+                showToast('Erro ao processar folha de pagamento', 'error');
+            }, 2000);
+            
+            setTimeout(() => {
+                showToast('Sistema de RH sincronizado', 'info');
+            }, 3000);
         }
 
         // Sidebar toggle
@@ -806,6 +866,11 @@
             
             const icon = this.querySelector('i');
             icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Test toast button
+        document.getElementById('testToastBtn').addEventListener('click', function() {
+            testToastNotifications();
         });
 
         // Initialize

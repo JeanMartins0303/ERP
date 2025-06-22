@@ -68,28 +68,6 @@
         .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
         .header-btn.primary { background: var(--primary-dark); padding: 0.5rem 1rem; width: auto; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
         .header-btn.primary:hover { background: var(--primary-color); }
-        .header-btn.menu-toggle { 
-            background: rgba(255, 255, 255, 0.15); 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            z-index: 1001;
-            width: auto;
-            padding: 0.5rem 1rem;
-            gap: 0.5rem;
-        }
-        .header-btn.menu-toggle:hover { 
-            background: rgba(255, 255, 255, 0.25); 
-            transform: scale(1.05); 
-        }
-        .header-btn.menu-toggle.active { 
-            background: rgba(255, 255, 255, 0.3); 
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-        }
-        .menu-text {
-            margin-left: 0.5rem;
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
         .notification-badge { position: absolute; top: 4px; right: 4px; background: var(--danger-color); border: 2px solid var(--bg-secondary); border-radius: 50%; width: 0.75rem; height: 0.75rem; }
         .user-avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
         
@@ -359,56 +337,126 @@
             .main-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar:not(.closed) {
-                transform: translateX(0);
-            }
-            
-            .main-container {
-                margin-left: 0;
-                width: 100%;
-                padding: 1rem;
-            }
-            
-            .header {
-                margin-left: 0;
-                width: 100%;
-            }
-            
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-container { margin-left: 0; width: 100%; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
             .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .main-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+            }
+            
+            .main-container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
             }
             
             .header-actions {
                 gap: 0.5rem;
             }
             
-            .header-btn.primary span {
-                display: none;
+            .header-btn.primary {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
             }
         }
-
-        @media (max-width: 480px) {
-            .card-actions {
-                flex-direction: column;
-                gap: 0.5rem;
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
-            .search-wrapper {
-                width: 100%;
+            .stat-card {
+                min-height: 160px;
+                padding: 1.25rem;
+            }
+            
+            .stat-value {
+                font-size: 1.875rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+                gap: 0.75rem;
             }
             
             .search-input {
                 min-width: auto;
+            }
+            
+            .header-actions {
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+            
+            .header-btn {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .user-avatar {
+                width: 2.25rem;
+                height: 2.25rem;
+            }
+            
+            .main-container {
+                padding: 0.75rem;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stat-card {
+                padding: 1rem;
+                min-height: 140px;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-icon {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.25rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .header-actions {
+                justify-content: center;
+            }
+            
+            .main-container {
+                padding: 0.5rem;
+            }
+            
+            .chart-container {
+                height: 200px;
             }
         }
         
@@ -497,9 +545,8 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <button class="header-btn menu-toggle" title="Abrir/Fechar Menu">
+            <button class="header-btn menu-toggle">
                 <i class="fas fa-bars"></i>
-                <span class="menu-text">Menu</span>
             </button>
             <div class="header-actions">
                 <button class="header-btn" onclick="testarToasts()">
@@ -1130,7 +1177,6 @@
             }
         }
 
-        // Modal functionality
         function openNewReportModal() {
             document.getElementById('newReportModal').style.display = 'block';
         }
@@ -1139,39 +1185,16 @@
             document.getElementById('newReportModal').style.display = 'none';
         }
 
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('newReportModal');
-            if (event.target === modal) {
-                closeNewReportModal();
-            }
-        });
-
-        // Close modal with ESC key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeNewReportModal();
-            }
-        });
-
         // Form submission
         document.getElementById('newReportForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const title = document.getElementById('reportTitle').value;
+            const type = document.getElementById('reportType').value;
+            const period = document.getElementById('reportPeriod').value;
             
-            const formData = new FormData(this);
-            const reportData = {
-                name: formData.get('reportTitle'),
-                type: formData.get('reportType'),
-                dateRange: formData.get('reportPeriod'),
-                description: formData.get('description')
-            };
-            
-            // Simulate API call
-            setTimeout(() => {
-                toast.success('Sucesso', 'Relatório criado com sucesso!');
-                closeNewReportModal();
-                this.reset();
-            }, 1000);
+            toast.success('Relatório Criado', `Relatório "${title}" está sendo gerado...`);
+            closeNewReportModal();
+            this.reset();
         });
 
         // Initialize
@@ -1179,131 +1202,7 @@
             initializeStatCharts();
             initializeMainCharts();
             populateReportsTable();
-            
-            // Theme Toggle Functionality
-            const themeToggle = document.querySelector('[data-theme-toggle]');
-            const body = document.body;
-            
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            body.setAttribute('data-theme', savedTheme);
-            
-            // Update icon based on current theme
-            const icon = themeToggle.querySelector('i');
-            icon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-            
-            // Theme toggle event
-            themeToggle.addEventListener('click', () => {
-                const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-                body.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                
-                // Update icon
-                icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
-                
-                // Re-render charts on theme change
-                setTimeout(() => {
-                    initializeStatCharts();
-                    initializeMainCharts();
-                }, 100);
-            });
-            
-            // Sidebar Toggle Functionality
-            const menuToggle = document.querySelector('.menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            
-            console.log('Menu toggle element:', menuToggle);
-            console.log('Sidebar element:', sidebar);
-            
-            if (menuToggle && sidebar) {
-                // Set initial state
-                const isInitiallyClosed = sidebar.classList.contains('closed');
-                menuToggle.classList.toggle('active', !isInitiallyClosed);
-                
-                menuToggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    sidebar.classList.toggle('closed');
-                    const isClosed = sidebar.classList.contains('closed');
-                    
-                    // Toggle active class on button
-                    menuToggle.classList.toggle('active', !isClosed);
-                    
-                    console.log('Menu toggle clicked, sidebar closed:', isClosed);
-                    
-                    // Feedback visual
-                    menuToggle.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        menuToggle.style.transform = '';
-                    }, 150);
-                    
-                    // Toast notification
-                    toast.info('Menu', isClosed ? 'Menu fechado' : 'Menu aberto');
-                });
-            } else {
-                console.error('Menu toggle or sidebar not found!');
-            }
-            
             toast.success('Sistema Carregado', 'Relatórios carregados com sucesso!');
-        });
-
-        // Search functionality
-        document.querySelector('.search-input').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('#reportsTableBody tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        });
-
-        // Filter functionality
-        document.querySelector('.card-btn[onclick*="filter"]').addEventListener('click', function() {
-            toast.info('Filtros', 'Funcionalidade de filtros em desenvolvimento!');
-        });
-
-        // Notifications functionality
-        function showNotifications() {
-            toast.info('Notificações', 'Você tem 3 notificações não lidas!');
-        }
-
-        // Table actions
-        function viewReport(id) {
-            toast.info('Visualizar', `Visualizando relatório #${id}`);
-        }
-
-        function editReport(id) {
-            toast.warning('Editar', `Editando relatório #${id}`);
-        }
-
-        function deleteReport(id) {
-            if (confirm('Tem certeza que deseja excluir este relatório?')) {
-                toast.error('Excluído', `Relatório #${id} excluído com sucesso!`);
-            }
-        }
-
-        // Test notifications
-        function testNotifications() {
-            toast.success('Sucesso', 'Operação realizada com sucesso!');
-            setTimeout(() => toast.error('Erro', 'Ocorreu um erro na operação!'), 1000);
-            setTimeout(() => toast.warning('Atenção', 'Atenção: dados incompletos!'), 2000);
-            setTimeout(() => toast.info('Informação', 'Sistema atualizado com sucesso!'), 3000);
-        }
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.querySelector('.sidebar');
-            const menuToggle = document.querySelector('.menu-toggle');
-            
-            if (window.innerWidth <= 768 && 
-                sidebar && 
-                !sidebar.classList.contains('closed') && 
-                !sidebar.contains(event.target) && 
-                !menuToggle.contains(event.target)) {
-                sidebar.classList.add('closed');
-            }
         });
     </script>
     <script src="main.js" type="module" defer></script>

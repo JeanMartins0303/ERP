@@ -1,0 +1,188 @@
+<!-- Template do Sidebar com Submenus -->
+<!-- Copie este código para substituir o sidebar em todas as telas -->
+
+<!-- Adicione no <head> -->
+<link rel="stylesheet" href="css/submenu.css">
+
+<!-- Adicione antes do </body> -->
+<script src="js/submenu.js"></script>
+
+<!-- Estrutura do Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+            <i class="fas fa-rocket"></i>
+        </div>
+        <span class="sidebar-logo-text">CorelSys</span>
+    </div>
+    <nav class="sidebar-nav">
+        <!-- Dashboard -->
+        <a href="dashboard.html" class="sidebar-nav-item">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        
+        <!-- Vendas -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Vendas</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="pdv.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-cash-register"></i> PDV
+                </a>
+                <a href="vendas.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-chart-line"></i> Histórico
+                </a>
+                <a href="comandas.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-receipt"></i> Comandas
+                </a>
+                <a href="delivery.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-motorcycle"></i> Delivery
+                </a>
+            </div>
+        </div>
+        
+        <!-- Compras -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Compras</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="compras.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-clipboard-list"></i> Pedidos
+                </a>
+                <a href="fornecedores.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-truck"></i> Fornecedores
+                </a>
+            </div>
+        </div>
+        
+        <!-- Produtos -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-box"></i>
+                <span>Produtos</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="produtos.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-boxes"></i> Catálogo
+                </a>
+                <a href="estoque.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-warehouse"></i> Estoque
+                </a>
+                <a href="cardapio.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-utensils"></i> Cardápio
+                </a>
+            </div>
+        </div>
+        
+        <!-- Clientes -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-users"></i>
+                <span>Clientes</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="clientes.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-user-friends"></i> Cadastro
+                </a>
+                <a href="fidelidade.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-star"></i> Fidelidade
+                </a>
+            </div>
+        </div>
+        
+        <!-- Financeiro -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-dollar-sign"></i>
+                <span>Financeiro</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="financeiro.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="contas-receber.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+                </a>
+                <a href="contas-pagar.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-credit-card"></i> Contas a Pagar
+                </a>
+            </div>
+        </div>
+        
+        <!-- Relatórios -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-file-alt"></i>
+                <span>Relatórios</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="relatorios.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-chart-bar"></i> Básicos
+                </a>
+                <a href="relatorios-avancados.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-chart-line"></i> Avançados
+                </a>
+            </div>
+        </div>
+        
+        <!-- RH -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-user-tie"></i>
+                <span>Recursos Humanos</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="funcionarios.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-users-cog"></i> Funcionários
+                </a>
+                <a href="usuarios.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-user-shield"></i> Usuários
+                </a>
+            </div>
+        </div>
+        
+        <!-- Restaurante -->
+        <div class="sidebar-nav-group">
+            <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                <i class="fas fa-utensils"></i>
+                <span>Restaurante</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+            <div class="sidebar-nav-submenu">
+                <a href="mesas.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-chair"></i> Mesas
+                </a>
+                <a href="cardapio.html" class="sidebar-nav-subitem">
+                    <i class="fas fa-book-open"></i> Cardápio
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="configuracoes.html" class="sidebar-nav-item">
+            <i class="fas fa-cog"></i> Configurações
+        </a>
+        <a href="#" class="sidebar-nav-item" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+    </div>
+</aside>
+
+<!-- INSTRUÇÕES DE USO:
+1. Copie o link CSS para o <head> da página
+2. Copie a estrutura do sidebar para substituir o sidebar atual
+3. Copie o script JS antes do </body>
+4. Para marcar uma página como ativa, adicione a classe "active" ao item correspondente
+5. O sistema automaticamente abrirá o submenu da página ativa
+--> 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CorelSys ERP - Gestão de Produtos</title>
+    <title>CorelSys ERP - Gestão de Delivery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -94,10 +94,10 @@
         .stat-trend.negative { color: var(--danger-color); }
         .stat-chart { height: 40px; margin-top: auto; position: relative; }
         
-        .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
-        .stat-card.ativos .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #16a34a); }
-        .stat-card.estoque-baixo .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
-        .stat-card.valor-total .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
+        .stat-card.pendentes .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
+        .stat-card.em-entrega .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #16a34a); }
+        .stat-card.entregues .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
+        .stat-card.faturamento .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
 
         /* Content Grid */
         .content-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
@@ -126,9 +126,10 @@
         .table tbody tr:hover { background: var(--bg-primary); }
         
         .status-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-        .status-badge.ativo { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
-        .status-badge.inativo { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
-        .status-badge.estoque-baixo { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+        .status-badge.pendente { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .status-badge.em-entrega { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+        .status-badge.entregue { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
+        .status-badge.cancelado { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
         
         .action-buttons { display: flex; gap: 0.5rem; }
         .action-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-secondary); padding: 0.5rem; border-radius: var(--radius-md); transition: var(--transition); }
@@ -136,12 +137,7 @@
         .action-btn.view { color: #3b82f6; }
         .action-btn.edit { color: var(--warning-color); }
         .action-btn.delete { color: var(--danger-color); }
-        
-        .product-info { display: flex; align-items: center; gap: 1rem; }
-        .product-image { width: 40px; height: 40px; border-radius: var(--radius-md); object-fit: cover; background: var(--bg-gradient); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-weight: 600; }
-        .product-details { display: flex; flex-direction: column; }
-        .product-name { font-weight: 600; color: var(--text-primary); }
-        .product-code { color: var(--text-secondary); font-size: 0.875rem; }
+        .action-btn.entregar { color: var(--success-color); }
         
         /* Responsive */
         @media (min-width: 1024px) { 
@@ -305,7 +301,7 @@
                 <i class="fas fa-shopping-cart"></i>
                 Vendas
             </a>
-            <a href="produtos.html" class="sidebar-nav-item active">
+            <a href="produtos.html" class="sidebar-nav-item">
                 <i class="fas fa-box"></i>
                 Produtos
             </a>
@@ -329,6 +325,10 @@
                 <i class="fas fa-dollar-sign"></i>
                 Financeiro
             </a>
+            <a href="delivery.html" class="sidebar-nav-item active">
+                <i class="fas fa-motorcycle"></i>
+                Delivery
+            </a>
             <a href="relatorios.html" class="sidebar-nav-item">
                 <i class="fas fa-chart-bar"></i>
                 Relatórios
@@ -349,28 +349,49 @@
     <main class="main-container" id="mainContainer">
         <!-- Stats Grid -->
         <div class="stats-grid">
-            <div class="stat-card total">
+            <div class="stat-card pendentes">
                 <div class="stat-header">
                     <div class="stat-icon">
-                        <i class="fas fa-box"></i>
+                        <i class="fas fa-clock"></i>
                     </div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
-                        <div class="stat-value">1.247</div>
-                        <div class="stat-label">Total de Produtos</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Pedidos Pendentes</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
-                            +15.3% vs mês anterior
+                            +2 vs ontem
                         </div>
                     </div>
                     <div class="stat-chart">
-                        <canvas id="totalChart"></canvas>
+                        <canvas id="pendentesChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="stat-card ativos">
+            <div class="stat-card em-entrega">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-main">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Em Entrega</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +1 vs ontem
+                        </div>
+                    </div>
+                    <div class="stat-chart">
+                        <canvas id="em-entregaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card entregues">
                 <div class="stat-header">
                     <div class="stat-icon">
                         <i class="fas fa-check-circle"></i>
@@ -378,41 +399,20 @@
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
-                        <div class="stat-value">1.156</div>
-                        <div class="stat-label">Produtos Ativos</div>
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Entregues Hoje</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
-                            +8.7% vs mês anterior
+                            +3 vs ontem
                         </div>
                     </div>
                     <div class="stat-chart">
-                        <canvas id="ativosChart"></canvas>
+                        <canvas id="entreguesChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="stat-card estoque-baixo">
-                <div class="stat-header">
-                    <div class="stat-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-main">
-                        <div class="stat-value">23</div>
-                        <div class="stat-label">Estoque Baixo</div>
-                        <div class="stat-trend negative">
-                            <i class="fas fa-arrow-down"></i>
-                            -5.2% vs mês anterior
-                        </div>
-                    </div>
-                    <div class="stat-chart">
-                        <canvas id="estoque-baixoChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stat-card valor-total">
+            <div class="stat-card faturamento">
                 <div class="stat-header">
                     <div class="stat-icon">
                         <i class="fas fa-dollar-sign"></i>
@@ -420,15 +420,15 @@
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
-                        <div class="stat-value">R$ 45.280</div>
-                        <div class="stat-label">Valor Total em Estoque</div>
+                        <div class="stat-value">R$ 1.280</div>
+                        <div class="stat-label">Faturamento Delivery</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
-                            +12.5% vs mês anterior
+                            +15.7% vs ontem
                         </div>
                     </div>
                     <div class="stat-chart">
-                        <canvas id="valor-totalChart"></canvas>
+                        <canvas id="faturamentoChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -436,22 +436,22 @@
 
         <!-- Content Grid -->
         <div class="content-grid">
-            <!-- Produtos Table -->
+            <!-- Delivery Table -->
             <div class="table-card">
                 <div class="card-header">
-                    <h2 class="card-title">Gestão de Produtos</h2>
+                    <h2 class="card-title">Gestão de Delivery</h2>
                     <div class="card-actions">
-                        <button class="card-btn" onclick="exportarProdutos()">
+                        <button class="card-btn" onclick="exportarDelivery()">
                             <i class="fas fa-download"></i>
                             Exportar
                         </button>
-                        <button class="card-btn" onclick="importarProdutos()">
-                            <i class="fas fa-upload"></i>
-                            Importar
+                        <button class="card-btn" onclick="imprimirRelatorio()">
+                            <i class="fas fa-print"></i>
+                            Imprimir
                         </button>
-                        <button class="card-btn primary" onclick="novoProduto()">
+                        <button class="card-btn primary" onclick="novoPedido()">
                             <i class="fas fa-plus"></i>
-                            Novo Produto
+                            Novo Pedido
                         </button>
                     </div>
                 </div>
@@ -459,48 +459,48 @@
                 <div class="table-controls">
                     <div class="search-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" id="searchProduto" placeholder="Buscar produtos...">
+                        <input type="text" class="search-input" id="searchDelivery" placeholder="Buscar pedidos...">
                     </div>
-                    <select class="filter-control" id="filtroCategoria">
-                        <option value="">Todas as Categorias</option>
-                        <option value="bebidas">Bebidas</option>
-                        <option value="alimentos">Alimentos</option>
-                        <option value="limpeza">Limpeza</option>
-                        <option value="higiene">Higiene</option>
-                    </select>
                     <select class="filter-control" id="filtroStatus">
                         <option value="">Todos os Status</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="inativo">Inativo</option>
-                        <option value="estoque-baixo">Estoque Baixo</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="em-entrega">Em Entrega</option>
+                        <option value="entregue">Entregue</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                    <select class="filter-control" id="filtroEntregador">
+                        <option value="">Todos os Entregadores</option>
+                        <option value="entregador1">João Silva</option>
+                        <option value="entregador2">Pedro Costa</option>
+                        <option value="entregador3">Carlos Mendes</option>
                     </select>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table" id="produtosTable">
+                    <table class="table" id="deliveryTable">
                         <thead>
                             <tr>
-                                <th>Produto</th>
-                                <th>Código</th>
-                                <th>Categoria</th>
-                                <th>Preço</th>
-                                <th>Estoque</th>
+                                <th>Nº Pedido</th>
+                                <th>Cliente</th>
+                                <th>Endereço</th>
+                                <th>Itens</th>
+                                <th>Total</th>
                                 <th>Status</th>
-                                <th>Última Atualização</th>
+                                <th>Entregador</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="produtosTableBody">
+                        <tbody id="deliveryTableBody">
                             <!-- Dados serão inseridos via JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Gráfico de Produtos -->
+            <!-- Gráfico de Delivery -->
             <div class="chart-card">
                 <div class="card-header">
-                    <h2 class="card-title">Distribuição por Categoria</h2>
+                    <h2 class="card-title">Status dos Pedidos</h2>
                     <div class="card-actions">
                         <button class="card-btn" onclick="atualizarGrafico()">
                             <i class="fas fa-sync-alt"></i>
@@ -509,7 +509,7 @@
                     </div>
                 </div>
                 <div class="chart-container">
-                    <canvas id="produtosChart"></canvas>
+                    <canvas id="deliveryChart"></canvas>
                 </div>
             </div>
         </div>
@@ -519,57 +519,52 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Sample data for produtos
-        const produtosData = [
+        // Sample data for delivery
+        const deliveryData = [
             {
-                id: 1,
-                nome: 'Coca-Cola 350ml',
-                codigo: 'CC001',
-                categoria: 'Bebidas',
-                preco: 4.50,
-                estoque: 150,
-                status: 'ativo',
-                ultimaAtualizacao: '2024-01-15'
+                id: 'DEL001',
+                cliente: 'João Silva',
+                endereco: 'Rua das Flores, 123 - Centro',
+                itens: 3,
+                total: 89.50,
+                status: 'pendente',
+                entregador: 'João Silva'
             },
             {
-                id: 2,
-                nome: 'Pão Francês',
-                codigo: 'PF001',
-                categoria: 'Alimentos',
-                preco: 0.50,
-                estoque: 5,
-                status: 'estoque-baixo',
-                ultimaAtualizacao: '2024-01-15'
+                id: 'DEL002',
+                cliente: 'Maria Santos',
+                endereco: 'Av. Principal, 456 - Jardim',
+                itens: 2,
+                total: 45.80,
+                status: 'em-entrega',
+                entregador: 'Pedro Costa'
             },
             {
-                id: 3,
-                nome: 'Detergente Líquido',
-                codigo: 'DL001',
-                categoria: 'Limpeza',
-                preco: 8.90,
-                estoque: 45,
-                status: 'ativo',
-                ultimaAtualizacao: '2024-01-14'
+                id: 'DEL003',
+                cliente: 'Pedro Costa',
+                endereco: 'Rua do Comércio, 789 - Vila',
+                itens: 5,
+                total: 156.90,
+                status: 'entregue',
+                entregador: 'Carlos Mendes'
             },
             {
-                id: 4,
-                nome: 'Sabonete Líquido',
-                codigo: 'SL001',
-                categoria: 'Higiene',
-                preco: 12.50,
-                estoque: 0,
-                status: 'inativo',
-                ultimaAtualizacao: '2024-01-13'
+                id: 'DEL004',
+                cliente: 'Ana Oliveira',
+                endereco: 'Travessa das Palmeiras, 321 - Bairro',
+                itens: 1,
+                total: 23.50,
+                status: 'pendente',
+                entregador: 'João Silva'
             },
             {
-                id: 5,
-                nome: 'Arroz Integral 1kg',
-                codigo: 'AI001',
-                categoria: 'Alimentos',
-                preco: 6.80,
-                estoque: 78,
-                status: 'ativo',
-                ultimaAtualizacao: '2024-01-15'
+                id: 'DEL005',
+                cliente: 'Carlos Mendes',
+                endereco: 'Rua das Acácias, 654 - Residencial',
+                itens: 4,
+                total: 78.25,
+                status: 'cancelado',
+                entregador: 'Pedro Costa'
             }
         ];
 
@@ -617,17 +612,17 @@
 
         // Main chart
         function createMainChart() {
-            const ctx = document.getElementById('produtosChart').getContext('2d');
+            const ctx = document.getElementById('deliveryChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Bebidas', 'Alimentos', 'Limpeza', 'Higiene'],
+                    labels: ['Pendentes', 'Em Entrega', 'Entregues', 'Cancelados'],
                     datasets: [{
-                        data: [350, 420, 180, 120],
+                        data: [8, 5, 15, 2],
                         backgroundColor: [
                             '#3b82f6',
+                            '#f59e0b',
                             '#22c55e',
-                            '#f97316',
                             '#ef4444'
                         ],
                         borderWidth: 0
@@ -649,43 +644,36 @@
             });
         }
 
-        // Populate produtos table
-        function populateProdutosTable() {
-            const tbody = document.getElementById('produtosTableBody');
+        // Populate delivery table
+        function populateDeliveryTable() {
+            const tbody = document.getElementById('deliveryTableBody');
             tbody.innerHTML = '';
 
-            produtosData.forEach(produto => {
+            deliveryData.forEach(delivery => {
                 const row = document.createElement('tr');
-                const initials = produto.nome.split(' ').map(n => n[0]).join('').toUpperCase();
-                
                 row.innerHTML = `
-                    <td data-label="Produto">
-                        <div class="product-info">
-                            <div class="product-image">${initials}</div>
-                            <div class="product-details">
-                                <div class="product-name">${produto.nome}</div>
-                                <div class="product-code">${produto.codigo}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td data-label="Código">${produto.codigo}</td>
-                    <td data-label="Categoria">${produto.categoria}</td>
-                    <td data-label="Preço">R$ ${produto.preco.toFixed(2)}</td>
-                    <td data-label="Estoque">${produto.estoque}</td>
+                    <td data-label="Nº Pedido">${delivery.id}</td>
+                    <td data-label="Cliente">${delivery.cliente}</td>
+                    <td data-label="Endereço">${delivery.endereco}</td>
+                    <td data-label="Itens">${delivery.itens}</td>
+                    <td data-label="Total">R$ ${delivery.total.toFixed(2)}</td>
                     <td data-label="Status">
-                        <span class="status-badge ${produto.status}">${produto.status}</span>
+                        <span class="status-badge ${delivery.status}">${delivery.status}</span>
                     </td>
-                    <td data-label="Última Atualização">${produto.ultimaAtualizacao}</td>
+                    <td data-label="Entregador">${delivery.entregador}</td>
                     <td data-label="Ações">
                         <div class="action-buttons">
-                            <button class="action-btn view" onclick="visualizarProduto(${produto.id})" title="Visualizar">
+                            <button class="action-btn view" onclick="visualizarPedido('${delivery.id}')" title="Visualizar">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="action-btn edit" onclick="editarProduto(${produto.id})" title="Editar">
+                            <button class="action-btn edit" onclick="editarPedido('${delivery.id}')" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete" onclick="excluirProduto(${produto.id})" title="Excluir">
-                                <i class="fas fa-trash"></i>
+                            <button class="action-btn entregar" onclick="entregarPedido('${delivery.id}')" title="Entregar">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="cancelarPedido('${delivery.id}')" title="Cancelar">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
                     </td>
@@ -695,9 +683,9 @@
         }
 
         // Search functionality
-        document.getElementById('searchProduto').addEventListener('input', function(e) {
+        document.getElementById('searchDelivery').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('#produtosTableBody tr');
+            const rows = document.querySelectorAll('#deliveryTableBody tr');
             
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
@@ -708,7 +696,7 @@
         // Filter functionality
         document.getElementById('filtroStatus').addEventListener('change', function(e) {
             const filterValue = e.target.value;
-            const rows = document.querySelectorAll('#produtosTableBody tr');
+            const rows = document.querySelectorAll('#deliveryTableBody tr');
             
             rows.forEach(row => {
                 const status = row.querySelector('.status-badge').textContent.toLowerCase();
@@ -717,33 +705,39 @@
         });
 
         // Action functions
-        function novoProduto() {
-            showToast('Abrindo formulário de novo produto...', 'info');
-            // Implementar modal de novo produto
+        function novoPedido() {
+            showToast('Abrindo formulário de novo pedido...', 'info');
+            // Implementar modal de novo pedido
         }
 
-        function visualizarProduto(id) {
-            showToast(`Visualizando produto ${id}`, 'info');
+        function visualizarPedido(id) {
+            showToast(`Visualizando pedido ${id}`, 'info');
             // Implementar modal de visualização
         }
 
-        function editarProduto(id) {
-            showToast(`Editando produto ${id}`, 'warning');
+        function editarPedido(id) {
+            showToast(`Editando pedido ${id}`, 'warning');
             // Implementar edição
         }
 
-        function excluirProduto(id) {
-            if (confirm('Tem certeza que deseja excluir este produto?')) {
-                showToast(`Produto ${id} excluído com sucesso!`, 'success');
+        function entregarPedido(id) {
+            if (confirm('Confirmar entrega deste pedido?')) {
+                showToast(`Pedido ${id} entregue com sucesso!`, 'success');
             }
         }
 
-        function exportarProdutos() {
-            showToast('Lista de produtos exportada com sucesso!', 'success');
+        function cancelarPedido(id) {
+            if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+                showToast(`Pedido ${id} cancelado com sucesso!`, 'success');
+            }
         }
 
-        function importarProdutos() {
-            showToast('Funcionalidade de importação em desenvolvimento...', 'info');
+        function exportarDelivery() {
+            showToast('Relatório de delivery exportado com sucesso!', 'success');
+        }
+
+        function imprimirRelatorio() {
+            showToast('Relatório enviado para impressão!', 'info');
         }
 
         function atualizarGrafico() {
@@ -815,15 +809,15 @@
             document.body.setAttribute('data-theme', savedTheme);
             
             // Initialize charts
-            createMiniChart('totalChart', [12, 19, 15, 25, 22, 30, 28], '#3b82f6');
-            createMiniChart('ativosChart', [8, 12, 15, 18, 22, 25, 28], '#22c55e');
-            createMiniChart('estoque-baixoChart', [5, 8, 12, 15, 18, 22, 25], '#f97316');
-            createMiniChart('valor-totalChart', [30, 28, 25, 22, 18, 15, 12], '#ef4444');
+            createMiniChart('pendentesChart', [12, 19, 15, 25, 22, 30, 28], '#3b82f6');
+            createMiniChart('em-entregaChart', [8, 12, 15, 18, 22, 25, 28], '#22c55e');
+            createMiniChart('entreguesChart', [5, 8, 12, 15, 18, 22, 25], '#f97316');
+            createMiniChart('faturamentoChart', [30, 28, 25, 22, 18, 15, 12], '#ef4444');
             
             createMainChart();
-            populateProdutosTable();
+            populateDeliveryTable();
             
-            showToast('Gestão de produtos carregada com sucesso!', 'success');
+            showToast('Gestão de delivery carregada com sucesso!', 'success');
         });
 
         // Logout functionality

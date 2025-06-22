@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorelSys ERP - Programa de Fidelidade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/submenu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #ffffff;
+            
+            --border-color: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body[data-theme='dark'] {
+            --primary-color: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        
+        /* Layout components */
+        .header { background: var(--bg-gradient); padding: 1rem 1.5rem; color: var(--text-light); position: sticky; top: 0; z-index: 999; box-shadow: var(--shadow-md); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
+        .header-btn.primary:hover { background: rgba(255, 255, 255, 0.3); }
+        .user-avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        
+        .sidebar { position: fixed; left: 0; top: 0; height: 100vh; width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border-color); z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-header { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border-color); }
+        .sidebar-logo-icon { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: var(--bg-gradient); color: var(--text-light); }
+        .sidebar-logo-text { font-weight: 600; font-size: 1.25rem; color: var(--text-primary); }
+        .sidebar-nav { flex-grow: 1; padding: 1rem 0; overflow-y: auto; }
+        .sidebar-nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.5rem; margin: 0.25rem 1rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); border-radius: var(--radius-md); font-weight: 500; }
+        .sidebar-nav-item:hover { background: var(--bg-primary); color: var(--primary-color); }
+        .sidebar-nav-item.active { background: var(--bg-gradient); color: var(--text-light); box-shadow: var(--shadow-md); }
+        .sidebar-nav-item i { width: 1.25rem; text-align: center; }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
+        
+        .main-container { padding: 1.5rem; transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        
+        /* Fidelidade Styles */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .stat-icon { width: 3.5rem; height: 3.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; }
+        .stat-value { font-size: 2.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .stat-label { color: var(--text-secondary); font-size: 0.875rem; font-weight: 500; }
+        .stat-trend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 600; }
+        .stat-trend.positive { color: var(--success-color); }
+        .stat-trend.negative { color: var(--danger-color); }
+        
+        .niveis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .nivel-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; overflow: hidden; }
+        .nivel-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .nivel-card.bronze { border-left: 4px solid #cd7f32; }
+        .nivel-card.prata { border-left: 4px solid #c0c0c0; }
+        .nivel-card.ouro { border-left: 4px solid #ffd700; }
+        .nivel-card.diamante { border-left: 4px solid #b9f2ff; }
+        
+        .nivel-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .nivel-icon { width: 3rem; height: 3rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; }
+        .nivel-bronze .nivel-icon { background: linear-gradient(135deg, #cd7f32, #b8860b); }
+        .nivel-prata .nivel-icon { background: linear-gradient(135deg, #c0c0c0, #a9a9a9); }
+        .nivel-ouro .nivel-icon { background: linear-gradient(135deg, #ffd700, #ffa500); }
+        .nivel-diamante .nivel-icon { background: linear-gradient(135deg, #b9f2ff, #87ceeb); }
+        
+        .nivel-title { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); }
+        .nivel-requisito { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem; }
+        .nivel-beneficios { list-style: none; }
+        .nivel-beneficios li { padding: 0.5rem 0; color: var(--text-secondary); font-size: 0.875rem; }
+        .nivel-beneficios li:before { content: "✓"; color: var(--success-color); font-weight: bold; margin-right: 0.5rem; }
+        
+        .clientes-table { background: var(--bg-card); border-radius: var(--radius-xl); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .table-title { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); }
+        .table-controls { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .search-input { padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-secondary); color: var(--text-primary); min-width: 200px; }
+        .filter-select { padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-secondary); color: var(--text-primary); }
+        
+        .table { width: 100%; border-collapse: collapse; }
+        .table th { text-align: left; padding: 0.75rem 1rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); }
+        .table td { padding: 1rem; border-bottom: 1px solid var(--border-color); }
+        .nivel-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .nivel-badge.bronze { background: rgba(205, 127, 50, 0.1); color: #cd7f32; }
+        .nivel-badge.prata { background: rgba(192, 192, 192, 0.1); color: #c0c0c0; }
+        .nivel-badge.ouro { background: rgba(255, 215, 0, 0.1); color: #ffd700; }
+        .nivel-badge.diamante { background: rgba(185, 242, 255, 0.1); color: #b9f2ff; }
+        
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary { background: var(--bg-gradient); color: var(--text-light); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-secondary { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--bg-primary); border-color: var(--primary-color); }
+        
+        /* Toast notifications */
+        .toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1rem; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 1rem; min-width: 300px; transform: translateX(100%); transition: transform 0.3s ease-in-out; }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left: 4px solid var(--success-color); }
+        .toast.error { border-left: 4px solid var(--danger-color); }
+        .toast.warning { border-left: 4px solid var(--warning-color); }
+        .toast.info { border-left: 4px solid var(--primary-color); }
+        
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .niveis-grid { grid-template-columns: 1fr; }
+            .table-controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <span class="sidebar-logo-text">CorelSys</span>
+        </div>
+        <nav class="sidebar-nav">
+            <!-- Dashboard -->
+            <a href="dashboard.html" class="sidebar-nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            
+            <!-- Vendas -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="pdv.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-cash-register"></i> PDV
+                    </a>
+                    <a href="vendas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Histórico
+                    </a>
+                    <a href="comandas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-receipt"></i> Comandas
+                    </a>
+                    <a href="delivery.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-motorcycle"></i> Delivery
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Compras -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Compras</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="compras.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-clipboard-list"></i> Pedidos
+                    </a>
+                    <a href="fornecedores.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-truck"></i> Fornecedores
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Produtos -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-box"></i>
+                    <span>Produtos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="produtos.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-boxes"></i> Catálogo
+                    </a>
+                    <a href="estoque.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-warehouse"></i> Estoque
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-utensils"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Clientes -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="clientes.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-friends"></i> Cadastro
+                    </a>
+                    <a href="fidelidade.html" class="sidebar-nav-subitem active">
+                        <i class="fas fa-star"></i> Fidelidade
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Financeiro -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Financeiro</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="financeiro.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </a>
+                    <a href="contas-receber.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+                    </a>
+                    <a href="contas-pagar.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-credit-card"></i> Contas a Pagar
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Relatórios -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Relatórios</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="relatorios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-bar"></i> Básicos
+                    </a>
+                    <a href="relatorios-avancados.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Avançados
+                    </a>
+                </div>
+            </div>
+            
+            <!-- RH -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Recursos Humanos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="funcionarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-users-cog"></i> Funcionários
+                    </a>
+                    <a href="usuarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-shield"></i> Usuários
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Restaurante -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurante</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="mesas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chair"></i> Mesas
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-book-open"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="configuracoes.html" class="sidebar-nav-item">
+                <i class="fas fa-cog"></i> Configurações
+            </a>
+            <a href="#" class="sidebar-nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo">
+                <button class="header-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-text">
+                    <h1>Programa de Fidelidade</h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </button>
+                <button class="header-btn primary" onclick="criarCampanha()">
+                    <i class="fas fa-plus"></i> Nova Campanha
+                </button>
+                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar do Usuário" class="user-avatar">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container" id="mainContainer">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +12.5%
+                    </div>
+                </div>
+                <div class="stat-value">1.247</div>
+                <div class="stat-label">Clientes Ativos</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +8.3%
+                    </div>
+                </div>
+                <div class="stat-value">45.280</div>
+                <div class="stat-label">Pontos Acumulados</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +15.2%
+                    </div>
+                </div>
+                <div class="stat-value">R$ 8.450</div>
+                <div class="stat-label">Benefícios Utilizados</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +22.1%
+                    </div>
+                </div>
+                <div class="stat-value">R$ 156.780</div>
+                <div class="stat-label">Receita Gerada</div>
+            </div>
+        </div>
+
+        <!-- Níveis de Fidelidade -->
+        <div class="niveis-grid">
+            <div class="nivel-card nivel-bronze">
+                <div class="nivel-header">
+                    <div class="nivel-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div>
+                        <div class="nivel-title">Bronze</div>
+                        <div class="nivel-requisito">0 - 999 pontos</div>
+                    </div>
+                </div>
+                <ul class="nivel-beneficios">
+                    <li>1 ponto por R$ 1,00 gasto</li>
+                    <li>Desconto de 5% em aniversário</li>
+                    <li>Newsletter exclusiva</li>
+                </ul>
+            </div>
+            
+            <div class="nivel-card nivel-prata">
+                <div class="nivel-header">
+                    <div class="nivel-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div>
+                        <div class="nivel-title">Prata</div>
+                        <div class="nivel-requisito">1.000 - 4.999 pontos</div>
+                    </div>
+                </div>
+                <ul class="nivel-beneficios">
+                    <li>1,2 pontos por R$ 1,00 gasto</li>
+                    <li>Desconto de 10% em aniversário</li>
+                    <li>Frete grátis em pedidos acima de R$ 50</li>
+                    <li>Acesso antecipado a promoções</li>
+                </ul>
+            </div>
+            
+            <div class="nivel-card nivel-ouro">
+                <div class="nivel-header">
+                    <div class="nivel-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div>
+                        <div class="nivel-title">Ouro</div>
+                        <div class="nivel-requisito">5.000 - 19.999 pontos</div>
+                    </div>
+                </div>
+                <ul class="nivel-beneficios">
+                    <li>1,5 pontos por R$ 1,00 gasto</li>
+                    <li>Desconto de 15% em aniversário</li>
+                    <li>Frete grátis em todos os pedidos</li>
+                    <li>Atendimento prioritário</li>
+                    <li>Produtos exclusivos</li>
+                </ul>
+            </div>
+            
+            <div class="nivel-card nivel-diamante">
+                <div class="nivel-header">
+                    <div class="nivel-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div>
+                        <div class="nivel-title">Diamante</div>
+                        <div class="nivel-requisito">20.000+ pontos</div>
+                    </div>
+                </div>
+                <ul class="nivel-beneficios">
+                    <li>2 pontos por R$ 1,00 gasto</li>
+                    <li>Desconto de 20% em aniversário</li>
+                    <li>Frete grátis ilimitado</li>
+                    <li>Atendimento VIP 24/7</li>
+                    <li>Produtos exclusivos e personalizados</li>
+                    <li>Convites para eventos especiais</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tabela de Clientes -->
+        <div class="clientes-table">
+            <div class="table-header">
+                <h2 class="table-title">Clientes Fidelidade</h2>
+                <div>
+                    <button class="btn btn-secondary" onclick="exportarRelatorio()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                    <button class="btn btn-primary" onclick="enviarCampanha()">
+                        <i class="fas fa-paper-plane"></i> Enviar Campanha
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-controls">
+                <input type="text" class="search-input" id="searchCliente" placeholder="Buscar clientes...">
+                <select class="filter-select" id="filtroNivel">
+                    <option value="">Todos os Níveis</option>
+                    <option value="bronze">Bronze</option>
+                    <option value="prata">Prata</option>
+                    <option value="ouro">Ouro</option>
+                    <option value="diamante">Diamante</option>
+                </select>
+                <select class="filter-select" id="filtroStatus">
+                    <option value="">Todos os Status</option>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                </select>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table" id="clientesTable">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Nível</th>
+                            <th>Pontos</th>
+                            <th>Última Compra</th>
+                            <th>Total Gasto</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientesTableBody">
+                        <!-- Dados serão carregados dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dados de exemplo
+        const clientesFidelidade = [
+            {
+                id: 1,
+                nome: "Maria Silva",
+                email: "maria@email.com",
+                nivel: "diamante",
+                pontos: 25430,
+                ultimaCompra: "2024-01-15",
+                totalGasto: 12540.50,
+                status: "ativo"
+            },
+            {
+                id: 2,
+                nome: "João Santos",
+                email: "joao@email.com",
+                nivel: "ouro",
+                pontos: 8750,
+                ultimaCompra: "2024-01-10",
+                totalGasto: 5830.20,
+                status: "ativo"
+            },
+            {
+                id: 3,
+                nome: "Ana Costa",
+                email: "ana@email.com",
+                nivel: "prata",
+                pontos: 3200,
+                ultimaCompra: "2024-01-08",
+                totalGasto: 2650.80,
+                status: "ativo"
+            },
+            {
+                id: 4,
+                nome: "Pedro Oliveira",
+                email: "pedro@email.com",
+                nivel: "bronze",
+                pontos: 450,
+                ultimaCompra: "2024-01-05",
+                totalGasto: 450.00,
+                status: "inativo"
+            }
+        ];
+
+        // Populate clientes table
+        function populateClientesTable() {
+            const tbody = document.getElementById('clientesTableBody');
+            tbody.innerHTML = '';
+
+            clientesFidelidade.forEach(cliente => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div>
+                            <div style="font-weight: 600;">${cliente.nome}</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">${cliente.email}</div>
+                        </div>
+                    </td>
+                    <td><span class="nivel-badge ${cliente.nivel}">${cliente.nivel}</span></td>
+                    <td>${cliente.pontos.toLocaleString()}</td>
+                    <td>${new Date(cliente.ultimaCompra).toLocaleDateString('pt-BR')}</td>
+                    <td>R$ ${cliente.totalGasto.toFixed(2)}</td>
+                    <td>
+                        <span style="color: ${cliente.status === 'ativo' ? 'var(--success-color)' : 'var(--danger-color)'}; font-weight: 600;">
+                            ${cliente.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="visualizarCliente(${cliente.id})" style="padding: 0.5rem; font-size: 0.875rem;">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-secondary" onclick="editarCliente(${cliente.id})" style="padding: 0.5rem; font-size: 0.875rem;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchCliente').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#clientesTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Action functions
+        function criarCampanha() {
+            showToast('Funcionalidade de criar campanha em desenvolvimento', 'info');
+        }
+
+        function enviarCampanha() {
+            showToast('Campanha enviada com sucesso!', 'success');
+        }
+
+        function exportarRelatorio() {
+            showToast('Relatório exportado com sucesso!', 'success');
+        }
+
+        function visualizarCliente(id) {
+            showToast(`Visualizando cliente ${id}`, 'info');
+        }
+
+        function editarCliente(id) {
+            showToast(`Editando cliente ${id}`, 'warning');
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-times-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="toast-icon ${icons[type]}"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Sidebar toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = this.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            populateClientesTable();
+            showToast('Programa de fidelidade carregado com sucesso!', 'success');
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    
+    <!-- Submenu System -->
+    <script src="js/submenu.js"></script>
+</body>
+</html> 

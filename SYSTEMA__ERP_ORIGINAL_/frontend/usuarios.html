@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorelSys ERP - Gestão de Usuários</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/submenu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #ffffff;
+            
+            --border-color: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body[data-theme='dark'] {
+            --primary-color: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        
+        /* Layout components */
+        .header { background: var(--bg-gradient); padding: 1rem 1.5rem; color: var(--text-light); position: sticky; top: 0; z-index: 999; box-shadow: var(--shadow-md); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
+        .header-btn.primary:hover { background: rgba(255, 255, 255, 0.3); }
+        .user-avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        
+        .sidebar { position: fixed; left: 0; top: 0; height: 100vh; width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border-color); z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-header { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border-color); }
+        .sidebar-logo-icon { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: var(--bg-gradient); color: var(--text-light); }
+        .sidebar-logo-text { font-weight: 600; font-size: 1.25rem; color: var(--text-primary); }
+        .sidebar-nav { flex-grow: 1; padding: 1rem 0; overflow-y: auto; }
+        .sidebar-nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.5rem; margin: 0.25rem 1rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); border-radius: var(--radius-md); font-weight: 500; }
+        .sidebar-nav-item:hover { background: var(--bg-primary); color: var(--primary-color); }
+        .sidebar-nav-item.active { background: var(--bg-gradient); color: var(--text-light); box-shadow: var(--shadow-md); }
+        .sidebar-nav-item i { width: 1.25rem; text-align: center; }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
+        
+        .main-container { padding: 1.5rem; transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        
+        /* Usuários Styles */
+        .usuarios-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .usuarios-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .usuarios-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: var(--text-light);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+            border-color: var(--primary-color);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .usuarios-table {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .table-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-width: 200px;
+        }
+        
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-width: 150px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar-small {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .user-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .user-details p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .perfil-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .perfil-admin {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .perfil-gerente {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .perfil-vendedor {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+        
+        .perfil-caixa {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-ativo {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-inativo {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .status-bloqueado {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success { border-left: 4px solid var(--success-color); }
+        .toast.error { border-left: 4px solid var(--danger-color); }
+        .toast.warning { border-left: 4px solid var(--warning-color); }
+        .toast.info { border-left: 4px solid var(--primary-color); }
+        
+        @media (max-width: 768px) {
+            .usuarios-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .usuarios-actions {
+                justify-content: center;
+            }
+            
+            .table-controls {
+                flex-direction: column;
+            }
+            
+            .table {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <span class="sidebar-logo-text">CorelSys</span>
+        </div>
+        <nav class="sidebar-nav">
+            <!-- Dashboard -->
+            <a href="dashboard.html" class="sidebar-nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            
+            <!-- Vendas -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="pdv.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-cash-register"></i> PDV
+                    </a>
+                    <a href="vendas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Histórico
+                    </a>
+                    <a href="comandas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-receipt"></i> Comandas
+                    </a>
+                    <a href="delivery.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-motorcycle"></i> Delivery
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Compras -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Compras</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="compras.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-clipboard-list"></i> Pedidos
+                    </a>
+                    <a href="fornecedores.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-truck"></i> Fornecedores
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Produtos -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-box"></i>
+                    <span>Produtos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="produtos.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-boxes"></i> Catálogo
+                    </a>
+                    <a href="estoque.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-warehouse"></i> Estoque
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-utensils"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Clientes -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="clientes.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-friends"></i> Cadastro
+                    </a>
+                    <a href="fidelidade.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-star"></i> Fidelidade
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Financeiro -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Financeiro</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="financeiro.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </a>
+                    <a href="contas-receber.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+                    </a>
+                    <a href="contas-pagar.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-credit-card"></i> Contas a Pagar
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Relatórios -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Relatórios</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="relatorios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-bar"></i> Básicos
+                    </a>
+                    <a href="relatorios-avancados.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Avançados
+                    </a>
+                </div>
+            </div>
+            
+            <!-- RH -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Recursos Humanos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="funcionarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-users-cog"></i> Funcionários
+                    </a>
+                    <a href="usuarios.html" class="sidebar-nav-subitem active">
+                        <i class="fas fa-user-shield"></i> Usuários
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Restaurante -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurante</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="mesas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chair"></i> Mesas
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-book-open"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="configuracoes.html" class="sidebar-nav-item">
+                <i class="fas fa-cog"></i> Configurações
+            </a>
+            <a href="#" class="sidebar-nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo">
+                <button class="header-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-text">
+                    <h1>Gestão de Usuários</h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </button>
+                <button class="header-btn primary" onclick="adicionarUsuario()">
+                    <i class="fas fa-plus"></i> Novo Usuário
+                </button>
+                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar do Usuário" class="user-avatar">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container" id="mainContainer">
+        <!-- Header -->
+        <div class="usuarios-header">
+            <h1 class="usuarios-title">Gestão de Usuários</h1>
+            <div class="usuarios-actions">
+                <button class="btn btn-secondary" onclick="gerarRelatorio()">
+                    <i class="fas fa-file-alt"></i> Relatório
+                </button>
+                <button class="btn btn-secondary" onclick="auditoria()">
+                    <i class="fas fa-history"></i> Auditoria
+                </button>
+                <button class="btn btn-primary" onclick="configurarPermissoes()">
+                    <i class="fas fa-shield-alt"></i> Permissões
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Usuários Ativos</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+                <div class="stat-value">4</div>
+                <div class="stat-label">Administradores</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-label">Logins Hoje</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Usuários Bloqueados</div>
+            </div>
+        </div>
+
+        <!-- Tabela de Usuários -->
+        <div class="usuarios-table">
+            <div class="table-header">
+                <h2 class="table-title">Usuários do Sistema</h2>
+                <div>
+                    <button class="btn btn-secondary" onclick="exportarUsuarios()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                    <button class="btn btn-secondary" onclick="importarUsuarios()">
+                        <i class="fas fa-upload"></i> Importar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-controls">
+                <input type="text" class="search-input" id="searchUsuario" placeholder="Buscar usuários...">
+                <select class="filter-select" id="filtroPerfil">
+                    <option value="">Todos os Perfis</option>
+                    <option value="admin">Administrador</option>
+                    <option value="gerente">Gerente</option>
+                    <option value="vendedor">Vendedor</option>
+                    <option value="caixa">Caixa</option>
+                </select>
+                <select class="filter-select" id="filtroStatus">
+                    <option value="">Todos os Status</option>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                    <option value="bloqueado">Bloqueado</option>
+                </select>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table" id="usuariosTable">
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Perfil</th>
+                            <th>Email</th>
+                            <th>Último Login</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTableBody">
+                        <!-- Dados serão carregados dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dados de exemplo
+        const usuariosData = [
+            {
+                id: 1,
+                nome: "João Silva",
+                email: "joao@empresa.com",
+                perfil: "admin",
+                ultimoLogin: "2024-01-15 14:30",
+                status: "ativo",
+                avatar: "https://i.pravatar.cc/150?u=joao"
+            },
+            {
+                id: 2,
+                nome: "Maria Santos",
+                email: "maria@empresa.com",
+                perfil: "gerente",
+                ultimoLogin: "2024-01-15 13:45",
+                status: "ativo",
+                avatar: "https://i.pravatar.cc/150?u=maria"
+            },
+            {
+                id: 3,
+                nome: "Pedro Costa",
+                email: "pedro@empresa.com",
+                perfil: "vendedor",
+                ultimoLogin: "2024-01-15 12:20",
+                status: "ativo",
+                avatar: "https://i.pravatar.cc/150?u=pedro"
+            },
+            {
+                id: 4,
+                nome: "Ana Oliveira",
+                email: "ana@empresa.com",
+                perfil: "caixa",
+                ultimoLogin: "2024-01-15 11:15",
+                status: "ativo",
+                avatar: "https://i.pravatar.cc/150?u=ana"
+            },
+            {
+                id: 5,
+                nome: "Carlos Lima",
+                email: "carlos@empresa.com",
+                perfil: "vendedor",
+                ultimoLogin: "2024-01-14 16:30",
+                status: "bloqueado",
+                avatar: "https://i.pravatar.cc/150?u=carlos"
+            },
+            {
+                id: 6,
+                nome: "Lucia Ferreira",
+                email: "lucia@empresa.com",
+                perfil: "gerente",
+                ultimoLogin: "2024-01-13 09:45",
+                status: "inativo",
+                avatar: "https://i.pravatar.cc/150?u=lucia"
+            }
+        ];
+
+        // Populate usuarios table
+        function populateUsuariosTable() {
+            const tbody = document.getElementById('usuariosTableBody');
+            tbody.innerHTML = '';
+
+            usuariosData.forEach(usuario => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="user-info">
+                            <img src="${usuario.avatar}" alt="${usuario.nome}" class="user-avatar-small">
+                            <div class="user-details">
+                                <h4>${usuario.nome}</h4>
+                                <p>ID: ${usuario.id}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="perfil-badge perfil-${usuario.perfil}">${usuario.perfil}</span></td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.ultimoLogin}</td>
+                    <td><span class="status-badge status-${usuario.status}">${usuario.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn" onclick="editarUsuario(${usuario.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" onclick="resetarSenha(${usuario.id})" title="Resetar Senha">
+                                <i class="fas fa-key"></i>
+                            </button>
+                            <button class="action-btn" onclick="alterarStatus(${usuario.id})" title="Alterar Status">
+                                <i class="fas fa-toggle-on"></i>
+                            </button>
+                            <button class="action-btn" onclick="excluirUsuario(${usuario.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchUsuario').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#usuariosTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Filter functionality
+        document.getElementById('filtroPerfil').addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            const rows = document.querySelectorAll('#usuariosTableBody tr');
+            
+            rows.forEach(row => {
+                const perfil = row.querySelector('.perfil-badge').textContent.toLowerCase();
+                row.style.display = !filterValue || perfil === filterValue ? '' : 'none';
+            });
+        });
+
+        document.getElementById('filtroStatus').addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            const rows = document.querySelectorAll('#usuariosTableBody tr');
+            
+            rows.forEach(row => {
+                const status = row.querySelector('.status-badge').textContent.toLowerCase();
+                row.style.display = !filterValue || status === filterValue ? '' : 'none';
+            });
+        });
+
+        // Action functions
+        function adicionarUsuario() {
+            showToast('Funcionalidade de adicionar usuário em desenvolvimento', 'info');
+        }
+
+        function editarUsuario(id) {
+            showToast(`Editando usuário ${id}`, 'warning');
+        }
+
+        function resetarSenha(id) {
+            if (confirm('Tem certeza que deseja resetar a senha deste usuário?')) {
+                showToast(`Senha do usuário ${id} resetada com sucesso!`, 'success');
+            }
+        }
+
+        function alterarStatus(id) {
+            showToast(`Status do usuário ${id} alterado!`, 'success');
+        }
+
+        function excluirUsuario(id) {
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                showToast(`Usuário ${id} excluído com sucesso!`, 'success');
+            }
+        }
+
+        function gerarRelatorio() {
+            showToast('Relatório de usuários gerado com sucesso!', 'success');
+        }
+
+        function auditoria() {
+            showToast('Funcionalidade de auditoria em desenvolvimento', 'info');
+        }
+
+        function configurarPermissoes() {
+            showToast('Funcionalidade de permissões em desenvolvimento', 'info');
+        }
+
+        function exportarUsuarios() {
+            showToast('Lista de usuários exportada com sucesso!', 'success');
+        }
+
+        function importarUsuarios() {
+            showToast('Funcionalidade de importar usuários em desenvolvimento', 'info');
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-times-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="toast-icon ${icons[type]}"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Sidebar toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = this.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            populateUsuariosTable();
+            showToast('Gestão de usuários carregada com sucesso!', 'success');
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    
+    <!-- Submenu System -->
+    <script src="js/submenu.js"></script>
+</body>
+</html> 

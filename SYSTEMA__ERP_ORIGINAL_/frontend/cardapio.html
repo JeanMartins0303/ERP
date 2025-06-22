@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorelSys ERP - Cardápio Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/submenu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            
+            --bg-primary: #f9fafb;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #ffffff;
+            
+            --border-color: #e5e7eb;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body[data-theme='dark'] {
+            --primary-color: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        
+        /* Layout components */
+        .header { background: var(--bg-gradient); padding: 1rem 1.5rem; color: var(--text-light); position: sticky; top: 0; z-index: 999; box-shadow: var(--shadow-md); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-text h1 { font-size: 1.25rem; font-weight: 700; }
+        .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .header-btn { background: rgba(255, 255, 255, 0.1); border: none; color: var(--text-light); width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
+        .header-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        .header-btn.primary { background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; width: auto; border-radius: var(--radius-md); font-weight: 500; }
+        .header-btn.primary:hover { background: rgba(255, 255, 255, 0.3); }
+        .user-avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); }
+        
+        .sidebar { position: fixed; left: 0; top: 0; height: 100vh; width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--border-color); z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease-in-out; display: flex; flex-direction: column; }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-header { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--border-color); }
+        .sidebar-logo-icon { width: 2.5rem; height: 2.5rem; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; background: var(--bg-gradient); color: var(--text-light); }
+        .sidebar-logo-text { font-weight: 600; font-size: 1.25rem; color: var(--text-primary); }
+        .sidebar-nav { flex-grow: 1; padding: 1rem 0; overflow-y: auto; }
+        .sidebar-nav-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1.5rem; margin: 0.25rem 1rem; color: var(--text-secondary); text-decoration: none; transition: var(--transition); border-radius: var(--radius-md); font-weight: 500; }
+        .sidebar-nav-item:hover { background: var(--bg-primary); color: var(--primary-color); }
+        .sidebar-nav-item.active { background: var(--bg-gradient); color: var(--text-light); box-shadow: var(--shadow-md); }
+        .sidebar-nav-item i { width: 1.25rem; text-align: center; }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid var(--border-color); }
+        
+        .main-container { padding: 1.5rem; transition: margin-left .3s ease-in-out, width .3s ease-in-out; width: 100%; }
+        
+        /* Cardápio Styles */
+        .cardapio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .cardapio-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .cardapio-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: var(--text-light);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+            border-color: var(--primary-color);
+        }
+        
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .categoria-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .categoria-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .categoria-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .categoria-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .categoria-entradas .categoria-icon { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .categoria-principais .categoria-icon { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+        .categoria-sobremesas .categoria-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .categoria-bebidas .categoria-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        
+        .categoria-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .categoria-count {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .produto-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .produto-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .produto-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+        }
+        
+        .produto-content {
+            padding: 1.5rem;
+        }
+        
+        .produto-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .produto-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .produto-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .produto-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .produto-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .produto-status.disponivel {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+        
+        .produto-status.indisponivel {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .produto-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+        
+        .filtros {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filtro-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-width: 200px;
+        }
+        
+        .filtro-select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            min-width: 150px;
+        }
+        
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success { border-left: 4px solid var(--success-color); }
+        .toast.error { border-left: 4px solid var(--danger-color); }
+        .toast.warning { border-left: 4px solid var(--warning-color); }
+        .toast.info { border-left: 4px solid var(--primary-color); }
+        
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+        
+        .toast.success .toast-icon { color: var(--success-color); }
+        .toast.error .toast-icon { color: var(--danger-color); }
+        .toast.warning .toast-icon { color: var(--warning-color); }
+        .toast.info .toast-icon { color: var(--primary-color); }
+        
+        .toast-content {
+            flex-grow: 1;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .toast-message {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cardapio-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .cardapio-actions {
+                justify-content: center;
+            }
+            
+            .categorias-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .produtos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filtros {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-icon">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <span class="sidebar-logo-text">CorelSys</span>
+        </div>
+        <nav class="sidebar-nav">
+            <!-- Dashboard -->
+            <a href="dashboard.html" class="sidebar-nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            
+            <!-- Vendas -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="pdv.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-cash-register"></i> PDV
+                    </a>
+                    <a href="vendas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Histórico
+                    </a>
+                    <a href="comandas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-receipt"></i> Comandas
+                    </a>
+                    <a href="delivery.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-motorcycle"></i> Delivery
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Compras -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Compras</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="compras.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-clipboard-list"></i> Pedidos
+                    </a>
+                    <a href="fornecedores.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-truck"></i> Fornecedores
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Produtos -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-box"></i>
+                    <span>Produtos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="produtos.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-boxes"></i> Catálogo
+                    </a>
+                    <a href="estoque.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-warehouse"></i> Estoque
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Clientes -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="clientes.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-friends"></i> Cadastro
+                    </a>
+                    <a href="fidelidade.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-star"></i> Fidelidade
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Financeiro -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Financeiro</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="financeiro.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </a>
+                    <a href="contas-receber.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+                    </a>
+                    <a href="contas-pagar.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-credit-card"></i> Contas a Pagar
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Relatórios -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Relatórios</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="relatorios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-bar"></i> Básicos
+                    </a>
+                    <a href="relatorios-avancados.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Avançados
+                    </a>
+                </div>
+            </div>
+            
+            <!-- RH -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Recursos Humanos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="funcionarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-users-cog"></i> Funcionários
+                    </a>
+                    <a href="usuarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-shield"></i> Usuários
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Restaurante -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurante</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="mesas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chair"></i> Mesas
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-book-open"></i> Cardápio
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-utensils"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="configuracoes.html" class="sidebar-nav-item">
+                <i class="fas fa-cog"></i> Configurações
+            </a>
+            <a href="#" class="sidebar-nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+        </div>
+    </aside>
+
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo">
+                <button class="header-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-text">
+                    <h1>Cardápio Digital</h1>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="header-btn primary" onclick="imprimirCardapio()">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar do Usuário" class="user-avatar">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container" id="mainContainer">
+        <!-- Header do Cardápio -->
+        <div class="cardapio-header">
+            <h1 class="cardapio-title">Cardápio Digital</h1>
+            <div class="cardapio-actions">
+                <button class="btn btn-secondary" onclick="adicionarCategoria()">
+                    <i class="fas fa-plus"></i> Nova Categoria
+                </button>
+                <button class="btn btn-secondary" onclick="adicionarProduto()">
+                    <i class="fas fa-plus"></i> Novo Produto
+                </button>
+                <button class="btn btn-primary" onclick="visualizarCardapio()">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <input type="text" class="filtro-input" id="searchProduto" placeholder="Buscar produtos...">
+            <select class="filtro-select" id="filtroCategoria">
+                <option value="">Todas as Categorias</option>
+                <option value="entradas">Entradas</option>
+                <option value="principais">Pratos Principais</option>
+                <option value="sobremesas">Sobremesas</option>
+                <option value="bebidas">Bebidas</option>
+            </select>
+            <select class="filtro-select" id="filtroStatus">
+                <option value="">Todos os Status</option>
+                <option value="disponivel">Disponível</option>
+                <option value="indisponivel">Indisponível</option>
+            </select>
+        </div>
+
+        <!-- Categorias -->
+        <div class="categorias-grid">
+            <div class="categoria-card categoria-entradas" onclick="filtrarPorCategoria('entradas')">
+                <div class="categoria-header">
+                    <div class="categoria-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div>
+                        <div class="categoria-title">Entradas</div>
+                        <div class="categoria-count">12 produtos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categoria-card categoria-principais" onclick="filtrarPorCategoria('principais')">
+                <div class="categoria-header">
+                    <div class="categoria-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <div class="categoria-title">Pratos Principais</div>
+                        <div class="categoria-count">18 produtos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categoria-card categoria-sobremesas" onclick="filtrarPorCategoria('sobremesas')">
+                <div class="categoria-header">
+                    <div class="categoria-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <div>
+                        <div class="categoria-title">Sobremesas</div>
+                        <div class="categoria-count">8 produtos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categoria-card categoria-bebidas" onclick="filtrarPorCategoria('bebidas')">
+                <div class="categoria-header">
+                    <div class="categoria-icon">
+                        <i class="fas fa-glass-martini"></i>
+                    </div>
+                    <div>
+                        <div class="categoria-title">Bebidas</div>
+                        <div class="categoria-count">15 produtos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produtos -->
+        <div class="produtos-grid" id="produtosGrid">
+            <!-- Produtos serão carregados dinamicamente -->
+        </div>
+    </main>
+
+    <script>
+        // Dados de exemplo
+        const produtosData = [
+            {
+                id: 1,
+                nome: "Bruschetta de Tomate",
+                categoria: "entradas",
+                descricao: "Pão italiano torrado com tomate, manjericão e azeite de oliva",
+                preco: 18.90,
+                imagem: "https://images.unsplash.com/photo-1572445271230-a78b5944a659?w=400&h=300&fit=crop",
+                status: "disponivel"
+            },
+            {
+                id: 2,
+                nome: "Filé Mignon ao Molho Madeira",
+                categoria: "principais",
+                descricao: "Filé mignon grelhado servido com molho madeira e batatas rústicas",
+                preco: 45.90,
+                imagem: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop",
+                status: "disponivel"
+            },
+            {
+                id: 3,
+                nome: "Tiramisu",
+                categoria: "sobremesas",
+                descricao: "Sobremesa italiana com mascarpone, café e cacau em pó",
+                preco: 22.50,
+                imagem: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
+                status: "disponivel"
+            },
+            {
+                id: 4,
+                nome: "Caipirinha",
+                categoria: "bebidas",
+                descricao: "Drink brasileiro com cachaça, limão, açúcar e gelo",
+                preco: 16.90,
+                imagem: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop",
+                status: "disponivel"
+            },
+            {
+                id: 5,
+                nome: "Salada Caesar",
+                categoria: "entradas",
+                descricao: "Alface romana, croutons, parmesão e molho caesar",
+                preco: 24.90,
+                imagem: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop",
+                status: "disponivel"
+            },
+            {
+                id: 6,
+                nome: "Risoto de Funghi",
+                categoria: "principais",
+                descricao: "Risoto cremoso com cogumelos paris e parmesão",
+                preco: 38.90,
+                imagem: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&h=300&fit=crop",
+                status: "indisponivel"
+            }
+        ];
+
+        // Populate produtos
+        function populateProdutos() {
+            const grid = document.getElementById('produtosGrid');
+            grid.innerHTML = '';
+
+            produtosData.forEach(produto => {
+                const card = document.createElement('div');
+                card.className = 'produto-card';
+                card.innerHTML = `
+                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-image" onerror="this.src='https://via.placeholder.com/400x300/f3f4f6/6b7280?text=Sem+Imagem'">
+                    <div class="produto-content">
+                        <h3 class="produto-title">${produto.nome}</h3>
+                        <p class="produto-description">${produto.descricao}</p>
+                        <div class="produto-footer">
+                            <div class="produto-price">R$ ${produto.preco.toFixed(2)}</div>
+                            <span class="produto-status ${produto.status}">${produto.status}</span>
+                        </div>
+                        <div class="produto-actions">
+                            <button class="action-btn" onclick="editarProduto(${produto.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" onclick="alterarStatus(${produto.id})" title="Alterar Status">
+                                <i class="fas fa-toggle-on"></i>
+                            </button>
+                            <button class="action-btn" onclick="excluirProduto(${produto.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchProduto').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.produto-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.produto-title').textContent.toLowerCase();
+                const description = card.querySelector('.produto-description').textContent.toLowerCase();
+                card.style.display = title.includes(searchTerm) || description.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Filter functionality
+        document.getElementById('filtroCategoria').addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            const cards = document.querySelectorAll('.produto-card');
+            
+            cards.forEach(card => {
+                // Implementar filtro por categoria
+                card.style.display = !filterValue ? '' : 'none';
+            });
+        });
+
+        // Action functions
+        function adicionarCategoria() {
+            showToast('Funcionalidade de adicionar categoria em desenvolvimento', 'info');
+        }
+
+        function adicionarProduto() {
+            showToast('Funcionalidade de adicionar produto em desenvolvimento', 'info');
+        }
+
+        function visualizarCardapio() {
+            showToast('Visualizando cardápio digital', 'success');
+        }
+
+        function imprimirCardapio() {
+            showToast('Cardápio enviado para impressão!', 'success');
+        }
+
+        function filtrarPorCategoria(categoria) {
+            showToast(`Filtrando por categoria: ${categoria}`, 'info');
+        }
+
+        function editarProduto(id) {
+            showToast(`Editando produto ${id}`, 'warning');
+        }
+
+        function alterarStatus(id) {
+            showToast(`Status do produto ${id} alterado!`, 'success');
+        }
+
+        function excluirProduto(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                showToast(`Produto ${id} excluído com sucesso!`, 'success');
+            }
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-times-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="toast-icon ${icons[type]}"></i>
+                <div class="toast-content">
+                    <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        // Sidebar toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = this.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            populateProdutos();
+            showToast('Cardápio digital carregado com sucesso!', 'success');
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Tem certeza que deseja sair?')) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    
+    <!-- Submenu System -->
+    <script src="js/submenu.js"></script>
+</body>
+</html> 

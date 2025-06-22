@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CorelSys ERP - Gestão de Produtos</title>
+    <title>CorelSys ERP - Gestão de Clientes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -96,8 +96,8 @@
         
         .stat-card.total .stat-icon { background: linear-gradient(135deg, var(--stat-color-1), #1d4ed8); }
         .stat-card.ativos .stat-icon { background: linear-gradient(135deg, var(--stat-color-2), #16a34a); }
-        .stat-card.estoque-baixo .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
-        .stat-card.valor-total .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
+        .stat-card.novos .stat-icon { background: linear-gradient(135deg, var(--stat-color-3), #d97706); }
+        .stat-card.fidelidade .stat-icon { background: linear-gradient(135deg, var(--stat-color-4), #b91c1c); }
 
         /* Content Grid */
         .content-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
@@ -128,7 +128,7 @@
         .status-badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
         .status-badge.ativo { background: rgba(34, 197, 94, 0.1); color: var(--success-color); }
         .status-badge.inativo { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
-        .status-badge.estoque-baixo { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+        .status-badge.premium { background: rgba(139, 92, 246, 0.1); color: var(--primary-color); }
         
         .action-buttons { display: flex; gap: 0.5rem; }
         .action-btn { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--text-secondary); padding: 0.5rem; border-radius: var(--radius-md); transition: var(--transition); }
@@ -137,11 +137,11 @@
         .action-btn.edit { color: var(--warning-color); }
         .action-btn.delete { color: var(--danger-color); }
         
-        .product-info { display: flex; align-items: center; gap: 1rem; }
-        .product-image { width: 40px; height: 40px; border-radius: var(--radius-md); object-fit: cover; background: var(--bg-gradient); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-weight: 600; }
-        .product-details { display: flex; flex-direction: column; }
-        .product-name { font-weight: 600; color: var(--text-primary); }
-        .product-code { color: var(--text-secondary); font-size: 0.875rem; }
+        .customer-info { display: flex; align-items: center; gap: 1rem; }
+        .customer-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--bg-gradient); display: flex; align-items: center; justify-content: center; color: var(--text-light); font-weight: 600; }
+        .customer-details { display: flex; flex-direction: column; }
+        .customer-name { font-weight: 600; color: var(--text-primary); }
+        .customer-email { color: var(--text-secondary); font-size: 0.875rem; }
         
         /* Responsive */
         @media (min-width: 1024px) { 
@@ -305,7 +305,7 @@
                 <i class="fas fa-shopping-cart"></i>
                 Vendas
             </a>
-            <a href="produtos.html" class="sidebar-nav-item active">
+            <a href="produtos.html" class="sidebar-nav-item">
                 <i class="fas fa-box"></i>
                 Produtos
             </a>
@@ -313,7 +313,7 @@
                 <i class="fas fa-warehouse"></i>
                 Estoque
             </a>
-            <a href="clientes.html" class="sidebar-nav-item">
+            <a href="clientes.html" class="sidebar-nav-item active">
                 <i class="fas fa-users"></i>
                 Clientes
             </a>
@@ -352,13 +352,13 @@
             <div class="stat-card total">
                 <div class="stat-header">
                     <div class="stat-icon">
-                        <i class="fas fa-box"></i>
+                        <i class="fas fa-users"></i>
                     </div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
                         <div class="stat-value">1.247</div>
-                        <div class="stat-label">Total de Produtos</div>
+                        <div class="stat-label">Total de Clientes</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
                             +15.3% vs mês anterior
@@ -373,13 +373,13 @@
             <div class="stat-card ativos">
                 <div class="stat-header">
                     <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-user-check"></i>
                     </div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
                         <div class="stat-value">1.156</div>
-                        <div class="stat-label">Produtos Ativos</div>
+                        <div class="stat-label">Clientes Ativos</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
                             +8.7% vs mês anterior
@@ -391,44 +391,44 @@
                 </div>
             </div>
 
-            <div class="stat-card estoque-baixo">
+            <div class="stat-card novos">
                 <div class="stat-header">
                     <div class="stat-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
+                        <i class="fas fa-user-plus"></i>
                     </div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
-                        <div class="stat-value">23</div>
-                        <div class="stat-label">Estoque Baixo</div>
-                        <div class="stat-trend negative">
-                            <i class="fas fa-arrow-down"></i>
-                            -5.2% vs mês anterior
+                        <div class="stat-value">89</div>
+                        <div class="stat-label">Novos Clientes</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +22.1% vs mês anterior
                         </div>
                     </div>
                     <div class="stat-chart">
-                        <canvas id="estoque-baixoChart"></canvas>
+                        <canvas id="novosChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="stat-card valor-total">
+            <div class="stat-card fidelidade">
                 <div class="stat-header">
                     <div class="stat-icon">
-                        <i class="fas fa-dollar-sign"></i>
+                        <i class="fas fa-crown"></i>
                     </div>
                 </div>
                 <div class="stat-content">
                     <div class="stat-main">
-                        <div class="stat-value">R$ 45.280</div>
-                        <div class="stat-label">Valor Total em Estoque</div>
+                        <div class="stat-value">234</div>
+                        <div class="stat-label">Clientes Premium</div>
                         <div class="stat-trend positive">
                             <i class="fas fa-arrow-up"></i>
                             +12.5% vs mês anterior
                         </div>
                     </div>
                     <div class="stat-chart">
-                        <canvas id="valor-totalChart"></canvas>
+                        <canvas id="fidelidadeChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -436,22 +436,22 @@
 
         <!-- Content Grid -->
         <div class="content-grid">
-            <!-- Produtos Table -->
+            <!-- Clientes Table -->
             <div class="table-card">
                 <div class="card-header">
-                    <h2 class="card-title">Gestão de Produtos</h2>
+                    <h2 class="card-title">Gestão de Clientes</h2>
                     <div class="card-actions">
-                        <button class="card-btn" onclick="exportarProdutos()">
+                        <button class="card-btn" onclick="exportarClientes()">
                             <i class="fas fa-download"></i>
                             Exportar
                         </button>
-                        <button class="card-btn" onclick="importarProdutos()">
+                        <button class="card-btn" onclick="importarClientes()">
                             <i class="fas fa-upload"></i>
                             Importar
                         </button>
-                        <button class="card-btn primary" onclick="novoProduto()">
+                        <button class="card-btn primary" onclick="novoCliente()">
                             <i class="fas fa-plus"></i>
-                            Novo Produto
+                            Novo Cliente
                         </button>
                     </div>
                 </div>
@@ -459,48 +459,47 @@
                 <div class="table-controls">
                     <div class="search-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" id="searchProduto" placeholder="Buscar produtos...">
+                        <input type="text" class="search-input" id="searchCliente" placeholder="Buscar clientes...">
                     </div>
-                    <select class="filter-control" id="filtroCategoria">
-                        <option value="">Todas as Categorias</option>
-                        <option value="bebidas">Bebidas</option>
-                        <option value="alimentos">Alimentos</option>
-                        <option value="limpeza">Limpeza</option>
-                        <option value="higiene">Higiene</option>
-                    </select>
                     <select class="filter-control" id="filtroStatus">
                         <option value="">Todos os Status</option>
                         <option value="ativo">Ativo</option>
                         <option value="inativo">Inativo</option>
-                        <option value="estoque-baixo">Estoque Baixo</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                    <select class="filter-control" id="filtroCidade">
+                        <option value="">Todas as Cidades</option>
+                        <option value="sao-paulo">São Paulo</option>
+                        <option value="rio-janeiro">Rio de Janeiro</option>
+                        <option value="belo-horizonte">Belo Horizonte</option>
                     </select>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table" id="produtosTable">
+                    <table class="table" id="clientesTable">
                         <thead>
                             <tr>
-                                <th>Produto</th>
-                                <th>Código</th>
-                                <th>Categoria</th>
-                                <th>Preço</th>
-                                <th>Estoque</th>
+                                <th>Cliente</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Cidade</th>
                                 <th>Status</th>
-                                <th>Última Atualização</th>
+                                <th>Última Compra</th>
+                                <th>Total Gasto</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="produtosTableBody">
+                        <tbody id="clientesTableBody">
                             <!-- Dados serão inseridos via JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Gráfico de Produtos -->
+            <!-- Gráfico de Clientes -->
             <div class="chart-card">
                 <div class="card-header">
-                    <h2 class="card-title">Distribuição por Categoria</h2>
+                    <h2 class="card-title">Distribuição de Clientes</h2>
                     <div class="card-actions">
                         <button class="card-btn" onclick="atualizarGrafico()">
                             <i class="fas fa-sync-alt"></i>
@@ -509,7 +508,7 @@
                     </div>
                 </div>
                 <div class="chart-container">
-                    <canvas id="produtosChart"></canvas>
+                    <canvas id="clientesChart"></canvas>
                 </div>
             </div>
         </div>
@@ -519,57 +518,57 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Sample data for produtos
-        const produtosData = [
+        // Sample data for clientes
+        const clientesData = [
             {
                 id: 1,
-                nome: 'Coca-Cola 350ml',
-                codigo: 'CC001',
-                categoria: 'Bebidas',
-                preco: 4.50,
-                estoque: 150,
+                nome: 'João Silva',
+                email: 'joao.silva@email.com',
+                telefone: '(11) 99999-9999',
+                cidade: 'São Paulo',
                 status: 'ativo',
-                ultimaAtualizacao: '2024-01-15'
+                ultimaCompra: '2024-01-15',
+                totalGasto: 1250.50
             },
             {
                 id: 2,
-                nome: 'Pão Francês',
-                codigo: 'PF001',
-                categoria: 'Alimentos',
-                preco: 0.50,
-                estoque: 5,
-                status: 'estoque-baixo',
-                ultimaAtualizacao: '2024-01-15'
+                nome: 'Maria Santos',
+                email: 'maria.santos@email.com',
+                telefone: '(21) 88888-8888',
+                cidade: 'Rio de Janeiro',
+                status: 'premium',
+                ultimaCompra: '2024-01-14',
+                totalGasto: 3450.75
             },
             {
                 id: 3,
-                nome: 'Detergente Líquido',
-                codigo: 'DL001',
-                categoria: 'Limpeza',
-                preco: 8.90,
-                estoque: 45,
+                nome: 'Pedro Costa',
+                email: 'pedro.costa@email.com',
+                telefone: '(31) 77777-7777',
+                cidade: 'Belo Horizonte',
                 status: 'ativo',
-                ultimaAtualizacao: '2024-01-14'
+                ultimaCompra: '2024-01-13',
+                totalGasto: 890.25
             },
             {
                 id: 4,
-                nome: 'Sabonete Líquido',
-                codigo: 'SL001',
-                categoria: 'Higiene',
-                preco: 12.50,
-                estoque: 0,
+                nome: 'Ana Oliveira',
+                email: 'ana.oliveira@email.com',
+                telefone: '(11) 66666-6666',
+                cidade: 'São Paulo',
                 status: 'inativo',
-                ultimaAtualizacao: '2024-01-13'
+                ultimaCompra: '2023-12-20',
+                totalGasto: 450.00
             },
             {
                 id: 5,
-                nome: 'Arroz Integral 1kg',
-                codigo: 'AI001',
-                categoria: 'Alimentos',
-                preco: 6.80,
-                estoque: 78,
-                status: 'ativo',
-                ultimaAtualizacao: '2024-01-15'
+                nome: 'Carlos Mendes',
+                email: 'carlos.mendes@email.com',
+                telefone: '(21) 55555-5555',
+                cidade: 'Rio de Janeiro',
+                status: 'premium',
+                ultimaCompra: '2024-01-12',
+                totalGasto: 2100.00
             }
         ];
 
@@ -617,17 +616,16 @@
 
         // Main chart
         function createMainChart() {
-            const ctx = document.getElementById('produtosChart').getContext('2d');
+            const ctx = document.getElementById('clientesChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Bebidas', 'Alimentos', 'Limpeza', 'Higiene'],
+                    labels: ['Ativos', 'Premium', 'Inativos'],
                     datasets: [{
-                        data: [350, 420, 180, 120],
+                        data: [1156, 234, 91],
                         backgroundColor: [
-                            '#3b82f6',
                             '#22c55e',
-                            '#f97316',
+                            '#8b5cf6',
                             '#ef4444'
                         ],
                         borderWidth: 0
@@ -649,42 +647,42 @@
             });
         }
 
-        // Populate produtos table
-        function populateProdutosTable() {
-            const tbody = document.getElementById('produtosTableBody');
+        // Populate clientes table
+        function populateClientesTable() {
+            const tbody = document.getElementById('clientesTableBody');
             tbody.innerHTML = '';
 
-            produtosData.forEach(produto => {
+            clientesData.forEach(cliente => {
                 const row = document.createElement('tr');
-                const initials = produto.nome.split(' ').map(n => n[0]).join('').toUpperCase();
+                const initials = cliente.nome.split(' ').map(n => n[0]).join('').toUpperCase();
                 
                 row.innerHTML = `
-                    <td data-label="Produto">
-                        <div class="product-info">
-                            <div class="product-image">${initials}</div>
-                            <div class="product-details">
-                                <div class="product-name">${produto.nome}</div>
-                                <div class="product-code">${produto.codigo}</div>
+                    <td data-label="Cliente">
+                        <div class="customer-info">
+                            <div class="customer-avatar">${initials}</div>
+                            <div class="customer-details">
+                                <div class="customer-name">${cliente.nome}</div>
+                                <div class="customer-email">${cliente.email}</div>
                             </div>
                         </div>
                     </td>
-                    <td data-label="Código">${produto.codigo}</td>
-                    <td data-label="Categoria">${produto.categoria}</td>
-                    <td data-label="Preço">R$ ${produto.preco.toFixed(2)}</td>
-                    <td data-label="Estoque">${produto.estoque}</td>
+                    <td data-label="Email">${cliente.email}</td>
+                    <td data-label="Telefone">${cliente.telefone}</td>
+                    <td data-label="Cidade">${cliente.cidade}</td>
                     <td data-label="Status">
-                        <span class="status-badge ${produto.status}">${produto.status}</span>
+                        <span class="status-badge ${cliente.status}">${cliente.status}</span>
                     </td>
-                    <td data-label="Última Atualização">${produto.ultimaAtualizacao}</td>
+                    <td data-label="Última Compra">${cliente.ultimaCompra}</td>
+                    <td data-label="Total Gasto">R$ ${cliente.totalGasto.toFixed(2)}</td>
                     <td data-label="Ações">
                         <div class="action-buttons">
-                            <button class="action-btn view" onclick="visualizarProduto(${produto.id})" title="Visualizar">
+                            <button class="action-btn view" onclick="visualizarCliente(${cliente.id})" title="Visualizar">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="action-btn edit" onclick="editarProduto(${produto.id})" title="Editar">
+                            <button class="action-btn edit" onclick="editarCliente(${cliente.id})" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete" onclick="excluirProduto(${produto.id})" title="Excluir">
+                            <button class="action-btn delete" onclick="excluirCliente(${cliente.id})" title="Excluir">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -695,9 +693,9 @@
         }
 
         // Search functionality
-        document.getElementById('searchProduto').addEventListener('input', function(e) {
+        document.getElementById('searchCliente').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('#produtosTableBody tr');
+            const rows = document.querySelectorAll('#clientesTableBody tr');
             
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
@@ -708,7 +706,7 @@
         // Filter functionality
         document.getElementById('filtroStatus').addEventListener('change', function(e) {
             const filterValue = e.target.value;
-            const rows = document.querySelectorAll('#produtosTableBody tr');
+            const rows = document.querySelectorAll('#clientesTableBody tr');
             
             rows.forEach(row => {
                 const status = row.querySelector('.status-badge').textContent.toLowerCase();
@@ -717,32 +715,32 @@
         });
 
         // Action functions
-        function novoProduto() {
-            showToast('Abrindo formulário de novo produto...', 'info');
-            // Implementar modal de novo produto
+        function novoCliente() {
+            showToast('Abrindo formulário de novo cliente...', 'info');
+            // Implementar modal de novo cliente
         }
 
-        function visualizarProduto(id) {
-            showToast(`Visualizando produto ${id}`, 'info');
+        function visualizarCliente(id) {
+            showToast(`Visualizando cliente ${id}`, 'info');
             // Implementar modal de visualização
         }
 
-        function editarProduto(id) {
-            showToast(`Editando produto ${id}`, 'warning');
+        function editarCliente(id) {
+            showToast(`Editando cliente ${id}`, 'warning');
             // Implementar edição
         }
 
-        function excluirProduto(id) {
-            if (confirm('Tem certeza que deseja excluir este produto?')) {
-                showToast(`Produto ${id} excluído com sucesso!`, 'success');
+        function excluirCliente(id) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                showToast(`Cliente ${id} excluído com sucesso!`, 'success');
             }
         }
 
-        function exportarProdutos() {
-            showToast('Lista de produtos exportada com sucesso!', 'success');
+        function exportarClientes() {
+            showToast('Lista de clientes exportada com sucesso!', 'success');
         }
 
-        function importarProdutos() {
+        function importarClientes() {
             showToast('Funcionalidade de importação em desenvolvimento...', 'info');
         }
 
@@ -817,13 +815,13 @@
             // Initialize charts
             createMiniChart('totalChart', [12, 19, 15, 25, 22, 30, 28], '#3b82f6');
             createMiniChart('ativosChart', [8, 12, 15, 18, 22, 25, 28], '#22c55e');
-            createMiniChart('estoque-baixoChart', [5, 8, 12, 15, 18, 22, 25], '#f97316');
-            createMiniChart('valor-totalChart', [30, 28, 25, 22, 18, 15, 12], '#ef4444');
+            createMiniChart('novosChart', [5, 8, 12, 15, 18, 22, 25], '#f97316');
+            createMiniChart('fidelidadeChart', [30, 28, 25, 22, 18, 15, 12], '#ef4444');
             
             createMainChart();
-            populateProdutosTable();
+            populateClientesTable();
             
-            showToast('Gestão de produtos carregada com sucesso!', 'success');
+            showToast('Gestão de clientes carregada com sucesso!', 'success');
         });
 
         // Logout functionality

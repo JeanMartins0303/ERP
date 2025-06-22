@@ -1,0 +1,149 @@
+/* Estilos para Sistema de Submenus */
+
+/* Submenu Styles */
+.sidebar-nav-group {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-nav-group-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem 1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: var(--radius-md);
+    position: relative;
+}
+
+.sidebar-nav-group-title:hover {
+    background: var(--bg-primary);
+    color: var(--primary-color);
+}
+
+.sidebar-nav-group-title i {
+    width: 1.25rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.sidebar-nav-group-title .dropdown-arrow {
+    margin-left: auto;
+    transition: var(--transition);
+    font-size: 0.75rem;
+}
+
+.sidebar-nav-group.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.sidebar-nav-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    background: var(--bg-primary);
+    margin: 0 1rem;
+    border-radius: var(--radius-md);
+}
+
+.sidebar-nav-group.open .sidebar-nav-submenu {
+    max-height: 500px;
+}
+
+.sidebar-nav-subitem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    margin: 0.125rem 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-nav-subitem:hover {
+    background: var(--bg-secondary);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+}
+
+.sidebar-nav-subitem.active {
+    background: var(--bg-gradient);
+    color: var(--text-light);
+    border-left-color: var(--text-light);
+    box-shadow: var(--shadow-md);
+}
+
+.sidebar-nav-subitem i {
+    width: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+/* Animações suaves */
+.sidebar-nav-submenu {
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade para submenus */
+@media (max-width: 768px) {
+    .sidebar-nav-group-title {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .sidebar-nav-subitem {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .sidebar-nav-submenu {
+        margin: 0 0.5rem;
+    }
+}
+
+/* Estados de hover melhorados */
+.sidebar-nav-group-title:hover .dropdown-arrow {
+    color: var(--primary-color);
+}
+
+.sidebar-nav-subitem:hover i {
+    transform: scale(1.1);
+}
+
+/* Indicador visual para submenus com itens ativos */
+.sidebar-nav-group.has-active .sidebar-nav-group-title {
+    color: var(--primary-color);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+/* Estilo para submenus vazios */
+.sidebar-nav-submenu:empty {
+    display: none;
+}
+
+/* Transições suaves para todos os elementos */
+.sidebar-nav-group * {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+} 

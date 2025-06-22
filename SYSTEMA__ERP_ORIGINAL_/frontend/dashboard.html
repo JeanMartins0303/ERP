@@ -414,6 +414,95 @@
             .table td { border: none; padding: 0.5rem 0; display: flex; justify-content: space-between; align-items: center; text-align: right; }
             .table td::before { content: attr(data-label); font-weight: 600; text-align: left; color: var(--text-primary); }
         }
+
+        /* Submenu Styles */
+        .sidebar-nav-group {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-nav-group-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: var(--radius-md);
+            position: relative;
+        }
+        
+        .sidebar-nav-group-title:hover {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+        }
+        
+        .sidebar-nav-group-title i {
+            width: 1.25rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .sidebar-nav-group-title .dropdown-arrow {
+            margin-left: auto;
+            transition: var(--transition);
+        }
+        
+        .sidebar-nav-group.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .sidebar-nav-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            background: var(--bg-primary);
+            margin: 0 1rem;
+            border-radius: var(--radius-md);
+        }
+        
+        .sidebar-nav-group.open .sidebar-nav-submenu {
+            max-height: 500px;
+        }
+        
+        .sidebar-nav-subitem {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            margin: 0.125rem 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-nav-subitem:hover {
+            background: var(--bg-secondary);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+        
+        .sidebar-nav-subitem.active {
+            background: var(--bg-gradient);
+            color: var(--text-light);
+            border-left-color: var(--text-light);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .sidebar-nav-subitem i {
+            width: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -435,36 +524,161 @@
             <span class="sidebar-logo-text">CorelSys</span>
         </div>
         <nav class="sidebar-nav">
+            <!-- Dashboard -->
             <a href="dashboard.html" class="sidebar-nav-item active">
                 <i class="fas fa-home"></i> Dashboard
             </a>
-            <a href="pdv.html" class="sidebar-nav-item">
-                <i class="fas fa-cash-register"></i> PDV
-            </a>
-            <a href="produtos.html" class="sidebar-nav-item">
-                <i class="fas fa-box"></i> Produtos
-            </a>
-            <a href="estoque.html" class="sidebar-nav-item">
-                <i class="fas fa-warehouse"></i> Estoque
-            </a>
-            <a href="financeiro.html" class="sidebar-nav-item">
-                <i class="fas fa-dollar-sign"></i> Financeiro
-            </a>
-            <a href="funcionarios.html" class="sidebar-nav-item">
-                <i class="fas fa-user-tie"></i> Funcionários
-            </a>
-            <a href="fornecedores.html" class="sidebar-nav-item">
-                <i class="fas fa-truck"></i> Fornecedores
-            </a>
-            <a href="relatorios.html" class="sidebar-nav-item">
-                <i class="fas fa-file-alt"></i> Relatórios
-            </a>
-            <a href="clientes.html" class="sidebar-nav-item">
-                <i class="fas fa-users"></i> Clientes
-            </a>
-            <a href="usuarios.html" class="sidebar-nav-item">
-                <i class="fas fa-user-shield"></i> Usuários
-            </a>
+            
+            <!-- Vendas -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="pdv.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-cash-register"></i> PDV
+                    </a>
+                    <a href="vendas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Histórico
+                    </a>
+                    <a href="comandas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-receipt"></i> Comandas
+                    </a>
+                    <a href="delivery.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-motorcycle"></i> Delivery
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Compras -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Compras</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="compras.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-clipboard-list"></i> Pedidos
+                    </a>
+                    <a href="fornecedores.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-truck"></i> Fornecedores
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Produtos -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-box"></i>
+                    <span>Produtos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="produtos.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-boxes"></i> Catálogo
+                    </a>
+                    <a href="estoque.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-warehouse"></i> Estoque
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-utensils"></i> Cardápio
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Clientes -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="clientes.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-friends"></i> Cadastro
+                    </a>
+                    <a href="fidelidade.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-star"></i> Fidelidade
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Financeiro -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Financeiro</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="financeiro.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </a>
+                    <a href="contas-receber.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-hand-holding-usd"></i> Contas a Receber
+                    </a>
+                    <a href="contas-pagar.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-credit-card"></i> Contas a Pagar
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Relatórios -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Relatórios</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="relatorios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-bar"></i> Básicos
+                    </a>
+                    <a href="relatorios-avancados.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chart-line"></i> Avançados
+                    </a>
+                </div>
+            </div>
+            
+            <!-- RH -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Recursos Humanos</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="funcionarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-users-cog"></i> Funcionários
+                    </a>
+                    <a href="usuarios.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-user-shield"></i> Usuários
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Restaurante -->
+            <div class="sidebar-nav-group">
+                <div class="sidebar-nav-group-title" onclick="toggleSubmenu(this)">
+                    <i class="fas fa-utensils"></i>
+                    <span>Restaurante</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </div>
+                <div class="sidebar-nav-submenu">
+                    <a href="mesas.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-chair"></i> Mesas
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem">
+                        <i class="fas fa-book-open"></i> Cardápio
+                    </a>
+                    <a href="cardapio.html" class="sidebar-nav-subitem active">
+                        <i class="fas fa-utensils"></i> Cardápio
+                    </a>
+                </div>
+            </div>
         </nav>
         <div class="sidebar-footer">
             <a href="configuracoes.html" class="sidebar-nav-item">
@@ -942,9 +1156,57 @@
             }, 5000);
         }
 
+        // Submenu functionality
+        function toggleSubmenu(element) {
+            const group = element.parentElement;
+            const submenu = group.querySelector('.sidebar-nav-submenu');
+            const arrow = element.querySelector('.dropdown-arrow');
+            
+            // Close all other submenus
+            const allGroups = document.querySelectorAll('.sidebar-nav-group');
+            allGroups.forEach(otherGroup => {
+                if (otherGroup !== group) {
+                    otherGroup.classList.remove('open');
+                }
+            });
+            
+            // Toggle current submenu
+            group.classList.toggle('open');
+            
+            // Update arrow rotation
+            if (group.classList.contains('open')) {
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Set active submenu item based on current page
+        function setActiveSubmenuItem() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const submenuItems = document.querySelectorAll('.sidebar-nav-subitem');
+            
+            submenuItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (href === currentPage) {
+                    item.classList.add('active');
+                    // Open parent submenu
+                    const parentGroup = item.closest('.sidebar-nav-group');
+                    if (parentGroup) {
+                        parentGroup.classList.add('open');
+                        const arrow = parentGroup.querySelector('.dropdown-arrow');
+                        if (arrow) {
+                            arrow.style.transform = 'rotate(180deg)';
+                        }
+                    }
+                }
+            });
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             populateActivitiesTable();
+            setActiveSubmenuItem();
             showToast('Dashboard carregado com sucesso!', 'success');
         });
 
